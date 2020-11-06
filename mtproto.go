@@ -1,6 +1,7 @@
 package mtproto
 
 import (
+	"bytes"
 	"context"
 	"crypto/rsa"
 	"encoding/binary"
@@ -14,6 +15,7 @@ import (
 	"github.com/xelaj/errs"
 	"github.com/xelaj/go-dry"
 
+	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/serialize"
 	"github.com/xelaj/mtproto/utils"
 )
@@ -42,12 +44,12 @@ type MTProto struct {
 	// вектор (слайс) это как бы тоже объект. Из-за этого приходится четко указывать, что
 	// сообщения с определенным msgID нужно декодировать как слайс, а не объект
 	msgsIdDecodeAsVector map[int64]reflect.Type
-	msgsIdToResp         map[int64]chan serialize.TL
+	msgsIdToResp         map[int64]chan tl.Object
 	idsToAck             map[int64]struct{}
 	idsToAckMutex        sync.Mutex
 
 	// каналы, которые ожидают ответа rpc. ответ записывается в канал и удаляется
-	responseChannels map[int64]chan serialize.TL
+	responseChannels map[int64]chan tl.Object
 
 	// идентификаторы сообщений, нужны что бы посылать и принимать сообщения.
 	seqNo int32
@@ -71,7 +73,7 @@ type MTProto struct {
 	// serviceChannel нужен только на время создания ключей, т.к. это
 	// не RpcResult, поэтому все данные отдаются в один поток без
 	// привязки к MsgID
-	serviceChannel       chan serialize.TL
+	serviceChannel       chan tl.Object
 	serviceModeActivated bool
 
 	//! DEPRECATED RecoverFunc используется только до того момента, когда из пакета будут убраны все паники
@@ -105,9 +107,9 @@ func NewMTProto(c Config) (*MTProto, error) {
 	}
 
 	m.sessionId = utils.GenerateSessionID()
-	m.serviceChannel = make(chan serialize.TL)
+	m.serviceChannel = make(chan tl.Object)
 	m.publicKey = c.PublicKey
-	m.responseChannels = make(map[int64]chan serialize.TL)
+	m.responseChannels = make(map[int64]chan tl.Object)
 	m.msgsIdDecodeAsVector = make(map[int64]reflect.Type)
 	m.serverRequestHandlers = make([]customHandlerFunc, 0)
 	m.resetAck()
@@ -148,7 +150,7 @@ func (m *MTProto) CreateConnection() error {
 	}
 
 	// start goroutines
-	m.msgsIdToResp = make(map[int64]chan serialize.TL)
+	m.msgsIdToResp = make(map[int64]chan tl.Object)
 	m.mutex = &sync.Mutex{}
 
 	// start keepalive pinging
@@ -158,7 +160,7 @@ func (m *MTProto) CreateConnection() error {
 }
 
 // отправить запрос
-func (m *MTProto) makeRequest(data serialize.TL, as reflect.Type) (serialize.TL, error) {
+func (m *MTProto) makeRequest(data tl.Object, as reflect.Type) (tl.Object, error) {
 	resp, err := m.sendPacketNew(data, as)
 	if err != nil {
 		return nil, errors.Wrap(err, "sending message")
@@ -227,17 +229,23 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 				data, err := m.readFromConn(ctx)
 				if err != nil {
 					m.Warnings <- errors.Wrap(err, "reading from connection")
+					continue
 				}
 
 				response, err := m.decodeRecievedData(data)
 				if err != nil {
 					m.Warnings <- errors.Wrap(err, "decoding received data")
+					continue
 				}
 
 				if m.serviceModeActivated {
 					// сервисные сообщения ГАРАНТИРОВАННО в теле содержат TL.
-					decoder := serialize.NewDecoder(response.GetMsg())
-					obj := decoder.PopObj()
+					obj, err := tl.DecodeRegistered(response.GetMsg())
+					if err != nil {
+						m.Warnings <- err
+						continue
+					}
+
 					m.serviceChannel <- obj
 				} else {
 					err = m.processResponse(int(m.msgId), int(m.seqNo), response)
@@ -250,27 +258,46 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 	}()
 }
 
+// TODO: msgId, seqNo идентичны тем что в msg???
 func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage) error {
 	// сначала декодируем исключения
 
 	// TODO: может как-то поопрятней сделать? а то очень кринжово, функция занимается не тем, чем должна
-	decoder := serialize.NewDecoder(msg.GetMsg())
-	var data serialize.TL
+	var data tl.Object
 	// если это ответ Rpc, то там может быть слайс вместо объекта, надо проверить указывали ли мы,
 	// что ответ с этим MsgId нужно декодировать как слайс, а не объект
-	if binary.LittleEndian.Uint32(msg.GetMsg()[:serialize.WordLen]) == serialize.CrcRpcResult {
-		_ = decoder.PopCRC() // уже прочитали
+	if binary.LittleEndian.Uint32(msg.GetMsg()[:tl.WordLen]) == serialize.CrcRpcResult {
+		r := tl.NewReadCursor(bytes.NewBuffer(msg.GetMsg()))
+		if _, err := r.PopCRC(); err != nil {
+			return err
+		}
+
 		rpc := &serialize.RpcResult{}
-		msgID := binary.LittleEndian.Uint64(msg.GetMsg()[serialize.WordLen : serialize.WordLen+serialize.LongLen])
+		msgID := binary.LittleEndian.Uint64(msg.GetMsg()[tl.WordLen : tl.WordLen+tl.LongLen])
 		if typ, ok := m.msgsIdDecodeAsVector[int64(msgID)]; ok {
-			rpc.DecodeFromButItsVector(decoder, typ)
 			delete(m.msgsIdDecodeAsVector, int64(msgID))
+
+			if err := rpc.DecodeFromButItsVector(r, typ); err != nil {
+				return err
+			}
 		} else {
-			rpc.DecodeFrom(decoder)
+			rest, err := r.GetRestOfMessage()
+			if err != nil {
+				return err
+			}
+
+			if err := tl.Decode(rest, rpc); err != nil {
+				return err
+			}
 		}
 		data = rpc
 	} else {
-		data = decoder.PopObj()
+		d, err := tl.DecodeRegistered(msg.GetMsg())
+		if err != nil {
+			return err
+		}
+
+		data = d
 	}
 
 	switch message := data.(type) {

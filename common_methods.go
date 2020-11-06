@@ -12,20 +12,7 @@ type ReqPQParams struct {
 	Nonce *serialize.Int128
 }
 
-func (_ *ReqPQParams) CRC() uint32 {
-	return 0x60469778
-}
-
-func (t *ReqPQParams) Encode() []byte {
-	buf := serialize.NewEncoder()
-	buf.PutCRC(t.CRC())
-	buf.PutInt128(t.Nonce)
-	return buf.Result()
-}
-
-func (t *ReqPQParams) DecodeFrom(d *serialize.Decoder) {
-	t.Nonce = d.PopInt128()
-}
+func (_ *ReqPQParams) CRC() uint32 { return 0x60469778}
 
 func (m *MTProto) ReqPQ(nonce *serialize.Int128) (*serialize.ResPQ, error) {
 	data, err := m.MakeRequest(&ReqPQParams{Nonce: nonce})
@@ -52,27 +39,6 @@ type ReqDHParamsParams struct {
 
 func (_ *ReqDHParamsParams) CRC() uint32 {
 	return 0xd712e4be
-}
-
-func (t *ReqDHParamsParams) Encode() []byte {
-	buf := serialize.NewEncoder()
-	buf.PutCRC(t.CRC())
-	buf.PutInt128(t.Nonce)
-	buf.PutInt128(t.ServerNonce)
-	buf.PutMessage(t.P)
-	buf.PutMessage(t.Q)
-	buf.PutLong(t.PublicKeyFingerprint)
-	buf.PutMessage(t.EncryptedData)
-	return buf.Result()
-}
-
-func (t *ReqDHParamsParams) DecodeFrom(d *serialize.Decoder) {
-	t.Nonce = d.PopInt128()
-	t.ServerNonce = d.PopInt128()
-	t.P = d.PopMessage()
-	t.Q = d.PopMessage()
-	t.PublicKeyFingerprint = d.PopLong()
-	t.EncryptedData = d.PopMessage()
 }
 
 func (m *MTProto) ReqDHParams(nonce, serverNonce *serialize.Int128, p, q []byte, publicKeyFingerprint int64, encryptedData []byte) (serialize.ServerDHParams, error) {
@@ -106,21 +72,6 @@ func (_ *SetClientDHParamsParams) CRC() uint32 {
 	return 0xf5045f1f
 }
 
-func (t *SetClientDHParamsParams) Encode() []byte {
-	buf := serialize.NewEncoder()
-	buf.PutCRC(t.CRC())
-	buf.PutInt128(t.Nonce)
-	buf.PutInt128(t.ServerNonce)
-	buf.PutMessage(t.EncryptedData)
-	return buf.Result()
-}
-
-func (t *SetClientDHParamsParams) DecodeFrom(d *serialize.Decoder) {
-	t.Nonce = d.PopInt128()
-	t.ServerNonce = d.PopInt128()
-	t.EncryptedData = d.PopMessage()
-}
-
 func (m *MTProto) SetClientDHParams(nonce, serverNonce *serialize.Int128, encryptedData []byte) (serialize.SetClientDHParamsAnswer, error) {
 	data, err := m.MakeRequest(&SetClientDHParamsParams{
 		Nonce:         nonce,
@@ -148,17 +99,6 @@ type PingParams struct {
 
 func (_ *PingParams) CRC() uint32 {
 	return 0x7abe77ec
-}
-
-func (t *PingParams) Encode() []byte {
-	buf := serialize.NewEncoder()
-	buf.PutCRC(t.CRC())
-	buf.PutLong(t.PingID)
-	return buf.Result()
-}
-
-func (t *PingParams) DecodeFrom(d *serialize.Decoder) {
-	t.PingID = d.PopLong()
 }
 
 func (m *MTProto) Ping(pingID int64) (*serialize.Pong, error) {

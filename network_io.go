@@ -12,12 +12,13 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xelaj/errs"
 	"github.com/xelaj/go-dry"
+	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/serialize"
 	"github.com/xelaj/mtproto/utils"
 )
 
-func (m *MTProto) sendPacketNew(request serialize.TL, expectVector reflect.Type) (chan serialize.TL, error) {
-	resp := make(chan serialize.TL)
+func (m *MTProto) sendPacketNew(request tl.Object, expectVector reflect.Type) (chan tl.Object, error) {
+	resp := make(chan tl.Object)
 	if m.serviceModeActivated {
 		resp = m.serviceChannel
 	}
@@ -39,8 +40,13 @@ func (m *MTProto) sendPacketNew(request serialize.TL, expectVector reflect.Type)
 			requireToAck = true
 		}
 
+		msg, err := tl.Encode(request)
+		if err != nil {
+			return nil, err
+		}
+
 		data, err = (&serialize.EncryptedMessage{
-			Msg:         request.Encode(),
+			Msg:         msg,
 			MsgID:       msgID,
 			AuthKeyHash: m.authKeyHash,
 		}).Serialize(m, requireToAck)
@@ -63,10 +69,18 @@ func (m *MTProto) sendPacketNew(request serialize.TL, expectVector reflect.Type)
 		// этот кусок не часть кодирования так что делаем при отправке
 		m.lastSeqNo += 2
 	} else {
-		data, _ = (&serialize.UnencryptedMessage{ //nolint: errcheck нешифрованое не отправляет ошибки
-			Msg:   request.Encode(),
+		msg, err := tl.Encode(request)
+		if err != nil {
+			return nil, err
+		}
+
+		data, err = (&serialize.UnencryptedMessage{ //nolint: errcheck нешифрованое не отправляет ошибки
+			Msg:   msg,
 			MsgID: msgID,
 		}).Serialize(m)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	//? https://core.telegram.org/mtproto/mtproto-transports#intermediate
@@ -88,7 +102,7 @@ func (m *MTProto) sendPacketNew(request serialize.TL, expectVector reflect.Type)
 	return resp, nil
 }
 
-func (m *MTProto) writeRPCResponse(msgID int, data serialize.TL) error {
+func (m *MTProto) writeRPCResponse(msgID int, data tl.Object) error {
 	m.mutex.Lock()
 	v, ok := m.responseChannels[int64(msgID)]
 	if !ok {

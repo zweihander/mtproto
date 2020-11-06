@@ -1,12 +1,14 @@
 package mtproto
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"time"
 
 	"github.com/pkg/errors"
 
+	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/serialize"
 )
 
@@ -15,7 +17,7 @@ const (
 	magicValueSizeMoreThanSingleByte = 0x7f
 )
 
-func isNullableResponse(t serialize.TL) bool {
+func isNullableResponse(t tl.Object) bool {
 	switch t.(type) {
 	case /**serialize.Ping,*/ *serialize.Pong, *serialize.MsgsAck:
 		return true
@@ -36,10 +38,14 @@ func CatchResponseErrorCode(data []byte) error {
 	return nil
 }
 
-func IsPacketEncrypted(data []byte) bool {
-	buf := serialize.NewDecoder(data)
-	authKeyHash := buf.PopRawBytes(serialize.DoubleLen)
-	return binary.LittleEndian.Uint64(authKeyHash) != 0
+func IsPacketEncrypted(data []byte) (bool, error) {
+	cr := tl.NewReadCursor(bytes.NewBuffer(data))
+	authKeyHash, err := cr.PopRawBytes(tl.DoubleLen)
+	if err != nil {
+		return false, err
+	}
+
+	return binary.LittleEndian.Uint64(authKeyHash) != 0, nil
 }
 
 func (m *MTProto) decodeRecievedData(data []byte) (serialize.CommonMessage, error) {
@@ -51,7 +57,12 @@ func (m *MTProto) decodeRecievedData(data []byte) (serialize.CommonMessage, erro
 
 	var msg serialize.CommonMessage
 
-	if IsPacketEncrypted(data) {
+	encrypted, err := IsPacketEncrypted(data)
+	if err != nil {
+		return nil, err
+	}
+
+	if encrypted {
 		msg, err = serialize.DeserializeEncryptedMessage(data, m.GetAuthKey())
 	} else {
 		msg, err = serialize.DeserializeUnencryptedMessage(data)

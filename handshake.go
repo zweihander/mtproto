@@ -11,6 +11,7 @@ import (
 	"github.com/xelaj/go-dry"
 
 	ige "github.com/xelaj/mtproto/aes_ige"
+	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/keys"
 	"github.com/xelaj/mtproto/serialize"
 )
@@ -30,7 +31,12 @@ func (m *MTProto) makeAuthKey() error {
 	}
 	found := false
 	for _, b := range res.Fingerprints {
-		if uint64(b) == binary.LittleEndian.Uint64(keys.RSAFingerprint(m.publicKey)) {
+		fgpr, err := keys.RSAFingerprint(m.publicKey)
+		if err != nil {
+			return err
+		}
+
+		if uint64(b) == binary.LittleEndian.Uint64(fgpr) {
 			found = true
 			break
 		}
@@ -45,21 +51,29 @@ func (m *MTProto) makeAuthKey() error {
 	nonceSecond := serialize.RandomInt256()
 	nonceServer := res.ServerNonce
 
-	message := (&serialize.PQInnerData{
+	message, err := tl.Encode(&serialize.PQInnerData{
 		Pq:          res.Pq,
 		P:           p.Bytes(),
 		Q:           q.Bytes(),
 		Nonce:       nonceFirst,
 		ServerNonce: nonceServer,
 		NewNonce:    nonceSecond,
-	}).Encode()
+	})
+	if err != nil {
+		return err
+	}
 
 	hashAndMsg := make([]byte, 255)
 	copy(hashAndMsg, append(dry.Sha1(string(message)), message...))
 
 	encryptedMessage := doRSAencrypt(hashAndMsg, m.publicKey)
 
-	keyFingerprint := int64(binary.LittleEndian.Uint64(keys.RSAFingerprint(m.publicKey)))
+	fgpr, err := keys.RSAFingerprint(m.publicKey)
+	if err != nil {
+		return err
+	}
+
+	keyFingerprint := int64(binary.LittleEndian.Uint64(fgpr))
 	dhResponse, err := m.ReqDHParams(nonceFirst, nonceServer, p.Bytes(), q.Bytes(), keyFingerprint, encryptedMessage)
 	if err != nil {
 		return errors.Wrap(err, "sending ReqDHParams")
@@ -78,8 +92,10 @@ func (m *MTProto) makeAuthKey() error {
 
 	// проверку по хешу, удаление рандомных байт происходит в этой функции
 	decodedMessage := ige.DecryptMessageWithTempKeys(dhParams.EncryptedAnswer, nonceSecond.Int, nonceServer.Int)
-	buf := serialize.NewDecoder(decodedMessage)
-	data := buf.PopObj()
+	data, err := tl.DecodeRegistered(decodedMessage)
+	if err != nil {
+		return err
+	}
 
 	dhi, ok := data.(*serialize.ServerDHInnerData)
 	if !ok {
@@ -108,15 +124,20 @@ func (m *MTProto) makeAuthKey() error {
 	t4[32] = 1
 	copy(t4[33:], dry.Sha1Byte(m.GetAuthKey())[0:8])
 	nonceHash1 := dry.Sha1Byte(t4)[4:20]
-	salt := make([]byte, serialize.LongLen)
+	salt := make([]byte, tl.LongLen)
 	copy(salt, nonceSecond.Bytes()[:8])
 	xor(salt, nonceServer.Bytes()[:8])
 	m.serverSalt = int64(binary.LittleEndian.Uint64(salt))
 
 	// (encoding) client_DH_inner_data
-	clientDHData := &serialize.ClientDHInnerData{nonceFirst, nonceServer, 0, g_b.Bytes()}
+	clientDHDataMsg, err := tl.Encode(&serialize.ClientDHInnerData{
+		nonceFirst, nonceServer, 0, g_b.Bytes(),
+	})
+	if err != nil {
+		return err
+	}
 
-	encryptedMessage = ige.EncryptMessageWithTempKeys(clientDHData.Encode(), nonceSecond.Int, nonceServer.Int)
+	encryptedMessage = ige.EncryptMessageWithTempKeys(clientDHDataMsg, nonceSecond.Int, nonceServer.Int)
 
 	dhGenStatus, err := m.SetClientDHParams(nonceFirst, nonceServer, encryptedMessage)
 	if err != nil {
