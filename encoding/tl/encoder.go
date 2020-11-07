@@ -162,7 +162,10 @@ func createBitflag(v interface{}) (uint32, bool, error) {
 			}
 
 			haveFlag = true
-			flag |= 1 << info.index
+			if !val.Field(i).IsZero() {
+				flag |= 1 << info.index
+			}
+
 		}
 	}
 
@@ -201,7 +204,7 @@ func encodeVector(c *WriteCursor, slice []interface{}) (err error) {
 			err = fmt.Errorf("unserializable type: %T", val)
 		}
 
-		if err != nil{
+		if err != nil {
 			return err
 		}
 	}
