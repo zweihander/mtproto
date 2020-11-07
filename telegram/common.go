@@ -39,9 +39,9 @@ func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not 
 		return nil, errs.NotFound("file", c.PublicKeysFile)
 	}
 
-	if !dry.PathIsWirtable(c.SessionFile) {
-		return nil, errs.Permission(c.SessionFile).Scope("write")
-	}
+	// if !dry.PathIsWirtable(c.SessionFile) {
+	// 	return nil, errs.Permission(c.SessionFile).Scope("write")
+	// }
 
 	if c.DeviceModel == "" {
 		c.DeviceModel = "Unknown"

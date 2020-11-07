@@ -44,7 +44,7 @@ func (i *Int128) UnmarshalTL(r *tl.ReadCursor) error {
 		return err
 	}
 
-	i = &Int128{big.NewInt(0).SetBytes(buf)}
+	i.Int = big.NewInt(0).SetBytes(buf)
 	return nil
 }
 
@@ -67,7 +67,7 @@ func (i *Int256) UnmarshalTL(r *tl.ReadCursor) error {
 		return err
 	}
 
-	i = &Int256{big.NewInt(0).SetBytes(buf)}
+	i.Int = big.NewInt(0).SetBytes(buf)
 	return nil
 }
 
@@ -126,7 +126,6 @@ type Long struct{}
 func (*Long) CRC() uint32 {
 	panic("it's a dummy constructor!")
 }
-
 
 // dummy bool struct for methods generation
 type Int struct{}

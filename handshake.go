@@ -29,6 +29,7 @@ func (m *MTProto) makeAuthKey() error {
 	if nonceFirst.Cmp(res.Nonce.Int) != 0 {
 		return errors.New("handshake: Wrong nonce")
 	}
+
 	found := false
 	for _, b := range res.Fingerprints {
 		fgpr, err := keys.RSAFingerprint(m.publicKey)
@@ -74,15 +75,18 @@ func (m *MTProto) makeAuthKey() error {
 	}
 
 	keyFingerprint := int64(binary.LittleEndian.Uint64(fgpr))
+	fmt.Println("rdadsadsss wawait")
 	dhResponse, err := m.ReqDHParams(nonceFirst, nonceServer, p.Bytes(), q.Bytes(), keyFingerprint, encryptedMessage)
+	fmt.Println("rdadsadsss resp", dhResponse, err)
 	if err != nil {
 		return errors.Wrap(err, "sending ReqDHParams")
 	}
+	fmt.Println("rdadsadsss")
 	dhParams, ok := dhResponse.(*serialize.ServerDHParamsOk)
 	if !ok {
 		return errors.New("handshake: Need ServerDHParamsOk")
 	}
-
+	fmt.Println("mkek12")
 	if nonceFirst.Cmp(dhParams.Nonce.Int) != 0 {
 		return errors.New("handshake: Wrong nonce")
 	}
@@ -96,7 +100,7 @@ func (m *MTProto) makeAuthKey() error {
 	if err := tl.Decode(decodedMessage, dhi); err != nil {
 		return err
 	}
-
+	fmt.Println("mkek2")
 	if nonceFirst.Cmp(dhi.Nonce.Int) != 0 {
 		return errors.New("Handshake: Wrong nonce")
 	}

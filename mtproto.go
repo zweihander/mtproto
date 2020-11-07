@@ -5,6 +5,7 @@ import (
 	"context"
 	"crypto/rsa"
 	"encoding/binary"
+	"fmt"
 	"net"
 	"reflect"
 	"sync"
@@ -144,6 +145,7 @@ func (m *MTProto) CreateConnection() error {
 	if !m.encrypted {
 		println("not encrypted, creating auth key")
 		err = m.makeAuthKey()
+		fmt.Println("authkey status:", err)
 		if err != nil {
 			return errors.Wrap(err, "making auth key")
 		}
@@ -155,6 +157,13 @@ func (m *MTProto) CreateConnection() error {
 
 	// start keepalive pinging
 	m.startPinging(ctx)
+
+	go func() {
+		for {
+			warn := <-m.Warnings
+			panic(warn)
+		}
+	}()
 
 	return nil
 }
@@ -239,6 +248,7 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 				}
 
 				if m.serviceModeActivated {
+					fmt.Println("servmode")
 					// сервисные сообщения ГАРАНТИРОВАННО в теле содержат TL.
 					obj, err := tl.DecodeRegistered(response.GetMsg())
 					if err != nil {

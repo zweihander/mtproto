@@ -12,7 +12,7 @@ type ReqPQParams struct {
 	Nonce *serialize.Int128
 }
 
-func (_ *ReqPQParams) CRC() uint32 { return 0x60469778}
+func (_ *ReqPQParams) CRC() uint32 { return 0x60469778 }
 
 func (m *MTProto) ReqPQ(nonce *serialize.Int128) (*serialize.ResPQ, error) {
 	data, err := m.MakeRequest(&ReqPQParams{Nonce: nonce})

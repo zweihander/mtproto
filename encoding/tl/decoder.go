@@ -75,6 +75,7 @@ func decode(c *ReadCursor, v interface{}) error {
 }
 
 func DecodeRegistered(data []byte) (Object, error) {
+	// fmt.Println(data)
 	return decodeRegisteredObject(
 		NewReadCursor(bytes.NewBuffer(data)),
 	)
@@ -105,7 +106,7 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 	vtyp := value.Type()
 
 	var optionalBitSet uint32
-	if haveFlag(o) {
+	if haveFlag(value.Interface()) {
 		bitset, err := cur.PopUint()
 		if err != nil {
 			return fmt.Errorf("read bitset: %w", err)
@@ -200,20 +201,30 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 				value.Field(i).Set(reflect.ValueOf(vec).Convert(ftyp))
 			}
 		case reflect.Ptr:
-			if m, ok := value.Field(i).Interface().(Unmarshaler); ok {
-				if err := m.UnmarshalTL(cur); err != nil {
-					return err
-				}
-			}
+			switch v := value.Field(i).Interface().(type) {
+			case Unmarshaler:
+				fieldValue := reflect.New(reflect.Indirect(reflect.Zero(ftyp.Elem())).Type())
 
-			if o, ok := value.Field(i).Interface().(Object); ok {
+				if m, ok := fieldValue.Interface().(Unmarshaler); ok {
+					// fmt.Println("unmarshalling!")
+					if err := m.UnmarshalTL(cur); err != nil {
+						return err
+					}
+				} else {
+					panic("badbad")
+				}
+
+				value.Field(i).Set(fieldValue)
+			case Object:
+				panic("unsupported sry")
 				value.Field(i).Set(reflect.New(value.Field(i).Type().Elem()))
 				if err := decodeObject(cur, o, false); err != nil {
 					return err
 				}
+			default:
+				err := fmt.Errorf("неизвестная штука: %T", v)
+				panic(err)
 			}
-
-			return fmt.Errorf("неизвестная штука: %s", value.Field(i).Type().String())
 		case reflect.Interface:
 			// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
 			// 	panic("can't parse any type, if it don't implement Object")
