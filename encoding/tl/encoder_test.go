@@ -1,10 +1,12 @@
 package tl_test
 
 import (
-	"reflect"
+	"math/big"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/xelaj/mtproto/encoding/tl"
+	"github.com/xelaj/mtproto/serialize"
 )
 
 func TestEncode(t *testing.T) {
@@ -43,6 +45,25 @@ func TestEncode(t *testing.T) {
 				0x03, 0x00, 0x00, 0x00, 0x39, 0x05, 0x00, 0x00, 0xe4, 0x00, 0x00, 0x00, 0x42, 0x01, 0x00, 0x00,
 			},
 		},
+		{
+			name: "respq",
+			obj: &ResPQ{
+				Nonce: &serialize.Int128{
+					big.NewInt(123),
+				},
+				ServerNonce: &serialize.Int128{
+					big.NewInt(321),
+				},
+				Pq:           []byte{1, 2, 3},
+				Fingerprints: []int64{322, 1337},
+			},
+			want: []byte{
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x7b,
+				0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x41,
+				0x03, 0x01, 0x02, 0x03, 0x15, 0xc4, 0xb5, 0x1c, 0x02, 0x00, 0x00, 0x00, 0x42, 0x01, 0x00, 0x00,
+				0x00, 0x00, 0x00, 0x00, 0x39, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -51,9 +72,10 @@ func TestEncode(t *testing.T) {
 				t.Errorf("Encode() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Encode() = %v, want %v", got, tt.want)
-			}
+			assert.Equal(t, got, tt.want)
+			// if !reflect.DeepEqual(got, tt.want) {
+			// 	t.Errorf("Encode() = %v, want %v", got, tt.want)
+			// }
 		})
 	}
 }

@@ -28,10 +28,6 @@ func encodeValue(cur *WriteCursor, v interface{}) (err error) {
 		return nil
 	}
 
-	if reflect.ValueOf(v).Kind() == reflect.Slice {
-		return encodeVector(cur, sliceToInterfaceSlice(v))
-	}
-
 	switch val := v.(type) {
 	case int:
 		err = cur.PutUint(uint32(val))
@@ -58,6 +54,10 @@ func encodeValue(cur *WriteCursor, v interface{}) (err error) {
 	case []byte:
 		err = cur.PutMessage(val)
 	default:
+		if reflect.ValueOf(v).Kind() == reflect.Slice {
+			return encodeVector(cur, sliceToInterfaceSlice(v))
+		}
+
 		if reflect.ValueOf(v).Kind() == reflect.Ptr {
 			if err := encodeStruct(cur, v); err != nil {
 				return fmt.Errorf("encode '%T': %w", v, err)
@@ -74,6 +74,14 @@ func encodeValue(cur *WriteCursor, v interface{}) (err error) {
 
 // v must be pointer to struct
 func encodeStruct(cur *WriteCursor, v interface{}) error {
+	// if reflect.ValueOf(v).IsZero() {
+	// 	return fmt.Errorf("zero struct")
+	// }
+
+	if m, ok := v.(Marshaler); ok {
+		return m.MarshalTL(cur)
+	}
+
 	if o, ok := v.(Object); ok {
 		cur.PutCRC(o.CRC())
 	}
@@ -108,6 +116,14 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 			if info.ignore || info.encodedInBitflag {
 				continue
 			}
+
+			if !val.Field(i).IsZero() {
+				if err := encodeValue(cur, val.Field(i).Interface()); err != nil {
+					return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
+				}
+			}
+
+			continue
 		}
 
 		if err := encodeValue(cur, val.Field(i).Interface()); err != nil {

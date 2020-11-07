@@ -178,8 +178,8 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 
 			value.Field(i).Set(reflect.ValueOf(string(msg)).Convert(ftyp))
 		case reflect.Struct:
-			fieldValue := reflect.New(ftyp).Elem().Interface().(Object)
-			if err := decodeObject(cur, fieldValue, false); err != nil {
+			fieldValue := reflect.New(ftyp).Elem().Interface()
+			if err := decode(cur, fieldValue); err != nil {
 				return err
 			}
 
@@ -215,12 +215,12 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 				}
 
 				value.Field(i).Set(fieldValue)
-			case Object:
-				panic("unsupported sry")
-				value.Field(i).Set(reflect.New(value.Field(i).Type().Elem()))
-				if err := decodeObject(cur, o, false); err != nil {
-					return err
-				}
+			// case Object:
+			// 	panic("unsupported sry")
+			// 	value.Field(i).Set(reflect.New(value.Field(i).Type().Elem()))
+			// 	if err := decodeObject(cur, o, false); err != nil {
+			// 		return err
+			// 	}
 			default:
 				err := fmt.Errorf("неизвестная штука: %T", v)
 				panic(err)
@@ -260,6 +260,10 @@ func decodeRegisteredObject(cur *ReadCursor) (Object, error) {
 
 	if o == nil {
 		panic("nil object")
+	}
+
+	if m, ok := o.(Unmarshaler); ok {
+		return o, m.UnmarshalTL(cur)
 	}
 
 	if _, isEnum := enumCrcs[crc]; !isEnum {
@@ -391,8 +395,12 @@ func decodeVector(c *ReadCursor, as reflect.Type) (interface{}, error) {
 				v = decodedVec
 			}
 		case reflect.Ptr:
-			n := reflect.New(as.Elem()).Interface().(Object)
-			if err := decodeObject(c, n, false); err != nil {
+			// n := reflect.New(as.Elem()).Interface().(Object)
+			// if err := decodeObject(c, n, false); err != nil {
+			// 	return nil, err
+			// }
+			n := reflect.New(as.Elem()).Interface()
+			if err := decode(c, n); err != nil {
 				return nil, err
 			}
 

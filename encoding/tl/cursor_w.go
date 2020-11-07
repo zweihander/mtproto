@@ -128,3 +128,7 @@ func (c *WriteCursor) putLargeBytes(msg []byte) error {
 func (c *WriteCursor) PutRawBytes(b []byte) error {
 	return c.write(b)
 }
+
+func (c *WriteCursor) PutVector(v interface{}) error {
+	return encodeVector(c, sliceToInterfaceSlice(v))
+}

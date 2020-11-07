@@ -2,6 +2,7 @@ package tl_test
 
 import (
 	"github.com/xelaj/mtproto/encoding/tl"
+	"github.com/xelaj/mtproto/serialize"
 )
 
 type AccountInstallThemeParams struct {
@@ -33,3 +34,30 @@ type AccountUnregisterDeviceParams struct {
 }
 
 func (e *AccountUnregisterDeviceParams) CRC() uint32 { return 0x3076c4bf }
+
+type ResPQ struct {
+	Nonce        *serialize.Int128
+	ServerNonce  *serialize.Int128
+	Pq           []byte
+	Fingerprints []int64
+}
+
+// func (*ResPQ) CRC() uint32 {
+// 	return 0x05162463
+// }
+
+// func (r *ResPQ) MarshalTL(w *tl.WriteCursor) error {
+// 	if err := r.Nonce.MarshalTL(w); err != nil{
+// 		return err
+// 	}
+// 	if err := r.ServerNonce.MarshalTL(w); err != nil{
+// 		return err
+// 	}
+// 	if err := w.PutMessage(r.Pq); err != nil{
+// 		return err
+// 	}
+// 	if err := w.PutVector(r.Fingerprints); err != nil{
+// 		return err
+// 	}
+// 	return nil
+// }

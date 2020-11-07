@@ -1,6 +1,7 @@
 package telegram
 
 import (
+	"fmt"
 	"reflect"
 	"runtime"
 
@@ -68,19 +69,19 @@ func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not 
 	if err != nil {
 		return nil, errors.Wrap(err, "setup common MTProto client")
 	}
-
+	fmt.Println("mtproto created")
 	err = m.CreateConnection()
 	if err != nil {
 		return nil, errors.Wrap(err, "creating connection")
 	}
-
+	fmt.Println("connection created")
 	client := &Client{
 		MTProto: m,
 		config:  &c,
 	}
 
 	client.AddCustomServerRequestHandler(client.handleSpecialRequests())
-
+	fmt.Println("HelpGetCfgParams invoking...")
 	resp, err := client.InvokeWithLayer(ApiVersion, &InitConnectionParams{
 		ApiID:          int32(c.AppID),
 		DeviceModel:    c.DeviceModel,
@@ -90,7 +91,7 @@ func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not 
 		LangCode:       "en",
 		Query:          &HelpGetConfigParams{},
 	})
-
+	fmt.Println("HelpGetCfgParams done...")
 	if err != nil {
 		return nil, errors.Wrap(err, "getting server configs")
 	}
@@ -168,8 +169,8 @@ type InitConnectionParams struct {
 	SystemLangCode string
 	LangPack       string
 	LangCode       string
-	Proxy          *InputClientProxy `flag:"0"`
-	Params         JSONValue         `flag:"1"`
+	Proxy          *InputClientProxy `tl:"flag:0"`
+	Params         JSONValue         `tl:"flag:1"`
 	Query          tl.Object
 }
 

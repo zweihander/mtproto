@@ -111,13 +111,13 @@ type RpcResult struct {
 
 func (*RpcResult) CRC() uint32 { return CrcRpcResult }
 
-func (*RpcResult) UnmarshalTL(*tl.ReadCursor) error {
-	panic("don't use me")
-}
+// func (*RpcResult) UnmarshalTL(*tl.ReadCursor) error {
+// 	panic("don't use me")
+// }
 
-func (*RpcResult) MarshalTL(*tl.WriteCursor) error {
-	panic("don't use me")
-}
+// func (*RpcResult) MarshalTL(*tl.WriteCursor) error {
+// 	panic("don't use me")
+// }
 
 // DecodeFromButItsVector
 // декодирует ТАК ЖЕ как DecodeFrom, но за тем исключением, что достает не объект, а слайс.
