@@ -2,7 +2,6 @@ package tl_test
 
 import (
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/serialize"
 )
 
 type AccountInstallThemeParams struct {
@@ -35,12 +34,12 @@ type AccountUnregisterDeviceParams struct {
 
 func (e *AccountUnregisterDeviceParams) CRC() uint32 { return 0x3076c4bf }
 
-type ResPQ struct {
-	Nonce        *serialize.Int128
-	ServerNonce  *serialize.Int128
-	Pq           []byte
-	Fingerprints []int64
-}
+// type ResPQ struct {
+// 	Nonce        *serialize.Int128
+// 	ServerNonce  *serialize.Int128
+// 	Pq           []byte
+// 	Fingerprints []int64
+// }
 
 // func (*ResPQ) CRC() uint32 {
 // 	return 0x05162463
