@@ -55,6 +55,10 @@ func RegisterEnums(enums ...Object) {
 
 func Decode(data []byte, v interface{}) error {
 	c := NewReadCursor(bytes.NewBuffer(data))
+	return decode(c, v)
+}
+
+func decode(c *ReadCursor, v interface{}) error {
 	if m, ok := v.(Unmarshaler); ok {
 		return m.UnmarshalTL(c)
 	}
@@ -211,18 +215,18 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 
 			return fmt.Errorf("неизвестная штука: %s", value.Field(i).Type().String())
 		case reflect.Interface:
-			if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
-				panic("can't parse any type, if it don't implement Object")
-			}
-			field, err := decodeRegisteredObject(cur)
-			if err != nil {
+			// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
+			// 	panic("can't parse any type, if it don't implement Object")
+			// }
+
+			if err := decode(cur, value.Field(i).Interface()); err != nil {
 				return err
 			}
 
-			if !reflect.TypeOf(field).Implements(value.Field(i).Type()) {
-				panic("received value " + reflect.TypeOf(field).String() + "; expected " + value.Field(i).Type().String())
-			}
-			value.Field(i).Set(reflect.ValueOf(field))
+			// if !reflect.TypeOf(field).Implements(value.Field(i).Type()) {
+			// 	panic("received value " + reflect.TypeOf(field).String() + "; expected " + value.Field(i).Type().String())
+			// }
+			// value.Field(i).Set(reflect.ValueOf(field))
 
 		default:
 			panic("неизвестная штука: " + value.Field(i).Type().String())
@@ -296,6 +300,7 @@ func decodeMessage(c *ReadCursor) ([]byte, error) {
 	return buf, nil
 }
 
+// decode []Object direct
 func decodeVector(c *ReadCursor, as reflect.Type) (interface{}, error) {
 	crc, err := c.PopCRC()
 	if err != nil {

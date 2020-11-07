@@ -92,15 +92,11 @@ func (m *MTProto) makeAuthKey() error {
 
 	// проверку по хешу, удаление рандомных байт происходит в этой функции
 	decodedMessage := ige.DecryptMessageWithTempKeys(dhParams.EncryptedAnswer, nonceSecond.Int, nonceServer.Int)
-	data, err := tl.DecodeRegistered(decodedMessage)
-	if err != nil {
+	dhi := new(serialize.ServerDHInnerData)
+	if err := tl.Decode(decodedMessage, dhi); err != nil {
 		return err
 	}
 
-	dhi, ok := data.(*serialize.ServerDHInnerData)
-	if !ok {
-		return errors.New("Handshake: Need server_DH_inner_data")
-	}
 	if nonceFirst.Cmp(dhi.Nonce.Int) != 0 {
 		return errors.New("Handshake: Wrong nonce")
 	}
