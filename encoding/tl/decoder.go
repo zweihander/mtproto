@@ -75,7 +75,6 @@ func decode(c *ReadCursor, v interface{}) error {
 }
 
 func DecodeRegistered(data []byte) (Object, error) {
-	// fmt.Println(data)
 	return decodeRegisteredObject(
 		NewReadCursor(bytes.NewBuffer(data)),
 	)

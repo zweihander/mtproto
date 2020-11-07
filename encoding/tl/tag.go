@@ -38,15 +38,17 @@ func parseFlagTag(s string) (info tagInfo, err error) {
 			err = fmt.Errorf("invalid flag index '%s': %w", trimmed, err)
 			return
 		}
-	}
 
-	if len(vals) == 2 {
-		if vals[1] == encodedInBitflag {
-			info.encodedInBitflag = true
-		} else {
-			err = fmt.Errorf("parse flag second option: expected '%s': got '%s'", encodedInBitflag, vals[1])
-			return
+		if len(vals) == 2 {
+			if vals[1] == encodedInBitflag {
+				info.encodedInBitflag = true
+			} else {
+				err = fmt.Errorf("parse flag second option: expected '%s': got '%s'", encodedInBitflag, vals[1])
+				return
+			}
 		}
+	} else {
+		err = fmt.Errorf("invalid tag: %s", s)
 	}
 
 	return

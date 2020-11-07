@@ -200,6 +200,10 @@ func encodeVector(c *WriteCursor, slice []interface{}) (err error) {
 		default:
 			err = fmt.Errorf("unserializable type: %T", val)
 		}
+
+		if err != nil{
+			return err
+		}
 	}
 
 	return
