@@ -54,6 +54,29 @@ func RegisterEnums(enums ...Object) {
 }
 
 func Decode(data []byte, v interface{}) error {
+	switch reflect.TypeOf(v).Kind() {
+	case reflect.Interface:
+		o, err := DecodeRegistered(data)
+		if err != nil {
+			return err
+		}
+
+		v = o
+		return nil
+	case reflect.Slice:
+		c := NewReadCursor(bytes.NewBuffer(data))
+		for _, v := range v.([]interface{}) {
+			var err error
+			v, err = decodeVector(c, reflect.TypeOf(v))
+			if err != nil {
+				return err
+			}
+		}
+		panic("array not supported yet")
+	case reflect.Array:
+		panic("array not supported yet")
+	}
+
 	c := NewReadCursor(bytes.NewBuffer(data))
 	return decode(c, v)
 }
@@ -279,7 +302,10 @@ func decodeMessage(c *ReadCursor) ([]byte, error) {
 	var firstByte byte
 	val := []byte{0}
 
-	c.read(val)
+	if err := c.read(val); err != nil {
+		return nil, err
+	}
+
 	firstByte = val[0]
 
 	realSize := 0
@@ -290,7 +316,10 @@ func decodeMessage(c *ReadCursor) ([]byte, error) {
 	} else {
 		// иначе это largeMessage с блядским магитческим числом 0xfe
 		realSizeBuf := make([]byte, WordLen-1) // WordLen-1 т.к. 1 байт уже прочитали
-		c.read(realSizeBuf)
+		if err := c.read(realSizeBuf); err != nil {
+			return nil, err
+		}
+
 		realSizeBuf = append(realSizeBuf, 0x0) // добиваем до WordLen
 
 		realSize = int(binary.LittleEndian.Uint32(realSizeBuf))
@@ -298,14 +327,19 @@ func decodeMessage(c *ReadCursor) ([]byte, error) {
 	}
 
 	buf := make([]byte, realSize)
-	c.read(buf)
+	if err := c.read(buf); err != nil {
+		return nil, err
+	}
+
 	readLen := lenNumberSize + realSize // lenNumberSize это сколько байт ушло на описание длины а realsize это сколько мы по факту прочитали
 	if readLen%WordLen != 0 {
 		voidBytes := make([]byte, 4-readLen%WordLen)
-		c.read(voidBytes) // читаем оставшиеся пустые байты. пустые, потому что длина слова 4 байта, может остаться 1,2 или 3 лишних байта
+		if err := c.read(voidBytes); err != nil { // читаем оставшиеся пустые байты. пустые, потому что длина слова 4 байта, может остаться 1,2 или 3 лишних байта
+			return nil, err
+		}
+
 		for _, b := range voidBytes {
 			if b != 0 {
-				// pp.Println(string(buf))
 				return nil, fmt.Errorf("some of bytes doesn't equal zero: %#v", voidBytes)
 			}
 		}

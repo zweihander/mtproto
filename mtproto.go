@@ -1,10 +1,8 @@
 package mtproto
 
 import (
-	"bytes"
 	"context"
 	"crypto/rsa"
-	"encoding/binary"
 	"fmt"
 	"net"
 	"reflect"
@@ -12,6 +10,7 @@ import (
 	"time"
 
 	bus "github.com/asaskevich/EventBus"
+	"github.com/k0kubun/pp"
 	"github.com/pkg/errors"
 	"github.com/xelaj/errs"
 	"github.com/xelaj/go-dry"
@@ -48,6 +47,8 @@ type MTProto struct {
 	msgsIdToResp         map[int64]chan tl.Object
 	idsToAck             map[int64]struct{}
 	idsToAckMutex        sync.Mutex
+
+	pending map[int64]pendingRequest
 
 	// каналы, которые ожидают ответа rpc. ответ записывается в канал и удаляется
 	responseChannels map[int64]chan tl.Object
@@ -154,7 +155,7 @@ func (m *MTProto) CreateConnection() error {
 	// start goroutines
 	m.msgsIdToResp = make(map[int64]chan tl.Object)
 	m.mutex = &sync.Mutex{}
-
+	m.pending = make(map[int64]pendingRequest)
 	// start keepalive pinging
 	m.startPinging(ctx)
 
@@ -166,6 +167,16 @@ func (m *MTProto) CreateConnection() error {
 	}()
 
 	return nil
+}
+
+func (m *MTProto) makeRequest2(req tl.Object, resp interface{}) error {
+	err := m.sendPacket2(req, resp)
+	// если пришел ответ типа badServerSalt, то отправляем данные заново
+	if errors.As(err, &serialize.ErrorSessionConfigsChanged{}) {
+		return m.makeRequest2(req, resp)
+	}
+
+	return err
 }
 
 // отправить запрос
@@ -210,7 +221,6 @@ func (m *MTProto) Disconnect() error {
 func (m *MTProto) startPinging(ctx context.Context) {
 	ticker := time.Tick(60 * time.Second)
 	go func() {
-		defer m.recoverGoroutine()
 		for {
 			select {
 			case <-ctx.Done():
@@ -229,7 +239,6 @@ func (m *MTProto) startPinging(ctx context.Context) {
 
 func (m *MTProto) startReadingResponses(ctx context.Context) {
 	go func() {
-		defer m.recoverGoroutine()
 		for {
 			select {
 			case <-ctx.Done():
@@ -273,44 +282,84 @@ func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage)
 	// сначала декодируем исключения
 
 	// TODO: может как-то поопрятней сделать? а то очень кринжово, функция занимается не тем, чем должна
-	var data tl.Object
+	//var data tl.Object
+	data, err := tl.DecodeRegistered(msg.GetMsg())
+	if err != nil {
+		panic(err)
+	}
 	// если это ответ Rpc, то там может быть слайс вместо объекта, надо проверить указывали ли мы,
 	// что ответ с этим MsgId нужно декодировать как слайс, а не объект
-	if binary.LittleEndian.Uint32(msg.GetMsg()[:tl.WordLen]) == serialize.CrcRpcResult {
-		r := tl.NewReadCursor(bytes.NewBuffer(msg.GetMsg()))
-		if _, err := r.PopCRC(); err != nil {
-			return err
-		}
+	// if binary.LittleEndian.Uint32(msg.GetMsg()[:tl.WordLen]) == serialize.CrcRpcResult {
+	// 	fmt.Println("Got RPC")
+	// 	// original := make([]byte, len(msg.GetMsg()))
+	// 	// copy(original, msg.GetMsg())
+	// 	// r := tl.NewReadCursor(bytes.NewBuffer(msg.GetMsg()))
+	// 	// if _, err := r.PopCRC(); err != nil {
+	// 	// 	panic(err)
+	// 	// 	return err
+	// 	// }
 
-		rpc := &serialize.RpcResult{}
-		msgID := binary.LittleEndian.Uint64(msg.GetMsg()[tl.WordLen : tl.WordLen+tl.LongLen])
-		if typ, ok := m.msgsIdDecodeAsVector[int64(msgID)]; ok {
-			delete(m.msgsIdDecodeAsVector, int64(msgID))
+	// 	rpc := &serialize.RpcResult{}
+	// 	msgID := binary.LittleEndian.Uint64(msg.GetMsg()[tl.WordLen : tl.WordLen+tl.LongLen])
+	// 	if typ, ok := m.msgsIdDecodeAsVector[int64(msgID)]; ok {
+	// 		_ = typ
+	// 		delete(m.msgsIdDecodeAsVector, int64(msgID))
+	// 		panic("not supported yet")
+	// 		// if err := rpc.DecodeFromButItsVector(r, typ); err != nil {
+	// 		// 	panic(err)
+	// 		// 	return err
+	// 		// }
+	// 	} else {
+	// 		// rest, err := r.GetRestOfMessage()
+	// 		// if err != nil {
+	// 		// 	panic(err)
+	// 		// 	return err
+	// 		// }
 
-			if err := rpc.DecodeFromButItsVector(r, typ); err != nil {
-				return err
-			}
-		} else {
-			rest, err := r.GetRestOfMessage()
-			if err != nil {
-				return err
-			}
+	// 		if err := tl.Decode(msg.GetMsg(), rpc); err != nil {
+	// 			pp.Println("bad_msg:", msg.GetMsg())
+	// 			// pp.Println("rest:", rest)
+	// 			panic(err)
+	// 			return err
+	// 		}
+	// 	}
+	// 	data = rpc
+	// } else {
+	// 	d, err := tl.DecodeRegistered(msg.GetMsg())
+	// 	if err != nil {
+	// 		panic(err)
+	// 		return err
+	// 	}
 
-			if err := tl.Decode(rest, rpc); err != nil {
-				return err
-			}
-		}
-		data = rpc
-	} else {
-		d, err := tl.DecodeRegistered(msg.GetMsg())
-		if err != nil {
-			return err
-		}
-
-		data = d
-	}
+	// 	data = d
+	// }
 
 	switch message := data.(type) {
+	case *serialize.RpcResult:
+		// message.ReqMsgID
+		pp.Println("got rpc:", message.Payload)
+
+		ob, err := tl.DecodeRegistered(message.Payload)
+		if err != nil {
+			panic(err)
+		}
+
+		switch obj := ob.(type) {
+		case *serialize.GzipPacked:
+			pp.Println("gzip_unpacked:", obj.Payload)
+			// obj.Payload
+		default:
+			panic(fmt.Sprintf("type %T not handled", obj))
+		}
+		m.mutex.Lock()
+		req, found := m.pending[message.ReqMsgID]
+		if !found {
+			fmt.Printf("pending request for message %d not found\n", message.ReqMsgID)
+			break
+		}
+		delete(m.pending, message.ReqMsgID)
+		m.mutex.Unlock()
+		req.echan <- tl.Decode(message.Payload, req.response)
 	case *serialize.MessageContainer:
 		println("MessageContainer")
 		for _, v := range *message {
@@ -353,16 +402,16 @@ func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage)
 		panic(message)
 		return BadMsgErrorFromNative(message)
 
-	case *serialize.RpcResult:
-		obj := message.Obj
-		if v, ok := obj.(*serialize.GzipPacked); ok {
-			obj = v.Obj
-		}
+		// case *serialize.RpcResult:
+		// 	obj := message.Obj
+		// 	if v, ok := obj.(*serialize.GzipPacked); ok {
+		// 		obj = v.Obj
+		// 	}
 
-		err := m.writeRPCResponse(int(message.ReqMsgID), obj)
-		if err != nil {
-			return errors.Wrap(err, "writing RPC response")
-		}
+		// err := m.writeRPCResponse(int(message.ReqMsgID), obj)
+		// if err != nil {
+		// 	return errors.Wrap(err, "writing RPC response")
+		// }
 
 	default:
 		processed := false

@@ -1,10 +1,7 @@
 package mtproto
 
 import (
-	"fmt"
 	"reflect"
-
-	"github.com/xelaj/go-dry"
 
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/utils"
@@ -60,23 +57,16 @@ func (m *MTProto) SetAuthKey(key []byte) {
 	m.authKeyHash = utils.AuthKeyHash(m.authKey)
 }
 
+func (m *MTProto) MakeRequest2(req tl.Object, resp interface{}) error {
+	return m.makeRequest2(req, resp)
+}
+
 func (m *MTProto) MakeRequest(msg tl.Object) (tl.Object, error) {
 	return m.makeRequest(msg, nil)
 }
 
 func (m *MTProto) MakeRequestAsSlice(msg tl.Object, as reflect.Type) (tl.Object, error) {
 	return m.makeRequest(msg, as)
-}
-
-func (m *MTProto) recoverGoroutine() {
-	if r := recover(); r != nil {
-		if m.RecoverFunc != nil {
-			fmt.Println(dry.StackTrace(0))
-			m.RecoverFunc(r)
-		} else {
-			panic(r)
-		}
-	}
 }
 
 func (m *MTProto) AddCustomServerRequestHandler(handler customHandlerFunc) {

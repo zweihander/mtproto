@@ -5,9 +5,7 @@ package serialize
 import (
 	"bytes"
 	"compress/gzip"
-	"encoding/binary"
 	"fmt"
-	"reflect"
 
 	"github.com/xelaj/mtproto/encoding/tl"
 )
@@ -106,10 +104,87 @@ func (*DHGenFail) CRC() uint32 { return 0xa69dae02 }
 
 type RpcResult struct {
 	ReqMsgID int64
-	Obj      tl.Object
+	Payload  []byte
 }
 
-func (*RpcResult) CRC() uint32 { return CrcRpcResult }
+func (*RpcResult) CRC() uint32 { return 0xf35c6d01 } // CrcRpcResult
+
+func (rpc *RpcResult) UnmarshalTL(r *tl.ReadCursor) (err error) {
+	rpc.ReqMsgID, err = r.PopLong()
+	if err != nil {
+		return err
+	}
+
+	rpc.Payload, err = r.GetRestOfMessage()
+	return err
+}
+
+func (rpc *RpcResult) MarshalTL(w *tl.WriteCursor) error {
+	panic("don't use me!")
+}
+
+type GzipPacked struct {
+	Payload []byte
+}
+
+func (*GzipPacked) CRC() uint32 { return 0x3072cfa1 } // CrcGzipPacked
+
+func (g *GzipPacked) UnmarshalTL(r *tl.ReadCursor) (err error) {
+	g.Payload, err = g.decompressMsg(r)
+	if err != nil {
+		panic(err)
+	}
+	return
+}
+
+func (*GzipPacked) MarshalTL(w *tl.WriteCursor) error {
+	panic("don't use me")
+}
+
+func (*GzipPacked) decompressMsg(r *tl.ReadCursor) ([]byte, error) {
+	// TODO: СТАНДАРТНЫЙ СУКА ПАКЕТ gzip пишет "gzip: invalid header". при этом как я разобрался, в
+	//       сам гзип попадает кусок, который находится за миллиард бит от реального сообщения
+	//       например: сообщение начинается с 0x1f 0x8b 0x08 0x00 ..., но при этом в сам гзип
+	//       отдается кусок, который дальше начала сообщения за 500+ байт
+	//! вот ЭТОТ кусок работает. так что наверное не будем трогать, дай бог чтоб работал
+
+	decompressed := make([]byte, 0, 4096)
+
+	msg, err := r.PopMessage()
+	if err != nil {
+		return nil, err
+	}
+
+	gz, err := gzip.NewReader(bytes.NewBuffer(msg))
+	if err != nil {
+		return nil, err
+	}
+
+	b := make([]byte, 4096)
+	for {
+		n, err := gz.Read(b)
+		if err != nil {
+			panic(err)
+			return nil, err
+		}
+
+		decompressed = append(decompressed, b[0:n]...)
+		if n <= 0 {
+			break
+		}
+	}
+
+	return decompressed, nil
+	//? это то что я пытался сделать
+	// data := d.PopMessage()
+	// gz, err := gzip.NewReader(bytes.NewBuffer(data))
+	// dry.PanicIfErr(err)
+
+	// decompressed, err := ioutil.ReadAll(gz)
+	// dry.PanicIfErr(err)
+
+	// return decompressed
+}
 
 // func (*RpcResult) UnmarshalTL(*tl.ReadCursor) error {
 // 	panic("don't use me")
@@ -129,38 +204,38 @@ func (*RpcResult) CRC() uint32 { return CrcRpcResult }
 // т.к. telegram отсылает на реквесты сообщения (messages, TL в рамках этого пакета)
 // НО! иногда на некоторые запросы приходят ответы в виде вектора. Просто потому что.
 // поэтому этот кусочек возвращает корявое апи к его же описанию — ответы это всегда объекты.
-func (t *RpcResult) DecodeFromButItsVector(r *tl.ReadCursor, as reflect.Type) error {
-	var err error
-	t.ReqMsgID, err = r.PopLong()
-	if err != nil {
-		return err
-	}
+// func (t *RpcResult) DecodeFromButItsVector(r *tl.ReadCursor, as reflect.Type) error {
+// 	var err error
+// 	t.ReqMsgID, err = r.PopLong()
+// 	if err != nil {
+// 		return err
+// 	}
 
-	msg, err := r.GetRestOfMessage()
-	if err != nil {
-		return err
-	}
+// 	msg, err := r.GetRestOfMessage()
+// 	if err != nil {
+// 		return err
+// 	}
 
-	crc := binary.LittleEndian.Uint32(msg[:tl.WordLen])
-	if crc == CrcGzipPacked {
-		if _, err := r.PopCRC(); err != nil {
-			return err
-		}
+// 	crc := binary.LittleEndian.Uint32(msg[:tl.WordLen])
+// 	if crc == CrcGzipPacked {
+// 		if _, err := r.PopCRC(); err != nil {
+// 			return err
+// 		}
 
-		gz := &GzipPacked{}
-		gz.DecodeFromButItsVector(r, as)
-		t.Obj = gz.Obj.(*InnerVectorObject)
-	} else {
-		vector, err := r.PopVector(as)
-		if err != nil {
-			return err
-		}
+// 		gz := &GzipPacked{}
+// 		gz.DecodeFromButItsVector(r, as)
+// 		t.Obj = gz.Obj.(*InnerVectorObject)
+// 	} else {
+// 		vector, err := r.PopVector(as)
+// 		if err != nil {
+// 			return err
+// 		}
 
-		t.Obj = &InnerVectorObject{I: vector}
-	}
+// 		t.Obj = &InnerVectorObject{I: vector}
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
 type RpcError struct {
 	ErrorCode    int32
@@ -168,6 +243,10 @@ type RpcError struct {
 }
 
 func (*RpcError) CRC() uint32 { return 0x2144ca19 }
+
+func (e *RpcError) Error() string {
+	return fmt.Sprintf("code: %d, message: %s", e.ErrorCode, e.ErrorMessage)
+}
 
 type RpcAnswerUnknown struct{}
 
@@ -317,28 +396,6 @@ func (*MsgCopy) CRC() uint32 { return 0xe06046b2 }
 func (t *MsgCopy) UnmarshalTL(r *tl.ReadCursor) error {
 	// pp.Println(r)
 	panic("очень специфичный конструктор Message, надо сначала посмотреть, как это что это")
-}
-
-type GzipPacked struct {
-	Obj tl.Object
-}
-
-func (*GzipPacked) CRC() uint32 { return CrcGzipPacked }
-
-func (t *GzipPacked) DecodeFromButItsVector(r *tl.ReadCursor, as reflect.Type) error {
-	msg, err := t.popMessageAsBytes(r)
-	if err != nil {
-		return err
-	}
-
-	innerDecoder := tl.NewReadCursor(bytes.NewBuffer(msg))
-	vector, err := innerDecoder.PopVector(as)
-	if err != nil {
-		return err
-	}
-
-	t.Obj = &InnerVectorObject{I: vector}
-	return nil
 }
 
 func (*GzipPacked) popMessageAsBytes(r *tl.ReadCursor) ([]byte, error) {

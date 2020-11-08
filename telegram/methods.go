@@ -160,8 +160,8 @@ type AccountCreateThemeParams struct {
 	// flags position
 	Slug     string              `validate:"required"`
 	Title    string              `validate:"required"`
-	Document InputDocument       `flag:"2"`
-	Settings *InputThemeSettings `flag:"3"`
+	Document InputDocument       `tl:"flag:2"`
+	Settings *InputThemeSettings `tl:"flag:3"`
 }
 
 func (e *AccountCreateThemeParams) CRC() uint32 {
@@ -234,7 +234,7 @@ func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams
 
 type AccountFinishTakeoutSessionParams struct {
 	// flags position
-	Success bool `flag:"0,encoded_in_bitflags"`
+	Success bool `tl:"flag:0,encoded_in_bitflag"`
 }
 
 func (e *AccountFinishTakeoutSessionParams) CRC() uint32 {
@@ -463,8 +463,8 @@ func (c *Client) AccountGetMultiWallPapers(params *AccountGetMultiWallPapersPara
 
 type AccountGetNotifyExceptionsParams struct {
 	// flags position
-	CompareSound bool            `flag:"1,encoded_in_bitflags"`
-	Peer         InputNotifyPeer `flag:"0"`
+	CompareSound bool            `tl:"flag:1,encoded_in_bitflag"`
+	Peer         InputNotifyPeer `tl:"flag:0"`
 }
 
 func (e *AccountGetNotifyExceptionsParams) CRC() uint32 {
@@ -753,13 +753,13 @@ func (c *Client) AccountGetWebAuthorizations() (*AccountWebAuthorizations, error
 
 type AccountInitTakeoutSessionParams struct {
 	// flags position
-	Contacts          bool  `flag:"0,encoded_in_bitflags"`
-	MessageUsers      bool  `flag:"1,encoded_in_bitflags"`
-	MessageChats      bool  `flag:"2,encoded_in_bitflags"`
-	MessageMegagroups bool  `flag:"3,encoded_in_bitflags"`
-	MessageChannels   bool  `flag:"4,encoded_in_bitflags"`
-	Files             bool  `flag:"5,encoded_in_bitflags"`
-	FileMaxSize       int32 `flag:"5"`
+	Contacts          bool  `tl:"flag:0,encoded_in_bitflag"`
+	MessageUsers      bool  `tl:"flag:1,encoded_in_bitflag"`
+	MessageChats      bool  `tl:"flag:2,encoded_in_bitflag"`
+	MessageMegagroups bool  `tl:"flag:3,encoded_in_bitflag"`
+	MessageChannels   bool  `tl:"flag:4,encoded_in_bitflag"`
+	Files             bool  `tl:"flag:5,encoded_in_bitflag"`
+	FileMaxSize       int32 `tl:"flag:5"`
 }
 
 func (e *AccountInitTakeoutSessionParams) CRC() uint32 {
@@ -784,9 +784,9 @@ func (c *Client) AccountInitTakeoutSession(params *AccountInitTakeoutSessionPara
 
 type AccountInstallThemeParams struct {
 	// flags position
-	Dark   bool       `flag:"0,encoded_in_bitflags"`
-	Format string     `flag:"1"`
-	Theme  InputTheme `flag:"1"`
+	Dark   bool       `tl:"flag:0,encoded_in_bitflag"`
+	Format string     `tl:"flag:1"`
+	Theme  InputTheme `tl:"flag:1"`
 }
 
 func (e *AccountInstallThemeParams) CRC() uint32 {
@@ -836,7 +836,7 @@ func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) 
 
 type AccountRegisterDeviceParams struct {
 	// flags position
-	NoMuted    bool    `flag:"0,encoded_in_bitflags"`
+	NoMuted    bool    `tl:"flag:0,encoded_in_bitflag"`
 	TokenType  int32   `validate:"required"`
 	Token      string  `validate:"required"`
 	AppSandbox bool    `validate:"required"`
@@ -1027,8 +1027,8 @@ func (c *Client) AccountResetWebAuthorizations() (*serialize.Bool, error) {
 
 type AccountSaveAutoDownloadSettingsParams struct {
 	// flags position
-	Low      bool                  `flag:"0,encoded_in_bitflags"`
-	High     bool                  `flag:"1,encoded_in_bitflags"`
+	Low      bool                  `tl:"flag:0,encoded_in_bitflag"`
+	High     bool                  `tl:"flag:1,encoded_in_bitflag"`
 	Settings *AutoDownloadSettings `validate:"required"`
 }
 
@@ -1277,7 +1277,7 @@ func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSi
 
 type AccountSetContentSettingsParams struct {
 	// flags position
-	SensitiveEnabled bool `flag:"0,encoded_in_bitflags"`
+	SensitiveEnabled bool `tl:"flag:0,encoded_in_bitflag"`
 }
 
 func (e *AccountSetContentSettingsParams) CRC() uint32 {
@@ -1451,9 +1451,9 @@ func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSett
 
 type AccountUpdateProfileParams struct {
 	// flags position
-	FirstName string `flag:"0"`
-	LastName  string `flag:"1"`
-	About     string `flag:"2"`
+	FirstName string `tl:"flag:0"`
+	LastName  string `tl:"flag:1"`
+	About     string `tl:"flag:2"`
 }
 
 func (e *AccountUpdateProfileParams) CRC() uint32 {
@@ -1504,10 +1504,10 @@ type AccountUpdateThemeParams struct {
 	// flags position
 	Format   string              `validate:"required"`
 	Theme    InputTheme          `validate:"required"`
-	Slug     string              `flag:"0"`
-	Title    string              `flag:"1"`
-	Document InputDocument       `flag:"2"`
-	Settings *InputThemeSettings `flag:"3"`
+	Slug     string              `tl:"flag:0"`
+	Title    string              `tl:"flag:1"`
+	Document InputDocument       `tl:"flag:2"`
+	Settings *InputThemeSettings `tl:"flag:3"`
 }
 
 func (e *AccountUpdateThemeParams) CRC() uint32 {
@@ -1557,7 +1557,7 @@ func (c *Client) AccountUpdateUsername(params *AccountUpdateUsernameParams) (Use
 type AccountUploadThemeParams struct {
 	// flags position
 	File     InputFile `validate:"required"`
-	Thumb    InputFile `flag:"0"`
+	Thumb    InputFile `tl:"flag:0"`
 	FileName string    `validate:"required"`
 	MimeType string    `validate:"required"`
 }
@@ -2205,12 +2205,12 @@ func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (*se
 
 type ChannelsCreateChannelParams struct {
 	// flags position
-	Broadcast bool          `flag:"0,encoded_in_bitflags"`
-	Megagroup bool          `flag:"1,encoded_in_bitflags"`
+	Broadcast bool          `tl:"flag:0,encoded_in_bitflag"`
+	Megagroup bool          `tl:"flag:1,encoded_in_bitflag"`
 	Title     string        `validate:"required"`
 	About     string        `validate:"required"`
-	GeoPoint  InputGeoPoint `flag:"2"`
-	Address   string        `flag:"2"`
+	GeoPoint  InputGeoPoint `tl:"flag:2"`
+	Address   string        `tl:"flag:2"`
 }
 
 func (e *ChannelsCreateChannelParams) CRC() uint32 {
@@ -2517,8 +2517,8 @@ type ChannelsGetAdminLogParams struct {
 	// flags position
 	Channel      InputChannel                 `validate:"required"`
 	Q            string                       `validate:"required"`
-	EventsFilter *ChannelAdminLogEventsFilter `flag:"0"`
-	Admins       []InputUser                  `flag:"1"`
+	EventsFilter *ChannelAdminLogEventsFilter `tl:"flag:0"`
+	Admins       []InputUser                  `tl:"flag:1"`
 	MaxId        int64                        `validate:"required"`
 	MinId        int64                        `validate:"required"`
 	Limit        int32                        `validate:"required"`
@@ -2546,8 +2546,8 @@ func (c *Client) ChannelsGetAdminLog(params *ChannelsGetAdminLogParams) (*Channe
 
 type ChannelsGetAdminedPublicChannelsParams struct {
 	// flags position
-	ByLocation bool `flag:"0,encoded_in_bitflags"`
-	CheckLimit bool `flag:"1,encoded_in_bitflags"`
+	ByLocation bool `tl:"flag:0,encoded_in_bitflag"`
+	CheckLimit bool `tl:"flag:1,encoded_in_bitflag"`
 }
 
 func (e *ChannelsGetAdminedPublicChannelsParams) CRC() uint32 {
@@ -3089,7 +3089,7 @@ func (c *Client) ContactsAcceptContact(params *ContactsAcceptContactParams) (Upd
 
 type ContactsAddContactParams struct {
 	// flags position
-	AddPhonePrivacyException bool      `flag:"0,encoded_in_bitflags"`
+	AddPhonePrivacyException bool      `tl:"flag:0,encoded_in_bitflag"`
 	Id                       InputUser `validate:"required"`
 	FirstName                string    `validate:"required"`
 	LastName                 string    `validate:"required"`
@@ -3263,9 +3263,9 @@ func (c *Client) ContactsGetContacts(params *ContactsGetContactsParams) (Contact
 
 type ContactsGetLocatedParams struct {
 	// flags position
-	Background  bool          `flag:"1,encoded_in_bitflags"`
+	Background  bool          `tl:"flag:1,encoded_in_bitflag"`
 	GeoPoint    InputGeoPoint `validate:"required"`
-	SelfExpires int32         `flag:"0"`
+	SelfExpires int32         `tl:"flag:0"`
 }
 
 func (e *ContactsGetLocatedParams) CRC() uint32 {
@@ -3334,14 +3334,14 @@ func (c *Client) ContactsGetStatuses() (*ContactStatus, error) {
 
 type ContactsGetTopPeersParams struct {
 	// flags position
-	Correspondents bool  `flag:"0,encoded_in_bitflags"`
-	BotsPm         bool  `flag:"1,encoded_in_bitflags"`
-	BotsInline     bool  `flag:"2,encoded_in_bitflags"`
-	PhoneCalls     bool  `flag:"3,encoded_in_bitflags"`
-	ForwardUsers   bool  `flag:"4,encoded_in_bitflags"`
-	ForwardChats   bool  `flag:"5,encoded_in_bitflags"`
-	Groups         bool  `flag:"10,encoded_in_bitflags"`
-	Channels       bool  `flag:"15,encoded_in_bitflags"`
+	Correspondents bool  `tl:"flag:0,encoded_in_bitflag"`
+	BotsPm         bool  `tl:"flag:1,encoded_in_bitflag"`
+	BotsInline     bool  `tl:"flag:2,encoded_in_bitflag"`
+	PhoneCalls     bool  `tl:"flag:3,encoded_in_bitflag"`
+	ForwardUsers   bool  `tl:"flag:4,encoded_in_bitflag"`
+	ForwardChats   bool  `tl:"flag:5,encoded_in_bitflag"`
+	Groups         bool  `tl:"flag:10,encoded_in_bitflag"`
+	Channels       bool  `tl:"flag:15,encoded_in_bitflag"`
 	Offset         int32 `validate:"required"`
 	Limit          int32 `validate:"required"`
 	Hash           int32 `validate:"required"`
@@ -4226,7 +4226,7 @@ func (c *Client) MessagesAcceptEncryption(params *MessagesAcceptEncryptionParams
 
 type MessagesAcceptUrlAuthParams struct {
 	// flags position
-	WriteAllowed bool      `flag:"0,encoded_in_bitflags"`
+	WriteAllowed bool      `tl:"flag:0,encoded_in_bitflag"`
 	Peer         InputPeer `validate:"required"`
 	MsgId        int32     `validate:"required"`
 	ButtonId     int32     `validate:"required"`
@@ -4326,7 +4326,7 @@ func (c *Client) MessagesClearAllDrafts() (*serialize.Bool, error) {
 
 type MessagesClearRecentStickersParams struct {
 	// flags position
-	Attached bool `flag:"0,encoded_in_bitflags"`
+	Attached bool `tl:"flag:0,encoded_in_bitflag"`
 }
 
 func (e *MessagesClearRecentStickersParams) CRC() uint32 {
@@ -4401,8 +4401,8 @@ func (c *Client) MessagesDeleteChatUser(params *MessagesDeleteChatUserParams) (U
 
 type MessagesDeleteHistoryParams struct {
 	// flags position
-	JustClear bool      `flag:"0,encoded_in_bitflags"`
-	Revoke    bool      `flag:"1,encoded_in_bitflags"`
+	JustClear bool      `tl:"flag:0,encoded_in_bitflag"`
+	Revoke    bool      `tl:"flag:1,encoded_in_bitflag"`
 	Peer      InputPeer `validate:"required"`
 	MaxId     int32     `validate:"required"`
 }
@@ -4429,7 +4429,7 @@ func (c *Client) MessagesDeleteHistory(params *MessagesDeleteHistoryParams) (*Me
 
 type MessagesDeleteMessagesParams struct {
 	// flags position
-	Revoke bool    `flag:"0,encoded_in_bitflags"`
+	Revoke bool    `tl:"flag:0,encoded_in_bitflag"`
 	Id     []int32 `validate:"required"`
 }
 
@@ -4630,12 +4630,12 @@ func (c *Client) MessagesEditChatTitle(params *MessagesEditChatTitleParams) (Upd
 
 type MessagesEditInlineBotMessageParams struct {
 	// flags position
-	NoWebpage   bool                     `flag:"1,encoded_in_bitflags"`
+	NoWebpage   bool                     `tl:"flag:1,encoded_in_bitflag"`
 	Id          *InputBotInlineMessageID `validate:"required"`
-	Message     string                   `flag:"11"`
-	Media       InputMedia               `flag:"14"`
-	ReplyMarkup ReplyMarkup              `flag:"2"`
-	Entities    []MessageEntity          `flag:"3"`
+	Message     string                   `tl:"flag:11"`
+	Media       InputMedia               `tl:"flag:14"`
+	ReplyMarkup ReplyMarkup              `tl:"flag:2"`
+	Entities    []MessageEntity          `tl:"flag:3"`
 }
 
 func (e *MessagesEditInlineBotMessageParams) CRC() uint32 {
@@ -4660,14 +4660,14 @@ func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessa
 
 type MessagesEditMessageParams struct {
 	// flags position
-	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
+	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
 	Peer         InputPeer       `validate:"required"`
 	Id           int32           `validate:"required"`
-	Message      string          `flag:"11"`
-	Media        InputMedia      `flag:"14"`
-	ReplyMarkup  ReplyMarkup     `flag:"2"`
-	Entities     []MessageEntity `flag:"3"`
-	ScheduleDate int32           `flag:"15"`
+	Message      string          `tl:"flag:11"`
+	Media        InputMedia      `tl:"flag:14"`
+	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
+	Entities     []MessageEntity `tl:"flag:3"`
+	ScheduleDate int32           `tl:"flag:15"`
 }
 
 func (e *MessagesEditMessageParams) CRC() uint32 {
@@ -4741,15 +4741,15 @@ func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (*serial
 
 type MessagesForwardMessagesParams struct {
 	// flags position
-	Silent       bool      `flag:"5,encoded_in_bitflags"`
-	Background   bool      `flag:"6,encoded_in_bitflags"`
-	WithMyScore  bool      `flag:"8,encoded_in_bitflags"`
-	Grouped      bool      `flag:"9,encoded_in_bitflags"`
+	Silent       bool      `tl:"flag:5,encoded_in_bitflag"`
+	Background   bool      `tl:"flag:6,encoded_in_bitflag"`
+	WithMyScore  bool      `tl:"flag:8,encoded_in_bitflag"`
+	Grouped      bool      `tl:"flag:9,encoded_in_bitflag"`
 	FromPeer     InputPeer `validate:"required"`
 	Id           []int32   `validate:"required"`
 	RandomId     []int64   `validate:"required"`
 	ToPeer       InputPeer `validate:"required"`
-	ScheduleDate int32     `flag:"10"`
+	ScheduleDate int32     `tl:"flag:10"`
 }
 
 func (e *MessagesForwardMessagesParams) CRC() uint32 {
@@ -4844,7 +4844,7 @@ func (c *Client) MessagesGetAllStickers(params *MessagesGetAllStickersParams) (M
 
 type MessagesGetArchivedStickersParams struct {
 	// flags position
-	Masks    bool  `flag:"0,encoded_in_bitflags"`
+	Masks    bool  `tl:"flag:0,encoded_in_bitflag"`
 	OffsetId int64 `validate:"required"`
 	Limit    int32 `validate:"required"`
 }
@@ -4895,10 +4895,10 @@ func (c *Client) MessagesGetAttachedStickers(params *MessagesGetAttachedStickers
 
 type MessagesGetBotCallbackAnswerParams struct {
 	// flags position
-	Game  bool      `flag:"1,encoded_in_bitflags"`
+	Game  bool      `tl:"flag:1,encoded_in_bitflag"`
 	Peer  InputPeer `validate:"required"`
 	MsgId int32     `validate:"required"`
-	Data  []byte    `flag:"0"`
+	Data  []byte    `tl:"flag:0"`
 }
 
 func (e *MessagesGetBotCallbackAnswerParams) CRC() uint32 {
@@ -5042,8 +5042,8 @@ func (c *Client) MessagesGetDialogUnreadMarks() (DialogPeer, error) {
 
 type MessagesGetDialogsParams struct {
 	// flags position
-	ExcludePinned bool      `flag:"0,encoded_in_bitflags"`
-	FolderId      int32     `flag:"1"`
+	ExcludePinned bool      `tl:"flag:0,encoded_in_bitflag"`
+	FolderId      int32     `tl:"flag:1"`
 	OffsetDate    int32     `validate:"required"`
 	OffsetId      int32     `validate:"required"`
 	OffsetPeer    InputPeer `validate:"required"`
@@ -5327,7 +5327,7 @@ type MessagesGetInlineBotResultsParams struct {
 	// flags position
 	Bot      InputUser     `validate:"required"`
 	Peer     InputPeer     `validate:"required"`
-	GeoPoint InputGeoPoint `flag:"0"`
+	GeoPoint InputGeoPoint `tl:"flag:0"`
 	Query    string        `validate:"required"`
 	Offset   string        `validate:"required"`
 }
@@ -5627,8 +5627,8 @@ type MessagesGetPollVotesParams struct {
 	// flags position
 	Peer   InputPeer `validate:"required"`
 	Id     int32     `validate:"required"`
-	Option []byte    `flag:"0"`
-	Offset string    `flag:"1"`
+	Option []byte    `tl:"flag:0"`
+	Offset string    `tl:"flag:1"`
 	Limit  int32     `validate:"required"`
 }
 
@@ -5680,7 +5680,7 @@ func (c *Client) MessagesGetRecentLocations(params *MessagesGetRecentLocationsPa
 
 type MessagesGetRecentStickersParams struct {
 	// flags position
-	Attached bool  `flag:"0,encoded_in_bitflags"`
+	Attached bool  `tl:"flag:0,encoded_in_bitflag"`
 	Hash     int32 `validate:"required"`
 }
 
@@ -5827,7 +5827,7 @@ func (c *Client) MessagesGetSplitRanges() (*MessageRange, error) {
 
 type MessagesGetStatsURLParams struct {
 	// flags position
-	Dark   bool      `flag:"0,encoded_in_bitflags"`
+	Dark   bool      `tl:"flag:0,encoded_in_bitflag"`
 	Peer   InputPeer `validate:"required"`
 	Params string    `validate:"required"`
 }
@@ -5980,7 +5980,7 @@ func (c *Client) MessagesGetWebPage(params *MessagesGetWebPageParams) (WebPage, 
 type MessagesGetWebPagePreviewParams struct {
 	// flags position
 	Message  string          `validate:"required"`
-	Entities []MessageEntity `flag:"3"`
+	Entities []MessageEntity `tl:"flag:3"`
 }
 
 func (e *MessagesGetWebPagePreviewParams) CRC() uint32 {
@@ -6078,7 +6078,7 @@ func (c *Client) MessagesInstallStickerSet(params *MessagesInstallStickerSetPara
 
 type MessagesMarkDialogUnreadParams struct {
 	// flags position
-	Unread bool            `flag:"0,encoded_in_bitflags"`
+	Unread bool            `tl:"flag:0,encoded_in_bitflag"`
 	Peer   InputDialogPeer `validate:"required"`
 }
 
@@ -6298,7 +6298,7 @@ func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) (*se
 
 type MessagesReorderPinnedDialogsParams struct {
 	// flags position
-	Force    bool              `flag:"0,encoded_in_bitflags"`
+	Force    bool              `tl:"flag:0,encoded_in_bitflag"`
 	FolderId int32             `validate:"required"`
 	Order    []InputDialogPeer `validate:"required"`
 }
@@ -6325,7 +6325,7 @@ func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialo
 
 type MessagesReorderStickerSetsParams struct {
 	// flags position
-	Masks bool    `flag:"0,encoded_in_bitflags"`
+	Masks bool    `tl:"flag:0,encoded_in_bitflag"`
 	Order []int64 `validate:"required"`
 }
 
@@ -6477,11 +6477,11 @@ func (c *Client) MessagesRequestUrlAuth(params *MessagesRequestUrlAuthParams) (U
 
 type MessagesSaveDraftParams struct {
 	// flags position
-	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
-	ReplyToMsgId int32           `flag:"0"`
+	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
+	ReplyToMsgId int32           `tl:"flag:0"`
 	Peer         InputPeer       `validate:"required"`
 	Message      string          `validate:"required"`
-	Entities     []MessageEntity `flag:"3"`
+	Entities     []MessageEntity `tl:"flag:3"`
 }
 
 func (e *MessagesSaveDraftParams) CRC() uint32 {
@@ -6531,7 +6531,7 @@ func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (*serialize.Bool
 
 type MessagesSaveRecentStickerParams struct {
 	// flags position
-	Attached bool          `flag:"0,encoded_in_bitflags"`
+	Attached bool          `tl:"flag:0,encoded_in_bitflag"`
 	Id       InputDocument `validate:"required"`
 	Unsave   bool          `validate:"required"`
 }
@@ -6560,7 +6560,7 @@ type MessagesSearchParams struct {
 	// flags position
 	Peer      InputPeer      `validate:"required"`
 	Q         string         `validate:"required"`
-	FromId    InputUser      `flag:"0"`
+	FromId    InputUser      `tl:"flag:0"`
 	Filter    MessagesFilter `validate:"required"`
 	MinDate   int32          `validate:"required"`
 	MaxDate   int32          `validate:"required"`
@@ -6594,7 +6594,7 @@ func (c *Client) MessagesSearch(params *MessagesSearchParams) (MessagesMessages,
 
 type MessagesSearchGlobalParams struct {
 	// flags position
-	FolderId   int32     `flag:"0"`
+	FolderId   int32     `tl:"flag:0"`
 	Q          string    `validate:"required"`
 	OffsetRate int32     `validate:"required"`
 	OffsetPeer InputPeer `validate:"required"`
@@ -6624,7 +6624,7 @@ func (c *Client) MessagesSearchGlobal(params *MessagesSearchGlobalParams) (Messa
 
 type MessagesSearchStickerSetsParams struct {
 	// flags position
-	ExcludeFeatured bool   `flag:"0,encoded_in_bitflags"`
+	ExcludeFeatured bool   `tl:"flag:0,encoded_in_bitflag"`
 	Q               string `validate:"required"`
 	Hash            int32  `validate:"required"`
 }
@@ -6730,16 +6730,16 @@ func (c *Client) MessagesSendEncryptedService(params *MessagesSendEncryptedServi
 
 type MessagesSendInlineBotResultParams struct {
 	// flags position
-	Silent       bool      `flag:"5,encoded_in_bitflags"`
-	Background   bool      `flag:"6,encoded_in_bitflags"`
-	ClearDraft   bool      `flag:"7,encoded_in_bitflags"`
-	HideVia      bool      `flag:"11,encoded_in_bitflags"`
+	Silent       bool      `tl:"flag:5,encoded_in_bitflag"`
+	Background   bool      `tl:"flag:6,encoded_in_bitflag"`
+	ClearDraft   bool      `tl:"flag:7,encoded_in_bitflag"`
+	HideVia      bool      `tl:"flag:11,encoded_in_bitflag"`
 	Peer         InputPeer `validate:"required"`
-	ReplyToMsgId int32     `flag:"0"`
+	ReplyToMsgId int32     `tl:"flag:0"`
 	RandomId     int64     `validate:"required"`
 	QueryId      int64     `validate:"required"`
 	Id           string    `validate:"required"`
-	ScheduleDate int32     `flag:"10"`
+	ScheduleDate int32     `tl:"flag:10"`
 }
 
 func (e *MessagesSendInlineBotResultParams) CRC() uint32 {
@@ -6764,17 +6764,17 @@ func (c *Client) MessagesSendInlineBotResult(params *MessagesSendInlineBotResult
 
 type MessagesSendMediaParams struct {
 	// flags position
-	Silent       bool            `flag:"5,encoded_in_bitflags"`
-	Background   bool            `flag:"6,encoded_in_bitflags"`
-	ClearDraft   bool            `flag:"7,encoded_in_bitflags"`
+	Silent       bool            `tl:"flag:5,encoded_in_bitflag"`
+	Background   bool            `tl:"flag:6,encoded_in_bitflag"`
+	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflag"`
 	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `flag:"0"`
+	ReplyToMsgId int32           `tl:"flag:0"`
 	Media        InputMedia      `validate:"required"`
 	Message      string          `validate:"required"`
 	RandomId     int64           `validate:"required"`
-	ReplyMarkup  ReplyMarkup     `flag:"2"`
-	Entities     []MessageEntity `flag:"3"`
-	ScheduleDate int32           `flag:"10"`
+	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
+	Entities     []MessageEntity `tl:"flag:3"`
+	ScheduleDate int32           `tl:"flag:10"`
 }
 
 func (e *MessagesSendMediaParams) CRC() uint32 {
@@ -6799,17 +6799,17 @@ func (c *Client) MessagesSendMedia(params *MessagesSendMediaParams) (Updates, er
 
 type MessagesSendMessageParams struct {
 	// flags position
-	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
-	Silent       bool            `flag:"5,encoded_in_bitflags"`
-	Background   bool            `flag:"6,encoded_in_bitflags"`
-	ClearDraft   bool            `flag:"7,encoded_in_bitflags"`
+	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
+	Silent       bool            `tl:"flag:5,encoded_in_bitflag"`
+	Background   bool            `tl:"flag:6,encoded_in_bitflag"`
+	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflag"`
 	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `flag:"0"`
+	ReplyToMsgId int32           `tl:"flag:0"`
 	Message      string          `validate:"required"`
 	RandomId     int64           `validate:"required"`
-	ReplyMarkup  ReplyMarkup     `flag:"2"`
-	Entities     []MessageEntity `flag:"3"`
-	ScheduleDate int32           `flag:"10"`
+	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
+	Entities     []MessageEntity `tl:"flag:3"`
+	ScheduleDate int32           `tl:"flag:10"`
 }
 
 func (e *MessagesSendMessageParams) CRC() uint32 {
@@ -6834,13 +6834,13 @@ func (c *Client) MessagesSendMessage(params *MessagesSendMessageParams) (Updates
 
 type MessagesSendMultiMediaParams struct {
 	// flags position
-	Silent       bool                `flag:"5,encoded_in_bitflags"`
-	Background   bool                `flag:"6,encoded_in_bitflags"`
-	ClearDraft   bool                `flag:"7,encoded_in_bitflags"`
+	Silent       bool                `tl:"flag:5,encoded_in_bitflag"`
+	Background   bool                `tl:"flag:6,encoded_in_bitflag"`
+	ClearDraft   bool                `tl:"flag:7,encoded_in_bitflag"`
 	Peer         InputPeer           `validate:"required"`
-	ReplyToMsgId int32               `flag:"0"`
+	ReplyToMsgId int32               `tl:"flag:0"`
 	MultiMedia   []*InputSingleMedia `validate:"required"`
-	ScheduleDate int32               `flag:"10"`
+	ScheduleDate int32               `tl:"flag:10"`
 }
 
 func (e *MessagesSendMultiMediaParams) CRC() uint32 {
@@ -6942,10 +6942,10 @@ func (c *Client) MessagesSendVote(params *MessagesSendVoteParams) (Updates, erro
 
 type MessagesSetBotCallbackAnswerParams struct {
 	// flags position
-	Alert     bool   `flag:"1,encoded_in_bitflags"`
+	Alert     bool   `tl:"flag:1,encoded_in_bitflag"`
 	QueryId   int64  `validate:"required"`
-	Message   string `flag:"0"`
-	Url       string `flag:"2"`
+	Message   string `tl:"flag:0"`
+	Url       string `tl:"flag:2"`
 	CacheTime int32  `validate:"required"`
 }
 
@@ -6971,9 +6971,9 @@ func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnsw
 
 type MessagesSetBotPrecheckoutResultsParams struct {
 	// flags position
-	Success bool   `flag:"1,encoded_in_bitflags"`
+	Success bool   `tl:"flag:1,encoded_in_bitflag"`
 	QueryId int64  `validate:"required"`
-	Error   string `flag:"0"`
+	Error   string `tl:"flag:0"`
 }
 
 func (e *MessagesSetBotPrecheckoutResultsParams) CRC() uint32 {
@@ -6999,8 +6999,8 @@ func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheck
 type MessagesSetBotShippingResultsParams struct {
 	// flags position
 	QueryId         int64             `validate:"required"`
-	Error           string            `flag:"0"`
-	ShippingOptions []*ShippingOption `flag:"1"`
+	Error           string            `tl:"flag:0"`
+	ShippingOptions []*ShippingOption `tl:"flag:1"`
 }
 
 func (e *MessagesSetBotShippingResultsParams) CRC() uint32 {
@@ -7050,8 +7050,8 @@ func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingPa
 
 type MessagesSetGameScoreParams struct {
 	// flags position
-	EditMessage bool      `flag:"0,encoded_in_bitflags"`
-	Force       bool      `flag:"1,encoded_in_bitflags"`
+	EditMessage bool      `tl:"flag:0,encoded_in_bitflag"`
+	Force       bool      `tl:"flag:1,encoded_in_bitflag"`
 	Peer        InputPeer `validate:"required"`
 	Id          int32     `validate:"required"`
 	UserId      InputUser `validate:"required"`
@@ -7080,13 +7080,13 @@ func (c *Client) MessagesSetGameScore(params *MessagesSetGameScoreParams) (Updat
 
 type MessagesSetInlineBotResultsParams struct {
 	// flags position
-	Gallery    bool                   `flag:"0,encoded_in_bitflags"`
-	Private    bool                   `flag:"1,encoded_in_bitflags"`
+	Gallery    bool                   `tl:"flag:0,encoded_in_bitflag"`
+	Private    bool                   `tl:"flag:1,encoded_in_bitflag"`
 	QueryId    int64                  `validate:"required"`
 	Results    []InputBotInlineResult `validate:"required"`
 	CacheTime  int32                  `validate:"required"`
-	NextOffset string                 `flag:"2"`
-	SwitchPm   *InlineBotSwitchPM     `flag:"3"`
+	NextOffset string                 `tl:"flag:2"`
+	SwitchPm   *InlineBotSwitchPM     `tl:"flag:3"`
 }
 
 func (e *MessagesSetInlineBotResultsParams) CRC() uint32 {
@@ -7111,8 +7111,8 @@ func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResults
 
 type MessagesSetInlineGameScoreParams struct {
 	// flags position
-	EditMessage bool                     `flag:"0,encoded_in_bitflags"`
-	Force       bool                     `flag:"1,encoded_in_bitflags"`
+	EditMessage bool                     `tl:"flag:0,encoded_in_bitflag"`
+	Force       bool                     `tl:"flag:1,encoded_in_bitflag"`
 	Id          *InputBotInlineMessageID `validate:"required"`
 	UserId      InputUser                `validate:"required"`
 	Score       int32                    `validate:"required"`
@@ -7192,7 +7192,7 @@ func (c *Client) MessagesStartBot(params *MessagesStartBotParams) (Updates, erro
 
 type MessagesToggleDialogPinParams struct {
 	// flags position
-	Pinned bool            `flag:"0,encoded_in_bitflags"`
+	Pinned bool            `tl:"flag:0,encoded_in_bitflag"`
 	Peer   InputDialogPeer `validate:"required"`
 }
 
@@ -7218,9 +7218,9 @@ func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) 
 
 type MessagesToggleStickerSetsParams struct {
 	// flags position
-	Uninstall   bool              `flag:"0,encoded_in_bitflags"`
-	Archive     bool              `flag:"1,encoded_in_bitflags"`
-	Unarchive   bool              `flag:"2,encoded_in_bitflags"`
+	Uninstall   bool              `tl:"flag:0,encoded_in_bitflag"`
+	Archive     bool              `tl:"flag:1,encoded_in_bitflag"`
+	Unarchive   bool              `tl:"flag:2,encoded_in_bitflag"`
 	Stickersets []InputStickerSet `validate:"required"`
 }
 
@@ -7271,7 +7271,7 @@ func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSet
 type MessagesUpdateDialogFilterParams struct {
 	// flags position
 	Id     int32         `validate:"required"`
-	Filter *DialogFilter `flag:"0"`
+	Filter *DialogFilter `tl:"flag:0"`
 }
 
 func (e *MessagesUpdateDialogFilterParams) CRC() uint32 {
@@ -7320,7 +7320,7 @@ func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFi
 
 type MessagesUpdatePinnedMessageParams struct {
 	// flags position
-	Silent bool      `flag:"0,encoded_in_bitflags"`
+	Silent bool      `tl:"flag:0,encoded_in_bitflag"`
 	Peer   InputPeer `validate:"required"`
 	Id     int32     `validate:"required"`
 }
@@ -7397,8 +7397,8 @@ func (c *Client) MessagesUploadMedia(params *MessagesUploadMediaParams) (Message
 
 type PaymentsClearSavedInfoParams struct {
 	// flags position
-	Credentials bool `flag:"0,encoded_in_bitflags"`
-	Info        bool `flag:"1,encoded_in_bitflags"`
+	Credentials bool `tl:"flag:0,encoded_in_bitflag"`
+	Info        bool `tl:"flag:1,encoded_in_bitflag"`
 }
 
 func (e *PaymentsClearSavedInfoParams) CRC() uint32 {
@@ -7518,8 +7518,8 @@ func (c *Client) PaymentsGetSavedInfo() (*PaymentsSavedInfo, error) {
 type PaymentsSendPaymentFormParams struct {
 	// flags position
 	MsgId            int32                   `validate:"required"`
-	RequestedInfoId  string                  `flag:"0"`
-	ShippingOptionId string                  `flag:"1"`
+	RequestedInfoId  string                  `tl:"flag:0"`
+	ShippingOptionId string                  `tl:"flag:1"`
 	Credentials      InputPaymentCredentials `validate:"required"`
 }
 
@@ -7545,7 +7545,7 @@ func (c *Client) PaymentsSendPaymentForm(params *PaymentsSendPaymentFormParams) 
 
 type PaymentsValidateRequestedInfoParams struct {
 	// flags position
-	Save  bool                  `flag:"0,encoded_in_bitflags"`
+	Save  bool                  `tl:"flag:0,encoded_in_bitflag"`
 	MsgId int32                 `validate:"required"`
 	Info  *PaymentRequestedInfo `validate:"required"`
 }
@@ -7625,7 +7625,7 @@ func (c *Client) PhoneConfirmCall(params *PhoneConfirmCallParams) (*PhonePhoneCa
 
 type PhoneDiscardCallParams struct {
 	// flags position
-	Video        bool                   `flag:"0,encoded_in_bitflags"`
+	Video        bool                   `tl:"flag:0,encoded_in_bitflag"`
 	Peer         *InputPhoneCall        `validate:"required"`
 	Duration     int32                  `validate:"required"`
 	Reason       PhoneCallDiscardReason `validate:"required"`
@@ -7700,7 +7700,7 @@ func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (*serialize.
 
 type PhoneRequestCallParams struct {
 	// flags position
-	Video    bool               `flag:"0,encoded_in_bitflags"`
+	Video    bool               `tl:"flag:0,encoded_in_bitflag"`
 	UserId   InputUser          `validate:"required"`
 	RandomId int32              `validate:"required"`
 	GAHash   []byte             `validate:"required"`
@@ -7779,7 +7779,7 @@ func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (*
 
 type PhoneSetCallRatingParams struct {
 	// flags position
-	UserInitiative bool            `flag:"0,encoded_in_bitflags"`
+	UserInitiative bool            `tl:"flag:0,encoded_in_bitflag"`
 	Peer           *InputPhoneCall `validate:"required"`
 	Rating         int32           `validate:"required"`
 	Comment        string          `validate:"required"`
@@ -7882,9 +7882,9 @@ func (c *Client) PhotosUpdateProfilePhoto(params *PhotosUpdateProfilePhotoParams
 
 type PhotosUploadProfilePhotoParams struct {
 	// flags position
-	File         InputFile `flag:"0"`
-	Video        InputFile `flag:"1"`
-	VideoStartTs float64   `flag:"2"`
+	File         InputFile `tl:"flag:0"`
+	Video        InputFile `tl:"flag:1"`
+	VideoStartTs float64   `tl:"flag:2"`
 }
 
 func (e *PhotosUploadProfilePhotoParams) CRC() uint32 {
@@ -7909,7 +7909,7 @@ func (c *Client) PhotosUploadProfilePhoto(params *PhotosUploadProfilePhotoParams
 
 type StatsGetBroadcastStatsParams struct {
 	// flags position
-	Dark    bool         `flag:"0,encoded_in_bitflags"`
+	Dark    bool         `tl:"flag:0,encoded_in_bitflag"`
 	Channel InputChannel `validate:"required"`
 }
 
@@ -7935,7 +7935,7 @@ func (c *Client) StatsGetBroadcastStats(params *StatsGetBroadcastStatsParams) (*
 
 type StatsGetMegagroupStatsParams struct {
 	// flags position
-	Dark    bool         `flag:"0,encoded_in_bitflags"`
+	Dark    bool         `tl:"flag:0,encoded_in_bitflag"`
 	Channel InputChannel `validate:"required"`
 }
 
@@ -7962,7 +7962,7 @@ func (c *Client) StatsGetMegagroupStats(params *StatsGetMegagroupStatsParams) (*
 type StatsLoadAsyncGraphParams struct {
 	// flags position
 	Token string `validate:"required"`
-	X     int64  `flag:"0"`
+	X     int64  `tl:"flag:0"`
 }
 
 func (e *StatsLoadAsyncGraphParams) CRC() uint32 {
@@ -8037,12 +8037,12 @@ func (c *Client) StickersChangeStickerPosition(params *StickersChangeStickerPosi
 
 type StickersCreateStickerSetParams struct {
 	// flags position
-	Masks     bool                   `flag:"0,encoded_in_bitflags"`
-	Animated  bool                   `flag:"1,encoded_in_bitflags"`
+	Masks     bool                   `tl:"flag:0,encoded_in_bitflag"`
+	Animated  bool                   `tl:"flag:1,encoded_in_bitflag"`
 	UserId    InputUser              `validate:"required"`
 	Title     string                 `validate:"required"`
 	ShortName string                 `validate:"required"`
-	Thumb     InputDocument          `flag:"2"`
+	Thumb     InputDocument          `tl:"flag:2"`
 	Stickers  []*InputStickerSetItem `validate:"required"`
 }
 
@@ -8117,7 +8117,7 @@ func (c *Client) StickersSetStickerSetThumb(params *StickersSetStickerSetThumbPa
 
 type UpdatesGetChannelDifferenceParams struct {
 	// flags position
-	Force   bool                  `flag:"0,encoded_in_bitflags"`
+	Force   bool                  `tl:"flag:0,encoded_in_bitflag"`
 	Channel InputChannel          `validate:"required"`
 	Filter  ChannelMessagesFilter `validate:"required"`
 	Pts     int32                 `validate:"required"`
@@ -8147,7 +8147,7 @@ func (c *Client) UpdatesGetChannelDifference(params *UpdatesGetChannelDifference
 type UpdatesGetDifferenceParams struct {
 	// flags position
 	Pts           int32 `validate:"required"`
-	PtsTotalLimit int32 `flag:"0"`
+	PtsTotalLimit int32 `tl:"flag:0"`
 	Date          int32 `validate:"required"`
 	Qts           int32 `validate:"required"`
 }
@@ -8247,8 +8247,8 @@ func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) (*
 
 type UploadGetFileParams struct {
 	// flags position
-	Precise      bool              `flag:"0,encoded_in_bitflags"`
-	CdnSupported bool              `flag:"1,encoded_in_bitflags"`
+	Precise      bool              `tl:"flag:0,encoded_in_bitflag"`
+	CdnSupported bool              `tl:"flag:1,encoded_in_bitflag"`
 	Location     InputFileLocation `validate:"required"`
 	Offset       int32             `validate:"required"`
 	Limit        int32             `validate:"required"`

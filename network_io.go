@@ -17,6 +17,81 @@ import (
 	"github.com/xelaj/mtproto/utils"
 )
 
+func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err error) {
+	msgID := utils.GenerateMessageId()
+	echan := make(chan error)
+	defer close(echan)
+
+	var data []byte
+
+	if m.encrypted {
+		requireToAck := false
+		if MessageRequireToAck(request) {
+			m.mutex.Lock()
+			m.waitAck(msgID)
+			m.mutex.Unlock()
+			requireToAck = true
+		}
+
+		msg, err := tl.Encode(request)
+		if err != nil {
+			return err
+		}
+
+		data, err = (&serialize.EncryptedMessage{
+			Msg:         msg,
+			MsgID:       msgID,
+			AuthKeyHash: m.authKeyHash,
+		}).Serialize(m, requireToAck)
+		if err != nil {
+			return errors.Wrap(err, "serializing message")
+		}
+
+		// запрос не требует ответа
+		if isNullableResponse(request) {
+			go func() {
+				echan <- nil
+			}()
+		} else if response != nil {
+			m.mutex.Lock()
+			m.pending[msgID] = pendingRequest{
+				response: response,
+				echan:    echan,
+			}
+			m.mutex.Unlock()
+		}
+		// этот кусок не часть кодирования так что делаем при отправке
+		m.lastSeqNo += 2
+	} else {
+		msg, err := tl.Encode(request)
+		if err != nil {
+			return err
+		}
+
+		data, err = (&serialize.UnencryptedMessage{ //nolint: errcheck нешифрованое не отправляет ошибки
+			Msg:   msg,
+			MsgID: msgID,
+		}).Serialize(m)
+		if err != nil {
+			return err
+		}
+	}
+
+	size := make([]byte, 4)
+	binary.LittleEndian.PutUint32(size, uint32(len(data)))
+	_, err = m.conn.Write(size)
+	if err != nil {
+		return errors.Wrap(err, "sending data")
+	}
+
+	_, err = m.conn.Write(data)
+	if err != nil {
+		return errors.Wrap(err, "sending request")
+	}
+
+	return <-echan
+}
+
 func (m *MTProto) sendPacketNew(request tl.Object, expectVector reflect.Type) (chan tl.Object, error) {
 	resp := make(chan tl.Object)
 	if m.serviceModeActivated {

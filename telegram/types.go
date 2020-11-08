@@ -18,7 +18,7 @@ type AccountAuthorizationForm struct {
 	Values           []*SecureValue       `validate:"required"`
 	Errors           []SecureValueError   `validate:"required"`
 	Users            []User               `validate:"required"`
-	PrivacyPolicyUrl string               `flag:"0"`
+	PrivacyPolicyUrl string               `tl:"flag:0"`
 }
 
 func (*AccountAuthorizationForm) CRC() uint32 {
@@ -45,8 +45,8 @@ func (*AccountAutoDownloadSettings) CRC() uint32 {
 
 type AccountContentSettings struct {
 	// flags position
-	SensitiveEnabled   bool `flag:"0,encoded_in_bitflags"`
-	SensitiveCanChange bool `flag:"1,encoded_in_bitflags"`
+	SensitiveEnabled   bool `tl:"flag:0,encoded_in_bitflag"`
+	SensitiveCanChange bool `tl:"flag:1,encoded_in_bitflag"`
 }
 
 func (*AccountContentSettings) CRC() uint32 {
@@ -55,14 +55,14 @@ func (*AccountContentSettings) CRC() uint32 {
 
 type AccountPassword struct {
 	// flags position
-	HasRecovery             bool                  `flag:"0,encoded_in_bitflags"`
-	HasSecureValues         bool                  `flag:"1,encoded_in_bitflags"`
-	HasPassword             bool                  `flag:"2,encoded_in_bitflags"`
-	CurrentAlgo             PasswordKdfAlgo       `flag:"2"`
-	SrpB                    []byte                `flag:"2"`
-	SrpId                   int64                 `flag:"2"`
-	Hint                    string                `flag:"3"`
-	EmailUnconfirmedPattern string                `flag:"4"`
+	HasRecovery             bool                  `tl:"flag:0,encoded_in_bitflag"`
+	HasSecureValues         bool                  `tl:"flag:1,encoded_in_bitflag"`
+	HasPassword             bool                  `tl:"flag:2,encoded_in_bitflag"`
+	CurrentAlgo             PasswordKdfAlgo       `tl:"flag:2"`
+	SrpB                    []byte                `tl:"flag:2"`
+	SrpId                   int64                 `tl:"flag:2"`
+	Hint                    string                `tl:"flag:3"`
+	EmailUnconfirmedPattern string                `tl:"flag:4"`
 	NewAlgo                 PasswordKdfAlgo       `validate:"required"`
 	NewSecureAlgo           SecurePasswordKdfAlgo `validate:"required"`
 	SecureRandom            []byte                `validate:"required"`
@@ -74,11 +74,11 @@ func (*AccountPassword) CRC() uint32 {
 
 type AccountPasswordInputSettings struct {
 	// flags position
-	NewAlgo           PasswordKdfAlgo       `flag:"0"`
-	NewPasswordHash   []byte                `flag:"0"`
-	Hint              string                `flag:"0"`
-	Email             string                `flag:"1"`
-	NewSecureSettings *SecureSecretSettings `flag:"2"`
+	NewAlgo           PasswordKdfAlgo       `tl:"flag:0"`
+	NewPasswordHash   []byte                `tl:"flag:0"`
+	Hint              string                `tl:"flag:0"`
+	Email             string                `tl:"flag:1"`
+	NewSecureSettings *SecureSecretSettings `tl:"flag:2"`
 }
 
 func (*AccountPasswordInputSettings) CRC() uint32 {
@@ -87,8 +87,8 @@ func (*AccountPasswordInputSettings) CRC() uint32 {
 
 type AccountPasswordSettings struct {
 	// flags position
-	Email          string                `flag:"0"`
-	SecureSettings *SecureSecretSettings `flag:"1"`
+	Email          string                `tl:"flag:0"`
+	SecureSettings *SecureSecretSettings `tl:"flag:1"`
 }
 
 func (*AccountPasswordSettings) CRC() uint32 {
@@ -169,8 +169,8 @@ type AuthSentCode struct {
 	// flags position
 	Type          AuthSentCodeType `validate:"required"`
 	PhoneCodeHash string           `validate:"required"`
-	NextType      AuthCodeType     `flag:"1"`
-	Timeout       int32            `flag:"2"`
+	NextType      AuthCodeType     `tl:"flag:1"`
+	Timeout       int32            `tl:"flag:2"`
 }
 
 func (*AuthSentCode) CRC() uint32 {
@@ -179,9 +179,9 @@ func (*AuthSentCode) CRC() uint32 {
 
 type Authorization struct {
 	// flags position
-	Current         bool   `flag:"0,encoded_in_bitflags"`
-	OfficialApp     bool   `flag:"1,encoded_in_bitflags"`
-	PasswordPending bool   `flag:"2,encoded_in_bitflags"`
+	Current         bool   `tl:"flag:0,encoded_in_bitflag"`
+	OfficialApp     bool   `tl:"flag:1,encoded_in_bitflag"`
+	PasswordPending bool   `tl:"flag:2,encoded_in_bitflag"`
 	Hash            int64  `validate:"required"`
 	DeviceModel     string `validate:"required"`
 	Platform        string `validate:"required"`
@@ -202,10 +202,10 @@ func (*Authorization) CRC() uint32 {
 
 type AutoDownloadSettings struct {
 	// flags position
-	Disabled              bool  `flag:"0,encoded_in_bitflags"`
-	VideoPreloadLarge     bool  `flag:"1,encoded_in_bitflags"`
-	AudioPreloadNext      bool  `flag:"2,encoded_in_bitflags"`
-	PhonecallsLessData    bool  `flag:"3,encoded_in_bitflags"`
+	Disabled              bool  `tl:"flag:0,encoded_in_bitflag"`
+	VideoPreloadLarge     bool  `tl:"flag:1,encoded_in_bitflag"`
+	AudioPreloadNext      bool  `tl:"flag:2,encoded_in_bitflag"`
+	PhonecallsLessData    bool  `tl:"flag:3,encoded_in_bitflag"`
 	PhotoSizeMax          int32 `validate:"required"`
 	VideoSizeMax          int32 `validate:"required"`
 	FileSizeMax           int32 `validate:"required"`
@@ -274,20 +274,20 @@ func (*ChannelAdminLogEvent) CRC() uint32 {
 
 type ChannelAdminLogEventsFilter struct {
 	// flags position
-	Join     bool `flag:"0,encoded_in_bitflags"`
-	Leave    bool `flag:"1,encoded_in_bitflags"`
-	Invite   bool `flag:"2,encoded_in_bitflags"`
-	Ban      bool `flag:"3,encoded_in_bitflags"`
-	Unban    bool `flag:"4,encoded_in_bitflags"`
-	Kick     bool `flag:"5,encoded_in_bitflags"`
-	Unkick   bool `flag:"6,encoded_in_bitflags"`
-	Promote  bool `flag:"7,encoded_in_bitflags"`
-	Demote   bool `flag:"8,encoded_in_bitflags"`
-	Info     bool `flag:"9,encoded_in_bitflags"`
-	Settings bool `flag:"10,encoded_in_bitflags"`
-	Pinned   bool `flag:"11,encoded_in_bitflags"`
-	Edit     bool `flag:"12,encoded_in_bitflags"`
-	Delete   bool `flag:"13,encoded_in_bitflags"`
+	Join     bool `tl:"flag:0,encoded_in_bitflag"`
+	Leave    bool `tl:"flag:1,encoded_in_bitflag"`
+	Invite   bool `tl:"flag:2,encoded_in_bitflag"`
+	Ban      bool `tl:"flag:3,encoded_in_bitflag"`
+	Unban    bool `tl:"flag:4,encoded_in_bitflag"`
+	Kick     bool `tl:"flag:5,encoded_in_bitflag"`
+	Unkick   bool `tl:"flag:6,encoded_in_bitflag"`
+	Promote  bool `tl:"flag:7,encoded_in_bitflag"`
+	Demote   bool `tl:"flag:8,encoded_in_bitflag"`
+	Info     bool `tl:"flag:9,encoded_in_bitflag"`
+	Settings bool `tl:"flag:10,encoded_in_bitflag"`
+	Pinned   bool `tl:"flag:11,encoded_in_bitflag"`
+	Edit     bool `tl:"flag:12,encoded_in_bitflag"`
+	Delete   bool `tl:"flag:13,encoded_in_bitflag"`
 }
 
 func (*ChannelAdminLogEventsFilter) CRC() uint32 {
@@ -315,14 +315,14 @@ func (*ChannelsChannelParticipant) CRC() uint32 {
 
 type ChatAdminRights struct {
 	// flags position
-	ChangeInfo     bool `flag:"0,encoded_in_bitflags"`
-	PostMessages   bool `flag:"1,encoded_in_bitflags"`
-	EditMessages   bool `flag:"2,encoded_in_bitflags"`
-	DeleteMessages bool `flag:"3,encoded_in_bitflags"`
-	BanUsers       bool `flag:"4,encoded_in_bitflags"`
-	InviteUsers    bool `flag:"5,encoded_in_bitflags"`
-	PinMessages    bool `flag:"7,encoded_in_bitflags"`
-	AddAdmins      bool `flag:"9,encoded_in_bitflags"`
+	ChangeInfo     bool `tl:"flag:0,encoded_in_bitflag"`
+	PostMessages   bool `tl:"flag:1,encoded_in_bitflag"`
+	EditMessages   bool `tl:"flag:2,encoded_in_bitflag"`
+	DeleteMessages bool `tl:"flag:3,encoded_in_bitflag"`
+	BanUsers       bool `tl:"flag:4,encoded_in_bitflag"`
+	InviteUsers    bool `tl:"flag:5,encoded_in_bitflag"`
+	PinMessages    bool `tl:"flag:7,encoded_in_bitflag"`
+	AddAdmins      bool `tl:"flag:9,encoded_in_bitflag"`
 }
 
 func (*ChatAdminRights) CRC() uint32 {
@@ -331,18 +331,18 @@ func (*ChatAdminRights) CRC() uint32 {
 
 type ChatBannedRights struct {
 	// flags position
-	ViewMessages bool  `flag:"0,encoded_in_bitflags"`
-	SendMessages bool  `flag:"1,encoded_in_bitflags"`
-	SendMedia    bool  `flag:"2,encoded_in_bitflags"`
-	SendStickers bool  `flag:"3,encoded_in_bitflags"`
-	SendGifs     bool  `flag:"4,encoded_in_bitflags"`
-	SendGames    bool  `flag:"5,encoded_in_bitflags"`
-	SendInline   bool  `flag:"6,encoded_in_bitflags"`
-	EmbedLinks   bool  `flag:"7,encoded_in_bitflags"`
-	SendPolls    bool  `flag:"8,encoded_in_bitflags"`
-	ChangeInfo   bool  `flag:"10,encoded_in_bitflags"`
-	InviteUsers  bool  `flag:"15,encoded_in_bitflags"`
-	PinMessages  bool  `flag:"17,encoded_in_bitflags"`
+	ViewMessages bool  `tl:"flag:0,encoded_in_bitflag"`
+	SendMessages bool  `tl:"flag:1,encoded_in_bitflag"`
+	SendMedia    bool  `tl:"flag:2,encoded_in_bitflag"`
+	SendStickers bool  `tl:"flag:3,encoded_in_bitflag"`
+	SendGifs     bool  `tl:"flag:4,encoded_in_bitflag"`
+	SendGames    bool  `tl:"flag:5,encoded_in_bitflag"`
+	SendInline   bool  `tl:"flag:6,encoded_in_bitflag"`
+	EmbedLinks   bool  `tl:"flag:7,encoded_in_bitflag"`
+	SendPolls    bool  `tl:"flag:8,encoded_in_bitflag"`
+	ChangeInfo   bool  `tl:"flag:10,encoded_in_bitflag"`
+	InviteUsers  bool  `tl:"flag:15,encoded_in_bitflag"`
+	PinMessages  bool  `tl:"flag:17,encoded_in_bitflag"`
 	UntilDate    int32 `validate:"required"`
 }
 
@@ -360,9 +360,9 @@ func (*ChatOnlines) CRC() uint32 {
 
 type CodeSettings struct {
 	// flags position
-	AllowFlashcall bool `flag:"0,encoded_in_bitflags"`
-	CurrentNumber  bool `flag:"1,encoded_in_bitflags"`
-	AllowAppHash   bool `flag:"4,encoded_in_bitflags"`
+	AllowFlashcall bool `tl:"flag:0,encoded_in_bitflag"`
+	CurrentNumber  bool `tl:"flag:1,encoded_in_bitflag"`
+	AllowAppHash   bool `tl:"flag:4,encoded_in_bitflag"`
 }
 
 func (*CodeSettings) CRC() uint32 {
@@ -371,13 +371,13 @@ func (*CodeSettings) CRC() uint32 {
 
 type Config struct {
 	// flags position
-	PhonecallsEnabled       bool        `flag:"1,encoded_in_bitflags"`
-	DefaultP2PContacts      bool        `flag:"3,encoded_in_bitflags"`
-	PreloadFeaturedStickers bool        `flag:"4,encoded_in_bitflags"`
-	IgnorePhoneEntities     bool        `flag:"5,encoded_in_bitflags"`
-	RevokePmInbox           bool        `flag:"6,encoded_in_bitflags"`
-	BlockedMode             bool        `flag:"8,encoded_in_bitflags"`
-	PfsEnabled              bool        `flag:"13,encoded_in_bitflags"`
+	PhonecallsEnabled       bool        `tl:"flag:1,encoded_in_bitflag"`
+	DefaultP2PContacts      bool        `tl:"flag:3,encoded_in_bitflag"`
+	PreloadFeaturedStickers bool        `tl:"flag:4,encoded_in_bitflag"`
+	IgnorePhoneEntities     bool        `tl:"flag:5,encoded_in_bitflag"`
+	RevokePmInbox           bool        `tl:"flag:6,encoded_in_bitflag"`
+	BlockedMode             bool        `tl:"flag:8,encoded_in_bitflag"`
+	PfsEnabled              bool        `tl:"flag:13,encoded_in_bitflag"`
 	Date                    int32       `validate:"required"`
 	Expires                 int32       `validate:"required"`
 	TestMode                bool        `validate:"required"`
@@ -403,7 +403,7 @@ type Config struct {
 	StickersRecentLimit     int32       `validate:"required"`
 	StickersFavedLimit      int32       `validate:"required"`
 	ChannelsReadMediaPeriod int32       `validate:"required"`
-	TmpSessions             int32       `flag:"0"`
+	TmpSessions             int32       `tl:"flag:0"`
 	PinnedDialogsCountMax   int32       `validate:"required"`
 	PinnedInfolderCountMax  int32       `validate:"required"`
 	CallReceiveTimeoutMs    int32       `validate:"required"`
@@ -411,17 +411,17 @@ type Config struct {
 	CallConnectTimeoutMs    int32       `validate:"required"`
 	CallPacketTimeoutMs     int32       `validate:"required"`
 	MeUrlPrefix             string      `validate:"required"`
-	AutoupdateUrlPrefix     string      `flag:"7"`
-	GifSearchUsername       string      `flag:"9"`
-	VenueSearchUsername     string      `flag:"10"`
-	ImgSearchUsername       string      `flag:"11"`
-	StaticMapsProvider      string      `flag:"12"`
+	AutoupdateUrlPrefix     string      `tl:"flag:7"`
+	GifSearchUsername       string      `tl:"flag:9"`
+	VenueSearchUsername     string      `tl:"flag:10"`
+	ImgSearchUsername       string      `tl:"flag:11"`
+	StaticMapsProvider      string      `tl:"flag:12"`
 	CaptionLengthMax        int32       `validate:"required"`
 	MessageLengthMax        int32       `validate:"required"`
 	WebfileDcId             int32       `validate:"required"`
-	SuggestedLangCode       string      `flag:"2"`
-	LangPackVersion         int32       `flag:"2"`
-	BaseLangPackVersion     int32       `flag:"2"`
+	SuggestedLangCode       string      `tl:"flag:2"`
+	LangPackVersion         int32       `tl:"flag:2"`
+	BaseLangPackVersion     int32       `tl:"flag:2"`
 }
 
 func (*Config) CRC() uint32 {
@@ -497,15 +497,15 @@ func (*DataJSON) CRC() uint32 {
 
 type DcOption struct {
 	// flags position
-	Ipv6      bool   `flag:"0,encoded_in_bitflags"`
-	MediaOnly bool   `flag:"1,encoded_in_bitflags"`
-	TcpoOnly  bool   `flag:"2,encoded_in_bitflags"`
-	Cdn       bool   `flag:"3,encoded_in_bitflags"`
-	Static    bool   `flag:"4,encoded_in_bitflags"`
+	Ipv6      bool   `tl:"flag:0,encoded_in_bitflag"`
+	MediaOnly bool   `tl:"flag:1,encoded_in_bitflag"`
+	TcpoOnly  bool   `tl:"flag:2,encoded_in_bitflag"`
+	Cdn       bool   `tl:"flag:3,encoded_in_bitflag"`
+	Static    bool   `tl:"flag:4,encoded_in_bitflag"`
 	Id        int32  `validate:"required"`
 	IpAddress string `validate:"required"`
 	Port      int32  `validate:"required"`
-	Secret    []byte `flag:"10"`
+	Secret    []byte `tl:"flag:10"`
 }
 
 func (*DcOption) CRC() uint32 {
@@ -514,17 +514,17 @@ func (*DcOption) CRC() uint32 {
 
 type DialogFilter struct {
 	// flags position
-	Contacts        bool        `flag:"0,encoded_in_bitflags"`
-	NonContacts     bool        `flag:"1,encoded_in_bitflags"`
-	Groups          bool        `flag:"2,encoded_in_bitflags"`
-	Broadcasts      bool        `flag:"3,encoded_in_bitflags"`
-	Bots            bool        `flag:"4,encoded_in_bitflags"`
-	ExcludeMuted    bool        `flag:"11,encoded_in_bitflags"`
-	ExcludeRead     bool        `flag:"12,encoded_in_bitflags"`
-	ExcludeArchived bool        `flag:"13,encoded_in_bitflags"`
+	Contacts        bool        `tl:"flag:0,encoded_in_bitflag"`
+	NonContacts     bool        `tl:"flag:1,encoded_in_bitflag"`
+	Groups          bool        `tl:"flag:2,encoded_in_bitflag"`
+	Broadcasts      bool        `tl:"flag:3,encoded_in_bitflag"`
+	Bots            bool        `tl:"flag:4,encoded_in_bitflag"`
+	ExcludeMuted    bool        `tl:"flag:11,encoded_in_bitflag"`
+	ExcludeRead     bool        `tl:"flag:12,encoded_in_bitflag"`
+	ExcludeArchived bool        `tl:"flag:13,encoded_in_bitflag"`
 	Id              int32       `validate:"required"`
 	Title           string      `validate:"required"`
-	Emoticon        string      `flag:"25"`
+	Emoticon        string      `tl:"flag:25"`
 	PinnedPeers     []InputPeer `validate:"required"`
 	IncludePeers    []InputPeer `validate:"required"`
 	ExcludePeers    []InputPeer `validate:"required"`
@@ -609,12 +609,12 @@ func (*FileLocation) CRC() uint32 {
 
 type Folder struct {
 	// flags position
-	AutofillNewBroadcasts     bool      `flag:"0,encoded_in_bitflags"`
-	AutofillPublicGroups      bool      `flag:"1,encoded_in_bitflags"`
-	AutofillNewCorrespondents bool      `flag:"2,encoded_in_bitflags"`
+	AutofillNewBroadcasts     bool      `tl:"flag:0,encoded_in_bitflag"`
+	AutofillPublicGroups      bool      `tl:"flag:1,encoded_in_bitflag"`
+	AutofillNewCorrespondents bool      `tl:"flag:2,encoded_in_bitflag"`
 	Id                        int32     `validate:"required"`
 	Title                     string    `validate:"required"`
-	Photo                     ChatPhoto `flag:"3"`
+	Photo                     ChatPhoto `tl:"flag:3"`
 }
 
 func (*Folder) CRC() uint32 {
@@ -638,7 +638,7 @@ type Game struct {
 	Title       string   `validate:"required"`
 	Description string   `validate:"required"`
 	Photo       Photo    `validate:"required"`
-	Document    Document `flag:"0"`
+	Document    Document `tl:"flag:0"`
 }
 
 func (*Game) CRC() uint32 {
@@ -647,7 +647,7 @@ func (*Game) CRC() uint32 {
 
 type GlobalPrivacySettings struct {
 	// flags position
-	ArchiveAndMuteNewNoncontactPeers bool `flag:"0"`
+	ArchiveAndMuteNewNoncontactPeers bool `tl:"flag:0"`
 }
 
 func (*GlobalPrivacySettings) CRC() uint32 {
@@ -701,11 +701,11 @@ func (*HelpSupportName) CRC() uint32 {
 
 type HelpTermsOfService struct {
 	// flags position
-	Popup         bool            `flag:"0,encoded_in_bitflags"`
+	Popup         bool            `tl:"flag:0,encoded_in_bitflag"`
 	Id            *DataJSON       `validate:"required"`
 	Text          string          `validate:"required"`
 	Entities      []MessageEntity `validate:"required"`
-	MinAgeConfirm int32           `flag:"1"`
+	MinAgeConfirm int32           `tl:"flag:1"`
 }
 
 func (*HelpTermsOfService) CRC() uint32 {
@@ -790,10 +790,10 @@ func (*InputFolderPeer) CRC() uint32 {
 
 type InputPeerNotifySettings struct {
 	// flags position
-	ShowPreviews bool   `flag:"0"`
-	Silent       bool   `flag:"1"`
-	MuteUntil    int32  `flag:"2"`
-	Sound        string `flag:"3"`
+	ShowPreviews bool   `tl:"flag:0"`
+	Silent       bool   `tl:"flag:1"`
+	MuteUntil    int32  `tl:"flag:2"`
+	Sound        string `tl:"flag:3"`
 }
 
 func (*InputPeerNotifySettings) CRC() uint32 {
@@ -823,13 +823,13 @@ func (*InputContact) CRC() uint32 {
 type InputSecureValue struct {
 	// flags position
 	Type        SecureValueType   `validate:"required"`
-	Data        *SecureData       `flag:"0"`
-	FrontSide   InputSecureFile   `flag:"1"`
-	ReverseSide InputSecureFile   `flag:"2"`
-	Selfie      InputSecureFile   `flag:"3"`
-	Translation []InputSecureFile `flag:"6"`
-	Files       []InputSecureFile `flag:"4"`
-	PlainData   SecurePlainData   `flag:"5"`
+	Data        *SecureData       `tl:"flag:0"`
+	FrontSide   InputSecureFile   `tl:"flag:1"`
+	ReverseSide InputSecureFile   `tl:"flag:2"`
+	Selfie      InputSecureFile   `tl:"flag:3"`
+	Translation []InputSecureFile `tl:"flag:6"`
+	Files       []InputSecureFile `tl:"flag:4"`
+	PlainData   SecurePlainData   `tl:"flag:5"`
 }
 
 func (*InputSecureValue) CRC() uint32 {
@@ -841,7 +841,7 @@ type InputSingleMedia struct {
 	Media    InputMedia      `validate:"required"`
 	RandomId int64           `validate:"required"`
 	Message  string          `validate:"required"`
-	Entities []MessageEntity `flag:"0"`
+	Entities []MessageEntity `tl:"flag:0"`
 }
 
 func (*InputSingleMedia) CRC() uint32 {
@@ -852,7 +852,7 @@ type InputStickerSetItem struct {
 	// flags position
 	Document   InputDocument `validate:"required"`
 	Emoji      string        `validate:"required"`
-	MaskCoords *MaskCoords   `flag:"0"`
+	MaskCoords *MaskCoords   `tl:"flag:0"`
 }
 
 func (*InputStickerSetItem) CRC() uint32 {
@@ -863,10 +863,10 @@ type InputThemeSettings struct {
 	// flags position
 	BaseTheme          BaseTheme          `validate:"required"`
 	AccentColor        int32              `validate:"required"`
-	MessageTopColor    int32              `flag:"0"`
-	MessageBottomColor int32              `flag:"0"`
-	Wallpaper          InputWallPaper     `flag:"1"`
-	WallpaperSettings  *WallPaperSettings `flag:"1"`
+	MessageTopColor    int32              `tl:"flag:0"`
+	MessageBottomColor int32              `tl:"flag:0"`
+	Wallpaper          InputWallPaper     `tl:"flag:1"`
+	WallpaperSettings  *WallPaperSettings `tl:"flag:1"`
 }
 
 func (*InputThemeSettings) CRC() uint32 {
@@ -886,14 +886,14 @@ func (*InputWebDocument) CRC() uint32 {
 
 type Invoice struct {
 	// flags position
-	Test                     bool            `flag:"0,encoded_in_bitflags"`
-	NameRequested            bool            `flag:"1,encoded_in_bitflags"`
-	PhoneRequested           bool            `flag:"2,encoded_in_bitflags"`
-	EmailRequested           bool            `flag:"3,encoded_in_bitflags"`
-	ShippingAddressRequested bool            `flag:"4,encoded_in_bitflags"`
-	Flexible                 bool            `flag:"5,encoded_in_bitflags"`
-	PhoneToProvider          bool            `flag:"6,encoded_in_bitflags"`
-	EmailToProvider          bool            `flag:"7,encoded_in_bitflags"`
+	Test                     bool            `tl:"flag:0,encoded_in_bitflag"`
+	NameRequested            bool            `tl:"flag:1,encoded_in_bitflag"`
+	PhoneRequested           bool            `tl:"flag:2,encoded_in_bitflag"`
+	EmailRequested           bool            `tl:"flag:3,encoded_in_bitflag"`
+	ShippingAddressRequested bool            `tl:"flag:4,encoded_in_bitflag"`
+	Flexible                 bool            `tl:"flag:5,encoded_in_bitflag"`
+	PhoneToProvider          bool            `tl:"flag:6,encoded_in_bitflag"`
+	EmailToProvider          bool            `tl:"flag:7,encoded_in_bitflag"`
 	Currency                 string          `validate:"required"`
 	Prices                   []*LabeledPrice `validate:"required"`
 }
@@ -941,13 +941,13 @@ func (*LangPackDifference) CRC() uint32 {
 
 type LangPackLanguage struct {
 	// flags position
-	Official        bool   `flag:"0,encoded_in_bitflags"`
-	Rtl             bool   `flag:"2,encoded_in_bitflags"`
-	Beta            bool   `flag:"3,encoded_in_bitflags"`
+	Official        bool   `tl:"flag:0,encoded_in_bitflag"`
+	Rtl             bool   `tl:"flag:2,encoded_in_bitflag"`
+	Beta            bool   `tl:"flag:3,encoded_in_bitflag"`
 	Name            string `validate:"required"`
 	NativeName      string `validate:"required"`
 	LangCode        string `validate:"required"`
-	BaseLangCode    string `flag:"1"`
+	BaseLangCode    string `tl:"flag:1"`
 	PluralCode      string `validate:"required"`
 	StringsCount    int32  `validate:"required"`
 	TranslatedCount int32  `validate:"required"`
@@ -971,15 +971,15 @@ func (*MaskCoords) CRC() uint32 {
 
 type MessageFwdHeader struct {
 	// flags position
-	FromId         int32  `flag:"0"`
-	FromName       string `flag:"5"`
+	FromId         int32  `tl:"flag:0"`
+	FromName       string `tl:"flag:5"`
 	Date           int32  `validate:"required"`
-	ChannelId      int32  `flag:"1"`
-	ChannelPost    int32  `flag:"2"`
-	PostAuthor     string `flag:"3"`
-	SavedFromPeer  Peer   `flag:"4"`
-	SavedFromMsgId int32  `flag:"4"`
-	PsaType        string `flag:"6"`
+	ChannelId      int32  `tl:"flag:1"`
+	ChannelPost    int32  `tl:"flag:2"`
+	PostAuthor     string `tl:"flag:3"`
+	SavedFromPeer  Peer   `tl:"flag:4"`
+	SavedFromMsgId int32  `tl:"flag:4"`
+	PsaType        string `tl:"flag:6"`
 }
 
 func (*MessageFwdHeader) CRC() uint32 {
@@ -1035,11 +1035,11 @@ func (*MessagesArchivedStickers) CRC() uint32 {
 
 type MessagesBotCallbackAnswer struct {
 	// flags position
-	Alert     bool   `flag:"1,encoded_in_bitflags"`
-	HasUrl    bool   `flag:"3,encoded_in_bitflags"`
-	NativeUi  bool   `flag:"4,encoded_in_bitflags"`
-	Message   string `flag:"0"`
-	Url       string `flag:"2"`
+	Alert     bool   `tl:"flag:1,encoded_in_bitflag"`
+	HasUrl    bool   `tl:"flag:3,encoded_in_bitflag"`
+	NativeUi  bool   `tl:"flag:4,encoded_in_bitflag"`
+	Message   string `tl:"flag:0"`
+	Url       string `tl:"flag:2"`
 	CacheTime int32  `validate:"required"`
 }
 
@@ -1049,10 +1049,10 @@ func (*MessagesBotCallbackAnswer) CRC() uint32 {
 
 type MessagesBotResults struct {
 	// flags position
-	Gallery    bool               `flag:"0,encoded_in_bitflags"`
+	Gallery    bool               `tl:"flag:0,encoded_in_bitflag"`
 	QueryId    int64              `validate:"required"`
-	NextOffset string             `flag:"1"`
-	SwitchPm   *InlineBotSwitchPM `flag:"2"`
+	NextOffset string             `tl:"flag:1"`
+	SwitchPm   *InlineBotSwitchPM `tl:"flag:2"`
 	Results    []BotInlineResult  `validate:"required"`
 	CacheTime  int32              `validate:"required"`
 	Users      []User             `validate:"required"`
@@ -1093,7 +1093,7 @@ func (*MessagesInactiveChats) CRC() uint32 {
 
 type MessagesMessageEditData struct {
 	// flags position
-	Caption bool `flag:"0,encoded_in_bitflags"`
+	Caption bool `tl:"flag:0,encoded_in_bitflag"`
 }
 
 func (*MessagesMessageEditData) CRC() uint32 {
@@ -1114,7 +1114,7 @@ func (*MessagesPeerDialogs) CRC() uint32 {
 
 type MessagesSearchCounter struct {
 	// flags position
-	Inexact bool           `flag:"1,encoded_in_bitflags"`
+	Inexact bool           `tl:"flag:1,encoded_in_bitflag"`
 	Filter  MessagesFilter `validate:"required"`
 	Count   int32          `validate:"required"`
 }
@@ -1138,7 +1138,7 @@ type MessagesVotesList struct {
 	Count      int32             `validate:"required"`
 	Votes      []MessageUserVote `validate:"required"`
 	Users      []User            `validate:"required"`
-	NextOffset string            `flag:"0"`
+	NextOffset string            `tl:"flag:0"`
 }
 
 func (*MessagesVotesList) CRC() uint32 {
@@ -1157,14 +1157,14 @@ func (*NearestDc) CRC() uint32 {
 
 type Page struct {
 	// flags position
-	Part      bool        `flag:"0,encoded_in_bitflags"`
-	Rtl       bool        `flag:"1,encoded_in_bitflags"`
-	V2        bool        `flag:"2,encoded_in_bitflags"`
+	Part      bool        `tl:"flag:0,encoded_in_bitflag"`
+	Rtl       bool        `tl:"flag:1,encoded_in_bitflag"`
+	V2        bool        `tl:"flag:2,encoded_in_bitflag"`
 	Url       string      `validate:"required"`
 	Blocks    []PageBlock `validate:"required"`
 	Photos    []Photo     `validate:"required"`
 	Documents []Document  `validate:"required"`
-	Views     int32       `flag:"3"`
+	Views     int32       `tl:"flag:3"`
 }
 
 func (*Page) CRC() uint32 {
@@ -1184,11 +1184,11 @@ type PageRelatedArticle struct {
 	// flags position
 	Url           string `validate:"required"`
 	WebpageId     int64  `validate:"required"`
-	Title         string `flag:"0"`
-	Description   string `flag:"1"`
-	PhotoId       int64  `flag:"2"`
-	Author        string `flag:"3"`
-	PublishedDate int32  `flag:"4"`
+	Title         string `tl:"flag:0"`
+	Description   string `tl:"flag:1"`
+	PhotoId       int64  `tl:"flag:2"`
+	Author        string `tl:"flag:3"`
+	PublishedDate int32  `tl:"flag:4"`
 }
 
 func (*PageRelatedArticle) CRC() uint32 {
@@ -1197,14 +1197,14 @@ func (*PageRelatedArticle) CRC() uint32 {
 
 type PageTableCell struct {
 	// flags position
-	Header       bool     `flag:"0,encoded_in_bitflags"`
-	AlignCenter  bool     `flag:"3,encoded_in_bitflags"`
-	AlignRight   bool     `flag:"4,encoded_in_bitflags"`
-	ValignMiddle bool     `flag:"5,encoded_in_bitflags"`
-	ValignBottom bool     `flag:"6,encoded_in_bitflags"`
-	Text         RichText `flag:"7"`
-	Colspan      int32    `flag:"1"`
-	Rowspan      int32    `flag:"2"`
+	Header       bool     `tl:"flag:0,encoded_in_bitflag"`
+	AlignCenter  bool     `tl:"flag:3,encoded_in_bitflag"`
+	AlignRight   bool     `tl:"flag:4,encoded_in_bitflag"`
+	ValignMiddle bool     `tl:"flag:5,encoded_in_bitflag"`
+	ValignBottom bool     `tl:"flag:6,encoded_in_bitflag"`
+	Text         RichText `tl:"flag:7"`
+	Colspan      int32    `tl:"flag:1"`
+	Rowspan      int32    `tl:"flag:2"`
 }
 
 func (*PageTableCell) CRC() uint32 {
@@ -1230,10 +1230,10 @@ func (*PaymentCharge) CRC() uint32 {
 
 type PaymentRequestedInfo struct {
 	// flags position
-	Name            string       `flag:"0"`
-	Phone           string       `flag:"1"`
-	Email           string       `flag:"2"`
-	ShippingAddress *PostAddress `flag:"3"`
+	Name            string       `tl:"flag:0"`
+	Phone           string       `tl:"flag:1"`
+	Email           string       `tl:"flag:2"`
+	ShippingAddress *PostAddress `tl:"flag:3"`
 }
 
 func (*PaymentRequestedInfo) CRC() uint32 {
@@ -1260,16 +1260,16 @@ func (*PaymentsBankCardData) CRC() uint32 {
 
 type PaymentsPaymentForm struct {
 	// flags position
-	CanSaveCredentials bool                     `flag:"2,encoded_in_bitflags"`
-	PasswordMissing    bool                     `flag:"3,encoded_in_bitflags"`
+	CanSaveCredentials bool                     `tl:"flag:2,encoded_in_bitflag"`
+	PasswordMissing    bool                     `tl:"flag:3,encoded_in_bitflag"`
 	BotId              int32                    `validate:"required"`
 	Invoice            *Invoice                 `validate:"required"`
 	ProviderId         int32                    `validate:"required"`
 	Url                string                   `validate:"required"`
-	NativeProvider     string                   `flag:"4"`
-	NativeParams       *DataJSON                `flag:"4"`
-	SavedInfo          *PaymentRequestedInfo    `flag:"0"`
-	SavedCredentials   *PaymentSavedCredentials `flag:"1"`
+	NativeProvider     string                   `tl:"flag:4"`
+	NativeParams       *DataJSON                `tl:"flag:4"`
+	SavedInfo          *PaymentRequestedInfo    `tl:"flag:0"`
+	SavedCredentials   *PaymentSavedCredentials `tl:"flag:1"`
 	Users              []User                   `validate:"required"`
 }
 
@@ -1283,8 +1283,8 @@ type PaymentsPaymentReceipt struct {
 	BotId            int32                 `validate:"required"`
 	Invoice          *Invoice              `validate:"required"`
 	ProviderId       int32                 `validate:"required"`
-	Info             *PaymentRequestedInfo `flag:"0"`
-	Shipping         *ShippingOption       `flag:"1"`
+	Info             *PaymentRequestedInfo `tl:"flag:0"`
+	Shipping         *ShippingOption       `tl:"flag:1"`
 	Currency         string                `validate:"required"`
 	TotalAmount      int64                 `validate:"required"`
 	CredentialsTitle string                `validate:"required"`
@@ -1297,8 +1297,8 @@ func (*PaymentsPaymentReceipt) CRC() uint32 {
 
 type PaymentsSavedInfo struct {
 	// flags position
-	HasSavedCredentials bool                  `flag:"1,encoded_in_bitflags"`
-	SavedInfo           *PaymentRequestedInfo `flag:"0"`
+	HasSavedCredentials bool                  `tl:"flag:1,encoded_in_bitflag"`
+	SavedInfo           *PaymentRequestedInfo `tl:"flag:0"`
 }
 
 func (*PaymentsSavedInfo) CRC() uint32 {
@@ -1307,8 +1307,8 @@ func (*PaymentsSavedInfo) CRC() uint32 {
 
 type PaymentsValidatedRequestedInfo struct {
 	// flags position
-	Id              string            `flag:"0"`
-	ShippingOptions []*ShippingOption `flag:"1"`
+	Id              string            `tl:"flag:0"`
+	ShippingOptions []*ShippingOption `tl:"flag:1"`
 }
 
 func (*PaymentsValidatedRequestedInfo) CRC() uint32 {
@@ -1317,10 +1317,10 @@ func (*PaymentsValidatedRequestedInfo) CRC() uint32 {
 
 type PeerNotifySettings struct {
 	// flags position
-	ShowPreviews bool   `flag:"0"`
-	Silent       bool   `flag:"1"`
-	MuteUntil    int32  `flag:"2"`
-	Sound        string `flag:"3"`
+	ShowPreviews bool   `tl:"flag:0"`
+	Silent       bool   `tl:"flag:1"`
+	MuteUntil    int32  `tl:"flag:2"`
+	Sound        string `tl:"flag:3"`
 }
 
 func (*PeerNotifySettings) CRC() uint32 {
@@ -1329,14 +1329,14 @@ func (*PeerNotifySettings) CRC() uint32 {
 
 type PeerSettings struct {
 	// flags position
-	ReportSpam            bool  `flag:"0,encoded_in_bitflags"`
-	AddContact            bool  `flag:"1,encoded_in_bitflags"`
-	BlockContact          bool  `flag:"2,encoded_in_bitflags"`
-	ShareContact          bool  `flag:"3,encoded_in_bitflags"`
-	NeedContactsException bool  `flag:"4,encoded_in_bitflags"`
-	ReportGeo             bool  `flag:"5,encoded_in_bitflags"`
-	Autoarchived          bool  `flag:"7,encoded_in_bitflags"`
-	GeoDistance           int32 `flag:"6"`
+	ReportSpam            bool  `tl:"flag:0,encoded_in_bitflag"`
+	AddContact            bool  `tl:"flag:1,encoded_in_bitflag"`
+	BlockContact          bool  `tl:"flag:2,encoded_in_bitflag"`
+	ShareContact          bool  `tl:"flag:3,encoded_in_bitflag"`
+	NeedContactsException bool  `tl:"flag:4,encoded_in_bitflag"`
+	ReportGeo             bool  `tl:"flag:5,encoded_in_bitflag"`
+	Autoarchived          bool  `tl:"flag:7,encoded_in_bitflag"`
+	GeoDistance           int32 `tl:"flag:6"`
 }
 
 func (*PeerSettings) CRC() uint32 {
@@ -1354,8 +1354,8 @@ func (*PhonePhoneCall) CRC() uint32 {
 
 type PhoneCallProtocol struct {
 	// flags position
-	UdpP2P          bool     `flag:"0,encoded_in_bitflags"`
-	UdpReflector    bool     `flag:"1,encoded_in_bitflags"`
+	UdpP2P          bool     `tl:"flag:0,encoded_in_bitflag"`
+	UdpReflector    bool     `tl:"flag:1,encoded_in_bitflag"`
 	MinLayer        int32    `validate:"required"`
 	MaxLayer        int32    `validate:"required"`
 	LibraryVersions []string `validate:"required"`
@@ -1377,14 +1377,14 @@ func (*PhotosPhoto) CRC() uint32 {
 type Poll struct {
 	Id int64 `validate:"required"`
 	// flags position
-	Closed         bool          `flag:"0,encoded_in_bitflags"`
-	PublicVoters   bool          `flag:"1,encoded_in_bitflags"`
-	MultipleChoice bool          `flag:"2,encoded_in_bitflags"`
-	Quiz           bool          `flag:"3,encoded_in_bitflags"`
+	Closed         bool          `tl:"flag:0,encoded_in_bitflag"`
+	PublicVoters   bool          `tl:"flag:1,encoded_in_bitflag"`
+	MultipleChoice bool          `tl:"flag:2,encoded_in_bitflag"`
+	Quiz           bool          `tl:"flag:3,encoded_in_bitflag"`
 	Question       string        `validate:"required"`
 	Answers        []*PollAnswer `validate:"required"`
-	ClosePeriod    int32         `flag:"4"`
-	CloseDate      int32         `flag:"5"`
+	ClosePeriod    int32         `tl:"flag:4"`
+	CloseDate      int32         `tl:"flag:5"`
 }
 
 func (*Poll) CRC() uint32 {
@@ -1402,8 +1402,8 @@ func (*PollAnswer) CRC() uint32 {
 
 type PollAnswerVoters struct {
 	// flags position
-	Chosen  bool   `flag:"0,encoded_in_bitflags"`
-	Correct bool   `flag:"1,encoded_in_bitflags"`
+	Chosen  bool   `tl:"flag:0,encoded_in_bitflag"`
+	Correct bool   `tl:"flag:1,encoded_in_bitflag"`
 	Option  []byte `validate:"required"`
 	Voters  int32  `validate:"required"`
 }
@@ -1414,12 +1414,12 @@ func (*PollAnswerVoters) CRC() uint32 {
 
 type PollResults struct {
 	// flags position
-	Min              bool                `flag:"0,encoded_in_bitflags"`
-	Results          []*PollAnswerVoters `flag:"1"`
-	TotalVoters      int32               `flag:"2"`
-	RecentVoters     []int32             `flag:"3"`
-	Solution         string              `flag:"4"`
-	SolutionEntities []MessageEntity     `flag:"4"`
+	Min              bool                `tl:"flag:0,encoded_in_bitflag"`
+	Results          []*PollAnswerVoters `tl:"flag:1"`
+	TotalVoters      int32               `tl:"flag:2"`
+	RecentVoters     []int32             `tl:"flag:3"`
+	Solution         string              `tl:"flag:4"`
+	SolutionEntities []MessageEntity     `tl:"flag:4"`
 }
 
 func (*PollResults) CRC() uint32 {
@@ -1511,13 +1511,13 @@ func (*SecureSecretSettings) CRC() uint32 {
 type SecureValue struct {
 	// flags position
 	Type        SecureValueType `validate:"required"`
-	Data        *SecureData     `flag:"0"`
-	FrontSide   SecureFile      `flag:"1"`
-	ReverseSide SecureFile      `flag:"2"`
-	Selfie      SecureFile      `flag:"3"`
-	Translation []SecureFile    `flag:"6"`
-	Files       []SecureFile    `flag:"4"`
-	PlainData   SecurePlainData `flag:"5"`
+	Data        *SecureData     `tl:"flag:0"`
+	FrontSide   SecureFile      `tl:"flag:1"`
+	ReverseSide SecureFile      `tl:"flag:2"`
+	Selfie      SecureFile      `tl:"flag:3"`
+	Translation []SecureFile    `tl:"flag:6"`
+	Files       []SecureFile    `tl:"flag:4"`
+	PlainData   SecurePlainData `tl:"flag:5"`
 	Hash        []byte          `validate:"required"`
 }
 
@@ -1666,17 +1666,17 @@ func (*StickerPack) CRC() uint32 {
 
 type StickerSet struct {
 	// flags position
-	Archived      bool      `flag:"1,encoded_in_bitflags"`
-	Official      bool      `flag:"2,encoded_in_bitflags"`
-	Masks         bool      `flag:"3,encoded_in_bitflags"`
-	Animated      bool      `flag:"5,encoded_in_bitflags"`
-	InstalledDate int32     `flag:"0"`
+	Archived      bool      `tl:"flag:1,encoded_in_bitflag"`
+	Official      bool      `tl:"flag:2,encoded_in_bitflag"`
+	Masks         bool      `tl:"flag:3,encoded_in_bitflag"`
+	Animated      bool      `tl:"flag:5,encoded_in_bitflag"`
+	InstalledDate int32     `tl:"flag:0"`
 	Id            int64     `validate:"required"`
 	AccessHash    int64     `validate:"required"`
 	Title         string    `validate:"required"`
 	ShortName     string    `validate:"required"`
-	Thumb         PhotoSize `flag:"4"`
-	ThumbDcId     int32     `flag:"4"`
+	Thumb         PhotoSize `tl:"flag:4"`
+	ThumbDcId     int32     `tl:"flag:4"`
 	Count         int32     `validate:"required"`
 	Hash          int32     `validate:"required"`
 }
@@ -1687,14 +1687,14 @@ func (*StickerSet) CRC() uint32 {
 
 type Theme struct {
 	// flags position
-	Creator       bool           `flag:"0,encoded_in_bitflags"`
-	Default       bool           `flag:"1,encoded_in_bitflags"`
+	Creator       bool           `tl:"flag:0,encoded_in_bitflag"`
+	Default       bool           `tl:"flag:1,encoded_in_bitflag"`
 	Id            int64          `validate:"required"`
 	AccessHash    int64          `validate:"required"`
 	Slug          string         `validate:"required"`
 	Title         string         `validate:"required"`
-	Document      Document       `flag:"2"`
-	Settings      *ThemeSettings `flag:"3"`
+	Document      Document       `tl:"flag:2"`
+	Settings      *ThemeSettings `tl:"flag:3"`
 	InstallsCount int32          `validate:"required"`
 }
 
@@ -1706,9 +1706,9 @@ type ThemeSettings struct {
 	// flags position
 	BaseTheme          BaseTheme `validate:"required"`
 	AccentColor        int32     `validate:"required"`
-	MessageTopColor    int32     `flag:"0"`
-	MessageBottomColor int32     `flag:"0"`
-	Wallpaper          WallPaper `flag:"1"`
+	MessageTopColor    int32     `tl:"flag:0"`
+	MessageBottomColor int32     `tl:"flag:0"`
+	Wallpaper          WallPaper `tl:"flag:1"`
 }
 
 func (*ThemeSettings) CRC() uint32 {
@@ -1760,21 +1760,21 @@ func (*UploadWebFile) CRC() uint32 {
 
 type UserFull struct {
 	// flags position
-	Blocked             bool                `flag:"0,encoded_in_bitflags"`
-	PhoneCallsAvailable bool                `flag:"4,encoded_in_bitflags"`
-	PhoneCallsPrivate   bool                `flag:"5,encoded_in_bitflags"`
-	CanPinMessage       bool                `flag:"7,encoded_in_bitflags"`
-	HasScheduled        bool                `flag:"12,encoded_in_bitflags"`
-	VideoCallsAvailable bool                `flag:"13,encoded_in_bitflags"`
+	Blocked             bool                `tl:"flag:0,encoded_in_bitflag"`
+	PhoneCallsAvailable bool                `tl:"flag:4,encoded_in_bitflag"`
+	PhoneCallsPrivate   bool                `tl:"flag:5,encoded_in_bitflag"`
+	CanPinMessage       bool                `tl:"flag:7,encoded_in_bitflag"`
+	HasScheduled        bool                `tl:"flag:12,encoded_in_bitflag"`
+	VideoCallsAvailable bool                `tl:"flag:13,encoded_in_bitflag"`
 	User                User                `validate:"required"`
-	About               string              `flag:"1"`
+	About               string              `tl:"flag:1"`
 	Settings            *PeerSettings       `validate:"required"`
-	ProfilePhoto        Photo               `flag:"2"`
+	ProfilePhoto        Photo               `tl:"flag:2"`
 	NotifySettings      *PeerNotifySettings `validate:"required"`
-	BotInfo             *BotInfo            `flag:"3"`
-	PinnedMsgId         int32               `flag:"6"`
+	BotInfo             *BotInfo            `tl:"flag:3"`
+	PinnedMsgId         int32               `tl:"flag:6"`
 	CommonChatsCount    int32               `validate:"required"`
-	FolderId            int32               `flag:"11"`
+	FolderId            int32               `tl:"flag:11"`
 }
 
 func (*UserFull) CRC() uint32 {
@@ -1788,7 +1788,7 @@ type VideoSize struct {
 	W            int32         `validate:"required"`
 	H            int32         `validate:"required"`
 	Size         int32         `validate:"required"`
-	VideoStartTs float64       `flag:"0"`
+	VideoStartTs float64       `tl:"flag:0"`
 }
 
 func (*VideoSize) CRC() uint32 {
@@ -1797,12 +1797,12 @@ func (*VideoSize) CRC() uint32 {
 
 type WallPaperSettings struct {
 	// flags position
-	Blur                  bool  `flag:"1,encoded_in_bitflags"`
-	Motion                bool  `flag:"2,encoded_in_bitflags"`
-	BackgroundColor       int32 `flag:"0"`
-	SecondBackgroundColor int32 `flag:"4"`
-	Intensity             int32 `flag:"3"`
-	Rotation              int32 `flag:"4"`
+	Blur                  bool  `tl:"flag:1,encoded_in_bitflag"`
+	Motion                bool  `tl:"flag:2,encoded_in_bitflag"`
+	BackgroundColor       int32 `tl:"flag:0"`
+	SecondBackgroundColor int32 `tl:"flag:4"`
+	Intensity             int32 `tl:"flag:3"`
+	Rotation              int32 `tl:"flag:4"`
 }
 
 func (*WallPaperSettings) CRC() uint32 {
@@ -1827,8 +1827,8 @@ func (*WebAuthorization) CRC() uint32 {
 
 type WebPageAttribute struct {
 	// flags position
-	Documents []Document     `flag:"0"`
-	Settings  *ThemeSettings `flag:"1"`
+	Documents []Document     `tl:"flag:0"`
+	Settings  *ThemeSettings `tl:"flag:1"`
 }
 
 func (*WebPageAttribute) CRC() uint32 {
