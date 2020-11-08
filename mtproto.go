@@ -336,28 +336,31 @@ func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage)
 
 	switch message := data.(type) {
 	case *serialize.RpcResult:
-		// message.ReqMsgID
-		// pp.Println("got rpc:", message.Payload)
-
-		ob, err := tl.DecodeRegistered(message.Payload)
-		if err != nil {
-			time.Sleep(time.Second * 1)
-			panic(err)
-		}
-
-		switch obj := ob.(type) {
-		case *serialize.GzipPacked:
-			pp.Println("gzip_unpacked:", obj.Payload)
-			// obj.Payload
-		default:
-			panic(fmt.Sprintf("type %T not handled", obj))
-		}
 		m.mutex.Lock()
+		defer m.mutex.Unlock()
 		req, found := m.pending[message.ReqMsgID]
 		if !found {
 			fmt.Printf("pending request for message %d not found\n", message.ReqMsgID)
 			break
 		}
+
+		ob, err := tl.DecodeRegistered(message.Payload)
+		if err != nil {
+			panic(err)
+		}
+
+		switch obj := ob.(type) {
+		case *serialize.GzipPacked:
+			ob, err = tl.DecodeRegistered(obj.Payload)
+			if err != nil {
+				panic(err)
+			}
+			pp.Println("gzip_decoded:", ob)
+		default:
+			panic(fmt.Sprintf("type %T not handled", obj))
+		}
+		m.mutex.Lock()
+
 		delete(m.pending, message.ReqMsgID)
 		m.mutex.Unlock()
 		req.echan <- tl.Decode(message.Payload, req.response)
@@ -430,7 +433,7 @@ func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage)
 	}
 
 	if (seqNo & 1) != 0 {
-		_, err := m.MakeRequest(&serialize.MsgsAck{MsgIds: []int64{int64(msgId)}})
+		err = m.MakeRequest2(&serialize.MsgsAck{MsgIds: []int64{int64(msgId)}}, nil)
 		if err != nil {
 			return errors.Wrap(err, "sending ack")
 		}

@@ -64,7 +64,7 @@ func Decode(data []byte, v interface{}) error {
 		v = o
 		return nil
 	case reflect.Slice:
-		c := NewReadCursor(bytes.NewBuffer(data))
+		c := NewReadCursor(bytes.NewReader(data))
 		for _, v := range v.([]interface{}) {
 			var err error
 			v, err = decodeVector(c, reflect.TypeOf(v))
@@ -77,7 +77,7 @@ func Decode(data []byte, v interface{}) error {
 		panic("array not supported yet")
 	}
 
-	c := NewReadCursor(bytes.NewBuffer(data))
+	c := NewReadCursor(bytes.NewReader(data))
 	return decode(c, v)
 }
 
@@ -99,7 +99,7 @@ func decode(c *ReadCursor, v interface{}) error {
 
 func DecodeRegistered(data []byte) (Object, error) {
 	return decodeRegisteredObject(
-		NewReadCursor(bytes.NewBuffer(data)),
+		NewReadCursor(bytes.NewReader(data)),
 	)
 }
 

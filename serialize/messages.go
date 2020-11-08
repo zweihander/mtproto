@@ -242,7 +242,7 @@ type MessageInformator interface {
 	GetLastSeqNo() int32
 	GetServerSalt() int64
 	GetAuthKey() []byte
-	MakeRequest(msg tl.Object) (tl.Object, error)
+	MakeRequest2(req tl.Object, resp interface{}) error
 }
 
 func serializePacket(client MessageInformator, msg []byte, messageID int64, requireToAck bool) ([]byte, error) {

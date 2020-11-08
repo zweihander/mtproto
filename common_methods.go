@@ -1,10 +1,6 @@
 package mtproto
 
 import (
-	"reflect"
-
-	"github.com/pkg/errors"
-
 	"github.com/xelaj/mtproto/serialize"
 )
 
@@ -15,17 +11,12 @@ type ReqPQParams struct {
 func (_ *ReqPQParams) CRC() uint32 { return 0x60469778 }
 
 func (m *MTProto) ReqPQ(nonce *serialize.Int128) (*serialize.ResPQ, error) {
-	data, err := m.MakeRequest(&ReqPQParams{Nonce: nonce})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending ReqPQ")
+	pq := new(serialize.ResPQ)
+	if err := m.MakeRequest2(&ReqPQParams{Nonce: nonce}, pq); err != nil {
+		return nil, err
 	}
 
-	resp, ok := data.(*serialize.ResPQ)
-	if !ok {
-		return nil, errors.New("got invalid response type: " + reflect.TypeOf(data).String())
-	}
-
-	return resp, nil
+	return pq, nil
 }
 
 type ReqDHParamsParams struct {
@@ -42,24 +33,19 @@ func (_ *ReqDHParamsParams) CRC() uint32 {
 }
 
 func (m *MTProto) ReqDHParams(nonce, serverNonce *serialize.Int128, p, q []byte, publicKeyFingerprint int64, encryptedData []byte) (serialize.ServerDHParams, error) {
-	data, err := m.MakeRequest(&ReqDHParamsParams{
+	var dhp serialize.ServerDHParams
+	if err := m.MakeRequest2(&ReqDHParamsParams{
 		Nonce:                nonce,
 		ServerNonce:          serverNonce,
 		P:                    p,
 		Q:                    q,
 		PublicKeyFingerprint: publicKeyFingerprint,
 		EncryptedData:        encryptedData,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending ReqDHParams")
+	}, &dhp); err != nil {
+		return nil, err
 	}
 
-	resp, ok := data.(serialize.ServerDHParams)
-	if !ok {
-		return nil, errors.New("got invalid response type: " + reflect.TypeOf(data).String())
-	}
-
-	return resp, nil
+	return dhp, nil
 }
 
 type SetClientDHParamsParams struct {
@@ -73,21 +59,16 @@ func (_ *SetClientDHParamsParams) CRC() uint32 {
 }
 
 func (m *MTProto) SetClientDHParams(nonce, serverNonce *serialize.Int128, encryptedData []byte) (serialize.SetClientDHParamsAnswer, error) {
-	data, err := m.MakeRequest(&SetClientDHParamsParams{
+	var dhpa serialize.SetClientDHParamsAnswer
+	if err := m.MakeRequest2(&SetClientDHParamsParams{
 		Nonce:         nonce,
 		ServerNonce:   serverNonce,
 		EncryptedData: encryptedData,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending Ping")
+	}, &dhpa); err != nil {
+		return nil, err
 	}
 
-	resp, ok := data.(serialize.SetClientDHParamsAnswer)
-	if !ok {
-		return nil, errors.New("got invalid response type: " + reflect.TypeOf(data).String())
-	}
-
-	return resp, nil
+	return dhpa, nil
 }
 
 // rpc_drop_answer
@@ -102,19 +83,14 @@ func (_ *PingParams) CRC() uint32 {
 }
 
 func (m *MTProto) Ping(pingID int64) (*serialize.Pong, error) {
-	data, err := m.MakeRequest(&PingParams{
+	pong := new(serialize.Pong)
+	if err := m.MakeRequest2(&PingParams{
 		PingID: pingID,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending Ping")
+	}, pong); err != nil {
+		return nil, err
 	}
 
-	resp, ok := data.(*serialize.Pong)
-	if !ok {
-		return nil, errors.New("got invalid response type: " + reflect.TypeOf(data).String())
-	}
-
-	return resp, nil
+	return pong, nil
 }
 
 // ping_delay_disconnect

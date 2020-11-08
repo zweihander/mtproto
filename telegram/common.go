@@ -2,7 +2,6 @@ package telegram
 
 import (
 	"fmt"
-	"reflect"
 	"runtime"
 
 	"github.com/k0kubun/pp"
@@ -82,7 +81,8 @@ func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not 
 
 	client.AddCustomServerRequestHandler(client.handleSpecialRequests())
 	fmt.Println("HelpGetCfgParams invoking...")
-	resp, err := client.InvokeWithLayer(ApiVersion, &InitConnectionParams{
+	config := new(Config)
+	err = client.InvokeWithLayer(ApiVersion, &InitConnectionParams{
 		ApiID:          int32(c.AppID),
 		DeviceModel:    c.DeviceModel,
 		SystemVersion:  c.SystemVersion,
@@ -90,15 +90,10 @@ func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not 
 		SystemLangCode: "en", // can't be edited, cause docs says that a single possible parameter
 		LangCode:       "en",
 		Query:          &HelpGetConfigParams{},
-	})
+	}, config)
 	fmt.Println("HelpGetCfgParams done...")
 	if err != nil {
 		return nil, errors.Wrap(err, "getting server configs")
-	}
-
-	config, ok := resp.(*Config)
-	if !ok {
-		return nil, errors.New("got wrong response: " + reflect.TypeOf(resp).String())
 	}
 
 	pp.Println(config)
@@ -130,16 +125,11 @@ type InvokeWithLayerParams struct {
 
 func (_ *InvokeWithLayerParams) CRC() uint32 { return 0xda9b0d0d }
 
-func (m *Client) InvokeWithLayer(layer int, query tl.Object) (tl.Object, error) {
-	data, err := m.MakeRequest(&InvokeWithLayerParams{
+func (m *Client) InvokeWithLayer(layer int, query tl.Object, resp interface{}) error {
+	return m.MakeRequest2(&InvokeWithLayerParams{
 		Layer: int32(layer),
 		Query: query,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending InvokeWithLayer")
-	}
-
-	return data, nil
+	}, resp)
 }
 
 type InvokeWithTakeoutParams struct {
@@ -149,16 +139,11 @@ type InvokeWithTakeoutParams struct {
 
 func (*InvokeWithTakeoutParams) CRC() uint32 { return 0xaca9fd2e }
 
-func (m *Client) InvokeWithTakeout(takeoutID int, query tl.Object) (tl.Object, error) {
-	data, err := m.MakeRequest(&InvokeWithTakeoutParams{
+func (m *Client) InvokeWithTakeout(takeoutID int, query tl.Object, resp interface{}) error {
+	return m.MakeRequest2(&InvokeWithTakeoutParams{
 		TakeoutID: int64(takeoutID),
 		Query:     query,
-	})
-	if err != nil {
-		return nil, errors.Wrap(err, "sending InvokeWithLayer")
-	}
-
-	return data, nil
+	}, resp)
 }
 
 type InitConnectionParams struct {
@@ -175,12 +160,3 @@ type InitConnectionParams struct {
 }
 
 func (_ *InitConnectionParams) CRC() uint32 { return 0xc1cd5ea9 }
-
-func (m *Client) InitConnection(params *InitConnectionParams) (tl.Object, error) {
-	data, err := m.MakeRequest(params)
-	if err != nil {
-		return nil, errors.Wrap(err, "sending InitConnection")
-	}
-
-	return data, nil
-}

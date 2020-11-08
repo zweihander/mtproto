@@ -61,9 +61,9 @@ func (m *MTProto) MakeRequest2(req tl.Object, resp interface{}) error {
 	return m.makeRequest2(req, resp)
 }
 
-func (m *MTProto) MakeRequest(msg tl.Object) (tl.Object, error) {
-	return m.makeRequest(msg, nil)
-}
+// func (m *MTProto) MakeRequest(msg tl.Object) (tl.Object, error) {
+// 	return m.makeRequest(msg, nil)
+// }
 
 func (m *MTProto) MakeRequestAsSlice(msg tl.Object, as reflect.Type) (tl.Object, error) {
 	return m.makeRequest(msg, as)
