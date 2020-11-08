@@ -85,6 +85,18 @@ func TestEncode(t *testing.T) {
 				0x02, 0x65, 0x6e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x65, 0x6e, 0x00, 0x6b, 0x18, 0xf9, 0xc4,
 			},
 		},
+		// {
+		// 	name: "struct",
+		// 	obj: &telegram.AccountPasswordSettings{
+		// 		Email: "foo",
+		// 		SecureSettings: &telegram.SecureSecretSettings{
+		// 			SecureAlgo:     &telegram.SecurePasswordKdfAlgoUnknown{},
+		// 			SecureSecret:   []byte{1},
+		// 			SecureSecretId: 1,
+		// 		},
+		// 	},
+		// 	want: nil,
+		// },
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -8,65 +8,40 @@ import (
 
 func Encode(v interface{}) ([]byte, error) {
 	buf := bytes.NewBuffer(nil)
-	if err := encodeValue(NewWriteCursor(buf), v); err != nil {
+	if err := encodeValue(NewWriteCursor(buf), reflect.ValueOf(v)); err != nil {
 		return nil, err
 	}
 
 	return buf.Bytes(), nil
 }
 
-func encodeValue(cur *WriteCursor, v interface{}) (err error) {
-	if v == nil {
-		return fmt.Errorf("nil value")
+func encodeValue(cur *WriteCursor, value reflect.Value) (err error) {
+	if m, ok := value.Interface().(Marshaler); ok {
+		return m.MarshalTL(cur)
 	}
 
-	if m, ok := v.(Marshaler); ok {
-		if err := m.MarshalTL(cur); err != nil {
-			return err
+	switch value.Kind() {
+	case reflect.Int32: // reflect.Int, reflect.Uint16, reflect.Uint32:
+		err = cur.PutUint(uint32(value.Int()))
+	case reflect.Int64:
+		err = cur.PutLong(value.Int())
+	case reflect.Float64:
+		err = cur.PutDouble(value.Float())
+	case reflect.Bool:
+		err = cur.PutBool(value.Bool())
+	case reflect.String:
+		err = cur.PutString(value.String())
+	case reflect.Ptr, reflect.Interface:
+		err = encodeStruct(cur, value.Interface())
+	case reflect.Slice:
+		if bs, ok := value.Interface().([]byte); ok {
+			err = cur.PutMessage(bs)
+			break
 		}
 
-		return nil
-	}
-
-	switch val := v.(type) {
-	case int:
-		err = cur.PutUint(uint32(val))
-	case int8:
-		err = cur.PutUint(uint32(val))
-	case int16:
-		err = cur.PutUint(uint32(val))
-	case int32:
-		err = cur.PutUint(uint32(val))
-	case int64:
-		err = cur.PutLong(val)
-	case uint8:
-		err = cur.PutUint(uint32(val))
-	case uint16:
-		err = cur.PutUint(uint32(val))
-	case uint32:
-		err = cur.PutUint(val)
-	case uint64:
-		err = cur.PutLong(int64(val))
-	case bool:
-		err = cur.PutBool(val)
-	case string:
-		err = cur.PutString(val)
-	case []byte:
-		err = cur.PutMessage(val)
+		err = encodeVector(cur, sliceToInterfaceSlice(value.Interface()))
 	default:
-		if reflect.ValueOf(v).Kind() == reflect.Slice {
-			return encodeVector(cur, sliceToInterfaceSlice(v))
-		}
-
-		if reflect.ValueOf(v).Kind() == reflect.Ptr {
-			if err := encodeStruct(cur, v); err != nil {
-				return fmt.Errorf("encode '%T': %w", v, err)
-			}
-
-			return
-		}
-
-		return fmt.Errorf("unsupported type: %T", v)
+		err = fmt.Errorf("unsupported type: %s", value.Type().String())
 	}
 
 	return
@@ -122,7 +97,7 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 			}
 
 			if !val.Field(i).IsZero() {
-				if err := encodeValue(cur, val.Field(i).Interface()); err != nil {
+				if err := encodeValue(cur, val.Field(i)); err != nil {
 					return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
 				}
 			}
@@ -135,7 +110,7 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 		// 	return fmt.Errorf("field '%s' have zero value", vtyp.Field(i).Name)
 		// }
 
-		if err := encodeValue(cur, val.Field(i).Interface()); err != nil {
+		if err := encodeValue(cur, val.Field(i)); err != nil {
 			return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
 		}
 	}
@@ -186,36 +161,41 @@ func encodeVector(c *WriteCursor, slice []interface{}) (err error) {
 	c.PutUint(uint32(len(slice)))
 
 	for _, item := range slice {
-		switch val := item.(type) {
-		case int8:
-			err = c.PutUint(uint32(val))
-		case int16:
-			err = c.PutUint(uint32(val))
-		case int32:
-			err = c.PutUint(uint32(val))
-		case int64:
-			err = c.PutLong(val)
-		case uint8:
-			err = c.PutUint(uint32(val))
-		case uint16:
-			err = c.PutUint(uint32(val))
-		case uint32:
-			err = c.PutUint(val)
-		case uint64:
-			err = c.PutLong(int64(val))
-		case bool:
-			err = c.PutBool(val)
-		case string:
-			err = c.PutString(val)
-		case []byte:
-			err = c.PutMessage(val)
-		default:
-			err = fmt.Errorf("unserializable type: %T", val)
-		}
-
-		if err != nil {
+		if err := encodeValue(c, reflect.ValueOf(item)); err != nil {
 			return err
 		}
+		continue
+
+		// switch val := item.(type) {
+		// case int8:
+		// 	err = c.PutUint(uint32(val))
+		// case int16:
+		// 	err = c.PutUint(uint32(val))
+		// case int32:
+		// 	err = c.PutUint(uint32(val))
+		// case int64:
+		// 	err = c.PutLong(val)
+		// case uint8:
+		// 	err = c.PutUint(uint32(val))
+		// case uint16:
+		// 	err = c.PutUint(uint32(val))
+		// case uint32:
+		// 	err = c.PutUint(val)
+		// case uint64:
+		// 	err = c.PutLong(int64(val))
+		// case bool:
+		// 	err = c.PutBool(val)
+		// case string:
+		// 	err = c.PutString(val)
+		// case []byte:
+		// 	err = c.PutMessage(val)
+		// default:
+		// 	err = fmt.Errorf("unserializable type: %T", val)
+		// }
+
+		// if err != nil {
+		// 	return err
+		// }
 	}
 
 	return
