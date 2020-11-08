@@ -18,8 +18,8 @@ import (
 // CommonMessage это сообщение (зашифрованое либо открытое) которыми общаются между собой клиент и сервер
 type CommonMessage interface {
 	GetMsg() []byte
-	GetMsgID() int
-	GetSeqNo() int
+	GetMsgID() int64
+	GetSeqNo() int32
 }
 
 type EncryptedMessage struct {
@@ -31,6 +31,18 @@ type EncryptedMessage struct {
 	SessionID int64
 	SeqNo     int32
 	MsgKey    []byte
+}
+
+func (msg *EncryptedMessage) GetMsg() []byte {
+	return msg.Msg
+}
+
+func (msg *EncryptedMessage) GetMsgID() int64 {
+	return msg.MsgID
+}
+
+func (msg *EncryptedMessage) GetSeqNo() int32 {
+	return msg.SeqNo
 }
 
 func (msg *EncryptedMessage) Serialize(client MessageInformator, requireToAck bool) ([]byte, error) {
@@ -143,21 +155,21 @@ func DeserializeEncryptedMessage(data, authKey []byte) (*EncryptedMessage, error
 	return msg, nil
 }
 
-func (msg *EncryptedMessage) GetMsg() []byte {
-	return msg.Msg
-}
-
-func (msg *EncryptedMessage) GetMsgID() int {
-	return int(msg.MsgID)
-}
-
-func (msg *EncryptedMessage) GetSeqNo() int {
-	return int(msg.SeqNo)
-}
-
 type UnencryptedMessage struct {
 	Msg   []byte
 	MsgID int64
+}
+
+func (msg *UnencryptedMessage) GetMsg() []byte {
+	return msg.Msg
+}
+
+func (msg *UnencryptedMessage) GetMsgID() int64 {
+	return msg.MsgID
+}
+
+func (msg *UnencryptedMessage) GetSeqNo() int32 {
+	return 0
 }
 
 func (msg *UnencryptedMessage) Serialize(client MessageInformator) ([]byte, error) {
@@ -219,18 +231,6 @@ func DeserializeUnencryptedMessage(data []byte) (*UnencryptedMessage, error) {
 
 	// TODO: в мтпрото объекте изменить msgID и задать seqNo 0
 	return msg, nil
-}
-
-func (msg *UnencryptedMessage) GetMsg() []byte {
-	return msg.Msg
-}
-
-func (msg *UnencryptedMessage) GetMsgID() int {
-	return int(msg.MsgID)
-}
-
-func (msg *UnencryptedMessage) GetSeqNo() int {
-	return 0
 }
 
 //------------------------------------------------------------------------------------------
