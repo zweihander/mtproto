@@ -337,10 +337,11 @@ func (m *MTProto) processResponse(msgId, seqNo int, msg serialize.CommonMessage)
 	switch message := data.(type) {
 	case *serialize.RpcResult:
 		// message.ReqMsgID
-		pp.Println("got rpc:", message.Payload)
+		// pp.Println("got rpc:", message.Payload)
 
 		ob, err := tl.DecodeRegistered(message.Payload)
 		if err != nil {
+			time.Sleep(time.Second * 1)
 			panic(err)
 		}
 

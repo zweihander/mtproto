@@ -130,60 +130,21 @@ type GzipPacked struct {
 func (*GzipPacked) CRC() uint32 { return 0x3072cfa1 } // CrcGzipPacked
 
 func (g *GzipPacked) UnmarshalTL(r *tl.ReadCursor) (err error) {
-	g.Payload, err = g.decompressMsg(r)
+	data, err := r.PopMessage()
 	if err != nil {
 		panic(err)
 	}
+
+	g.Payload, err = decompressData(data)
+	if err != nil {
+		panic(err)
+	}
+
 	return
 }
 
 func (*GzipPacked) MarshalTL(w *tl.WriteCursor) error {
 	panic("don't use me")
-}
-
-func (*GzipPacked) decompressMsg(r *tl.ReadCursor) ([]byte, error) {
-	// TODO: СТАНДАРТНЫЙ СУКА ПАКЕТ gzip пишет "gzip: invalid header". при этом как я разобрался, в
-	//       сам гзип попадает кусок, который находится за миллиард бит от реального сообщения
-	//       например: сообщение начинается с 0x1f 0x8b 0x08 0x00 ..., но при этом в сам гзип
-	//       отдается кусок, который дальше начала сообщения за 500+ байт
-	//! вот ЭТОТ кусок работает. так что наверное не будем трогать, дай бог чтоб работал
-
-	decompressed := make([]byte, 0, 4096)
-
-	msg, err := r.PopMessage()
-	if err != nil {
-		return nil, err
-	}
-
-	gz, err := gzip.NewReader(bytes.NewBuffer(msg))
-	if err != nil {
-		return nil, err
-	}
-
-	b := make([]byte, 4096)
-	for {
-		n, err := gz.Read(b)
-		if err != nil {
-			panic(err)
-			return nil, err
-		}
-
-		decompressed = append(decompressed, b[0:n]...)
-		if n <= 0 {
-			break
-		}
-	}
-
-	return decompressed, nil
-	//? это то что я пытался сделать
-	// data := d.PopMessage()
-	// gz, err := gzip.NewReader(bytes.NewBuffer(data))
-	// dry.PanicIfErr(err)
-
-	// decompressed, err := ioutil.ReadAll(gz)
-	// dry.PanicIfErr(err)
-
-	// return decompressed
 }
 
 // func (*RpcResult) UnmarshalTL(*tl.ReadCursor) error {
