@@ -26,16 +26,16 @@ func main() {
 		ServerHost: "149.154.167.50:443",
 		// public keys file is patrh to file with public keys, which you must get from https://my.telelgram.org
 		PublicKeysFile: `C:\Users\Shkip\Desktop\Projects\mtproto\examples\keys.pem`,
-		AppID:          790702,                              // app id, could be find at https://my.telegram.org
+		AppID:          790702,                             // app id, could be find at https://my.telegram.org
 		AppHash:        "d7cbcde19de60a27f88ed3f467fdda25", // app hash, could be find at https://my.telegram.org
 	})
 	dry.PanicIfErr(err)
-
+	fmt.Println("client created!!!")
 	setCode, err := client.AuthSendCode(&telegram.AuthSendCodeParams{
 		phoneNumber, 94575, "a3406de8d171bb422bb6ddf3bbd800e2", &telegram.CodeSettings{},
 	})
 	dry.PanicIfErr(err)
-	pp.Println(setCode)
+	pp.Println("authSetCode:", setCode)
 
 	fmt.Print("Код авторизации:")
 	code, _ := bufio.NewReader(os.Stdin).ReadString('\n')
