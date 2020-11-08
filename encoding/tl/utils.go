@@ -7,7 +7,7 @@ import (
 func haveFlag(v interface{}) bool {
 	typ := reflect.TypeOf(v)
 	for i := 0; i < typ.NumField(); i++ {
-		tag, found := typ.Field(i).Tag.Lookup(tagName)
+		tag, found := typ.Field(i).Tag.Lookup("tl")
 		if found {
 			info, err := parseFlagTag(tag)
 			if err != nil {

@@ -6,50 +6,75 @@ import (
 	"strings"
 )
 
-const (
-	tagName          = "tl"
-	encodedInBitflag = "encoded_in_bitflag"
-)
-
 type tagInfo struct {
 	index            int
 	encodedInBitflag bool
-	required         bool
 	ignore           bool
+	optional         bool
 }
 
 func parseFlagTag(s string) (info tagInfo, err error) {
 	vals := strings.Split(s, ",")
 	if len(vals) == 0 {
-		err = fmt.Errorf("bad tl_flag: %s", s)
+		err = fmt.Errorf("bad tag: %s", s)
 		return
 	}
 
-	if vals[0] == "-" {
+	if haveInSlice("-", vals) {
+		if len(vals) != 1 {
+			err = fmt.Errorf("got '-' with multiple options")
+			return
+		}
+
 		info.ignore = true
 		return
 	}
 
-	// flag index check
-	if strings.HasPrefix(vals[0], "flag:") {
-		trimmed := vals[0][5:]
-		info.index, err = strconv.Atoi(trimmed)
+	flag, haveFlag := haveStartsWith("flag:", vals)
+	if haveFlag {
+		num := flag[len("flag:"):] // get index
+		info.index, err = strconv.Atoi(num)
 		if err != nil {
-			err = fmt.Errorf("invalid flag index '%s': %w", trimmed, err)
+			err = fmt.Errorf("parse flag index '%s': %w", num, err)
 			return
 		}
 
-		if len(vals) == 2 {
-			if vals[1] == encodedInBitflag {
-				info.encodedInBitflag = true
-			} else {
-				err = fmt.Errorf("parse flag second option: expected '%s': got '%s'", encodedInBitflag, vals[1])
-				return
-			}
+		// поля внутри битфлагов всегда optional
+		info.optional = true
+	}
+
+	if haveInSlice("encoded_in_bitflag", vals) {
+		if !haveFlag {
+			err = fmt.Errorf("have 'encoded_in_bitflag' option without flag index")
+			return
 		}
-	} else {
-		err = fmt.Errorf("invalid tag: %s", s)
+
+		info.encodedInBitflag = true
+	}
+
+	if haveInSlice("optional", vals) {
+		info.optional = true
 	}
 
 	return
+}
+
+func haveInSlice(s string, slice []string) bool {
+	for _, item := range slice {
+		if item == s {
+			return true
+		}
+	}
+
+	return false
+}
+
+func haveStartsWith(s string, slice []string) (string, bool) {
+	for _, item := range slice {
+		if strings.HasPrefix(item, s) {
+			return item, true
+		}
+	}
+
+	return "", false
 }

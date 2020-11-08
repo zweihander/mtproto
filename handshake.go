@@ -20,18 +20,18 @@ import (
 // https://core.telegram.org/mtproto/auth_key
 func (m *MTProto) makeAuthKey() error {
 	m.serviceModeActivated = true
+
+	pqParams := new(serialize.ResPQ)
 	nonceFirst := serialize.RandomInt128()
-	res, err := m.ReqPQ(nonceFirst)
-	if err != nil {
+	if err := m.MakeRequest2(&ReqPQParams{nonceFirst}, pqParams); err != nil {
 		return errors.Wrap(err, "requesting first pq")
 	}
-
-	if nonceFirst.Cmp(res.Nonce.Int) != 0 {
+	if nonceFirst.Cmp(pqParams.Nonce.Int) != 0 {
 		return errors.New("handshake: Wrong nonce")
 	}
 
 	found := false
-	for _, b := range res.Fingerprints {
+	for _, b := range pqParams.Fingerprints {
 		fgpr, err := keys.RSAFingerprint(m.publicKey)
 		if err != nil {
 			return err
@@ -47,13 +47,13 @@ func (m *MTProto) makeAuthKey() error {
 	}
 
 	// (encoding) p_q_inner_data
-	pq := big.NewInt(0).SetBytes(res.Pq)
+	pq := big.NewInt(0).SetBytes(pqParams.Pq)
 	p, q := splitPQ(pq)
 	nonceSecond := serialize.RandomInt256()
-	nonceServer := res.ServerNonce
+	nonceServer := pqParams.ServerNonce
 
 	message, err := tl.Encode(&serialize.PQInnerData{
-		Pq:          res.Pq,
+		Pq:          pqParams.Pq,
 		P:           p.Bytes(),
 		Q:           q.Bytes(),
 		Nonce:       nonceFirst,
@@ -75,21 +75,28 @@ func (m *MTProto) makeAuthKey() error {
 	}
 
 	keyFingerprint := int64(binary.LittleEndian.Uint64(fgpr))
-	fmt.Println("rdadsadsss wawait")
-	dhResponse, err := m.ReqDHParams(nonceFirst, nonceServer, p.Bytes(), q.Bytes(), keyFingerprint, encryptedMessage)
-	fmt.Println("rdadsadsss resp", dhResponse, err)
-	if err != nil {
+
+	var dhResponse serialize.ServerDHParams
+	if err := m.MakeRequest2(&ReqDHParamsParams{
+		Nonce:                nonceFirst,
+		ServerNonce:          nonceServer,
+		P:                    p.Bytes(),
+		Q:                    q.Bytes(),
+		PublicKeyFingerprint: keyFingerprint,
+		EncryptedData:        encryptedMessage,
+	}, &dhResponse); err != nil {
 		return errors.Wrap(err, "sending ReqDHParams")
 	}
-	fmt.Println("rdadsadsss")
+
 	dhParams, ok := dhResponse.(*serialize.ServerDHParamsOk)
 	if !ok {
-		return errors.New("handshake: Need ServerDHParamsOk")
+		return fmt.Errorf("need *serialize.ServerDHParamsOk, got: %T", dhResponse)
 	}
-	fmt.Println("mkek12")
+
 	if nonceFirst.Cmp(dhParams.Nonce.Int) != 0 {
 		return errors.New("handshake: Wrong nonce")
 	}
+
 	if nonceServer.Cmp(dhParams.ServerNonce.Int) != 0 {
 		return errors.New("handshake: Wrong server_nonce")
 	}
@@ -100,7 +107,7 @@ func (m *MTProto) makeAuthKey() error {
 	if err := tl.Decode(decodedMessage, dhi); err != nil {
 		return err
 	}
-	fmt.Println("mkek2")
+
 	if nonceFirst.Cmp(dhi.Nonce.Int) != 0 {
 		return errors.New("Handshake: Wrong nonce")
 	}
@@ -131,7 +138,10 @@ func (m *MTProto) makeAuthKey() error {
 
 	// (encoding) client_DH_inner_data
 	clientDHDataMsg, err := tl.Encode(&serialize.ClientDHInnerData{
-		nonceFirst, nonceServer, 0, g_b.Bytes(),
+		Nonce:       nonceFirst,
+		ServerNonce: nonceServer,
+		Retry:       0,
+		GB:          g_b.Bytes(),
 	})
 	if err != nil {
 		return err
@@ -139,8 +149,12 @@ func (m *MTProto) makeAuthKey() error {
 
 	encryptedMessage = ige.EncryptMessageWithTempKeys(clientDHDataMsg, nonceSecond.Int, nonceServer.Int)
 
-	dhGenStatus, err := m.SetClientDHParams(nonceFirst, nonceServer, encryptedMessage)
-	if err != nil {
+	var dhGenStatus serialize.SetClientDHParamsAnswer
+	if err := m.MakeRequest2(&SetClientDHParamsParams{
+		Nonce:         nonceFirst,
+		ServerNonce:   nonceServer,
+		EncryptedData: encryptedMessage,
+	}, &dhGenStatus); err != nil {
 		return errors.Wrap(err, "sending clientDHParams")
 	}
 

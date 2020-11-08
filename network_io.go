@@ -4,13 +4,10 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
-	"reflect"
-	"strconv"
 	"time"
 
 	"github.com/k0kubun/pp"
 	"github.com/pkg/errors"
-	"github.com/xelaj/errs"
 	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/serialize"
@@ -20,7 +17,6 @@ import (
 func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err error) {
 	msgID := utils.GenerateMessageId()
 	echan := make(chan error)
-	defer close(echan)
 
 	var data []byte
 
@@ -49,16 +45,19 @@ func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err erro
 
 		// запрос не требует ответа
 		if isNullableResponse(request) {
+			pp.Println("nullable:", request)
 			go func() {
 				echan <- nil
 			}()
-		} else if response != nil {
+		} else {
+
 			m.mutex.Lock()
 			m.pending[msgID] = pendingRequest{
 				response: response,
 				echan:    echan,
 			}
 			m.mutex.Unlock()
+
 		}
 		// этот кусок не часть кодирования так что делаем при отправке
 		m.lastSeqNo += 2
@@ -75,6 +74,22 @@ func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err erro
 		if err != nil {
 			return err
 		}
+	}
+
+	if m.serviceModeActivated {
+		if m.encrypted {
+			panic("omg")
+		}
+
+		go func() {
+			serviceMessage := <-m.serviceChannel
+			err := tl.Decode(serviceMessage, response)
+			if err != nil {
+				echan <- fmt.Errorf("decode service message: %w", err)
+			}
+
+			echan <- nil
+		}()
 	}
 
 	size := make([]byte, 4)
@@ -90,105 +105,6 @@ func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err erro
 	}
 
 	return <-echan
-}
-
-func (m *MTProto) sendPacketNew(request tl.Object, expectVector reflect.Type) (chan tl.Object, error) {
-	resp := make(chan tl.Object)
-	if m.serviceModeActivated {
-		resp = m.serviceChannel
-	}
-	var data []byte
-	var err error
-	var msgID = utils.GenerateMessageId()
-
-	// может мы ожидаем вектор, см. erialize.RpcResult для понимания
-	if expectVector != nil {
-		m.msgsIdDecodeAsVector[msgID] = expectVector
-	}
-
-	if m.encrypted {
-		requireToAck := false
-		if MessageRequireToAck(request) {
-			m.mutex.Lock()
-			m.waitAck(msgID)
-			m.mutex.Unlock()
-			requireToAck = true
-		}
-
-		msg, err := tl.Encode(request)
-		if err != nil {
-			return nil, err
-		}
-
-		data, err = (&serialize.EncryptedMessage{
-			Msg:         msg,
-			MsgID:       msgID,
-			AuthKeyHash: m.authKeyHash,
-		}).Serialize(m, requireToAck)
-		if err != nil {
-			return nil, errors.Wrap(err, "serializing message")
-		}
-
-		if !isNullableResponse(request) {
-			m.mutex.Lock()
-
-			m.responseChannels[msgID] = resp
-			m.mutex.Unlock()
-		} else {
-			// ответов на TL_Ack, TL_Pong и пр. не требуется
-			go func() {
-				// горутина, т.к. мы ПРЯМО СЕЙЧАС из resp не читаем
-				resp <- &serialize.Null{}
-			}()
-		}
-		// этот кусок не часть кодирования так что делаем при отправке
-		m.lastSeqNo += 2
-	} else {
-		msg, err := tl.Encode(request)
-		if err != nil {
-			return nil, err
-		}
-
-		data, err = (&serialize.UnencryptedMessage{ //nolint: errcheck нешифрованое не отправляет ошибки
-			Msg:   msg,
-			MsgID: msgID,
-		}).Serialize(m)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	//? https://core.telegram.org/mtproto/mtproto-transports#intermediate
-	size := make([]byte, 4)
-	binary.LittleEndian.PutUint32(size, uint32(len(data)))
-	_, err = m.conn.Write(size)
-	if err != nil {
-		return nil, errors.Wrap(err, "sending data")
-	}
-
-	//? https://core.telegram.org/mtproto/mtproto-transports#abridged
-	// _, err := m.conn.Write(utils.PacketLengthMTProtoCompatible(data))
-	// dry.PanicIfErr(err)
-	_, err = m.conn.Write(data)
-	if err != nil {
-		return nil, errors.Wrap(err, "sending request")
-	}
-
-	return resp, nil
-}
-
-func (m *MTProto) writeRPCResponse(msgID int, data tl.Object) error {
-	m.mutex.Lock()
-	v, ok := m.responseChannels[int64(msgID)]
-	if !ok {
-		return errs.NotFound("msgID", strconv.Itoa(msgID))
-	}
-
-	v <- data
-
-	delete(m.responseChannels, int64(msgID))
-	m.mutex.Unlock()
-	return nil
 }
 
 func (m *MTProto) readFromConn(ctx context.Context) (data []byte, err error) {

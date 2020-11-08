@@ -1,6 +1,7 @@
 package tl
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -101,6 +102,19 @@ func (c *ReadCursor) PopCRC() (uint32, error) {
 
 func (c *ReadCursor) GetRestOfMessage() ([]byte, error) {
 	return ioutil.ReadAll(c.r)
+}
+
+func (c *ReadCursor) DumpWithoutRead() ([]byte, error) {
+	data, err := ioutil.ReadAll(c.r)
+	if err != nil {
+		return nil, err
+	}
+
+	cp := make([]byte, len(data))
+	copy(cp, data)
+	c.r = ioutil.NopCloser(bytes.NewReader(cp))
+
+	return data, nil
 }
 
 func (c *ReadCursor) PopVector(as reflect.Type) (interface{}, error) {

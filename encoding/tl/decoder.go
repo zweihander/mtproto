@@ -5,6 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 	"reflect"
+
+	"github.com/k0kubun/pp"
 )
 
 var (
@@ -54,14 +56,19 @@ func RegisterEnums(enums ...Object) {
 }
 
 func Decode(data []byte, v interface{}) error {
-	switch reflect.TypeOf(v).Kind() {
+	if reflect.TypeOf(v).Kind() != reflect.Ptr {
+		panic("wtf")
+	}
+
+	d := reflect.Indirect(reflect.ValueOf(v))
+	switch d.Kind() {
 	case reflect.Interface:
 		o, err := DecodeRegistered(data)
 		if err != nil {
-			return err
+			return fmt.Errorf("decode interface: %w", err)
 		}
 
-		v = o
+		d.Set(reflect.ValueOf(o))
 		return nil
 	case reflect.Slice:
 		c := NewReadCursor(bytes.NewReader(data))
@@ -72,13 +79,15 @@ func Decode(data []byte, v interface{}) error {
 				return err
 			}
 		}
-		panic("array not supported yet")
+		panic("slice not supported yet")
 	case reflect.Array:
 		panic("array not supported yet")
+	default:
+		c := NewReadCursor(bytes.NewReader(data))
+
+		return decode(c, v)
 	}
 
-	c := NewReadCursor(bytes.NewReader(data))
-	return decode(c, v)
 }
 
 func decode(c *ReadCursor, v interface{}) error {
@@ -87,20 +96,27 @@ func decode(c *ReadCursor, v interface{}) error {
 	}
 
 	if o, ok := v.(Object); ok {
-		return decodeObject(c, o, false)
+		err := decodeObject(c, o, false)
+		if err != nil {
+			return fmt.Errorf("decode %T: %w", v, err)
+		}
+
+		return nil
 	}
-
-	// if obs, ok := v.([]Object); ok {
-
-	// }
 
 	return fmt.Errorf("unsupported type: %T", v)
 }
 
 func DecodeRegistered(data []byte) (Object, error) {
-	return decodeRegisteredObject(
+	ob, err := decodeRegisteredObject(
 		NewReadCursor(bytes.NewReader(data)),
 	)
+	if err != nil {
+		pp.Println("failed_decode:", data)
+		return nil, fmt.Errorf("decode registered object: %w", err)
+	}
+
+	return ob, nil
 }
 
 func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
@@ -140,7 +156,7 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 	for i := 0; i < value.NumField(); i++ {
 		ftyp := value.Field(i).Type()
 
-		if tag, found := vtyp.Field(i).Tag.Lookup(tagName); found {
+		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
 			info, err := parseFlagTag(tag)
 			if err != nil {
 				return fmt.Errorf("parse flag: %w", err)
@@ -188,7 +204,7 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 		case reflect.Bool:
 			val, err := cur.PopBool()
 			if err != nil {
-				return err
+				return fmt.Errorf("pop bool: %w", err)
 			}
 
 			value.Field(i).Set(reflect.ValueOf(val).Convert(ftyp))
@@ -291,7 +307,7 @@ func decodeRegisteredObject(cur *ReadCursor) (Object, error) {
 	if _, isEnum := enumCrcs[crc]; !isEnum {
 		err := decodeObject(cur, o, true)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("decode %T: %w", o, err)
 		}
 	}
 

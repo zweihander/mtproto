@@ -107,7 +107,7 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 
 	vtyp := val.Type()
 	for i := 0; i < val.NumField(); i++ {
-		if tag, found := vtyp.Field(i).Tag.Lookup(tagName); found {
+		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
 			info, err := parseFlagTag(tag)
 			if err != nil {
 				return fmt.Errorf("parsing tag: %w", err)
@@ -125,6 +125,11 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 
 			continue
 		}
+
+		// проверка на zero-value, падает на InitConnectionParams.LangPack т.к. он никогда не указывается
+		// if val.Field(i).IsZero() {
+		// 	return fmt.Errorf("field '%s' have zero value", vtyp.Field(i).Name)
+		// }
 
 		if err := encodeValue(cur, val.Field(i).Interface()); err != nil {
 			return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
@@ -150,7 +155,7 @@ func createBitflag(v interface{}) (uint32, bool, error) {
 
 	vtyp := val.Type()
 	for i := 0; i < val.NumField(); i++ {
-		tag, found := vtyp.Field(i).Tag.Lookup(tagName)
+		tag, found := vtyp.Field(i).Tag.Lookup("tl")
 		if found {
 			info, err := parseFlagTag(tag)
 			if err != nil {

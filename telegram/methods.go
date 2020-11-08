@@ -2,8 +2,7 @@
 
 package telegram
 
-import (
-	"fmt"
+import(
 	"github.com/xelaj/mtproto/serialize"
 )
 
@@ -19,20 +18,10 @@ func (e *AccountAcceptAuthorizationParams) CRC() uint32 {
 	return uint32(0xe7027c94)
 }
 
-func (c *Client) AccountAcceptAuthorization(params *AccountAcceptAuthorizationParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountAcceptAuthorization: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountAcceptAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountAcceptAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountAcceptAuthorization(params *AccountAcceptAuthorizationParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountCancelPasswordEmailParams struct{}
@@ -41,20 +30,10 @@ func (e *AccountCancelPasswordEmailParams) CRC() uint32 {
 	return uint32(0xc1cbd5b6)
 }
 
-func (c *Client) AccountCancelPasswordEmail() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountCancelPasswordEmailParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountCancelPasswordEmail: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountCancelPasswordEmail: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountCancelPasswordEmail: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountCancelPasswordEmail() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountCancelPasswordEmailParams{}, &resp)
+	return resp, err
 }
 
 type AccountChangePhoneParams struct {
@@ -68,19 +47,9 @@ func (e *AccountChangePhoneParams) CRC() uint32 {
 }
 
 func (c *Client) AccountChangePhone(params *AccountChangePhoneParams) (User, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountChangePhone: %w", err)
-	}
-
-	resp, ok := data.(User)
-	if !ok {
-		err := fmt.Errorf("AccountChangePhone: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountChangePhone: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp User
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountCheckUsernameParams struct {
@@ -91,20 +60,10 @@ func (e *AccountCheckUsernameParams) CRC() uint32 {
 	return uint32(0x2714d86c)
 }
 
-func (c *Client) AccountCheckUsername(params *AccountCheckUsernameParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountCheckUsername: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountCheckUsername: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountCheckUsername: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountCheckUsername(params *AccountCheckUsernameParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountConfirmPasswordEmailParams struct {
@@ -115,20 +74,10 @@ func (e *AccountConfirmPasswordEmailParams) CRC() uint32 {
 	return uint32(0x8fdf1920)
 }
 
-func (c *Client) AccountConfirmPasswordEmail(params *AccountConfirmPasswordEmailParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountConfirmPasswordEmail: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountConfirmPasswordEmail: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountConfirmPasswordEmail: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountConfirmPasswordEmail(params *AccountConfirmPasswordEmailParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountConfirmPhoneParams struct {
@@ -140,48 +89,28 @@ func (e *AccountConfirmPhoneParams) CRC() uint32 {
 	return uint32(0x5f2178c3)
 }
 
-func (c *Client) AccountConfirmPhone(params *AccountConfirmPhoneParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountConfirmPhone: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountConfirmPhone: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountConfirmPhone: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountConfirmPhone(params *AccountConfirmPhoneParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountCreateThemeParams struct {
 	// flags position
 	Slug     string              `validate:"required"`
 	Title    string              `validate:"required"`
-	Document InputDocument       `tl:"flag:2"`
-	Settings *InputThemeSettings `tl:"flag:3"`
+	Document InputDocument       `flag:"2"`
+	Settings *InputThemeSettings `flag:"3"`
 }
 
 func (e *AccountCreateThemeParams) CRC() uint32 {
 	return uint32(0x8432c21f)
 }
 
-func (c *Client) AccountCreateTheme(params *AccountCreateThemeParams) (*Theme, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountCreateTheme: %w", err)
-	}
-
-	resp, ok := data.(*Theme)
-	if !ok {
-		err := fmt.Errorf("AccountCreateTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountCreateTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountCreateTheme(params *AccountCreateThemeParams) (Theme, error) {
+	var resp Theme
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountDeleteAccountParams struct {
@@ -192,20 +121,10 @@ func (e *AccountDeleteAccountParams) CRC() uint32 {
 	return uint32(0x418d4e0b)
 }
 
-func (c *Client) AccountDeleteAccount(params *AccountDeleteAccountParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountDeleteAccount: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountDeleteAccount: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountDeleteAccount: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountDeleteAccount(params *AccountDeleteAccountParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountDeleteSecureValueParams struct {
@@ -216,45 +135,25 @@ func (e *AccountDeleteSecureValueParams) CRC() uint32 {
 	return uint32(0xb880bc4b)
 }
 
-func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountDeleteSecureValue: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountDeleteSecureValue: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountDeleteSecureValue: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountFinishTakeoutSessionParams struct {
 	// flags position
-	Success bool `tl:"flag:0,encoded_in_bitflag"`
+	Success bool `flag:"0,encoded_in_bitflags"`
 }
 
 func (e *AccountFinishTakeoutSessionParams) CRC() uint32 {
 	return uint32(0x1d2652ee)
 }
 
-func (c *Client) AccountFinishTakeoutSession(params *AccountFinishTakeoutSessionParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountFinishTakeoutSession: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountFinishTakeoutSession: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountFinishTakeoutSession: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountFinishTakeoutSession(params *AccountFinishTakeoutSessionParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetAccountTTLParams struct{}
@@ -263,20 +162,10 @@ func (e *AccountGetAccountTTLParams) CRC() uint32 {
 	return uint32(0x8fc711d)
 }
 
-func (c *Client) AccountGetAccountTTL() (*AccountDaysTTL, error) {
-	data, err := c.MakeRequest(&AccountGetAccountTTLParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetAccountTTL: %w", err)
-	}
-
-	resp, ok := data.(*AccountDaysTTL)
-	if !ok {
-		err := fmt.Errorf("AccountGetAccountTTL: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetAccountTTL: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetAccountTTL() (AccountDaysTTL, error) {
+	var resp AccountDaysTTL
+	err := c.MakeRequest2(&AccountGetAccountTTLParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetAllSecureValuesParams struct{}
@@ -285,20 +174,10 @@ func (e *AccountGetAllSecureValuesParams) CRC() uint32 {
 	return uint32(0xb288bc7d)
 }
 
-func (c *Client) AccountGetAllSecureValues() (*SecureValue, error) {
-	data, err := c.MakeRequest(&AccountGetAllSecureValuesParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetAllSecureValues: %w", err)
-	}
-
-	resp, ok := data.(*SecureValue)
-	if !ok {
-		err := fmt.Errorf("AccountGetAllSecureValues: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetAllSecureValues: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetAllSecureValues() (SecureValue, error) {
+	var resp SecureValue
+	err := c.MakeRequest2(&AccountGetAllSecureValuesParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetAuthorizationFormParams struct {
@@ -311,20 +190,10 @@ func (e *AccountGetAuthorizationFormParams) CRC() uint32 {
 	return uint32(0xb86ba8e1)
 }
 
-func (c *Client) AccountGetAuthorizationForm(params *AccountGetAuthorizationFormParams) (*AccountAuthorizationForm, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetAuthorizationForm: %w", err)
-	}
-
-	resp, ok := data.(*AccountAuthorizationForm)
-	if !ok {
-		err := fmt.Errorf("AccountGetAuthorizationForm: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetAuthorizationForm: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetAuthorizationForm(params *AccountGetAuthorizationFormParams) (AccountAuthorizationForm, error) {
+	var resp AccountAuthorizationForm
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetAuthorizationsParams struct{}
@@ -333,20 +202,10 @@ func (e *AccountGetAuthorizationsParams) CRC() uint32 {
 	return uint32(0xe320c158)
 }
 
-func (c *Client) AccountGetAuthorizations() (*AccountAuthorizations, error) {
-	data, err := c.MakeRequest(&AccountGetAuthorizationsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetAuthorizations: %w", err)
-	}
-
-	resp, ok := data.(*AccountAuthorizations)
-	if !ok {
-		err := fmt.Errorf("AccountGetAuthorizations: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetAuthorizations: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetAuthorizations() (AccountAuthorizations, error) {
+	var resp AccountAuthorizations
+	err := c.MakeRequest2(&AccountGetAuthorizationsParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetAutoDownloadSettingsParams struct{}
@@ -355,20 +214,10 @@ func (e *AccountGetAutoDownloadSettingsParams) CRC() uint32 {
 	return uint32(0x56da0b3f)
 }
 
-func (c *Client) AccountGetAutoDownloadSettings() (*AccountAutoDownloadSettings, error) {
-	data, err := c.MakeRequest(&AccountGetAutoDownloadSettingsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetAutoDownloadSettings: %w", err)
-	}
-
-	resp, ok := data.(*AccountAutoDownloadSettings)
-	if !ok {
-		err := fmt.Errorf("AccountGetAutoDownloadSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetAutoDownloadSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetAutoDownloadSettings() (AccountAutoDownloadSettings, error) {
+	var resp AccountAutoDownloadSettings
+	err := c.MakeRequest2(&AccountGetAutoDownloadSettingsParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetContactSignUpNotificationParams struct{}
@@ -377,20 +226,10 @@ func (e *AccountGetContactSignUpNotificationParams) CRC() uint32 {
 	return uint32(0x9f07c728)
 }
 
-func (c *Client) AccountGetContactSignUpNotification() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountGetContactSignUpNotificationParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetContactSignUpNotification: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountGetContactSignUpNotification: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetContactSignUpNotification: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetContactSignUpNotification() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountGetContactSignUpNotificationParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetContentSettingsParams struct{}
@@ -399,20 +238,10 @@ func (e *AccountGetContentSettingsParams) CRC() uint32 {
 	return uint32(0x8b9b4dae)
 }
 
-func (c *Client) AccountGetContentSettings() (*AccountContentSettings, error) {
-	data, err := c.MakeRequest(&AccountGetContentSettingsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetContentSettings: %w", err)
-	}
-
-	resp, ok := data.(*AccountContentSettings)
-	if !ok {
-		err := fmt.Errorf("AccountGetContentSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetContentSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetContentSettings() (AccountContentSettings, error) {
+	var resp AccountContentSettings
+	err := c.MakeRequest2(&AccountGetContentSettingsParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetGlobalPrivacySettingsParams struct{}
@@ -421,20 +250,10 @@ func (e *AccountGetGlobalPrivacySettingsParams) CRC() uint32 {
 	return uint32(0xeb2b4cf6)
 }
 
-func (c *Client) AccountGetGlobalPrivacySettings() (*GlobalPrivacySettings, error) {
-	data, err := c.MakeRequest(&AccountGetGlobalPrivacySettingsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetGlobalPrivacySettings: %w", err)
-	}
-
-	resp, ok := data.(*GlobalPrivacySettings)
-	if !ok {
-		err := fmt.Errorf("AccountGetGlobalPrivacySettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetGlobalPrivacySettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetGlobalPrivacySettings() (GlobalPrivacySettings, error) {
+	var resp GlobalPrivacySettings
+	err := c.MakeRequest2(&AccountGetGlobalPrivacySettingsParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetMultiWallPapersParams struct {
@@ -446,25 +265,15 @@ func (e *AccountGetMultiWallPapersParams) CRC() uint32 {
 }
 
 func (c *Client) AccountGetMultiWallPapers(params *AccountGetMultiWallPapersParams) (WallPaper, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetMultiWallPapers: %w", err)
-	}
-
-	resp, ok := data.(WallPaper)
-	if !ok {
-		err := fmt.Errorf("AccountGetMultiWallPapers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetMultiWallPapers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp WallPaper
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetNotifyExceptionsParams struct {
 	// flags position
-	CompareSound bool            `tl:"flag:1,encoded_in_bitflag"`
-	Peer         InputNotifyPeer `tl:"flag:0"`
+	CompareSound bool            `flag:"1,encoded_in_bitflags"`
+	Peer         InputNotifyPeer `flag:"0"`
 }
 
 func (e *AccountGetNotifyExceptionsParams) CRC() uint32 {
@@ -472,19 +281,9 @@ func (e *AccountGetNotifyExceptionsParams) CRC() uint32 {
 }
 
 func (c *Client) AccountGetNotifyExceptions(params *AccountGetNotifyExceptionsParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetNotifyExceptions: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("AccountGetNotifyExceptions: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetNotifyExceptions: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetNotifySettingsParams struct {
@@ -495,20 +294,10 @@ func (e *AccountGetNotifySettingsParams) CRC() uint32 {
 	return uint32(0x12b3ad31)
 }
 
-func (c *Client) AccountGetNotifySettings(params *AccountGetNotifySettingsParams) (*PeerNotifySettings, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetNotifySettings: %w", err)
-	}
-
-	resp, ok := data.(*PeerNotifySettings)
-	if !ok {
-		err := fmt.Errorf("AccountGetNotifySettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetNotifySettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetNotifySettings(params *AccountGetNotifySettingsParams) (PeerNotifySettings, error) {
+	var resp PeerNotifySettings
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetPasswordParams struct{}
@@ -517,20 +306,10 @@ func (e *AccountGetPasswordParams) CRC() uint32 {
 	return uint32(0x548a30f5)
 }
 
-func (c *Client) AccountGetPassword() (*AccountPassword, error) {
-	data, err := c.MakeRequest(&AccountGetPasswordParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetPassword: %w", err)
-	}
-
-	resp, ok := data.(*AccountPassword)
-	if !ok {
-		err := fmt.Errorf("AccountGetPassword: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetPassword: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetPassword() (AccountPassword, error) {
+	var resp AccountPassword
+	err := c.MakeRequest2(&AccountGetPasswordParams{}, &resp)
+	return resp, err
 }
 
 type AccountGetPasswordSettingsParams struct {
@@ -541,20 +320,10 @@ func (e *AccountGetPasswordSettingsParams) CRC() uint32 {
 	return uint32(0x9cd4eaf9)
 }
 
-func (c *Client) AccountGetPasswordSettings(params *AccountGetPasswordSettingsParams) (*AccountPasswordSettings, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetPasswordSettings: %w", err)
-	}
-
-	resp, ok := data.(*AccountPasswordSettings)
-	if !ok {
-		err := fmt.Errorf("AccountGetPasswordSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetPasswordSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetPasswordSettings(params *AccountGetPasswordSettingsParams) (AccountPasswordSettings, error) {
+	var resp AccountPasswordSettings
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetPrivacyParams struct {
@@ -565,20 +334,10 @@ func (e *AccountGetPrivacyParams) CRC() uint32 {
 	return uint32(0xdadbc950)
 }
 
-func (c *Client) AccountGetPrivacy(params *AccountGetPrivacyParams) (*AccountPrivacyRules, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetPrivacy: %w", err)
-	}
-
-	resp, ok := data.(*AccountPrivacyRules)
-	if !ok {
-		err := fmt.Errorf("AccountGetPrivacy: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetPrivacy: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetPrivacy(params *AccountGetPrivacyParams) (AccountPrivacyRules, error) {
+	var resp AccountPrivacyRules
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetSecureValueParams struct {
@@ -589,20 +348,10 @@ func (e *AccountGetSecureValueParams) CRC() uint32 {
 	return uint32(0x73665bc2)
 }
 
-func (c *Client) AccountGetSecureValue(params *AccountGetSecureValueParams) (*SecureValue, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetSecureValue: %w", err)
-	}
-
-	resp, ok := data.(*SecureValue)
-	if !ok {
-		err := fmt.Errorf("AccountGetSecureValue: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetSecureValue: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetSecureValue(params *AccountGetSecureValueParams) (SecureValue, error) {
+	var resp SecureValue
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetThemeParams struct {
@@ -615,20 +364,10 @@ func (e *AccountGetThemeParams) CRC() uint32 {
 	return uint32(0x8d9d742b)
 }
 
-func (c *Client) AccountGetTheme(params *AccountGetThemeParams) (*Theme, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetTheme: %w", err)
-	}
-
-	resp, ok := data.(*Theme)
-	if !ok {
-		err := fmt.Errorf("AccountGetTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetTheme(params *AccountGetThemeParams) (Theme, error) {
+	var resp Theme
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetThemesParams struct {
@@ -641,19 +380,9 @@ func (e *AccountGetThemesParams) CRC() uint32 {
 }
 
 func (c *Client) AccountGetThemes(params *AccountGetThemesParams) (AccountThemes, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetThemes: %w", err)
-	}
-
-	resp, ok := data.(AccountThemes)
-	if !ok {
-		err := fmt.Errorf("AccountGetThemes: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetThemes: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AccountThemes
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetTmpPasswordParams struct {
@@ -665,20 +394,10 @@ func (e *AccountGetTmpPasswordParams) CRC() uint32 {
 	return uint32(0x449e0b51)
 }
 
-func (c *Client) AccountGetTmpPassword(params *AccountGetTmpPasswordParams) (*AccountTmpPassword, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetTmpPassword: %w", err)
-	}
-
-	resp, ok := data.(*AccountTmpPassword)
-	if !ok {
-		err := fmt.Errorf("AccountGetTmpPassword: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetTmpPassword: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetTmpPassword(params *AccountGetTmpPasswordParams) (AccountTmpPassword, error) {
+	var resp AccountTmpPassword
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetWallPaperParams struct {
@@ -690,19 +409,9 @@ func (e *AccountGetWallPaperParams) CRC() uint32 {
 }
 
 func (c *Client) AccountGetWallPaper(params *AccountGetWallPaperParams) (WallPaper, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetWallPaper: %w", err)
-	}
-
-	resp, ok := data.(WallPaper)
-	if !ok {
-		err := fmt.Errorf("AccountGetWallPaper: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetWallPaper: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp WallPaper
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetWallPapersParams struct {
@@ -714,19 +423,9 @@ func (e *AccountGetWallPapersParams) CRC() uint32 {
 }
 
 func (c *Client) AccountGetWallPapers(params *AccountGetWallPapersParams) (AccountWallPapers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetWallPapers: %w", err)
-	}
-
-	resp, ok := data.(AccountWallPapers)
-	if !ok {
-		err := fmt.Errorf("AccountGetWallPapers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetWallPapers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AccountWallPapers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountGetWebAuthorizationsParams struct{}
@@ -735,78 +434,48 @@ func (e *AccountGetWebAuthorizationsParams) CRC() uint32 {
 	return uint32(0x182e6d6f)
 }
 
-func (c *Client) AccountGetWebAuthorizations() (*AccountWebAuthorizations, error) {
-	data, err := c.MakeRequest(&AccountGetWebAuthorizationsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountGetWebAuthorizations: %w", err)
-	}
-
-	resp, ok := data.(*AccountWebAuthorizations)
-	if !ok {
-		err := fmt.Errorf("AccountGetWebAuthorizations: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountGetWebAuthorizations: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountGetWebAuthorizations() (AccountWebAuthorizations, error) {
+	var resp AccountWebAuthorizations
+	err := c.MakeRequest2(&AccountGetWebAuthorizationsParams{}, &resp)
+	return resp, err
 }
 
 type AccountInitTakeoutSessionParams struct {
 	// flags position
-	Contacts          bool  `tl:"flag:0,encoded_in_bitflag"`
-	MessageUsers      bool  `tl:"flag:1,encoded_in_bitflag"`
-	MessageChats      bool  `tl:"flag:2,encoded_in_bitflag"`
-	MessageMegagroups bool  `tl:"flag:3,encoded_in_bitflag"`
-	MessageChannels   bool  `tl:"flag:4,encoded_in_bitflag"`
-	Files             bool  `tl:"flag:5,encoded_in_bitflag"`
-	FileMaxSize       int32 `tl:"flag:5"`
+	Contacts          bool  `flag:"0,encoded_in_bitflags"`
+	MessageUsers      bool  `flag:"1,encoded_in_bitflags"`
+	MessageChats      bool  `flag:"2,encoded_in_bitflags"`
+	MessageMegagroups bool  `flag:"3,encoded_in_bitflags"`
+	MessageChannels   bool  `flag:"4,encoded_in_bitflags"`
+	Files             bool  `flag:"5,encoded_in_bitflags"`
+	FileMaxSize       int32 `flag:"5"`
 }
 
 func (e *AccountInitTakeoutSessionParams) CRC() uint32 {
 	return uint32(0xf05b4804)
 }
 
-func (c *Client) AccountInitTakeoutSession(params *AccountInitTakeoutSessionParams) (*AccountTakeout, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountInitTakeoutSession: %w", err)
-	}
-
-	resp, ok := data.(*AccountTakeout)
-	if !ok {
-		err := fmt.Errorf("AccountInitTakeoutSession: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountInitTakeoutSession: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountInitTakeoutSession(params *AccountInitTakeoutSessionParams) (AccountTakeout, error) {
+	var resp AccountTakeout
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountInstallThemeParams struct {
 	// flags position
-	Dark   bool       `tl:"flag:0,encoded_in_bitflag"`
-	Format string     `tl:"flag:1"`
-	Theme  InputTheme `tl:"flag:1"`
+	Dark   bool       `flag:"0,encoded_in_bitflags"`
+	Format string     `flag:"1"`
+	Theme  InputTheme `flag:"1"`
 }
 
 func (e *AccountInstallThemeParams) CRC() uint32 {
 	return uint32(0x7ae43737)
 }
 
-func (c *Client) AccountInstallTheme(params *AccountInstallThemeParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountInstallTheme: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountInstallTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountInstallTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountInstallTheme(params *AccountInstallThemeParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountInstallWallPaperParams struct {
@@ -818,25 +487,15 @@ func (e *AccountInstallWallPaperParams) CRC() uint32 {
 	return uint32(0xfeed5769)
 }
 
-func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountInstallWallPaper: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountInstallWallPaper: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountInstallWallPaper: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountRegisterDeviceParams struct {
 	// flags position
-	NoMuted    bool    `tl:"flag:0,encoded_in_bitflag"`
+	NoMuted    bool    `flag:"0,encoded_in_bitflags"`
 	TokenType  int32   `validate:"required"`
 	Token      string  `validate:"required"`
 	AppSandbox bool    `validate:"required"`
@@ -848,20 +507,10 @@ func (e *AccountRegisterDeviceParams) CRC() uint32 {
 	return uint32(0x68976c6f)
 }
 
-func (c *Client) AccountRegisterDevice(params *AccountRegisterDeviceParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountRegisterDevice: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountRegisterDevice: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountRegisterDevice: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountRegisterDevice(params *AccountRegisterDeviceParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountReportPeerParams struct {
@@ -873,20 +522,10 @@ func (e *AccountReportPeerParams) CRC() uint32 {
 	return uint32(0xae189d5f)
 }
 
-func (c *Client) AccountReportPeer(params *AccountReportPeerParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountReportPeer: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountReportPeer: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountReportPeer: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountReportPeer(params *AccountReportPeerParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountResendPasswordEmailParams struct{}
@@ -895,20 +534,10 @@ func (e *AccountResendPasswordEmailParams) CRC() uint32 {
 	return uint32(0x7a7f2a15)
 }
 
-func (c *Client) AccountResendPasswordEmail() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountResendPasswordEmailParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountResendPasswordEmail: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResendPasswordEmail: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResendPasswordEmail: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResendPasswordEmail() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountResendPasswordEmailParams{}, &resp)
+	return resp, err
 }
 
 type AccountResetAuthorizationParams struct {
@@ -919,20 +548,10 @@ func (e *AccountResetAuthorizationParams) CRC() uint32 {
 	return uint32(0xdf77f3bc)
 }
 
-func (c *Client) AccountResetAuthorization(params *AccountResetAuthorizationParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountResetAuthorization: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResetAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResetAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResetAuthorization(params *AccountResetAuthorizationParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountResetNotifySettingsParams struct{}
@@ -941,20 +560,10 @@ func (e *AccountResetNotifySettingsParams) CRC() uint32 {
 	return uint32(0xdb7e1747)
 }
 
-func (c *Client) AccountResetNotifySettings() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountResetNotifySettingsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountResetNotifySettings: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResetNotifySettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResetNotifySettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResetNotifySettings() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountResetNotifySettingsParams{}, &resp)
+	return resp, err
 }
 
 type AccountResetWallPapersParams struct{}
@@ -963,20 +572,10 @@ func (e *AccountResetWallPapersParams) CRC() uint32 {
 	return uint32(0xbb3b9804)
 }
 
-func (c *Client) AccountResetWallPapers() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountResetWallPapersParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountResetWallPapers: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResetWallPapers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResetWallPapers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResetWallPapers() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountResetWallPapersParams{}, &resp)
+	return resp, err
 }
 
 type AccountResetWebAuthorizationParams struct {
@@ -987,20 +586,10 @@ func (e *AccountResetWebAuthorizationParams) CRC() uint32 {
 	return uint32(0x2d01b9ef)
 }
 
-func (c *Client) AccountResetWebAuthorization(params *AccountResetWebAuthorizationParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountResetWebAuthorization: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResetWebAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResetWebAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResetWebAuthorization(params *AccountResetWebAuthorizationParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountResetWebAuthorizationsParams struct{}
@@ -1009,26 +598,16 @@ func (e *AccountResetWebAuthorizationsParams) CRC() uint32 {
 	return uint32(0x682d2594)
 }
 
-func (c *Client) AccountResetWebAuthorizations() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AccountResetWebAuthorizationsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AccountResetWebAuthorizations: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountResetWebAuthorizations: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountResetWebAuthorizations: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountResetWebAuthorizations() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AccountResetWebAuthorizationsParams{}, &resp)
+	return resp, err
 }
 
 type AccountSaveAutoDownloadSettingsParams struct {
 	// flags position
-	Low      bool                  `tl:"flag:0,encoded_in_bitflag"`
-	High     bool                  `tl:"flag:1,encoded_in_bitflag"`
+	Low      bool                  `flag:"0,encoded_in_bitflags"`
+	High     bool                  `flag:"1,encoded_in_bitflags"`
 	Settings *AutoDownloadSettings `validate:"required"`
 }
 
@@ -1036,20 +615,10 @@ func (e *AccountSaveAutoDownloadSettingsParams) CRC() uint32 {
 	return uint32(0x76f36233)
 }
 
-func (c *Client) AccountSaveAutoDownloadSettings(params *AccountSaveAutoDownloadSettingsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSaveAutoDownloadSettings: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSaveAutoDownloadSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSaveAutoDownloadSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSaveAutoDownloadSettings(params *AccountSaveAutoDownloadSettingsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSaveSecureValueParams struct {
@@ -1061,20 +630,10 @@ func (e *AccountSaveSecureValueParams) CRC() uint32 {
 	return uint32(0x899fe31d)
 }
 
-func (c *Client) AccountSaveSecureValue(params *AccountSaveSecureValueParams) (*SecureValue, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSaveSecureValue: %w", err)
-	}
-
-	resp, ok := data.(*SecureValue)
-	if !ok {
-		err := fmt.Errorf("AccountSaveSecureValue: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSaveSecureValue: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSaveSecureValue(params *AccountSaveSecureValueParams) (SecureValue, error) {
+	var resp SecureValue
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSaveThemeParams struct {
@@ -1086,20 +645,10 @@ func (e *AccountSaveThemeParams) CRC() uint32 {
 	return uint32(0xf257106c)
 }
 
-func (c *Client) AccountSaveTheme(params *AccountSaveThemeParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSaveTheme: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSaveTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSaveTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSaveTheme(params *AccountSaveThemeParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSaveWallPaperParams struct {
@@ -1112,20 +661,10 @@ func (e *AccountSaveWallPaperParams) CRC() uint32 {
 	return uint32(0x6c5a5b37)
 }
 
-func (c *Client) AccountSaveWallPaper(params *AccountSaveWallPaperParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSaveWallPaper: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSaveWallPaper: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSaveWallPaper: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSaveWallPaper(params *AccountSaveWallPaperParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSendChangePhoneCodeParams struct {
@@ -1137,20 +676,10 @@ func (e *AccountSendChangePhoneCodeParams) CRC() uint32 {
 	return uint32(0x82574ae5)
 }
 
-func (c *Client) AccountSendChangePhoneCode(params *AccountSendChangePhoneCodeParams) (*AuthSentCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSendChangePhoneCode: %w", err)
-	}
-
-	resp, ok := data.(*AuthSentCode)
-	if !ok {
-		err := fmt.Errorf("AccountSendChangePhoneCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSendChangePhoneCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSendChangePhoneCode(params *AccountSendChangePhoneCodeParams) (AuthSentCode, error) {
+	var resp AuthSentCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSendConfirmPhoneCodeParams struct {
@@ -1162,20 +691,10 @@ func (e *AccountSendConfirmPhoneCodeParams) CRC() uint32 {
 	return uint32(0x1b3faa88)
 }
 
-func (c *Client) AccountSendConfirmPhoneCode(params *AccountSendConfirmPhoneCodeParams) (*AuthSentCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSendConfirmPhoneCode: %w", err)
-	}
-
-	resp, ok := data.(*AuthSentCode)
-	if !ok {
-		err := fmt.Errorf("AccountSendConfirmPhoneCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSendConfirmPhoneCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSendConfirmPhoneCode(params *AccountSendConfirmPhoneCodeParams) (AuthSentCode, error) {
+	var resp AuthSentCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSendVerifyEmailCodeParams struct {
@@ -1186,20 +705,10 @@ func (e *AccountSendVerifyEmailCodeParams) CRC() uint32 {
 	return uint32(0x7011509f)
 }
 
-func (c *Client) AccountSendVerifyEmailCode(params *AccountSendVerifyEmailCodeParams) (*AccountSentEmailCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSendVerifyEmailCode: %w", err)
-	}
-
-	resp, ok := data.(*AccountSentEmailCode)
-	if !ok {
-		err := fmt.Errorf("AccountSendVerifyEmailCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSendVerifyEmailCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSendVerifyEmailCode(params *AccountSendVerifyEmailCodeParams) (AccountSentEmailCode, error) {
+	var resp AccountSentEmailCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSendVerifyPhoneCodeParams struct {
@@ -1211,20 +720,10 @@ func (e *AccountSendVerifyPhoneCodeParams) CRC() uint32 {
 	return uint32(0xa5a356f9)
 }
 
-func (c *Client) AccountSendVerifyPhoneCode(params *AccountSendVerifyPhoneCodeParams) (*AuthSentCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSendVerifyPhoneCode: %w", err)
-	}
-
-	resp, ok := data.(*AuthSentCode)
-	if !ok {
-		err := fmt.Errorf("AccountSendVerifyPhoneCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSendVerifyPhoneCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSendVerifyPhoneCode(params *AccountSendVerifyPhoneCodeParams) (AuthSentCode, error) {
+	var resp AuthSentCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSetAccountTTLParams struct {
@@ -1235,20 +734,10 @@ func (e *AccountSetAccountTTLParams) CRC() uint32 {
 	return uint32(0x2442485e)
 }
 
-func (c *Client) AccountSetAccountTTL(params *AccountSetAccountTTLParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSetAccountTTL: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSetAccountTTL: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSetAccountTTL: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSetAccountTTL(params *AccountSetAccountTTLParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSetContactSignUpNotificationParams struct {
@@ -1259,45 +748,25 @@ func (e *AccountSetContactSignUpNotificationParams) CRC() uint32 {
 	return uint32(0xcff43f61)
 }
 
-func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSignUpNotificationParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSetContactSignUpNotification: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSetContactSignUpNotification: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSetContactSignUpNotification: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSignUpNotificationParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSetContentSettingsParams struct {
 	// flags position
-	SensitiveEnabled bool `tl:"flag:0,encoded_in_bitflag"`
+	SensitiveEnabled bool `flag:"0,encoded_in_bitflags"`
 }
 
 func (e *AccountSetContentSettingsParams) CRC() uint32 {
 	return uint32(0xb574b16b)
 }
 
-func (c *Client) AccountSetContentSettings(params *AccountSetContentSettingsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSetContentSettings: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountSetContentSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSetContentSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSetContentSettings(params *AccountSetContentSettingsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSetGlobalPrivacySettingsParams struct {
@@ -1308,20 +777,10 @@ func (e *AccountSetGlobalPrivacySettingsParams) CRC() uint32 {
 	return uint32(0x1edaaac2)
 }
 
-func (c *Client) AccountSetGlobalPrivacySettings(params *AccountSetGlobalPrivacySettingsParams) (*GlobalPrivacySettings, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSetGlobalPrivacySettings: %w", err)
-	}
-
-	resp, ok := data.(*GlobalPrivacySettings)
-	if !ok {
-		err := fmt.Errorf("AccountSetGlobalPrivacySettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSetGlobalPrivacySettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSetGlobalPrivacySettings(params *AccountSetGlobalPrivacySettingsParams) (GlobalPrivacySettings, error) {
+	var resp GlobalPrivacySettings
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountSetPrivacyParams struct {
@@ -1333,20 +792,10 @@ func (e *AccountSetPrivacyParams) CRC() uint32 {
 	return uint32(0xc9f81ce8)
 }
 
-func (c *Client) AccountSetPrivacy(params *AccountSetPrivacyParams) (*AccountPrivacyRules, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountSetPrivacy: %w", err)
-	}
-
-	resp, ok := data.(*AccountPrivacyRules)
-	if !ok {
-		err := fmt.Errorf("AccountSetPrivacy: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountSetPrivacy: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountSetPrivacy(params *AccountSetPrivacyParams) (AccountPrivacyRules, error) {
+	var resp AccountPrivacyRules
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUnregisterDeviceParams struct {
@@ -1359,20 +808,10 @@ func (e *AccountUnregisterDeviceParams) CRC() uint32 {
 	return uint32(0x3076c4bf)
 }
 
-func (c *Client) AccountUnregisterDevice(params *AccountUnregisterDeviceParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUnregisterDevice: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountUnregisterDevice: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUnregisterDevice: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUnregisterDevice(params *AccountUnregisterDeviceParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateDeviceLockedParams struct {
@@ -1383,20 +822,10 @@ func (e *AccountUpdateDeviceLockedParams) CRC() uint32 {
 	return uint32(0x38df3532)
 }
 
-func (c *Client) AccountUpdateDeviceLocked(params *AccountUpdateDeviceLockedParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateDeviceLocked: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateDeviceLocked: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateDeviceLocked: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUpdateDeviceLocked(params *AccountUpdateDeviceLockedParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateNotifySettingsParams struct {
@@ -1408,20 +837,10 @@ func (e *AccountUpdateNotifySettingsParams) CRC() uint32 {
 	return uint32(0x84be5b93)
 }
 
-func (c *Client) AccountUpdateNotifySettings(params *AccountUpdateNotifySettingsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateNotifySettings: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateNotifySettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateNotifySettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUpdateNotifySettings(params *AccountUpdateNotifySettingsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdatePasswordSettingsParams struct {
@@ -1433,27 +852,17 @@ func (e *AccountUpdatePasswordSettingsParams) CRC() uint32 {
 	return uint32(0xa59b102f)
 }
 
-func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSettingsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdatePasswordSettings: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountUpdatePasswordSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdatePasswordSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSettingsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateProfileParams struct {
 	// flags position
-	FirstName string `tl:"flag:0"`
-	LastName  string `tl:"flag:1"`
-	About     string `tl:"flag:2"`
+	FirstName string `flag:"0"`
+	LastName  string `flag:"1"`
+	About     string `flag:"2"`
 }
 
 func (e *AccountUpdateProfileParams) CRC() uint32 {
@@ -1461,19 +870,9 @@ func (e *AccountUpdateProfileParams) CRC() uint32 {
 }
 
 func (c *Client) AccountUpdateProfile(params *AccountUpdateProfileParams) (User, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateProfile: %w", err)
-	}
-
-	resp, ok := data.(User)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateProfile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateProfile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp User
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateStatusParams struct {
@@ -1484,50 +883,30 @@ func (e *AccountUpdateStatusParams) CRC() uint32 {
 	return uint32(0x6628562c)
 }
 
-func (c *Client) AccountUpdateStatus(params *AccountUpdateStatusParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateStatus: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateStatus: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateStatus: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUpdateStatus(params *AccountUpdateStatusParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateThemeParams struct {
 	// flags position
 	Format   string              `validate:"required"`
 	Theme    InputTheme          `validate:"required"`
-	Slug     string              `tl:"flag:0"`
-	Title    string              `tl:"flag:1"`
-	Document InputDocument       `tl:"flag:2"`
-	Settings *InputThemeSettings `tl:"flag:3"`
+	Slug     string              `flag:"0"`
+	Title    string              `flag:"1"`
+	Document InputDocument       `flag:"2"`
+	Settings *InputThemeSettings `flag:"3"`
 }
 
 func (e *AccountUpdateThemeParams) CRC() uint32 {
 	return uint32(0x5cb367d5)
 }
 
-func (c *Client) AccountUpdateTheme(params *AccountUpdateThemeParams) (*Theme, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateTheme: %w", err)
-	}
-
-	resp, ok := data.(*Theme)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountUpdateTheme(params *AccountUpdateThemeParams) (Theme, error) {
+	var resp Theme
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUpdateUsernameParams struct {
@@ -1539,25 +918,15 @@ func (e *AccountUpdateUsernameParams) CRC() uint32 {
 }
 
 func (c *Client) AccountUpdateUsername(params *AccountUpdateUsernameParams) (User, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUpdateUsername: %w", err)
-	}
-
-	resp, ok := data.(User)
-	if !ok {
-		err := fmt.Errorf("AccountUpdateUsername: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUpdateUsername: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp User
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUploadThemeParams struct {
 	// flags position
 	File     InputFile `validate:"required"`
-	Thumb    InputFile `tl:"flag:0"`
+	Thumb    InputFile `flag:"0"`
 	FileName string    `validate:"required"`
 	MimeType string    `validate:"required"`
 }
@@ -1567,19 +936,9 @@ func (e *AccountUploadThemeParams) CRC() uint32 {
 }
 
 func (c *Client) AccountUploadTheme(params *AccountUploadThemeParams) (Document, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUploadTheme: %w", err)
-	}
-
-	resp, ok := data.(Document)
-	if !ok {
-		err := fmt.Errorf("AccountUploadTheme: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUploadTheme: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Document
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountUploadWallPaperParams struct {
@@ -1593,19 +952,9 @@ func (e *AccountUploadWallPaperParams) CRC() uint32 {
 }
 
 func (c *Client) AccountUploadWallPaper(params *AccountUploadWallPaperParams) (WallPaper, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountUploadWallPaper: %w", err)
-	}
-
-	resp, ok := data.(WallPaper)
-	if !ok {
-		err := fmt.Errorf("AccountUploadWallPaper: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountUploadWallPaper: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp WallPaper
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountVerifyEmailParams struct {
@@ -1617,20 +966,10 @@ func (e *AccountVerifyEmailParams) CRC() uint32 {
 	return uint32(0xecba39db)
 }
 
-func (c *Client) AccountVerifyEmail(params *AccountVerifyEmailParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountVerifyEmail: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountVerifyEmail: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountVerifyEmail: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountVerifyEmail(params *AccountVerifyEmailParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AccountVerifyPhoneParams struct {
@@ -1643,20 +982,10 @@ func (e *AccountVerifyPhoneParams) CRC() uint32 {
 	return uint32(0x4dd3a7f6)
 }
 
-func (c *Client) AccountVerifyPhone(params *AccountVerifyPhoneParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AccountVerifyPhone: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AccountVerifyPhone: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AccountVerifyPhone: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AccountVerifyPhone(params *AccountVerifyPhoneParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthAcceptLoginTokenParams struct {
@@ -1667,20 +996,10 @@ func (e *AuthAcceptLoginTokenParams) CRC() uint32 {
 	return uint32(0xe894ad4d)
 }
 
-func (c *Client) AuthAcceptLoginToken(params *AuthAcceptLoginTokenParams) (*Authorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthAcceptLoginToken: %w", err)
-	}
-
-	resp, ok := data.(*Authorization)
-	if !ok {
-		err := fmt.Errorf("AuthAcceptLoginToken: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthAcceptLoginToken: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthAcceptLoginToken(params *AuthAcceptLoginTokenParams) (Authorization, error) {
+	var resp Authorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthBindTempAuthKeyParams struct {
@@ -1694,20 +1013,10 @@ func (e *AuthBindTempAuthKeyParams) CRC() uint32 {
 	return uint32(0xcdd42a05)
 }
 
-func (c *Client) AuthBindTempAuthKey(params *AuthBindTempAuthKeyParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthBindTempAuthKey: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AuthBindTempAuthKey: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthBindTempAuthKey: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthBindTempAuthKey(params *AuthBindTempAuthKeyParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthCancelCodeParams struct {
@@ -1719,20 +1028,10 @@ func (e *AuthCancelCodeParams) CRC() uint32 {
 	return uint32(0x1f040578)
 }
 
-func (c *Client) AuthCancelCode(params *AuthCancelCodeParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthCancelCode: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AuthCancelCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthCancelCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthCancelCode(params *AuthCancelCodeParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthCheckPasswordParams struct {
@@ -1744,19 +1043,9 @@ func (e *AuthCheckPasswordParams) CRC() uint32 {
 }
 
 func (c *Client) AuthCheckPassword(params *AuthCheckPasswordParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthCheckPassword: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthCheckPassword: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthCheckPassword: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthDropTempAuthKeysParams struct {
@@ -1767,20 +1056,10 @@ func (e *AuthDropTempAuthKeysParams) CRC() uint32 {
 	return uint32(0x8e48a188)
 }
 
-func (c *Client) AuthDropTempAuthKeys(params *AuthDropTempAuthKeysParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthDropTempAuthKeys: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AuthDropTempAuthKeys: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthDropTempAuthKeys: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthDropTempAuthKeys(params *AuthDropTempAuthKeysParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthExportAuthorizationParams struct {
@@ -1791,20 +1070,10 @@ func (e *AuthExportAuthorizationParams) CRC() uint32 {
 	return uint32(0xe5bfffcd)
 }
 
-func (c *Client) AuthExportAuthorization(params *AuthExportAuthorizationParams) (*AuthExportedAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthExportAuthorization: %w", err)
-	}
-
-	resp, ok := data.(*AuthExportedAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthExportAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthExportAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthExportAuthorization(params *AuthExportAuthorizationParams) (AuthExportedAuthorization, error) {
+	var resp AuthExportedAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthExportLoginTokenParams struct {
@@ -1818,19 +1087,9 @@ func (e *AuthExportLoginTokenParams) CRC() uint32 {
 }
 
 func (c *Client) AuthExportLoginToken(params *AuthExportLoginTokenParams) (AuthLoginToken, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthExportLoginToken: %w", err)
-	}
-
-	resp, ok := data.(AuthLoginToken)
-	if !ok {
-		err := fmt.Errorf("AuthExportLoginToken: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthExportLoginToken: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthLoginToken
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthImportAuthorizationParams struct {
@@ -1843,19 +1102,9 @@ func (e *AuthImportAuthorizationParams) CRC() uint32 {
 }
 
 func (c *Client) AuthImportAuthorization(params *AuthImportAuthorizationParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthImportAuthorization: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthImportAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthImportAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthImportBotAuthorizationParams struct {
@@ -1870,19 +1119,9 @@ func (e *AuthImportBotAuthorizationParams) CRC() uint32 {
 }
 
 func (c *Client) AuthImportBotAuthorization(params *AuthImportBotAuthorizationParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthImportBotAuthorization: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthImportBotAuthorization: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthImportBotAuthorization: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthImportLoginTokenParams struct {
@@ -1894,19 +1133,9 @@ func (e *AuthImportLoginTokenParams) CRC() uint32 {
 }
 
 func (c *Client) AuthImportLoginToken(params *AuthImportLoginTokenParams) (AuthLoginToken, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthImportLoginToken: %w", err)
-	}
-
-	resp, ok := data.(AuthLoginToken)
-	if !ok {
-		err := fmt.Errorf("AuthImportLoginToken: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthImportLoginToken: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthLoginToken
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthLogOutParams struct{}
@@ -1915,20 +1144,10 @@ func (e *AuthLogOutParams) CRC() uint32 {
 	return uint32(0x5717da40)
 }
 
-func (c *Client) AuthLogOut() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AuthLogOutParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AuthLogOut: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AuthLogOut: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthLogOut: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthLogOut() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AuthLogOutParams{}, &resp)
+	return resp, err
 }
 
 type AuthRecoverPasswordParams struct {
@@ -1940,19 +1159,9 @@ func (e *AuthRecoverPasswordParams) CRC() uint32 {
 }
 
 func (c *Client) AuthRecoverPassword(params *AuthRecoverPasswordParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthRecoverPassword: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthRecoverPassword: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthRecoverPassword: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthRequestPasswordRecoveryParams struct{}
@@ -1961,20 +1170,10 @@ func (e *AuthRequestPasswordRecoveryParams) CRC() uint32 {
 	return uint32(0xd897bc66)
 }
 
-func (c *Client) AuthRequestPasswordRecovery() (*AuthPasswordRecovery, error) {
-	data, err := c.MakeRequest(&AuthRequestPasswordRecoveryParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AuthRequestPasswordRecovery: %w", err)
-	}
-
-	resp, ok := data.(*AuthPasswordRecovery)
-	if !ok {
-		err := fmt.Errorf("AuthRequestPasswordRecovery: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthRequestPasswordRecovery: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthRequestPasswordRecovery() (AuthPasswordRecovery, error) {
+	var resp AuthPasswordRecovery
+	err := c.MakeRequest2(&AuthRequestPasswordRecoveryParams{}, &resp)
+	return resp, err
 }
 
 type AuthResendCodeParams struct {
@@ -1986,20 +1185,10 @@ func (e *AuthResendCodeParams) CRC() uint32 {
 	return uint32(0x3ef1a9bf)
 }
 
-func (c *Client) AuthResendCode(params *AuthResendCodeParams) (*AuthSentCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthResendCode: %w", err)
-	}
-
-	resp, ok := data.(*AuthSentCode)
-	if !ok {
-		err := fmt.Errorf("AuthResendCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthResendCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthResendCode(params *AuthResendCodeParams) (AuthSentCode, error) {
+	var resp AuthSentCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthResetAuthorizationsParams struct{}
@@ -2008,20 +1197,10 @@ func (e *AuthResetAuthorizationsParams) CRC() uint32 {
 	return uint32(0x9fab0d1a)
 }
 
-func (c *Client) AuthResetAuthorizations() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&AuthResetAuthorizationsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("AuthResetAuthorizations: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("AuthResetAuthorizations: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthResetAuthorizations: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthResetAuthorizations() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&AuthResetAuthorizationsParams{}, &resp)
+	return resp, err
 }
 
 type AuthSendCodeParams struct {
@@ -2035,20 +1214,10 @@ func (e *AuthSendCodeParams) CRC() uint32 {
 	return uint32(0xa677244f)
 }
 
-func (c *Client) AuthSendCode(params *AuthSendCodeParams) (*AuthSentCode, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthSendCode: %w", err)
-	}
-
-	resp, ok := data.(*AuthSentCode)
-	if !ok {
-		err := fmt.Errorf("AuthSendCode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthSendCode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) AuthSendCode(params *AuthSendCodeParams) (AuthSentCode, error) {
+	var resp AuthSentCode
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthSignInParams struct {
@@ -2062,19 +1231,9 @@ func (e *AuthSignInParams) CRC() uint32 {
 }
 
 func (c *Client) AuthSignIn(params *AuthSignInParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthSignIn: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthSignIn: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthSignIn: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type AuthSignUpParams struct {
@@ -2089,19 +1248,9 @@ func (e *AuthSignUpParams) CRC() uint32 {
 }
 
 func (c *Client) AuthSignUp(params *AuthSignUpParams) (AuthAuthorization, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("AuthSignUp: %w", err)
-	}
-
-	resp, ok := data.(AuthAuthorization)
-	if !ok {
-		err := fmt.Errorf("AuthSignUp: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("AuthSignUp: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp AuthAuthorization
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type BotsAnswerWebhookJSONQueryParams struct {
@@ -2113,20 +1262,10 @@ func (e *BotsAnswerWebhookJSONQueryParams) CRC() uint32 {
 	return uint32(0xe6213f4d)
 }
 
-func (c *Client) BotsAnswerWebhookJSONQuery(params *BotsAnswerWebhookJSONQueryParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("BotsAnswerWebhookJSONQuery: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("BotsAnswerWebhookJSONQuery: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("BotsAnswerWebhookJSONQuery: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) BotsAnswerWebhookJSONQuery(params *BotsAnswerWebhookJSONQueryParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type BotsSendCustomRequestParams struct {
@@ -2138,20 +1277,10 @@ func (e *BotsSendCustomRequestParams) CRC() uint32 {
 	return uint32(0xaa2769ed)
 }
 
-func (c *Client) BotsSendCustomRequest(params *BotsSendCustomRequestParams) (*DataJSON, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("BotsSendCustomRequest: %w", err)
-	}
-
-	resp, ok := data.(*DataJSON)
-	if !ok {
-		err := fmt.Errorf("BotsSendCustomRequest: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("BotsSendCustomRequest: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) BotsSendCustomRequest(params *BotsSendCustomRequestParams) (DataJSON, error) {
+	var resp DataJSON
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type BotsSetBotCommandsParams struct {
@@ -2162,20 +1291,10 @@ func (e *BotsSetBotCommandsParams) CRC() uint32 {
 	return uint32(0x805d46f6)
 }
 
-func (c *Client) BotsSetBotCommands(params *BotsSetBotCommandsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("BotsSetBotCommands: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("BotsSetBotCommands: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("BotsSetBotCommands: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) BotsSetBotCommands(params *BotsSetBotCommandsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsCheckUsernameParams struct {
@@ -2187,30 +1306,20 @@ func (e *ChannelsCheckUsernameParams) CRC() uint32 {
 	return uint32(0x10e6bd2c)
 }
 
-func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsCheckUsername: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsCheckUsername: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsCheckUsername: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsCreateChannelParams struct {
 	// flags position
-	Broadcast bool          `tl:"flag:0,encoded_in_bitflag"`
-	Megagroup bool          `tl:"flag:1,encoded_in_bitflag"`
+	Broadcast bool          `flag:"0,encoded_in_bitflags"`
+	Megagroup bool          `flag:"1,encoded_in_bitflags"`
 	Title     string        `validate:"required"`
 	About     string        `validate:"required"`
-	GeoPoint  InputGeoPoint `tl:"flag:2"`
-	Address   string        `tl:"flag:2"`
+	GeoPoint  InputGeoPoint `flag:"2"`
+	Address   string        `flag:"2"`
 }
 
 func (e *ChannelsCreateChannelParams) CRC() uint32 {
@@ -2218,19 +1327,9 @@ func (e *ChannelsCreateChannelParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsCreateChannel(params *ChannelsCreateChannelParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsCreateChannel: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsCreateChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsCreateChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsDeleteChannelParams struct {
@@ -2242,19 +1341,9 @@ func (e *ChannelsDeleteChannelParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsDeleteChannel(params *ChannelsDeleteChannelParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsDeleteChannel: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsDeleteChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsDeleteChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsDeleteHistoryParams struct {
@@ -2266,20 +1355,10 @@ func (e *ChannelsDeleteHistoryParams) CRC() uint32 {
 	return uint32(0xaf369d42)
 }
 
-func (c *Client) ChannelsDeleteHistory(params *ChannelsDeleteHistoryParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsDeleteHistory: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsDeleteHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsDeleteHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsDeleteHistory(params *ChannelsDeleteHistoryParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsDeleteMessagesParams struct {
@@ -2291,20 +1370,10 @@ func (e *ChannelsDeleteMessagesParams) CRC() uint32 {
 	return uint32(0x84c1fd4e)
 }
 
-func (c *Client) ChannelsDeleteMessages(params *ChannelsDeleteMessagesParams) (*MessagesAffectedMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsDeleteMessages: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedMessages)
-	if !ok {
-		err := fmt.Errorf("ChannelsDeleteMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsDeleteMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsDeleteMessages(params *ChannelsDeleteMessagesParams) (MessagesAffectedMessages, error) {
+	var resp MessagesAffectedMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsDeleteUserHistoryParams struct {
@@ -2316,20 +1385,10 @@ func (e *ChannelsDeleteUserHistoryParams) CRC() uint32 {
 	return uint32(0xd10dd71b)
 }
 
-func (c *Client) ChannelsDeleteUserHistory(params *ChannelsDeleteUserHistoryParams) (*MessagesAffectedHistory, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsDeleteUserHistory: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedHistory)
-	if !ok {
-		err := fmt.Errorf("ChannelsDeleteUserHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsDeleteUserHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsDeleteUserHistory(params *ChannelsDeleteUserHistoryParams) (MessagesAffectedHistory, error) {
+	var resp MessagesAffectedHistory
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditAdminParams struct {
@@ -2344,19 +1403,9 @@ func (e *ChannelsEditAdminParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsEditAdmin(params *ChannelsEditAdminParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditAdmin: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditAdmin: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditAdmin: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditBannedParams struct {
@@ -2370,19 +1419,9 @@ func (e *ChannelsEditBannedParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsEditBanned(params *ChannelsEditBannedParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditBanned: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditBanned: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditBanned: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditCreatorParams struct {
@@ -2396,19 +1435,9 @@ func (e *ChannelsEditCreatorParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsEditCreator(params *ChannelsEditCreatorParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditCreator: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditCreator: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditCreator: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditLocationParams struct {
@@ -2421,20 +1450,10 @@ func (e *ChannelsEditLocationParams) CRC() uint32 {
 	return uint32(0x58e63f6d)
 }
 
-func (c *Client) ChannelsEditLocation(params *ChannelsEditLocationParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditLocation: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditLocation: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditLocation: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsEditLocation(params *ChannelsEditLocationParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditPhotoParams struct {
@@ -2447,19 +1466,9 @@ func (e *ChannelsEditPhotoParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsEditPhoto(params *ChannelsEditPhotoParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditPhoto: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditPhoto: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditPhoto: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsEditTitleParams struct {
@@ -2472,19 +1481,9 @@ func (e *ChannelsEditTitleParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsEditTitle(params *ChannelsEditTitleParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsEditTitle: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsEditTitle: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsEditTitle: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsExportMessageLinkParams struct {
@@ -2497,28 +1496,18 @@ func (e *ChannelsExportMessageLinkParams) CRC() uint32 {
 	return uint32(0xceb77163)
 }
 
-func (c *Client) ChannelsExportMessageLink(params *ChannelsExportMessageLinkParams) (*ExportedMessageLink, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsExportMessageLink: %w", err)
-	}
-
-	resp, ok := data.(*ExportedMessageLink)
-	if !ok {
-		err := fmt.Errorf("ChannelsExportMessageLink: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsExportMessageLink: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsExportMessageLink(params *ChannelsExportMessageLinkParams) (ExportedMessageLink, error) {
+	var resp ExportedMessageLink
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetAdminLogParams struct {
 	// flags position
 	Channel      InputChannel                 `validate:"required"`
 	Q            string                       `validate:"required"`
-	EventsFilter *ChannelAdminLogEventsFilter `tl:"flag:0"`
-	Admins       []InputUser                  `tl:"flag:1"`
+	EventsFilter *ChannelAdminLogEventsFilter `flag:"0"`
+	Admins       []InputUser                  `flag:"1"`
 	MaxId        int64                        `validate:"required"`
 	MinId        int64                        `validate:"required"`
 	Limit        int32                        `validate:"required"`
@@ -2528,26 +1517,16 @@ func (e *ChannelsGetAdminLogParams) CRC() uint32 {
 	return uint32(0x33ddf480)
 }
 
-func (c *Client) ChannelsGetAdminLog(params *ChannelsGetAdminLogParams) (*ChannelsAdminLogResults, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetAdminLog: %w", err)
-	}
-
-	resp, ok := data.(*ChannelsAdminLogResults)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetAdminLog: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetAdminLog: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsGetAdminLog(params *ChannelsGetAdminLogParams) (ChannelsAdminLogResults, error) {
+	var resp ChannelsAdminLogResults
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetAdminedPublicChannelsParams struct {
 	// flags position
-	ByLocation bool `tl:"flag:0,encoded_in_bitflag"`
-	CheckLimit bool `tl:"flag:1,encoded_in_bitflag"`
+	ByLocation bool `flag:"0,encoded_in_bitflags"`
+	CheckLimit bool `flag:"1,encoded_in_bitflags"`
 }
 
 func (e *ChannelsGetAdminedPublicChannelsParams) CRC() uint32 {
@@ -2555,19 +1534,9 @@ func (e *ChannelsGetAdminedPublicChannelsParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetAdminedPublicChannels(params *ChannelsGetAdminedPublicChannelsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetAdminedPublicChannels: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetAdminedPublicChannels: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetAdminedPublicChannels: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetChannelsParams struct {
@@ -2579,19 +1548,9 @@ func (e *ChannelsGetChannelsParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetChannels(params *ChannelsGetChannelsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetChannels: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetChannels: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetChannels: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetFullChannelParams struct {
@@ -2602,20 +1561,10 @@ func (e *ChannelsGetFullChannelParams) CRC() uint32 {
 	return uint32(0x8736a09)
 }
 
-func (c *Client) ChannelsGetFullChannel(params *ChannelsGetFullChannelParams) (*MessagesChatFull, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetFullChannel: %w", err)
-	}
-
-	resp, ok := data.(*MessagesChatFull)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetFullChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetFullChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsGetFullChannel(params *ChannelsGetFullChannelParams) (MessagesChatFull, error) {
+	var resp MessagesChatFull
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetGroupsForDiscussionParams struct{}
@@ -2625,19 +1574,9 @@ func (e *ChannelsGetGroupsForDiscussionParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetGroupsForDiscussion() (MessagesChats, error) {
-	data, err := c.MakeRequest(&ChannelsGetGroupsForDiscussionParams{})
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetGroupsForDiscussion: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetGroupsForDiscussion: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetGroupsForDiscussion: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(&ChannelsGetGroupsForDiscussionParams{}, &resp)
+	return resp, err
 }
 
 type ChannelsGetInactiveChannelsParams struct{}
@@ -2646,20 +1585,10 @@ func (e *ChannelsGetInactiveChannelsParams) CRC() uint32 {
 	return uint32(0x11e831ee)
 }
 
-func (c *Client) ChannelsGetInactiveChannels() (*MessagesInactiveChats, error) {
-	data, err := c.MakeRequest(&ChannelsGetInactiveChannelsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetInactiveChannels: %w", err)
-	}
-
-	resp, ok := data.(*MessagesInactiveChats)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetInactiveChannels: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetInactiveChannels: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsGetInactiveChannels() (MessagesInactiveChats, error) {
+	var resp MessagesInactiveChats
+	err := c.MakeRequest2(&ChannelsGetInactiveChannelsParams{}, &resp)
+	return resp, err
 }
 
 type ChannelsGetLeftChannelsParams struct {
@@ -2671,19 +1600,9 @@ func (e *ChannelsGetLeftChannelsParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetLeftChannels(params *ChannelsGetLeftChannelsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetLeftChannels: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetLeftChannels: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetLeftChannels: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetMessagesParams struct {
@@ -2696,19 +1615,9 @@ func (e *ChannelsGetMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetMessages(params *ChannelsGetMessagesParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetMessages: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetParticipantParams struct {
@@ -2720,20 +1629,10 @@ func (e *ChannelsGetParticipantParams) CRC() uint32 {
 	return uint32(0x546dd7a6)
 }
 
-func (c *Client) ChannelsGetParticipant(params *ChannelsGetParticipantParams) (*ChannelsChannelParticipant, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetParticipant: %w", err)
-	}
-
-	resp, ok := data.(*ChannelsChannelParticipant)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetParticipant: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetParticipant: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsGetParticipant(params *ChannelsGetParticipantParams) (ChannelsChannelParticipant, error) {
+	var resp ChannelsChannelParticipant
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsGetParticipantsParams struct {
@@ -2749,19 +1648,9 @@ func (e *ChannelsGetParticipantsParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsGetParticipants(params *ChannelsGetParticipantsParams) (ChannelsChannelParticipants, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsGetParticipants: %w", err)
-	}
-
-	resp, ok := data.(ChannelsChannelParticipants)
-	if !ok {
-		err := fmt.Errorf("ChannelsGetParticipants: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsGetParticipants: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ChannelsChannelParticipants
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsInviteToChannelParams struct {
@@ -2774,19 +1663,9 @@ func (e *ChannelsInviteToChannelParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsInviteToChannel(params *ChannelsInviteToChannelParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsInviteToChannel: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsInviteToChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsInviteToChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsJoinChannelParams struct {
@@ -2798,19 +1677,9 @@ func (e *ChannelsJoinChannelParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsJoinChannel(params *ChannelsJoinChannelParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsJoinChannel: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsJoinChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsJoinChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsLeaveChannelParams struct {
@@ -2822,19 +1691,9 @@ func (e *ChannelsLeaveChannelParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsLeaveChannel(params *ChannelsLeaveChannelParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsLeaveChannel: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsLeaveChannel: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsLeaveChannel: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsReadHistoryParams struct {
@@ -2846,20 +1705,10 @@ func (e *ChannelsReadHistoryParams) CRC() uint32 {
 	return uint32(0xcc104937)
 }
 
-func (c *Client) ChannelsReadHistory(params *ChannelsReadHistoryParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsReadHistory: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsReadHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsReadHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsReadHistory(params *ChannelsReadHistoryParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsReadMessageContentsParams struct {
@@ -2871,20 +1720,10 @@ func (e *ChannelsReadMessageContentsParams) CRC() uint32 {
 	return uint32(0xeab5dc38)
 }
 
-func (c *Client) ChannelsReadMessageContents(params *ChannelsReadMessageContentsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsReadMessageContents: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsReadMessageContents: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsReadMessageContents: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsReadMessageContents(params *ChannelsReadMessageContentsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsReportSpamParams struct {
@@ -2897,20 +1736,10 @@ func (e *ChannelsReportSpamParams) CRC() uint32 {
 	return uint32(0xfe087810)
 }
 
-func (c *Client) ChannelsReportSpam(params *ChannelsReportSpamParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsReportSpam: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsReportSpam: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsReportSpam: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsReportSpam(params *ChannelsReportSpamParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsSetDiscussionGroupParams struct {
@@ -2922,20 +1751,10 @@ func (e *ChannelsSetDiscussionGroupParams) CRC() uint32 {
 	return uint32(0x40582bb2)
 }
 
-func (c *Client) ChannelsSetDiscussionGroup(params *ChannelsSetDiscussionGroupParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsSetDiscussionGroup: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsSetDiscussionGroup: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsSetDiscussionGroup: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsSetDiscussionGroup(params *ChannelsSetDiscussionGroupParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsSetStickersParams struct {
@@ -2947,20 +1766,10 @@ func (e *ChannelsSetStickersParams) CRC() uint32 {
 	return uint32(0xea8ca4f9)
 }
 
-func (c *Client) ChannelsSetStickers(params *ChannelsSetStickersParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsSetStickers: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsSetStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsSetStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsSetStickers(params *ChannelsSetStickersParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsTogglePreHistoryHiddenParams struct {
@@ -2973,19 +1782,9 @@ func (e *ChannelsTogglePreHistoryHiddenParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsTogglePreHistoryHidden(params *ChannelsTogglePreHistoryHiddenParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsTogglePreHistoryHidden: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsTogglePreHistoryHidden: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsTogglePreHistoryHidden: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsToggleSignaturesParams struct {
@@ -2998,19 +1797,9 @@ func (e *ChannelsToggleSignaturesParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsToggleSignatures(params *ChannelsToggleSignaturesParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsToggleSignatures: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsToggleSignatures: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsToggleSignatures: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsToggleSlowModeParams struct {
@@ -3023,19 +1812,9 @@ func (e *ChannelsToggleSlowModeParams) CRC() uint32 {
 }
 
 func (c *Client) ChannelsToggleSlowMode(params *ChannelsToggleSlowModeParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsToggleSlowMode: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ChannelsToggleSlowMode: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsToggleSlowMode: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ChannelsUpdateUsernameParams struct {
@@ -3047,20 +1826,10 @@ func (e *ChannelsUpdateUsernameParams) CRC() uint32 {
 	return uint32(0x3514b3de)
 }
 
-func (c *Client) ChannelsUpdateUsername(params *ChannelsUpdateUsernameParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ChannelsUpdateUsername: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ChannelsUpdateUsername: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ChannelsUpdateUsername: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ChannelsUpdateUsername(params *ChannelsUpdateUsernameParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsAcceptContactParams struct {
@@ -3072,24 +1841,14 @@ func (e *ContactsAcceptContactParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsAcceptContact(params *ContactsAcceptContactParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsAcceptContact: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ContactsAcceptContact: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsAcceptContact: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsAddContactParams struct {
 	// flags position
-	AddPhonePrivacyException bool      `tl:"flag:0,encoded_in_bitflag"`
+	AddPhonePrivacyException bool      `flag:"0,encoded_in_bitflags"`
 	Id                       InputUser `validate:"required"`
 	FirstName                string    `validate:"required"`
 	LastName                 string    `validate:"required"`
@@ -3101,19 +1860,9 @@ func (e *ContactsAddContactParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsAddContact(params *ContactsAddContactParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsAddContact: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ContactsAddContact: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsAddContact: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsBlockParams struct {
@@ -3124,20 +1873,10 @@ func (e *ContactsBlockParams) CRC() uint32 {
 	return uint32(0x332b49fc)
 }
 
-func (c *Client) ContactsBlock(params *ContactsBlockParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsBlock: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsBlock: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsBlock: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsBlock(params *ContactsBlockParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsDeleteByPhonesParams struct {
@@ -3148,20 +1887,10 @@ func (e *ContactsDeleteByPhonesParams) CRC() uint32 {
 	return uint32(0x1013fd9e)
 }
 
-func (c *Client) ContactsDeleteByPhones(params *ContactsDeleteByPhonesParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsDeleteByPhones: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsDeleteByPhones: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsDeleteByPhones: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsDeleteByPhones(params *ContactsDeleteByPhonesParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsDeleteContactsParams struct {
@@ -3173,19 +1902,9 @@ func (e *ContactsDeleteContactsParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsDeleteContacts(params *ContactsDeleteContactsParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsDeleteContacts: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ContactsDeleteContacts: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsDeleteContacts: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsGetBlockedParams struct {
@@ -3198,19 +1917,9 @@ func (e *ContactsGetBlockedParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsGetBlocked(params *ContactsGetBlockedParams) (ContactsBlocked, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetBlocked: %w", err)
-	}
-
-	resp, ok := data.(ContactsBlocked)
-	if !ok {
-		err := fmt.Errorf("ContactsGetBlocked: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetBlocked: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ContactsBlocked
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsGetContactIDsParams struct {
@@ -3221,20 +1930,10 @@ func (e *ContactsGetContactIDsParams) CRC() uint32 {
 	return uint32(0x2caa4a42)
 }
 
-func (c *Client) ContactsGetContactIDs(params *ContactsGetContactIDsParams) (*serialize.Int, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetContactIDs: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Int)
-	if !ok {
-		err := fmt.Errorf("ContactsGetContactIDs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetContactIDs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsGetContactIDs(params *ContactsGetContactIDsParams) (serialize.Int, error) {
+	var resp serialize.Int
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsGetContactsParams struct {
@@ -3246,26 +1945,16 @@ func (e *ContactsGetContactsParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsGetContacts(params *ContactsGetContactsParams) (ContactsContacts, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetContacts: %w", err)
-	}
-
-	resp, ok := data.(ContactsContacts)
-	if !ok {
-		err := fmt.Errorf("ContactsGetContacts: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetContacts: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ContactsContacts
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsGetLocatedParams struct {
 	// flags position
-	Background  bool          `tl:"flag:1,encoded_in_bitflag"`
+	Background  bool          `flag:"1,encoded_in_bitflags"`
 	GeoPoint    InputGeoPoint `validate:"required"`
-	SelfExpires int32         `tl:"flag:0"`
+	SelfExpires int32         `flag:"0"`
 }
 
 func (e *ContactsGetLocatedParams) CRC() uint32 {
@@ -3273,19 +1962,9 @@ func (e *ContactsGetLocatedParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsGetLocated(params *ContactsGetLocatedParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetLocated: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("ContactsGetLocated: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetLocated: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsGetSavedParams struct{}
@@ -3294,20 +1973,10 @@ func (e *ContactsGetSavedParams) CRC() uint32 {
 	return uint32(0x82f1e39f)
 }
 
-func (c *Client) ContactsGetSaved() (*SavedContact, error) {
-	data, err := c.MakeRequest(&ContactsGetSavedParams{})
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetSaved: %w", err)
-	}
-
-	resp, ok := data.(*SavedContact)
-	if !ok {
-		err := fmt.Errorf("ContactsGetSaved: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetSaved: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsGetSaved() (SavedContact, error) {
+	var resp SavedContact
+	err := c.MakeRequest2(&ContactsGetSavedParams{}, &resp)
+	return resp, err
 }
 
 type ContactsGetStatusesParams struct{}
@@ -3316,32 +1985,22 @@ func (e *ContactsGetStatusesParams) CRC() uint32 {
 	return uint32(0xc4a353ee)
 }
 
-func (c *Client) ContactsGetStatuses() (*ContactStatus, error) {
-	data, err := c.MakeRequest(&ContactsGetStatusesParams{})
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetStatuses: %w", err)
-	}
-
-	resp, ok := data.(*ContactStatus)
-	if !ok {
-		err := fmt.Errorf("ContactsGetStatuses: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetStatuses: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsGetStatuses() (ContactStatus, error) {
+	var resp ContactStatus
+	err := c.MakeRequest2(&ContactsGetStatusesParams{}, &resp)
+	return resp, err
 }
 
 type ContactsGetTopPeersParams struct {
 	// flags position
-	Correspondents bool  `tl:"flag:0,encoded_in_bitflag"`
-	BotsPm         bool  `tl:"flag:1,encoded_in_bitflag"`
-	BotsInline     bool  `tl:"flag:2,encoded_in_bitflag"`
-	PhoneCalls     bool  `tl:"flag:3,encoded_in_bitflag"`
-	ForwardUsers   bool  `tl:"flag:4,encoded_in_bitflag"`
-	ForwardChats   bool  `tl:"flag:5,encoded_in_bitflag"`
-	Groups         bool  `tl:"flag:10,encoded_in_bitflag"`
-	Channels       bool  `tl:"flag:15,encoded_in_bitflag"`
+	Correspondents bool  `flag:"0,encoded_in_bitflags"`
+	BotsPm         bool  `flag:"1,encoded_in_bitflags"`
+	BotsInline     bool  `flag:"2,encoded_in_bitflags"`
+	PhoneCalls     bool  `flag:"3,encoded_in_bitflags"`
+	ForwardUsers   bool  `flag:"4,encoded_in_bitflags"`
+	ForwardChats   bool  `flag:"5,encoded_in_bitflags"`
+	Groups         bool  `flag:"10,encoded_in_bitflags"`
+	Channels       bool  `flag:"15,encoded_in_bitflags"`
 	Offset         int32 `validate:"required"`
 	Limit          int32 `validate:"required"`
 	Hash           int32 `validate:"required"`
@@ -3352,19 +2011,9 @@ func (e *ContactsGetTopPeersParams) CRC() uint32 {
 }
 
 func (c *Client) ContactsGetTopPeers(params *ContactsGetTopPeersParams) (ContactsTopPeers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsGetTopPeers: %w", err)
-	}
-
-	resp, ok := data.(ContactsTopPeers)
-	if !ok {
-		err := fmt.Errorf("ContactsGetTopPeers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsGetTopPeers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ContactsTopPeers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsImportContactsParams struct {
@@ -3375,20 +2024,10 @@ func (e *ContactsImportContactsParams) CRC() uint32 {
 	return uint32(0x2c800be5)
 }
 
-func (c *Client) ContactsImportContacts(params *ContactsImportContactsParams) (*ContactsImportedContacts, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsImportContacts: %w", err)
-	}
-
-	resp, ok := data.(*ContactsImportedContacts)
-	if !ok {
-		err := fmt.Errorf("ContactsImportContacts: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsImportContacts: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsImportContacts(params *ContactsImportContactsParams) (ContactsImportedContacts, error) {
+	var resp ContactsImportedContacts
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsResetSavedParams struct{}
@@ -3397,20 +2036,10 @@ func (e *ContactsResetSavedParams) CRC() uint32 {
 	return uint32(0x879537f1)
 }
 
-func (c *Client) ContactsResetSaved() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&ContactsResetSavedParams{})
-	if err != nil {
-		return nil, fmt.Errorf("ContactsResetSaved: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsResetSaved: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsResetSaved: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsResetSaved() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&ContactsResetSavedParams{}, &resp)
+	return resp, err
 }
 
 type ContactsResetTopPeerRatingParams struct {
@@ -3422,20 +2051,10 @@ func (e *ContactsResetTopPeerRatingParams) CRC() uint32 {
 	return uint32(0x1ae373ac)
 }
 
-func (c *Client) ContactsResetTopPeerRating(params *ContactsResetTopPeerRatingParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsResetTopPeerRating: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsResetTopPeerRating: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsResetTopPeerRating: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsResetTopPeerRating(params *ContactsResetTopPeerRatingParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsResolveUsernameParams struct {
@@ -3446,20 +2065,10 @@ func (e *ContactsResolveUsernameParams) CRC() uint32 {
 	return uint32(0xf93ccba3)
 }
 
-func (c *Client) ContactsResolveUsername(params *ContactsResolveUsernameParams) (*ContactsResolvedPeer, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsResolveUsername: %w", err)
-	}
-
-	resp, ok := data.(*ContactsResolvedPeer)
-	if !ok {
-		err := fmt.Errorf("ContactsResolveUsername: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsResolveUsername: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsResolveUsername(params *ContactsResolveUsernameParams) (ContactsResolvedPeer, error) {
+	var resp ContactsResolvedPeer
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsSearchParams struct {
@@ -3471,20 +2080,10 @@ func (e *ContactsSearchParams) CRC() uint32 {
 	return uint32(0x11f812d8)
 }
 
-func (c *Client) ContactsSearch(params *ContactsSearchParams) (*ContactsFound, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsSearch: %w", err)
-	}
-
-	resp, ok := data.(*ContactsFound)
-	if !ok {
-		err := fmt.Errorf("ContactsSearch: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsSearch: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsSearch(params *ContactsSearchParams) (ContactsFound, error) {
+	var resp ContactsFound
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsToggleTopPeersParams struct {
@@ -3495,20 +2094,10 @@ func (e *ContactsToggleTopPeersParams) CRC() uint32 {
 	return uint32(0x8514bdda)
 }
 
-func (c *Client) ContactsToggleTopPeers(params *ContactsToggleTopPeersParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsToggleTopPeers: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsToggleTopPeers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsToggleTopPeers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsToggleTopPeers(params *ContactsToggleTopPeersParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type ContactsUnblockParams struct {
@@ -3519,20 +2108,10 @@ func (e *ContactsUnblockParams) CRC() uint32 {
 	return uint32(0xe54100bd)
 }
 
-func (c *Client) ContactsUnblock(params *ContactsUnblockParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("ContactsUnblock: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("ContactsUnblock: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("ContactsUnblock: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) ContactsUnblock(params *ContactsUnblockParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type FoldersDeleteFolderParams struct {
@@ -3544,19 +2123,9 @@ func (e *FoldersDeleteFolderParams) CRC() uint32 {
 }
 
 func (c *Client) FoldersDeleteFolder(params *FoldersDeleteFolderParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("FoldersDeleteFolder: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("FoldersDeleteFolder: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("FoldersDeleteFolder: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type FoldersEditPeerFoldersParams struct {
@@ -3568,19 +2137,9 @@ func (e *FoldersEditPeerFoldersParams) CRC() uint32 {
 }
 
 func (c *Client) FoldersEditPeerFolders(params *FoldersEditPeerFoldersParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("FoldersEditPeerFolders: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("FoldersEditPeerFolders: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("FoldersEditPeerFolders: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpAcceptTermsOfServiceParams struct {
@@ -3591,20 +2150,10 @@ func (e *HelpAcceptTermsOfServiceParams) CRC() uint32 {
 	return uint32(0xee72f79a)
 }
 
-func (c *Client) HelpAcceptTermsOfService(params *HelpAcceptTermsOfServiceParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpAcceptTermsOfService: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("HelpAcceptTermsOfService: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpAcceptTermsOfService: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpAcceptTermsOfService(params *HelpAcceptTermsOfServiceParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpDismissSuggestionParams struct {
@@ -3615,20 +2164,10 @@ func (e *HelpDismissSuggestionParams) CRC() uint32 {
 	return uint32(0x77fa99f)
 }
 
-func (c *Client) HelpDismissSuggestion(params *HelpDismissSuggestionParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpDismissSuggestion: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("HelpDismissSuggestion: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpDismissSuggestion: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpDismissSuggestion(params *HelpDismissSuggestionParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpEditUserInfoParams struct {
@@ -3642,19 +2181,9 @@ func (e *HelpEditUserInfoParams) CRC() uint32 {
 }
 
 func (c *Client) HelpEditUserInfo(params *HelpEditUserInfoParams) (HelpUserInfo, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpEditUserInfo: %w", err)
-	}
-
-	resp, ok := data.(HelpUserInfo)
-	if !ok {
-		err := fmt.Errorf("HelpEditUserInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpEditUserInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpUserInfo
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetAppChangelogParams struct {
@@ -3666,19 +2195,9 @@ func (e *HelpGetAppChangelogParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetAppChangelog(params *HelpGetAppChangelogParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetAppChangelog: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("HelpGetAppChangelog: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetAppChangelog: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetAppConfigParams struct{}
@@ -3688,19 +2207,9 @@ func (e *HelpGetAppConfigParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetAppConfig() (JSONValue, error) {
-	data, err := c.MakeRequest(&HelpGetAppConfigParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetAppConfig: %w", err)
-	}
-
-	resp, ok := data.(JSONValue)
-	if !ok {
-		err := fmt.Errorf("HelpGetAppConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetAppConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp JSONValue
+	err := c.MakeRequest2(&HelpGetAppConfigParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetAppUpdateParams struct {
@@ -3712,19 +2221,9 @@ func (e *HelpGetAppUpdateParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetAppUpdate(params *HelpGetAppUpdateParams) (HelpAppUpdate, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetAppUpdate: %w", err)
-	}
-
-	resp, ok := data.(HelpAppUpdate)
-	if !ok {
-		err := fmt.Errorf("HelpGetAppUpdate: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetAppUpdate: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpAppUpdate
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetCdnConfigParams struct{}
@@ -3733,20 +2232,10 @@ func (e *HelpGetCdnConfigParams) CRC() uint32 {
 	return uint32(0x52029342)
 }
 
-func (c *Client) HelpGetCdnConfig() (*CdnConfig, error) {
-	data, err := c.MakeRequest(&HelpGetCdnConfigParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetCdnConfig: %w", err)
-	}
-
-	resp, ok := data.(*CdnConfig)
-	if !ok {
-		err := fmt.Errorf("HelpGetCdnConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetCdnConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetCdnConfig() (CdnConfig, error) {
+	var resp CdnConfig
+	err := c.MakeRequest2(&HelpGetCdnConfigParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetConfigParams struct{}
@@ -3755,20 +2244,10 @@ func (e *HelpGetConfigParams) CRC() uint32 {
 	return uint32(0xc4f9186b)
 }
 
-func (c *Client) HelpGetConfig() (*Config, error) {
-	data, err := c.MakeRequest(&HelpGetConfigParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetConfig: %w", err)
-	}
-
-	resp, ok := data.(*Config)
-	if !ok {
-		err := fmt.Errorf("HelpGetConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetConfig() (Config, error) {
+	var resp Config
+	err := c.MakeRequest2(&HelpGetConfigParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetDeepLinkInfoParams struct {
@@ -3780,19 +2259,9 @@ func (e *HelpGetDeepLinkInfoParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetDeepLinkInfo(params *HelpGetDeepLinkInfoParams) (HelpDeepLinkInfo, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetDeepLinkInfo: %w", err)
-	}
-
-	resp, ok := data.(HelpDeepLinkInfo)
-	if !ok {
-		err := fmt.Errorf("HelpGetDeepLinkInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetDeepLinkInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpDeepLinkInfo
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetInviteTextParams struct{}
@@ -3801,20 +2270,10 @@ func (e *HelpGetInviteTextParams) CRC() uint32 {
 	return uint32(0x4d392343)
 }
 
-func (c *Client) HelpGetInviteText() (*HelpInviteText, error) {
-	data, err := c.MakeRequest(&HelpGetInviteTextParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetInviteText: %w", err)
-	}
-
-	resp, ok := data.(*HelpInviteText)
-	if !ok {
-		err := fmt.Errorf("HelpGetInviteText: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetInviteText: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetInviteText() (HelpInviteText, error) {
+	var resp HelpInviteText
+	err := c.MakeRequest2(&HelpGetInviteTextParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetNearestDcParams struct{}
@@ -3823,20 +2282,10 @@ func (e *HelpGetNearestDcParams) CRC() uint32 {
 	return uint32(0x1fb33026)
 }
 
-func (c *Client) HelpGetNearestDc() (*NearestDc, error) {
-	data, err := c.MakeRequest(&HelpGetNearestDcParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetNearestDc: %w", err)
-	}
-
-	resp, ok := data.(*NearestDc)
-	if !ok {
-		err := fmt.Errorf("HelpGetNearestDc: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetNearestDc: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetNearestDc() (NearestDc, error) {
+	var resp NearestDc
+	err := c.MakeRequest2(&HelpGetNearestDcParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetPassportConfigParams struct {
@@ -3848,19 +2297,9 @@ func (e *HelpGetPassportConfigParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetPassportConfig(params *HelpGetPassportConfigParams) (HelpPassportConfig, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetPassportConfig: %w", err)
-	}
-
-	resp, ok := data.(HelpPassportConfig)
-	if !ok {
-		err := fmt.Errorf("HelpGetPassportConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetPassportConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpPassportConfig
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetPromoDataParams struct{}
@@ -3870,19 +2309,9 @@ func (e *HelpGetPromoDataParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetPromoData() (HelpPromoData, error) {
-	data, err := c.MakeRequest(&HelpGetPromoDataParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetPromoData: %w", err)
-	}
-
-	resp, ok := data.(HelpPromoData)
-	if !ok {
-		err := fmt.Errorf("HelpGetPromoData: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetPromoData: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpPromoData
+	err := c.MakeRequest2(&HelpGetPromoDataParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetRecentMeUrlsParams struct {
@@ -3893,20 +2322,10 @@ func (e *HelpGetRecentMeUrlsParams) CRC() uint32 {
 	return uint32(0x3dc0f114)
 }
 
-func (c *Client) HelpGetRecentMeUrls(params *HelpGetRecentMeUrlsParams) (*HelpRecentMeUrls, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetRecentMeUrls: %w", err)
-	}
-
-	resp, ok := data.(*HelpRecentMeUrls)
-	if !ok {
-		err := fmt.Errorf("HelpGetRecentMeUrls: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetRecentMeUrls: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetRecentMeUrls(params *HelpGetRecentMeUrlsParams) (HelpRecentMeUrls, error) {
+	var resp HelpRecentMeUrls
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpGetSupportParams struct{}
@@ -3915,20 +2334,10 @@ func (e *HelpGetSupportParams) CRC() uint32 {
 	return uint32(0x9cdf08cd)
 }
 
-func (c *Client) HelpGetSupport() (*HelpSupport, error) {
-	data, err := c.MakeRequest(&HelpGetSupportParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetSupport: %w", err)
-	}
-
-	resp, ok := data.(*HelpSupport)
-	if !ok {
-		err := fmt.Errorf("HelpGetSupport: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetSupport: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetSupport() (HelpSupport, error) {
+	var resp HelpSupport
+	err := c.MakeRequest2(&HelpGetSupportParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetSupportNameParams struct{}
@@ -3937,20 +2346,10 @@ func (e *HelpGetSupportNameParams) CRC() uint32 {
 	return uint32(0xd360e72c)
 }
 
-func (c *Client) HelpGetSupportName() (*HelpSupportName, error) {
-	data, err := c.MakeRequest(&HelpGetSupportNameParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetSupportName: %w", err)
-	}
-
-	resp, ok := data.(*HelpSupportName)
-	if !ok {
-		err := fmt.Errorf("HelpGetSupportName: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetSupportName: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpGetSupportName() (HelpSupportName, error) {
+	var resp HelpSupportName
+	err := c.MakeRequest2(&HelpGetSupportNameParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetTermsOfServiceUpdateParams struct{}
@@ -3960,19 +2359,9 @@ func (e *HelpGetTermsOfServiceUpdateParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetTermsOfServiceUpdate() (HelpTermsOfServiceUpdate, error) {
-	data, err := c.MakeRequest(&HelpGetTermsOfServiceUpdateParams{})
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetTermsOfServiceUpdate: %w", err)
-	}
-
-	resp, ok := data.(HelpTermsOfServiceUpdate)
-	if !ok {
-		err := fmt.Errorf("HelpGetTermsOfServiceUpdate: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetTermsOfServiceUpdate: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpTermsOfServiceUpdate
+	err := c.MakeRequest2(&HelpGetTermsOfServiceUpdateParams{}, &resp)
+	return resp, err
 }
 
 type HelpGetUserInfoParams struct {
@@ -3984,19 +2373,9 @@ func (e *HelpGetUserInfoParams) CRC() uint32 {
 }
 
 func (c *Client) HelpGetUserInfo(params *HelpGetUserInfoParams) (HelpUserInfo, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpGetUserInfo: %w", err)
-	}
-
-	resp, ok := data.(HelpUserInfo)
-	if !ok {
-		err := fmt.Errorf("HelpGetUserInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpGetUserInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp HelpUserInfo
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpHidePromoDataParams struct {
@@ -4007,20 +2386,10 @@ func (e *HelpHidePromoDataParams) CRC() uint32 {
 	return uint32(0x1e251c95)
 }
 
-func (c *Client) HelpHidePromoData(params *HelpHidePromoDataParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpHidePromoData: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("HelpHidePromoData: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpHidePromoData: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpHidePromoData(params *HelpHidePromoDataParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpSaveAppLogParams struct {
@@ -4031,20 +2400,10 @@ func (e *HelpSaveAppLogParams) CRC() uint32 {
 	return uint32(0x6f02f748)
 }
 
-func (c *Client) HelpSaveAppLog(params *HelpSaveAppLogParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpSaveAppLog: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("HelpSaveAppLog: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpSaveAppLog: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpSaveAppLog(params *HelpSaveAppLogParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type HelpSetBotUpdatesStatusParams struct {
@@ -4056,20 +2415,10 @@ func (e *HelpSetBotUpdatesStatusParams) CRC() uint32 {
 	return uint32(0xec22cfcd)
 }
 
-func (c *Client) HelpSetBotUpdatesStatus(params *HelpSetBotUpdatesStatusParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("HelpSetBotUpdatesStatus: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("HelpSetBotUpdatesStatus: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("HelpSetBotUpdatesStatus: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) HelpSetBotUpdatesStatus(params *HelpSetBotUpdatesStatusParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type LangpackGetDifferenceParams struct {
@@ -4082,20 +2431,10 @@ func (e *LangpackGetDifferenceParams) CRC() uint32 {
 	return uint32(0xcd984aa5)
 }
 
-func (c *Client) LangpackGetDifference(params *LangpackGetDifferenceParams) (*LangPackDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("LangpackGetDifference: %w", err)
-	}
-
-	resp, ok := data.(*LangPackDifference)
-	if !ok {
-		err := fmt.Errorf("LangpackGetDifference: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("LangpackGetDifference: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) LangpackGetDifference(params *LangpackGetDifferenceParams) (LangPackDifference, error) {
+	var resp LangPackDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type LangpackGetLangPackParams struct {
@@ -4107,20 +2446,10 @@ func (e *LangpackGetLangPackParams) CRC() uint32 {
 	return uint32(0xf2f2330a)
 }
 
-func (c *Client) LangpackGetLangPack(params *LangpackGetLangPackParams) (*LangPackDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("LangpackGetLangPack: %w", err)
-	}
-
-	resp, ok := data.(*LangPackDifference)
-	if !ok {
-		err := fmt.Errorf("LangpackGetLangPack: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("LangpackGetLangPack: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) LangpackGetLangPack(params *LangpackGetLangPackParams) (LangPackDifference, error) {
+	var resp LangPackDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type LangpackGetLanguageParams struct {
@@ -4132,20 +2461,10 @@ func (e *LangpackGetLanguageParams) CRC() uint32 {
 	return uint32(0x6a596502)
 }
 
-func (c *Client) LangpackGetLanguage(params *LangpackGetLanguageParams) (*LangPackLanguage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("LangpackGetLanguage: %w", err)
-	}
-
-	resp, ok := data.(*LangPackLanguage)
-	if !ok {
-		err := fmt.Errorf("LangpackGetLanguage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("LangpackGetLanguage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) LangpackGetLanguage(params *LangpackGetLanguageParams) (LangPackLanguage, error) {
+	var resp LangPackLanguage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type LangpackGetLanguagesParams struct {
@@ -4156,20 +2475,10 @@ func (e *LangpackGetLanguagesParams) CRC() uint32 {
 	return uint32(0x42c6978f)
 }
 
-func (c *Client) LangpackGetLanguages(params *LangpackGetLanguagesParams) (*LangPackLanguage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("LangpackGetLanguages: %w", err)
-	}
-
-	resp, ok := data.(*LangPackLanguage)
-	if !ok {
-		err := fmt.Errorf("LangpackGetLanguages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("LangpackGetLanguages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) LangpackGetLanguages(params *LangpackGetLanguagesParams) (LangPackLanguage, error) {
+	var resp LangPackLanguage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type LangpackGetStringsParams struct {
@@ -4183,19 +2492,9 @@ func (e *LangpackGetStringsParams) CRC() uint32 {
 }
 
 func (c *Client) LangpackGetStrings(params *LangpackGetStringsParams) (LangPackString, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("LangpackGetStrings: %w", err)
-	}
-
-	resp, ok := data.(LangPackString)
-	if !ok {
-		err := fmt.Errorf("LangpackGetStrings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("LangpackGetStrings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp LangPackString
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesAcceptEncryptionParams struct {
@@ -4209,24 +2508,14 @@ func (e *MessagesAcceptEncryptionParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesAcceptEncryption(params *MessagesAcceptEncryptionParams) (EncryptedChat, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesAcceptEncryption: %w", err)
-	}
-
-	resp, ok := data.(EncryptedChat)
-	if !ok {
-		err := fmt.Errorf("MessagesAcceptEncryption: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesAcceptEncryption: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp EncryptedChat
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesAcceptUrlAuthParams struct {
 	// flags position
-	WriteAllowed bool      `tl:"flag:0,encoded_in_bitflag"`
+	WriteAllowed bool      `flag:"0,encoded_in_bitflags"`
 	Peer         InputPeer `validate:"required"`
 	MsgId        int32     `validate:"required"`
 	ButtonId     int32     `validate:"required"`
@@ -4237,19 +2526,9 @@ func (e *MessagesAcceptUrlAuthParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesAcceptUrlAuth(params *MessagesAcceptUrlAuthParams) (UrlAuthResult, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesAcceptUrlAuth: %w", err)
-	}
-
-	resp, ok := data.(UrlAuthResult)
-	if !ok {
-		err := fmt.Errorf("MessagesAcceptUrlAuth: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesAcceptUrlAuth: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UrlAuthResult
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesAddChatUserParams struct {
@@ -4263,19 +2542,9 @@ func (e *MessagesAddChatUserParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesAddChatUser(params *MessagesAddChatUserParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesAddChatUser: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesAddChatUser: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesAddChatUser: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesCheckChatInviteParams struct {
@@ -4287,19 +2556,9 @@ func (e *MessagesCheckChatInviteParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesCheckChatInvite(params *MessagesCheckChatInviteParams) (ChatInvite, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesCheckChatInvite: %w", err)
-	}
-
-	resp, ok := data.(ChatInvite)
-	if !ok {
-		err := fmt.Errorf("MessagesCheckChatInvite: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesCheckChatInvite: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ChatInvite
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesClearAllDraftsParams struct{}
@@ -4308,45 +2567,25 @@ func (e *MessagesClearAllDraftsParams) CRC() uint32 {
 	return uint32(0x7e58ee9c)
 }
 
-func (c *Client) MessagesClearAllDrafts() (*serialize.Bool, error) {
-	data, err := c.MakeRequest(&MessagesClearAllDraftsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesClearAllDrafts: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesClearAllDrafts: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesClearAllDrafts: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesClearAllDrafts() (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(&MessagesClearAllDraftsParams{}, &resp)
+	return resp, err
 }
 
 type MessagesClearRecentStickersParams struct {
 	// flags position
-	Attached bool `tl:"flag:0,encoded_in_bitflag"`
+	Attached bool `flag:"0,encoded_in_bitflags"`
 }
 
 func (e *MessagesClearRecentStickersParams) CRC() uint32 {
 	return uint32(0x8999602d)
 }
 
-func (c *Client) MessagesClearRecentStickers(params *MessagesClearRecentStickersParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesClearRecentStickers: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesClearRecentStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesClearRecentStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesClearRecentStickers(params *MessagesClearRecentStickersParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesCreateChatParams struct {
@@ -4359,19 +2598,9 @@ func (e *MessagesCreateChatParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesCreateChat(params *MessagesCreateChatParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesCreateChat: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesCreateChat: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesCreateChat: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesDeleteChatUserParams struct {
@@ -4384,25 +2613,15 @@ func (e *MessagesDeleteChatUserParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesDeleteChatUser(params *MessagesDeleteChatUserParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesDeleteChatUser: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesDeleteChatUser: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesDeleteChatUser: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesDeleteHistoryParams struct {
 	// flags position
-	JustClear bool      `tl:"flag:0,encoded_in_bitflag"`
-	Revoke    bool      `tl:"flag:1,encoded_in_bitflag"`
+	JustClear bool      `flag:"0,encoded_in_bitflags"`
+	Revoke    bool      `flag:"1,encoded_in_bitflags"`
 	Peer      InputPeer `validate:"required"`
 	MaxId     int32     `validate:"required"`
 }
@@ -4411,25 +2630,15 @@ func (e *MessagesDeleteHistoryParams) CRC() uint32 {
 	return uint32(0x1c015b09)
 }
 
-func (c *Client) MessagesDeleteHistory(params *MessagesDeleteHistoryParams) (*MessagesAffectedHistory, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesDeleteHistory: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedHistory)
-	if !ok {
-		err := fmt.Errorf("MessagesDeleteHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesDeleteHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesDeleteHistory(params *MessagesDeleteHistoryParams) (MessagesAffectedHistory, error) {
+	var resp MessagesAffectedHistory
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesDeleteMessagesParams struct {
 	// flags position
-	Revoke bool    `tl:"flag:0,encoded_in_bitflag"`
+	Revoke bool    `flag:"0,encoded_in_bitflags"`
 	Id     []int32 `validate:"required"`
 }
 
@@ -4437,20 +2646,10 @@ func (e *MessagesDeleteMessagesParams) CRC() uint32 {
 	return uint32(0xe58e95d2)
 }
 
-func (c *Client) MessagesDeleteMessages(params *MessagesDeleteMessagesParams) (*MessagesAffectedMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesDeleteMessages: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesDeleteMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesDeleteMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesDeleteMessages(params *MessagesDeleteMessagesParams) (MessagesAffectedMessages, error) {
+	var resp MessagesAffectedMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesDeleteScheduledMessagesParams struct {
@@ -4463,19 +2662,9 @@ func (e *MessagesDeleteScheduledMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesDeleteScheduledMessages(params *MessagesDeleteScheduledMessagesParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesDeleteScheduledMessages: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesDeleteScheduledMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesDeleteScheduledMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesDiscardEncryptionParams struct {
@@ -4486,20 +2675,10 @@ func (e *MessagesDiscardEncryptionParams) CRC() uint32 {
 	return uint32(0xedd923c5)
 }
 
-func (c *Client) MessagesDiscardEncryption(params *MessagesDiscardEncryptionParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesDiscardEncryption: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesDiscardEncryption: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesDiscardEncryption: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesDiscardEncryption(params *MessagesDiscardEncryptionParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditChatAboutParams struct {
@@ -4511,20 +2690,10 @@ func (e *MessagesEditChatAboutParams) CRC() uint32 {
 	return uint32(0xdef60797)
 }
 
-func (c *Client) MessagesEditChatAbout(params *MessagesEditChatAboutParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditChatAbout: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesEditChatAbout: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditChatAbout: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesEditChatAbout(params *MessagesEditChatAboutParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditChatAdminParams struct {
@@ -4537,20 +2706,10 @@ func (e *MessagesEditChatAdminParams) CRC() uint32 {
 	return uint32(0xa9e69f2e)
 }
 
-func (c *Client) MessagesEditChatAdmin(params *MessagesEditChatAdminParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditChatAdmin: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesEditChatAdmin: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditChatAdmin: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesEditChatAdmin(params *MessagesEditChatAdminParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditChatDefaultBannedRightsParams struct {
@@ -4563,19 +2722,9 @@ func (e *MessagesEditChatDefaultBannedRightsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesEditChatDefaultBannedRights(params *MessagesEditChatDefaultBannedRightsParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditChatDefaultBannedRights: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesEditChatDefaultBannedRights: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditChatDefaultBannedRights: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditChatPhotoParams struct {
@@ -4588,19 +2737,9 @@ func (e *MessagesEditChatPhotoParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesEditChatPhoto(params *MessagesEditChatPhotoParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditChatPhoto: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesEditChatPhoto: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditChatPhoto: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditChatTitleParams struct {
@@ -4613,61 +2752,41 @@ func (e *MessagesEditChatTitleParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesEditChatTitle(params *MessagesEditChatTitleParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditChatTitle: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesEditChatTitle: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditChatTitle: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditInlineBotMessageParams struct {
 	// flags position
-	NoWebpage   bool                     `tl:"flag:1,encoded_in_bitflag"`
+	NoWebpage   bool                     `flag:"1,encoded_in_bitflags"`
 	Id          *InputBotInlineMessageID `validate:"required"`
-	Message     string                   `tl:"flag:11"`
-	Media       InputMedia               `tl:"flag:14"`
-	ReplyMarkup ReplyMarkup              `tl:"flag:2"`
-	Entities    []MessageEntity          `tl:"flag:3"`
+	Message     string                   `flag:"11"`
+	Media       InputMedia               `flag:"14"`
+	ReplyMarkup ReplyMarkup              `flag:"2"`
+	Entities    []MessageEntity          `flag:"3"`
 }
 
 func (e *MessagesEditInlineBotMessageParams) CRC() uint32 {
 	return uint32(0x83557dba)
 }
 
-func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessageParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditInlineBotMessage: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesEditInlineBotMessage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditInlineBotMessage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessageParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesEditMessageParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
+	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
 	Peer         InputPeer       `validate:"required"`
 	Id           int32           `validate:"required"`
-	Message      string          `tl:"flag:11"`
-	Media        InputMedia      `tl:"flag:14"`
-	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
-	Entities     []MessageEntity `tl:"flag:3"`
-	ScheduleDate int32           `tl:"flag:15"`
+	Message      string          `flag:"11"`
+	Media        InputMedia      `flag:"14"`
+	ReplyMarkup  ReplyMarkup     `flag:"2"`
+	Entities     []MessageEntity `flag:"3"`
+	ScheduleDate int32           `flag:"15"`
 }
 
 func (e *MessagesEditMessageParams) CRC() uint32 {
@@ -4675,19 +2794,9 @@ func (e *MessagesEditMessageParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesEditMessage(params *MessagesEditMessageParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesEditMessage: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesEditMessage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesEditMessage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesExportChatInviteParams struct {
@@ -4699,19 +2808,9 @@ func (e *MessagesExportChatInviteParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesExportChatInvite(params *MessagesExportChatInviteParams) (ExportedChatInvite, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesExportChatInvite: %w", err)
-	}
-
-	resp, ok := data.(ExportedChatInvite)
-	if !ok {
-		err := fmt.Errorf("MessagesExportChatInvite: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesExportChatInvite: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp ExportedChatInvite
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesFaveStickerParams struct {
@@ -4723,33 +2822,23 @@ func (e *MessagesFaveStickerParams) CRC() uint32 {
 	return uint32(0xb9ffc55b)
 }
 
-func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesFaveSticker: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesFaveSticker: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesFaveSticker: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesForwardMessagesParams struct {
 	// flags position
-	Silent       bool      `tl:"flag:5,encoded_in_bitflag"`
-	Background   bool      `tl:"flag:6,encoded_in_bitflag"`
-	WithMyScore  bool      `tl:"flag:8,encoded_in_bitflag"`
-	Grouped      bool      `tl:"flag:9,encoded_in_bitflag"`
+	Silent       bool      `flag:"5,encoded_in_bitflags"`
+	Background   bool      `flag:"6,encoded_in_bitflags"`
+	WithMyScore  bool      `flag:"8,encoded_in_bitflags"`
+	Grouped      bool      `flag:"9,encoded_in_bitflags"`
 	FromPeer     InputPeer `validate:"required"`
 	Id           []int32   `validate:"required"`
 	RandomId     []int64   `validate:"required"`
 	ToPeer       InputPeer `validate:"required"`
-	ScheduleDate int32     `tl:"flag:10"`
+	ScheduleDate int32     `flag:"10"`
 }
 
 func (e *MessagesForwardMessagesParams) CRC() uint32 {
@@ -4757,19 +2846,9 @@ func (e *MessagesForwardMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesForwardMessages(params *MessagesForwardMessagesParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesForwardMessages: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesForwardMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesForwardMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetAllChatsParams struct {
@@ -4781,19 +2860,9 @@ func (e *MessagesGetAllChatsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetAllChats(params *MessagesGetAllChatsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetAllChats: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("MessagesGetAllChats: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetAllChats: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetAllDraftsParams struct{}
@@ -4803,19 +2872,9 @@ func (e *MessagesGetAllDraftsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetAllDrafts() (Updates, error) {
-	data, err := c.MakeRequest(&MessagesGetAllDraftsParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetAllDrafts: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesGetAllDrafts: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetAllDrafts: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(&MessagesGetAllDraftsParams{}, &resp)
+	return resp, err
 }
 
 type MessagesGetAllStickersParams struct {
@@ -4827,24 +2886,14 @@ func (e *MessagesGetAllStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetAllStickers(params *MessagesGetAllStickersParams) (MessagesAllStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetAllStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesAllStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetAllStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetAllStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesAllStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetArchivedStickersParams struct {
 	// flags position
-	Masks    bool  `tl:"flag:0,encoded_in_bitflag"`
+	Masks    bool  `flag:"0,encoded_in_bitflags"`
 	OffsetId int64 `validate:"required"`
 	Limit    int32 `validate:"required"`
 }
@@ -4853,20 +2902,10 @@ func (e *MessagesGetArchivedStickersParams) CRC() uint32 {
 	return uint32(0x57f17692)
 }
 
-func (c *Client) MessagesGetArchivedStickers(params *MessagesGetArchivedStickersParams) (*MessagesArchivedStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetArchivedStickers: %w", err)
-	}
-
-	resp, ok := data.(*MessagesArchivedStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetArchivedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetArchivedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetArchivedStickers(params *MessagesGetArchivedStickersParams) (MessagesArchivedStickers, error) {
+	var resp MessagesArchivedStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetAttachedStickersParams struct {
@@ -4878,47 +2917,27 @@ func (e *MessagesGetAttachedStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetAttachedStickers(params *MessagesGetAttachedStickersParams) (StickerSetCovered, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetAttachedStickers: %w", err)
-	}
-
-	resp, ok := data.(StickerSetCovered)
-	if !ok {
-		err := fmt.Errorf("MessagesGetAttachedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetAttachedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp StickerSetCovered
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetBotCallbackAnswerParams struct {
 	// flags position
-	Game  bool      `tl:"flag:1,encoded_in_bitflag"`
+	Game  bool      `flag:"1,encoded_in_bitflags"`
 	Peer  InputPeer `validate:"required"`
 	MsgId int32     `validate:"required"`
-	Data  []byte    `tl:"flag:0"`
+	Data  []byte    `flag:"0"`
 }
 
 func (e *MessagesGetBotCallbackAnswerParams) CRC() uint32 {
 	return uint32(0x810a9fec)
 }
 
-func (c *Client) MessagesGetBotCallbackAnswer(params *MessagesGetBotCallbackAnswerParams) (*MessagesBotCallbackAnswer, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetBotCallbackAnswer: %w", err)
-	}
-
-	resp, ok := data.(*MessagesBotCallbackAnswer)
-	if !ok {
-		err := fmt.Errorf("MessagesGetBotCallbackAnswer: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetBotCallbackAnswer: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetBotCallbackAnswer(params *MessagesGetBotCallbackAnswerParams) (MessagesBotCallbackAnswer, error) {
+	var resp MessagesBotCallbackAnswer
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetChatsParams struct {
@@ -4930,19 +2949,9 @@ func (e *MessagesGetChatsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetChats(params *MessagesGetChatsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetChats: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("MessagesGetChats: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetChats: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetCommonChatsParams struct {
@@ -4956,19 +2965,9 @@ func (e *MessagesGetCommonChatsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetCommonChats(params *MessagesGetCommonChatsParams) (MessagesChats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetCommonChats: %w", err)
-	}
-
-	resp, ok := data.(MessagesChats)
-	if !ok {
-		err := fmt.Errorf("MessagesGetCommonChats: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetCommonChats: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesChats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetDhConfigParams struct {
@@ -4981,19 +2980,9 @@ func (e *MessagesGetDhConfigParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetDhConfig(params *MessagesGetDhConfigParams) (MessagesDhConfig, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetDhConfig: %w", err)
-	}
-
-	resp, ok := data.(MessagesDhConfig)
-	if !ok {
-		err := fmt.Errorf("MessagesGetDhConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetDhConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesDhConfig
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetDialogFiltersParams struct{}
@@ -5002,20 +2991,10 @@ func (e *MessagesGetDialogFiltersParams) CRC() uint32 {
 	return uint32(0xf19ed96d)
 }
 
-func (c *Client) MessagesGetDialogFilters() (*DialogFilter, error) {
-	data, err := c.MakeRequest(&MessagesGetDialogFiltersParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetDialogFilters: %w", err)
-	}
-
-	resp, ok := data.(*DialogFilter)
-	if !ok {
-		err := fmt.Errorf("MessagesGetDialogFilters: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetDialogFilters: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetDialogFilters() (DialogFilter, error) {
+	var resp DialogFilter
+	err := c.MakeRequest2(&MessagesGetDialogFiltersParams{}, &resp)
+	return resp, err
 }
 
 type MessagesGetDialogUnreadMarksParams struct{}
@@ -5025,25 +3004,15 @@ func (e *MessagesGetDialogUnreadMarksParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetDialogUnreadMarks() (DialogPeer, error) {
-	data, err := c.MakeRequest(&MessagesGetDialogUnreadMarksParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetDialogUnreadMarks: %w", err)
-	}
-
-	resp, ok := data.(DialogPeer)
-	if !ok {
-		err := fmt.Errorf("MessagesGetDialogUnreadMarks: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetDialogUnreadMarks: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp DialogPeer
+	err := c.MakeRequest2(&MessagesGetDialogUnreadMarksParams{}, &resp)
+	return resp, err
 }
 
 type MessagesGetDialogsParams struct {
 	// flags position
-	ExcludePinned bool      `tl:"flag:0,encoded_in_bitflag"`
-	FolderId      int32     `tl:"flag:1"`
+	ExcludePinned bool      `flag:"0,encoded_in_bitflags"`
+	FolderId      int32     `flag:"1"`
 	OffsetDate    int32     `validate:"required"`
 	OffsetId      int32     `validate:"required"`
 	OffsetPeer    InputPeer `validate:"required"`
@@ -5056,19 +3025,9 @@ func (e *MessagesGetDialogsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetDialogs(params *MessagesGetDialogsParams) (MessagesDialogs, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetDialogs: %w", err)
-	}
-
-	resp, ok := data.(MessagesDialogs)
-	if !ok {
-		err := fmt.Errorf("MessagesGetDialogs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetDialogs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesDialogs
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetDocumentByHashParams struct {
@@ -5082,19 +3041,9 @@ func (e *MessagesGetDocumentByHashParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetDocumentByHash(params *MessagesGetDocumentByHashParams) (Document, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetDocumentByHash: %w", err)
-	}
-
-	resp, ok := data.(Document)
-	if !ok {
-		err := fmt.Errorf("MessagesGetDocumentByHash: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetDocumentByHash: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Document
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetEmojiKeywordsParams struct {
@@ -5105,20 +3054,10 @@ func (e *MessagesGetEmojiKeywordsParams) CRC() uint32 {
 	return uint32(0x35a0e062)
 }
 
-func (c *Client) MessagesGetEmojiKeywords(params *MessagesGetEmojiKeywordsParams) (*EmojiKeywordsDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetEmojiKeywords: %w", err)
-	}
-
-	resp, ok := data.(*EmojiKeywordsDifference)
-	if !ok {
-		err := fmt.Errorf("MessagesGetEmojiKeywords: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetEmojiKeywords: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetEmojiKeywords(params *MessagesGetEmojiKeywordsParams) (EmojiKeywordsDifference, error) {
+	var resp EmojiKeywordsDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetEmojiKeywordsDifferenceParams struct {
@@ -5130,20 +3069,10 @@ func (e *MessagesGetEmojiKeywordsDifferenceParams) CRC() uint32 {
 	return uint32(0x1508b6af)
 }
 
-func (c *Client) MessagesGetEmojiKeywordsDifference(params *MessagesGetEmojiKeywordsDifferenceParams) (*EmojiKeywordsDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetEmojiKeywordsDifference: %w", err)
-	}
-
-	resp, ok := data.(*EmojiKeywordsDifference)
-	if !ok {
-		err := fmt.Errorf("MessagesGetEmojiKeywordsDifference: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetEmojiKeywordsDifference: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetEmojiKeywordsDifference(params *MessagesGetEmojiKeywordsDifferenceParams) (EmojiKeywordsDifference, error) {
+	var resp EmojiKeywordsDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetEmojiKeywordsLanguagesParams struct {
@@ -5154,20 +3083,10 @@ func (e *MessagesGetEmojiKeywordsLanguagesParams) CRC() uint32 {
 	return uint32(0x4e9963b2)
 }
 
-func (c *Client) MessagesGetEmojiKeywordsLanguages(params *MessagesGetEmojiKeywordsLanguagesParams) (*EmojiLanguage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetEmojiKeywordsLanguages: %w", err)
-	}
-
-	resp, ok := data.(*EmojiLanguage)
-	if !ok {
-		err := fmt.Errorf("MessagesGetEmojiKeywordsLanguages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetEmojiKeywordsLanguages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetEmojiKeywordsLanguages(params *MessagesGetEmojiKeywordsLanguagesParams) (EmojiLanguage, error) {
+	var resp EmojiLanguage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetEmojiURLParams struct {
@@ -5178,20 +3097,10 @@ func (e *MessagesGetEmojiURLParams) CRC() uint32 {
 	return uint32(0xd5b10c26)
 }
 
-func (c *Client) MessagesGetEmojiURL(params *MessagesGetEmojiURLParams) (*EmojiURL, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetEmojiURL: %w", err)
-	}
-
-	resp, ok := data.(*EmojiURL)
-	if !ok {
-		err := fmt.Errorf("MessagesGetEmojiURL: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetEmojiURL: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetEmojiURL(params *MessagesGetEmojiURLParams) (EmojiURL, error) {
+	var resp EmojiURL
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetFavedStickersParams struct {
@@ -5203,19 +3112,9 @@ func (e *MessagesGetFavedStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetFavedStickers(params *MessagesGetFavedStickersParams) (MessagesFavedStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetFavedStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesFavedStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetFavedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetFavedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesFavedStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetFeaturedStickersParams struct {
@@ -5227,19 +3126,9 @@ func (e *MessagesGetFeaturedStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetFeaturedStickers(params *MessagesGetFeaturedStickersParams) (MessagesFeaturedStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetFeaturedStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesFeaturedStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetFeaturedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetFeaturedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesFeaturedStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetFullChatParams struct {
@@ -5250,20 +3139,10 @@ func (e *MessagesGetFullChatParams) CRC() uint32 {
 	return uint32(0x3b831c66)
 }
 
-func (c *Client) MessagesGetFullChat(params *MessagesGetFullChatParams) (*MessagesChatFull, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetFullChat: %w", err)
-	}
-
-	resp, ok := data.(*MessagesChatFull)
-	if !ok {
-		err := fmt.Errorf("MessagesGetFullChat: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetFullChat: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetFullChat(params *MessagesGetFullChatParams) (MessagesChatFull, error) {
+	var resp MessagesChatFull
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetGameHighScoresParams struct {
@@ -5276,20 +3155,10 @@ func (e *MessagesGetGameHighScoresParams) CRC() uint32 {
 	return uint32(0xe822649d)
 }
 
-func (c *Client) MessagesGetGameHighScores(params *MessagesGetGameHighScoresParams) (*MessagesHighScores, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetGameHighScores: %w", err)
-	}
-
-	resp, ok := data.(*MessagesHighScores)
-	if !ok {
-		err := fmt.Errorf("MessagesGetGameHighScores: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetGameHighScores: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetGameHighScores(params *MessagesGetGameHighScoresParams) (MessagesHighScores, error) {
+	var resp MessagesHighScores
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetHistoryParams struct {
@@ -5308,26 +3177,16 @@ func (e *MessagesGetHistoryParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetHistory(params *MessagesGetHistoryParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetHistory: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetInlineBotResultsParams struct {
 	// flags position
 	Bot      InputUser     `validate:"required"`
 	Peer     InputPeer     `validate:"required"`
-	GeoPoint InputGeoPoint `tl:"flag:0"`
+	GeoPoint InputGeoPoint `flag:"0"`
 	Query    string        `validate:"required"`
 	Offset   string        `validate:"required"`
 }
@@ -5336,20 +3195,10 @@ func (e *MessagesGetInlineBotResultsParams) CRC() uint32 {
 	return uint32(0x514e999d)
 }
 
-func (c *Client) MessagesGetInlineBotResults(params *MessagesGetInlineBotResultsParams) (*MessagesBotResults, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetInlineBotResults: %w", err)
-	}
-
-	resp, ok := data.(*MessagesBotResults)
-	if !ok {
-		err := fmt.Errorf("MessagesGetInlineBotResults: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetInlineBotResults: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetInlineBotResults(params *MessagesGetInlineBotResultsParams) (MessagesBotResults, error) {
+	var resp MessagesBotResults
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetInlineGameHighScoresParams struct {
@@ -5361,20 +3210,10 @@ func (e *MessagesGetInlineGameHighScoresParams) CRC() uint32 {
 	return uint32(0xf635e1b)
 }
 
-func (c *Client) MessagesGetInlineGameHighScores(params *MessagesGetInlineGameHighScoresParams) (*MessagesHighScores, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetInlineGameHighScores: %w", err)
-	}
-
-	resp, ok := data.(*MessagesHighScores)
-	if !ok {
-		err := fmt.Errorf("MessagesGetInlineGameHighScores: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetInlineGameHighScores: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetInlineGameHighScores(params *MessagesGetInlineGameHighScoresParams) (MessagesHighScores, error) {
+	var resp MessagesHighScores
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetMaskStickersParams struct {
@@ -5386,19 +3225,9 @@ func (e *MessagesGetMaskStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetMaskStickers(params *MessagesGetMaskStickersParams) (MessagesAllStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetMaskStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesAllStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetMaskStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetMaskStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesAllStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetMessageEditDataParams struct {
@@ -5410,20 +3239,10 @@ func (e *MessagesGetMessageEditDataParams) CRC() uint32 {
 	return uint32(0xfda68d36)
 }
 
-func (c *Client) MessagesGetMessageEditData(params *MessagesGetMessageEditDataParams) (*MessagesMessageEditData, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetMessageEditData: %w", err)
-	}
-
-	resp, ok := data.(*MessagesMessageEditData)
-	if !ok {
-		err := fmt.Errorf("MessagesGetMessageEditData: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetMessageEditData: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetMessageEditData(params *MessagesGetMessageEditDataParams) (MessagesMessageEditData, error) {
+	var resp MessagesMessageEditData
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetMessagesParams struct {
@@ -5435,19 +3254,9 @@ func (e *MessagesGetMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetMessages(params *MessagesGetMessagesParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetMessages: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetMessagesViewsParams struct {
@@ -5460,20 +3269,10 @@ func (e *MessagesGetMessagesViewsParams) CRC() uint32 {
 	return uint32(0xc4c8a55d)
 }
 
-func (c *Client) MessagesGetMessagesViews(params *MessagesGetMessagesViewsParams) (*serialize.Int, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetMessagesViews: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Int)
-	if !ok {
-		err := fmt.Errorf("MessagesGetMessagesViews: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetMessagesViews: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetMessagesViews(params *MessagesGetMessagesViewsParams) (serialize.Int, error) {
+	var resp serialize.Int
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetOldFeaturedStickersParams struct {
@@ -5487,19 +3286,9 @@ func (e *MessagesGetOldFeaturedStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetOldFeaturedStickers(params *MessagesGetOldFeaturedStickersParams) (MessagesFeaturedStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetOldFeaturedStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesFeaturedStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetOldFeaturedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetOldFeaturedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesFeaturedStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetOnlinesParams struct {
@@ -5510,20 +3299,10 @@ func (e *MessagesGetOnlinesParams) CRC() uint32 {
 	return uint32(0x6e2be050)
 }
 
-func (c *Client) MessagesGetOnlines(params *MessagesGetOnlinesParams) (*ChatOnlines, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetOnlines: %w", err)
-	}
-
-	resp, ok := data.(*ChatOnlines)
-	if !ok {
-		err := fmt.Errorf("MessagesGetOnlines: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetOnlines: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetOnlines(params *MessagesGetOnlinesParams) (ChatOnlines, error) {
+	var resp ChatOnlines
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetPeerDialogsParams struct {
@@ -5534,20 +3313,10 @@ func (e *MessagesGetPeerDialogsParams) CRC() uint32 {
 	return uint32(0xe470bcfd)
 }
 
-func (c *Client) MessagesGetPeerDialogs(params *MessagesGetPeerDialogsParams) (*MessagesPeerDialogs, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetPeerDialogs: %w", err)
-	}
-
-	resp, ok := data.(*MessagesPeerDialogs)
-	if !ok {
-		err := fmt.Errorf("MessagesGetPeerDialogs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetPeerDialogs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetPeerDialogs(params *MessagesGetPeerDialogsParams) (MessagesPeerDialogs, error) {
+	var resp MessagesPeerDialogs
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetPeerSettingsParams struct {
@@ -5558,20 +3327,10 @@ func (e *MessagesGetPeerSettingsParams) CRC() uint32 {
 	return uint32(0x3672e09c)
 }
 
-func (c *Client) MessagesGetPeerSettings(params *MessagesGetPeerSettingsParams) (*PeerSettings, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetPeerSettings: %w", err)
-	}
-
-	resp, ok := data.(*PeerSettings)
-	if !ok {
-		err := fmt.Errorf("MessagesGetPeerSettings: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetPeerSettings: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetPeerSettings(params *MessagesGetPeerSettingsParams) (PeerSettings, error) {
+	var resp PeerSettings
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetPinnedDialogsParams struct {
@@ -5582,20 +3341,10 @@ func (e *MessagesGetPinnedDialogsParams) CRC() uint32 {
 	return uint32(0xd6b94df2)
 }
 
-func (c *Client) MessagesGetPinnedDialogs(params *MessagesGetPinnedDialogsParams) (*MessagesPeerDialogs, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetPinnedDialogs: %w", err)
-	}
-
-	resp, ok := data.(*MessagesPeerDialogs)
-	if !ok {
-		err := fmt.Errorf("MessagesGetPinnedDialogs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetPinnedDialogs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetPinnedDialogs(params *MessagesGetPinnedDialogsParams) (MessagesPeerDialogs, error) {
+	var resp MessagesPeerDialogs
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetPollResultsParams struct {
@@ -5608,27 +3357,17 @@ func (e *MessagesGetPollResultsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetPollResults(params *MessagesGetPollResultsParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetPollResults: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesGetPollResults: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetPollResults: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetPollVotesParams struct {
 	// flags position
 	Peer   InputPeer `validate:"required"`
 	Id     int32     `validate:"required"`
-	Option []byte    `tl:"flag:0"`
-	Offset string    `tl:"flag:1"`
+	Option []byte    `flag:"0"`
+	Offset string    `flag:"1"`
 	Limit  int32     `validate:"required"`
 }
 
@@ -5636,20 +3375,10 @@ func (e *MessagesGetPollVotesParams) CRC() uint32 {
 	return uint32(0xb86e380e)
 }
 
-func (c *Client) MessagesGetPollVotes(params *MessagesGetPollVotesParams) (*MessagesVotesList, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetPollVotes: %w", err)
-	}
-
-	resp, ok := data.(*MessagesVotesList)
-	if !ok {
-		err := fmt.Errorf("MessagesGetPollVotes: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetPollVotes: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetPollVotes(params *MessagesGetPollVotesParams) (MessagesVotesList, error) {
+	var resp MessagesVotesList
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetRecentLocationsParams struct {
@@ -5663,24 +3392,14 @@ func (e *MessagesGetRecentLocationsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetRecentLocations(params *MessagesGetRecentLocationsParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetRecentLocations: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetRecentLocations: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetRecentLocations: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetRecentStickersParams struct {
 	// flags position
-	Attached bool  `tl:"flag:0,encoded_in_bitflag"`
+	Attached bool  `flag:"0,encoded_in_bitflags"`
 	Hash     int32 `validate:"required"`
 }
 
@@ -5689,19 +3408,9 @@ func (e *MessagesGetRecentStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetRecentStickers(params *MessagesGetRecentStickersParams) (MessagesRecentStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetRecentStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesRecentStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetRecentStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetRecentStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesRecentStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetSavedGifsParams struct {
@@ -5713,19 +3422,9 @@ func (e *MessagesGetSavedGifsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetSavedGifs(params *MessagesGetSavedGifsParams) (MessagesSavedGifs, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetSavedGifs: %w", err)
-	}
-
-	resp, ok := data.(MessagesSavedGifs)
-	if !ok {
-		err := fmt.Errorf("MessagesGetSavedGifs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetSavedGifs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesSavedGifs
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetScheduledHistoryParams struct {
@@ -5738,19 +3437,9 @@ func (e *MessagesGetScheduledHistoryParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetScheduledHistory(params *MessagesGetScheduledHistoryParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetScheduledHistory: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetScheduledHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetScheduledHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetScheduledMessagesParams struct {
@@ -5763,19 +3452,9 @@ func (e *MessagesGetScheduledMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetScheduledMessages(params *MessagesGetScheduledMessagesParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetScheduledMessages: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetScheduledMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetScheduledMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetSearchCountersParams struct {
@@ -5787,20 +3466,10 @@ func (e *MessagesGetSearchCountersParams) CRC() uint32 {
 	return uint32(0x732eef00)
 }
 
-func (c *Client) MessagesGetSearchCounters(params *MessagesGetSearchCountersParams) (*MessagesSearchCounter, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetSearchCounters: %w", err)
-	}
-
-	resp, ok := data.(*MessagesSearchCounter)
-	if !ok {
-		err := fmt.Errorf("MessagesGetSearchCounters: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetSearchCounters: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetSearchCounters(params *MessagesGetSearchCountersParams) (MessagesSearchCounter, error) {
+	var resp MessagesSearchCounter
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetSplitRangesParams struct{}
@@ -5809,25 +3478,15 @@ func (e *MessagesGetSplitRangesParams) CRC() uint32 {
 	return uint32(0x1cff7e08)
 }
 
-func (c *Client) MessagesGetSplitRanges() (*MessageRange, error) {
-	data, err := c.MakeRequest(&MessagesGetSplitRangesParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetSplitRanges: %w", err)
-	}
-
-	resp, ok := data.(*MessageRange)
-	if !ok {
-		err := fmt.Errorf("MessagesGetSplitRanges: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetSplitRanges: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetSplitRanges() (MessageRange, error) {
+	var resp MessageRange
+	err := c.MakeRequest2(&MessagesGetSplitRangesParams{}, &resp)
+	return resp, err
 }
 
 type MessagesGetStatsURLParams struct {
 	// flags position
-	Dark   bool      `tl:"flag:0,encoded_in_bitflag"`
+	Dark   bool      `flag:"0,encoded_in_bitflags"`
 	Peer   InputPeer `validate:"required"`
 	Params string    `validate:"required"`
 }
@@ -5836,20 +3495,10 @@ func (e *MessagesGetStatsURLParams) CRC() uint32 {
 	return uint32(0x812c2ae6)
 }
 
-func (c *Client) MessagesGetStatsURL(params *MessagesGetStatsURLParams) (*StatsURL, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetStatsURL: %w", err)
-	}
-
-	resp, ok := data.(*StatsURL)
-	if !ok {
-		err := fmt.Errorf("MessagesGetStatsURL: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetStatsURL: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetStatsURL(params *MessagesGetStatsURLParams) (StatsURL, error) {
+	var resp StatsURL
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetStickerSetParams struct {
@@ -5860,20 +3509,10 @@ func (e *MessagesGetStickerSetParams) CRC() uint32 {
 	return uint32(0x2619a90e)
 }
 
-func (c *Client) MessagesGetStickerSet(params *MessagesGetStickerSetParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetStickerSet: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("MessagesGetStickerSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetStickerSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetStickerSet(params *MessagesGetStickerSetParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetStickersParams struct {
@@ -5886,19 +3525,9 @@ func (e *MessagesGetStickersParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetStickers(params *MessagesGetStickersParams) (MessagesStickers, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetStickers: %w", err)
-	}
-
-	resp, ok := data.(MessagesStickers)
-	if !ok {
-		err := fmt.Errorf("MessagesGetStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesStickers
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetSuggestedDialogFiltersParams struct{}
@@ -5907,20 +3536,10 @@ func (e *MessagesGetSuggestedDialogFiltersParams) CRC() uint32 {
 	return uint32(0xa29cd42c)
 }
 
-func (c *Client) MessagesGetSuggestedDialogFilters() (*DialogFilterSuggested, error) {
-	data, err := c.MakeRequest(&MessagesGetSuggestedDialogFiltersParams{})
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetSuggestedDialogFilters: %w", err)
-	}
-
-	resp, ok := data.(*DialogFilterSuggested)
-	if !ok {
-		err := fmt.Errorf("MessagesGetSuggestedDialogFilters: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetSuggestedDialogFilters: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesGetSuggestedDialogFilters() (DialogFilterSuggested, error) {
+	var resp DialogFilterSuggested
+	err := c.MakeRequest2(&MessagesGetSuggestedDialogFiltersParams{}, &resp)
+	return resp, err
 }
 
 type MessagesGetUnreadMentionsParams struct {
@@ -5937,19 +3556,9 @@ func (e *MessagesGetUnreadMentionsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetUnreadMentions(params *MessagesGetUnreadMentionsParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetUnreadMentions: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesGetUnreadMentions: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetUnreadMentions: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetWebPageParams struct {
@@ -5962,25 +3571,15 @@ func (e *MessagesGetWebPageParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetWebPage(params *MessagesGetWebPageParams) (WebPage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetWebPage: %w", err)
-	}
-
-	resp, ok := data.(WebPage)
-	if !ok {
-		err := fmt.Errorf("MessagesGetWebPage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetWebPage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp WebPage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesGetWebPagePreviewParams struct {
 	// flags position
 	Message  string          `validate:"required"`
-	Entities []MessageEntity `tl:"flag:3"`
+	Entities []MessageEntity `flag:"3"`
 }
 
 func (e *MessagesGetWebPagePreviewParams) CRC() uint32 {
@@ -5988,19 +3587,9 @@ func (e *MessagesGetWebPagePreviewParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesGetWebPagePreview(params *MessagesGetWebPagePreviewParams) (MessageMedia, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesGetWebPagePreview: %w", err)
-	}
-
-	resp, ok := data.(MessageMedia)
-	if !ok {
-		err := fmt.Errorf("MessagesGetWebPagePreview: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesGetWebPagePreview: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessageMedia
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesHidePeerSettingsBarParams struct {
@@ -6011,20 +3600,10 @@ func (e *MessagesHidePeerSettingsBarParams) CRC() uint32 {
 	return uint32(0x4facb138)
 }
 
-func (c *Client) MessagesHidePeerSettingsBar(params *MessagesHidePeerSettingsBarParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesHidePeerSettingsBar: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesHidePeerSettingsBar: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesHidePeerSettingsBar: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesHidePeerSettingsBar(params *MessagesHidePeerSettingsBarParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesImportChatInviteParams struct {
@@ -6036,19 +3615,9 @@ func (e *MessagesImportChatInviteParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesImportChatInvite(params *MessagesImportChatInviteParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesImportChatInvite: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesImportChatInvite: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesImportChatInvite: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesInstallStickerSetParams struct {
@@ -6061,24 +3630,14 @@ func (e *MessagesInstallStickerSetParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesInstallStickerSet(params *MessagesInstallStickerSetParams) (MessagesStickerSetInstallResult, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesInstallStickerSet: %w", err)
-	}
-
-	resp, ok := data.(MessagesStickerSetInstallResult)
-	if !ok {
-		err := fmt.Errorf("MessagesInstallStickerSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesInstallStickerSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesStickerSetInstallResult
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesMarkDialogUnreadParams struct {
 	// flags position
-	Unread bool            `tl:"flag:0,encoded_in_bitflag"`
+	Unread bool            `flag:"0,encoded_in_bitflags"`
 	Peer   InputDialogPeer `validate:"required"`
 }
 
@@ -6086,20 +3645,10 @@ func (e *MessagesMarkDialogUnreadParams) CRC() uint32 {
 	return uint32(0xc286d98f)
 }
 
-func (c *Client) MessagesMarkDialogUnread(params *MessagesMarkDialogUnreadParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesMarkDialogUnread: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesMarkDialogUnread: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesMarkDialogUnread: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesMarkDialogUnread(params *MessagesMarkDialogUnreadParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesMigrateChatParams struct {
@@ -6111,19 +3660,9 @@ func (e *MessagesMigrateChatParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesMigrateChat(params *MessagesMigrateChatParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesMigrateChat: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesMigrateChat: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesMigrateChat: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReadEncryptedHistoryParams struct {
@@ -6135,20 +3674,10 @@ func (e *MessagesReadEncryptedHistoryParams) CRC() uint32 {
 	return uint32(0x7f4b690a)
 }
 
-func (c *Client) MessagesReadEncryptedHistory(params *MessagesReadEncryptedHistoryParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReadEncryptedHistory: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReadEncryptedHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReadEncryptedHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReadEncryptedHistory(params *MessagesReadEncryptedHistoryParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReadFeaturedStickersParams struct {
@@ -6159,20 +3688,10 @@ func (e *MessagesReadFeaturedStickersParams) CRC() uint32 {
 	return uint32(0x5b118126)
 }
 
-func (c *Client) MessagesReadFeaturedStickers(params *MessagesReadFeaturedStickersParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReadFeaturedStickers: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReadFeaturedStickers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReadFeaturedStickers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReadFeaturedStickers(params *MessagesReadFeaturedStickersParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReadHistoryParams struct {
@@ -6184,20 +3703,10 @@ func (e *MessagesReadHistoryParams) CRC() uint32 {
 	return uint32(0xe306d3a)
 }
 
-func (c *Client) MessagesReadHistory(params *MessagesReadHistoryParams) (*MessagesAffectedMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReadHistory: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesReadHistory: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReadHistory: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReadHistory(params *MessagesReadHistoryParams) (MessagesAffectedMessages, error) {
+	var resp MessagesAffectedMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReadMentionsParams struct {
@@ -6208,20 +3717,10 @@ func (e *MessagesReadMentionsParams) CRC() uint32 {
 	return uint32(0xf0189d3)
 }
 
-func (c *Client) MessagesReadMentions(params *MessagesReadMentionsParams) (*MessagesAffectedHistory, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReadMentions: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedHistory)
-	if !ok {
-		err := fmt.Errorf("MessagesReadMentions: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReadMentions: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReadMentions(params *MessagesReadMentionsParams) (MessagesAffectedHistory, error) {
+	var resp MessagesAffectedHistory
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReadMessageContentsParams struct {
@@ -6232,20 +3731,10 @@ func (e *MessagesReadMessageContentsParams) CRC() uint32 {
 	return uint32(0x36a73f77)
 }
 
-func (c *Client) MessagesReadMessageContents(params *MessagesReadMessageContentsParams) (*MessagesAffectedMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReadMessageContents: %w", err)
-	}
-
-	resp, ok := data.(*MessagesAffectedMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesReadMessageContents: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReadMessageContents: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReadMessageContents(params *MessagesReadMessageContentsParams) (MessagesAffectedMessages, error) {
+	var resp MessagesAffectedMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReceivedMessagesParams struct {
@@ -6256,20 +3745,10 @@ func (e *MessagesReceivedMessagesParams) CRC() uint32 {
 	return uint32(0x5a954c0)
 }
 
-func (c *Client) MessagesReceivedMessages(params *MessagesReceivedMessagesParams) (*ReceivedNotifyMessage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReceivedMessages: %w", err)
-	}
-
-	resp, ok := data.(*ReceivedNotifyMessage)
-	if !ok {
-		err := fmt.Errorf("MessagesReceivedMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReceivedMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReceivedMessages(params *MessagesReceivedMessagesParams) (ReceivedNotifyMessage, error) {
+	var resp ReceivedNotifyMessage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReceivedQueueParams struct {
@@ -6280,25 +3759,15 @@ func (e *MessagesReceivedQueueParams) CRC() uint32 {
 	return uint32(0x55a5bb66)
 }
 
-func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) (*serialize.Long, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReceivedQueue: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Long)
-	if !ok {
-		err := fmt.Errorf("MessagesReceivedQueue: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReceivedQueue: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) (serialize.Long, error) {
+	var resp serialize.Long
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReorderPinnedDialogsParams struct {
 	// flags position
-	Force    bool              `tl:"flag:0,encoded_in_bitflag"`
+	Force    bool              `flag:"0,encoded_in_bitflags"`
 	FolderId int32             `validate:"required"`
 	Order    []InputDialogPeer `validate:"required"`
 }
@@ -6307,25 +3776,15 @@ func (e *MessagesReorderPinnedDialogsParams) CRC() uint32 {
 	return uint32(0x3b1adf37)
 }
 
-func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialogsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReorderPinnedDialogs: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReorderPinnedDialogs: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReorderPinnedDialogs: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialogsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReorderStickerSetsParams struct {
 	// flags position
-	Masks bool    `tl:"flag:0,encoded_in_bitflag"`
+	Masks bool    `flag:"0,encoded_in_bitflags"`
 	Order []int64 `validate:"required"`
 }
 
@@ -6333,20 +3792,10 @@ func (e *MessagesReorderStickerSetsParams) CRC() uint32 {
 	return uint32(0x78337739)
 }
 
-func (c *Client) MessagesReorderStickerSets(params *MessagesReorderStickerSetsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReorderStickerSets: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReorderStickerSets: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReorderStickerSets: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReorderStickerSets(params *MessagesReorderStickerSetsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReportParams struct {
@@ -6359,20 +3808,10 @@ func (e *MessagesReportParams) CRC() uint32 {
 	return uint32(0xbd82b658)
 }
 
-func (c *Client) MessagesReport(params *MessagesReportParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReport: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReport: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReport: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReport(params *MessagesReportParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReportEncryptedSpamParams struct {
@@ -6383,20 +3822,10 @@ func (e *MessagesReportEncryptedSpamParams) CRC() uint32 {
 	return uint32(0x4b0c8c0f)
 }
 
-func (c *Client) MessagesReportEncryptedSpam(params *MessagesReportEncryptedSpamParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReportEncryptedSpam: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReportEncryptedSpam: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReportEncryptedSpam: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReportEncryptedSpam(params *MessagesReportEncryptedSpamParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesReportSpamParams struct {
@@ -6407,20 +3836,10 @@ func (e *MessagesReportSpamParams) CRC() uint32 {
 	return uint32(0xcf1592db)
 }
 
-func (c *Client) MessagesReportSpam(params *MessagesReportSpamParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesReportSpam: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesReportSpam: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesReportSpam: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesReportSpam(params *MessagesReportSpamParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesRequestEncryptionParams struct {
@@ -6434,19 +3853,9 @@ func (e *MessagesRequestEncryptionParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesRequestEncryption(params *MessagesRequestEncryptionParams) (EncryptedChat, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesRequestEncryption: %w", err)
-	}
-
-	resp, ok := data.(EncryptedChat)
-	if !ok {
-		err := fmt.Errorf("MessagesRequestEncryption: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesRequestEncryption: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp EncryptedChat
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesRequestUrlAuthParams struct {
@@ -6460,48 +3869,28 @@ func (e *MessagesRequestUrlAuthParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesRequestUrlAuth(params *MessagesRequestUrlAuthParams) (UrlAuthResult, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesRequestUrlAuth: %w", err)
-	}
-
-	resp, ok := data.(UrlAuthResult)
-	if !ok {
-		err := fmt.Errorf("MessagesRequestUrlAuth: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesRequestUrlAuth: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UrlAuthResult
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSaveDraftParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
-	ReplyToMsgId int32           `tl:"flag:0"`
+	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
+	ReplyToMsgId int32           `flag:"0"`
 	Peer         InputPeer       `validate:"required"`
 	Message      string          `validate:"required"`
-	Entities     []MessageEntity `tl:"flag:3"`
+	Entities     []MessageEntity `flag:"3"`
 }
 
 func (e *MessagesSaveDraftParams) CRC() uint32 {
 	return uint32(0xbc39e14b)
 }
 
-func (c *Client) MessagesSaveDraft(params *MessagesSaveDraftParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSaveDraft: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSaveDraft: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSaveDraft: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSaveDraft(params *MessagesSaveDraftParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSaveGifParams struct {
@@ -6513,25 +3902,15 @@ func (e *MessagesSaveGifParams) CRC() uint32 {
 	return uint32(0x327a30cb)
 }
 
-func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSaveGif: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSaveGif: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSaveGif: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSaveRecentStickerParams struct {
 	// flags position
-	Attached bool          `tl:"flag:0,encoded_in_bitflag"`
+	Attached bool          `flag:"0,encoded_in_bitflags"`
 	Id       InputDocument `validate:"required"`
 	Unsave   bool          `validate:"required"`
 }
@@ -6540,27 +3919,17 @@ func (e *MessagesSaveRecentStickerParams) CRC() uint32 {
 	return uint32(0x392718f8)
 }
 
-func (c *Client) MessagesSaveRecentSticker(params *MessagesSaveRecentStickerParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSaveRecentSticker: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSaveRecentSticker: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSaveRecentSticker: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSaveRecentSticker(params *MessagesSaveRecentStickerParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSearchParams struct {
 	// flags position
 	Peer      InputPeer      `validate:"required"`
 	Q         string         `validate:"required"`
-	FromId    InputUser      `tl:"flag:0"`
+	FromId    InputUser      `flag:"0"`
 	Filter    MessagesFilter `validate:"required"`
 	MinDate   int32          `validate:"required"`
 	MaxDate   int32          `validate:"required"`
@@ -6577,24 +3946,14 @@ func (e *MessagesSearchParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSearch(params *MessagesSearchParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSearch: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesSearch: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSearch: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSearchGlobalParams struct {
 	// flags position
-	FolderId   int32     `tl:"flag:0"`
+	FolderId   int32     `flag:"0"`
 	Q          string    `validate:"required"`
 	OffsetRate int32     `validate:"required"`
 	OffsetPeer InputPeer `validate:"required"`
@@ -6607,24 +3966,14 @@ func (e *MessagesSearchGlobalParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSearchGlobal(params *MessagesSearchGlobalParams) (MessagesMessages, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSearchGlobal: %w", err)
-	}
-
-	resp, ok := data.(MessagesMessages)
-	if !ok {
-		err := fmt.Errorf("MessagesSearchGlobal: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSearchGlobal: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesMessages
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSearchStickerSetsParams struct {
 	// flags position
-	ExcludeFeatured bool   `tl:"flag:0,encoded_in_bitflag"`
+	ExcludeFeatured bool   `flag:"0,encoded_in_bitflags"`
 	Q               string `validate:"required"`
 	Hash            int32  `validate:"required"`
 }
@@ -6634,19 +3983,9 @@ func (e *MessagesSearchStickerSetsParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSearchStickerSets(params *MessagesSearchStickerSetsParams) (MessagesFoundStickerSets, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSearchStickerSets: %w", err)
-	}
-
-	resp, ok := data.(MessagesFoundStickerSets)
-	if !ok {
-		err := fmt.Errorf("MessagesSearchStickerSets: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSearchStickerSets: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesFoundStickerSets
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendEncryptedParams struct {
@@ -6660,19 +3999,9 @@ func (e *MessagesSendEncryptedParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendEncrypted(params *MessagesSendEncryptedParams) (MessagesSentEncryptedMessage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendEncrypted: %w", err)
-	}
-
-	resp, ok := data.(MessagesSentEncryptedMessage)
-	if !ok {
-		err := fmt.Errorf("MessagesSendEncrypted: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendEncrypted: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesSentEncryptedMessage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendEncryptedFileParams struct {
@@ -6687,19 +4016,9 @@ func (e *MessagesSendEncryptedFileParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendEncryptedFile(params *MessagesSendEncryptedFileParams) (MessagesSentEncryptedMessage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendEncryptedFile: %w", err)
-	}
-
-	resp, ok := data.(MessagesSentEncryptedMessage)
-	if !ok {
-		err := fmt.Errorf("MessagesSendEncryptedFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendEncryptedFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesSentEncryptedMessage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendEncryptedServiceParams struct {
@@ -6713,33 +4032,23 @@ func (e *MessagesSendEncryptedServiceParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendEncryptedService(params *MessagesSendEncryptedServiceParams) (MessagesSentEncryptedMessage, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendEncryptedService: %w", err)
-	}
-
-	resp, ok := data.(MessagesSentEncryptedMessage)
-	if !ok {
-		err := fmt.Errorf("MessagesSendEncryptedService: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendEncryptedService: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessagesSentEncryptedMessage
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendInlineBotResultParams struct {
 	// flags position
-	Silent       bool      `tl:"flag:5,encoded_in_bitflag"`
-	Background   bool      `tl:"flag:6,encoded_in_bitflag"`
-	ClearDraft   bool      `tl:"flag:7,encoded_in_bitflag"`
-	HideVia      bool      `tl:"flag:11,encoded_in_bitflag"`
+	Silent       bool      `flag:"5,encoded_in_bitflags"`
+	Background   bool      `flag:"6,encoded_in_bitflags"`
+	ClearDraft   bool      `flag:"7,encoded_in_bitflags"`
+	HideVia      bool      `flag:"11,encoded_in_bitflags"`
 	Peer         InputPeer `validate:"required"`
-	ReplyToMsgId int32     `tl:"flag:0"`
+	ReplyToMsgId int32     `flag:"0"`
 	RandomId     int64     `validate:"required"`
 	QueryId      int64     `validate:"required"`
 	Id           string    `validate:"required"`
-	ScheduleDate int32     `tl:"flag:10"`
+	ScheduleDate int32     `flag:"10"`
 }
 
 func (e *MessagesSendInlineBotResultParams) CRC() uint32 {
@@ -6747,34 +4056,24 @@ func (e *MessagesSendInlineBotResultParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendInlineBotResult(params *MessagesSendInlineBotResultParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendInlineBotResult: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendInlineBotResult: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendInlineBotResult: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendMediaParams struct {
 	// flags position
-	Silent       bool            `tl:"flag:5,encoded_in_bitflag"`
-	Background   bool            `tl:"flag:6,encoded_in_bitflag"`
-	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflag"`
+	Silent       bool            `flag:"5,encoded_in_bitflags"`
+	Background   bool            `flag:"6,encoded_in_bitflags"`
+	ClearDraft   bool            `flag:"7,encoded_in_bitflags"`
 	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `tl:"flag:0"`
+	ReplyToMsgId int32           `flag:"0"`
 	Media        InputMedia      `validate:"required"`
 	Message      string          `validate:"required"`
 	RandomId     int64           `validate:"required"`
-	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
-	Entities     []MessageEntity `tl:"flag:3"`
-	ScheduleDate int32           `tl:"flag:10"`
+	ReplyMarkup  ReplyMarkup     `flag:"2"`
+	Entities     []MessageEntity `flag:"3"`
+	ScheduleDate int32           `flag:"10"`
 }
 
 func (e *MessagesSendMediaParams) CRC() uint32 {
@@ -6782,34 +4081,24 @@ func (e *MessagesSendMediaParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendMedia(params *MessagesSendMediaParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendMedia: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendMedia: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendMedia: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendMessageParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflag"`
-	Silent       bool            `tl:"flag:5,encoded_in_bitflag"`
-	Background   bool            `tl:"flag:6,encoded_in_bitflag"`
-	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflag"`
+	NoWebpage    bool            `flag:"1,encoded_in_bitflags"`
+	Silent       bool            `flag:"5,encoded_in_bitflags"`
+	Background   bool            `flag:"6,encoded_in_bitflags"`
+	ClearDraft   bool            `flag:"7,encoded_in_bitflags"`
 	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `tl:"flag:0"`
+	ReplyToMsgId int32           `flag:"0"`
 	Message      string          `validate:"required"`
 	RandomId     int64           `validate:"required"`
-	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
-	Entities     []MessageEntity `tl:"flag:3"`
-	ScheduleDate int32           `tl:"flag:10"`
+	ReplyMarkup  ReplyMarkup     `flag:"2"`
+	Entities     []MessageEntity `flag:"3"`
+	ScheduleDate int32           `flag:"10"`
 }
 
 func (e *MessagesSendMessageParams) CRC() uint32 {
@@ -6817,30 +4106,20 @@ func (e *MessagesSendMessageParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendMessage(params *MessagesSendMessageParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendMessage: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendMessage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendMessage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendMultiMediaParams struct {
 	// flags position
-	Silent       bool                `tl:"flag:5,encoded_in_bitflag"`
-	Background   bool                `tl:"flag:6,encoded_in_bitflag"`
-	ClearDraft   bool                `tl:"flag:7,encoded_in_bitflag"`
+	Silent       bool                `flag:"5,encoded_in_bitflags"`
+	Background   bool                `flag:"6,encoded_in_bitflags"`
+	ClearDraft   bool                `flag:"7,encoded_in_bitflags"`
 	Peer         InputPeer           `validate:"required"`
-	ReplyToMsgId int32               `tl:"flag:0"`
+	ReplyToMsgId int32               `flag:"0"`
 	MultiMedia   []*InputSingleMedia `validate:"required"`
-	ScheduleDate int32               `tl:"flag:10"`
+	ScheduleDate int32               `flag:"10"`
 }
 
 func (e *MessagesSendMultiMediaParams) CRC() uint32 {
@@ -6848,19 +4127,9 @@ func (e *MessagesSendMultiMediaParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendMultiMedia(params *MessagesSendMultiMediaParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendMultiMedia: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendMultiMedia: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendMultiMedia: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendScheduledMessagesParams struct {
@@ -6873,19 +4142,9 @@ func (e *MessagesSendScheduledMessagesParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendScheduledMessages(params *MessagesSendScheduledMessagesParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendScheduledMessages: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendScheduledMessages: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendScheduledMessages: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendScreenshotNotificationParams struct {
@@ -6899,19 +4158,9 @@ func (e *MessagesSendScreenshotNotificationParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendScreenshotNotification(params *MessagesSendScreenshotNotificationParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendScreenshotNotification: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendScreenshotNotification: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendScreenshotNotification: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSendVoteParams struct {
@@ -6925,27 +4174,17 @@ func (e *MessagesSendVoteParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSendVote(params *MessagesSendVoteParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSendVote: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSendVote: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSendVote: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetBotCallbackAnswerParams struct {
 	// flags position
-	Alert     bool   `tl:"flag:1,encoded_in_bitflag"`
+	Alert     bool   `flag:"1,encoded_in_bitflags"`
 	QueryId   int64  `validate:"required"`
-	Message   string `tl:"flag:0"`
-	Url       string `tl:"flag:2"`
+	Message   string `flag:"0"`
+	Url       string `flag:"2"`
 	CacheTime int32  `validate:"required"`
 }
 
@@ -6953,74 +4192,44 @@ func (e *MessagesSetBotCallbackAnswerParams) CRC() uint32 {
 	return uint32(0xd58f130a)
 }
 
-func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnswerParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetBotCallbackAnswer: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetBotCallbackAnswer: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetBotCallbackAnswer: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnswerParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetBotPrecheckoutResultsParams struct {
 	// flags position
-	Success bool   `tl:"flag:1,encoded_in_bitflag"`
+	Success bool   `flag:"1,encoded_in_bitflags"`
 	QueryId int64  `validate:"required"`
-	Error   string `tl:"flag:0"`
+	Error   string `flag:"0"`
 }
 
 func (e *MessagesSetBotPrecheckoutResultsParams) CRC() uint32 {
 	return uint32(0x9c2dd95)
 }
 
-func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheckoutResultsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetBotPrecheckoutResults: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetBotPrecheckoutResults: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetBotPrecheckoutResults: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheckoutResultsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetBotShippingResultsParams struct {
 	// flags position
 	QueryId         int64             `validate:"required"`
-	Error           string            `tl:"flag:0"`
-	ShippingOptions []*ShippingOption `tl:"flag:1"`
+	Error           string            `flag:"0"`
+	ShippingOptions []*ShippingOption `flag:"1"`
 }
 
 func (e *MessagesSetBotShippingResultsParams) CRC() uint32 {
 	return uint32(0xe5f672fa)
 }
 
-func (c *Client) MessagesSetBotShippingResults(params *MessagesSetBotShippingResultsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetBotShippingResults: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetBotShippingResults: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetBotShippingResults: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetBotShippingResults(params *MessagesSetBotShippingResultsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetEncryptedTypingParams struct {
@@ -7032,26 +4241,16 @@ func (e *MessagesSetEncryptedTypingParams) CRC() uint32 {
 	return uint32(0x791451ed)
 }
 
-func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetEncryptedTyping: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetEncryptedTyping: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetEncryptedTyping: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetGameScoreParams struct {
 	// flags position
-	EditMessage bool      `tl:"flag:0,encoded_in_bitflag"`
-	Force       bool      `tl:"flag:1,encoded_in_bitflag"`
+	EditMessage bool      `flag:"0,encoded_in_bitflags"`
+	Force       bool      `flag:"1,encoded_in_bitflags"`
 	Peer        InputPeer `validate:"required"`
 	Id          int32     `validate:"required"`
 	UserId      InputUser `validate:"required"`
@@ -7063,56 +4262,36 @@ func (e *MessagesSetGameScoreParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesSetGameScore(params *MessagesSetGameScoreParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetGameScore: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesSetGameScore: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetGameScore: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetInlineBotResultsParams struct {
 	// flags position
-	Gallery    bool                   `tl:"flag:0,encoded_in_bitflag"`
-	Private    bool                   `tl:"flag:1,encoded_in_bitflag"`
+	Gallery    bool                   `flag:"0,encoded_in_bitflags"`
+	Private    bool                   `flag:"1,encoded_in_bitflags"`
 	QueryId    int64                  `validate:"required"`
 	Results    []InputBotInlineResult `validate:"required"`
 	CacheTime  int32                  `validate:"required"`
-	NextOffset string                 `tl:"flag:2"`
-	SwitchPm   *InlineBotSwitchPM     `tl:"flag:3"`
+	NextOffset string                 `flag:"2"`
+	SwitchPm   *InlineBotSwitchPM     `flag:"3"`
 }
 
 func (e *MessagesSetInlineBotResultsParams) CRC() uint32 {
 	return uint32(0xeb5ea206)
 }
 
-func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResultsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetInlineBotResults: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetInlineBotResults: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetInlineBotResults: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResultsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetInlineGameScoreParams struct {
 	// flags position
-	EditMessage bool                     `tl:"flag:0,encoded_in_bitflag"`
-	Force       bool                     `tl:"flag:1,encoded_in_bitflag"`
+	EditMessage bool                     `flag:"0,encoded_in_bitflags"`
+	Force       bool                     `flag:"1,encoded_in_bitflags"`
 	Id          *InputBotInlineMessageID `validate:"required"`
 	UserId      InputUser                `validate:"required"`
 	Score       int32                    `validate:"required"`
@@ -7122,20 +4301,10 @@ func (e *MessagesSetInlineGameScoreParams) CRC() uint32 {
 	return uint32(0x15ad9f64)
 }
 
-func (c *Client) MessagesSetInlineGameScore(params *MessagesSetInlineGameScoreParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetInlineGameScore: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetInlineGameScore: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetInlineGameScore: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetInlineGameScore(params *MessagesSetInlineGameScoreParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesSetTypingParams struct {
@@ -7147,20 +4316,10 @@ func (e *MessagesSetTypingParams) CRC() uint32 {
 	return uint32(0xa3825e50)
 }
 
-func (c *Client) MessagesSetTyping(params *MessagesSetTypingParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesSetTyping: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesSetTyping: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesSetTyping: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesSetTyping(params *MessagesSetTypingParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesStartBotParams struct {
@@ -7175,24 +4334,14 @@ func (e *MessagesStartBotParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesStartBot(params *MessagesStartBotParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesStartBot: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesStartBot: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesStartBot: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesToggleDialogPinParams struct {
 	// flags position
-	Pinned bool            `tl:"flag:0,encoded_in_bitflag"`
+	Pinned bool            `flag:"0,encoded_in_bitflags"`
 	Peer   InputDialogPeer `validate:"required"`
 }
 
@@ -7200,27 +4349,17 @@ func (e *MessagesToggleDialogPinParams) CRC() uint32 {
 	return uint32(0xa731e257)
 }
 
-func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesToggleDialogPin: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesToggleDialogPin: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesToggleDialogPin: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesToggleStickerSetsParams struct {
 	// flags position
-	Uninstall   bool              `tl:"flag:0,encoded_in_bitflag"`
-	Archive     bool              `tl:"flag:1,encoded_in_bitflag"`
-	Unarchive   bool              `tl:"flag:2,encoded_in_bitflag"`
+	Uninstall   bool              `flag:"0,encoded_in_bitflags"`
+	Archive     bool              `flag:"1,encoded_in_bitflags"`
+	Unarchive   bool              `flag:"2,encoded_in_bitflags"`
 	Stickersets []InputStickerSet `validate:"required"`
 }
 
@@ -7228,20 +4367,10 @@ func (e *MessagesToggleStickerSetsParams) CRC() uint32 {
 	return uint32(0xb5052fea)
 }
 
-func (c *Client) MessagesToggleStickerSets(params *MessagesToggleStickerSetsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesToggleStickerSets: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesToggleStickerSets: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesToggleStickerSets: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesToggleStickerSets(params *MessagesToggleStickerSetsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUninstallStickerSetParams struct {
@@ -7252,46 +4381,26 @@ func (e *MessagesUninstallStickerSetParams) CRC() uint32 {
 	return uint32(0xf96e55de)
 }
 
-func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSetParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUninstallStickerSet: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesUninstallStickerSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUninstallStickerSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSetParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUpdateDialogFilterParams struct {
 	// flags position
 	Id     int32         `validate:"required"`
-	Filter *DialogFilter `tl:"flag:0"`
+	Filter *DialogFilter `flag:"0"`
 }
 
 func (e *MessagesUpdateDialogFilterParams) CRC() uint32 {
 	return uint32(0x1ad4a04a)
 }
 
-func (c *Client) MessagesUpdateDialogFilter(params *MessagesUpdateDialogFilterParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUpdateDialogFilter: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesUpdateDialogFilter: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUpdateDialogFilter: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesUpdateDialogFilter(params *MessagesUpdateDialogFilterParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUpdateDialogFiltersOrderParams struct {
@@ -7302,25 +4411,15 @@ func (e *MessagesUpdateDialogFiltersOrderParams) CRC() uint32 {
 	return uint32(0xc563c1e4)
 }
 
-func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFiltersOrderParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUpdateDialogFiltersOrder: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("MessagesUpdateDialogFiltersOrder: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUpdateDialogFiltersOrder: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFiltersOrderParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUpdatePinnedMessageParams struct {
 	// flags position
-	Silent bool      `tl:"flag:0,encoded_in_bitflag"`
+	Silent bool      `flag:"0,encoded_in_bitflags"`
 	Peer   InputPeer `validate:"required"`
 	Id     int32     `validate:"required"`
 }
@@ -7330,19 +4429,9 @@ func (e *MessagesUpdatePinnedMessageParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesUpdatePinnedMessage(params *MessagesUpdatePinnedMessageParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUpdatePinnedMessage: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("MessagesUpdatePinnedMessage: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUpdatePinnedMessage: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUploadEncryptedFileParams struct {
@@ -7355,19 +4444,9 @@ func (e *MessagesUploadEncryptedFileParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesUploadEncryptedFile(params *MessagesUploadEncryptedFileParams) (EncryptedFile, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUploadEncryptedFile: %w", err)
-	}
-
-	resp, ok := data.(EncryptedFile)
-	if !ok {
-		err := fmt.Errorf("MessagesUploadEncryptedFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUploadEncryptedFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp EncryptedFile
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type MessagesUploadMediaParams struct {
@@ -7380,45 +4459,25 @@ func (e *MessagesUploadMediaParams) CRC() uint32 {
 }
 
 func (c *Client) MessagesUploadMedia(params *MessagesUploadMediaParams) (MessageMedia, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("MessagesUploadMedia: %w", err)
-	}
-
-	resp, ok := data.(MessageMedia)
-	if !ok {
-		err := fmt.Errorf("MessagesUploadMedia: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("MessagesUploadMedia: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp MessageMedia
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsClearSavedInfoParams struct {
 	// flags position
-	Credentials bool `tl:"flag:0,encoded_in_bitflag"`
-	Info        bool `tl:"flag:1,encoded_in_bitflag"`
+	Credentials bool `flag:"0,encoded_in_bitflags"`
+	Info        bool `flag:"1,encoded_in_bitflags"`
 }
 
 func (e *PaymentsClearSavedInfoParams) CRC() uint32 {
 	return uint32(0xd83d70c1)
 }
 
-func (c *Client) PaymentsClearSavedInfo(params *PaymentsClearSavedInfoParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsClearSavedInfo: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("PaymentsClearSavedInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsClearSavedInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsClearSavedInfo(params *PaymentsClearSavedInfoParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsGetBankCardDataParams struct {
@@ -7429,20 +4488,10 @@ func (e *PaymentsGetBankCardDataParams) CRC() uint32 {
 	return uint32(0x2e79d779)
 }
 
-func (c *Client) PaymentsGetBankCardData(params *PaymentsGetBankCardDataParams) (*PaymentsBankCardData, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsGetBankCardData: %w", err)
-	}
-
-	resp, ok := data.(*PaymentsBankCardData)
-	if !ok {
-		err := fmt.Errorf("PaymentsGetBankCardData: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsGetBankCardData: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsGetBankCardData(params *PaymentsGetBankCardDataParams) (PaymentsBankCardData, error) {
+	var resp PaymentsBankCardData
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsGetPaymentFormParams struct {
@@ -7453,20 +4502,10 @@ func (e *PaymentsGetPaymentFormParams) CRC() uint32 {
 	return uint32(0x99f09745)
 }
 
-func (c *Client) PaymentsGetPaymentForm(params *PaymentsGetPaymentFormParams) (*PaymentsPaymentForm, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsGetPaymentForm: %w", err)
-	}
-
-	resp, ok := data.(*PaymentsPaymentForm)
-	if !ok {
-		err := fmt.Errorf("PaymentsGetPaymentForm: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsGetPaymentForm: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsGetPaymentForm(params *PaymentsGetPaymentFormParams) (PaymentsPaymentForm, error) {
+	var resp PaymentsPaymentForm
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsGetPaymentReceiptParams struct {
@@ -7477,20 +4516,10 @@ func (e *PaymentsGetPaymentReceiptParams) CRC() uint32 {
 	return uint32(0xa092a980)
 }
 
-func (c *Client) PaymentsGetPaymentReceipt(params *PaymentsGetPaymentReceiptParams) (*PaymentsPaymentReceipt, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsGetPaymentReceipt: %w", err)
-	}
-
-	resp, ok := data.(*PaymentsPaymentReceipt)
-	if !ok {
-		err := fmt.Errorf("PaymentsGetPaymentReceipt: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsGetPaymentReceipt: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsGetPaymentReceipt(params *PaymentsGetPaymentReceiptParams) (PaymentsPaymentReceipt, error) {
+	var resp PaymentsPaymentReceipt
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsGetSavedInfoParams struct{}
@@ -7499,27 +4528,17 @@ func (e *PaymentsGetSavedInfoParams) CRC() uint32 {
 	return uint32(0x227d824b)
 }
 
-func (c *Client) PaymentsGetSavedInfo() (*PaymentsSavedInfo, error) {
-	data, err := c.MakeRequest(&PaymentsGetSavedInfoParams{})
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsGetSavedInfo: %w", err)
-	}
-
-	resp, ok := data.(*PaymentsSavedInfo)
-	if !ok {
-		err := fmt.Errorf("PaymentsGetSavedInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsGetSavedInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsGetSavedInfo() (PaymentsSavedInfo, error) {
+	var resp PaymentsSavedInfo
+	err := c.MakeRequest2(&PaymentsGetSavedInfoParams{}, &resp)
+	return resp, err
 }
 
 type PaymentsSendPaymentFormParams struct {
 	// flags position
 	MsgId            int32                   `validate:"required"`
-	RequestedInfoId  string                  `tl:"flag:0"`
-	ShippingOptionId string                  `tl:"flag:1"`
+	RequestedInfoId  string                  `flag:"0"`
+	ShippingOptionId string                  `flag:"1"`
 	Credentials      InputPaymentCredentials `validate:"required"`
 }
 
@@ -7528,24 +4547,14 @@ func (e *PaymentsSendPaymentFormParams) CRC() uint32 {
 }
 
 func (c *Client) PaymentsSendPaymentForm(params *PaymentsSendPaymentFormParams) (PaymentsPaymentResult, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsSendPaymentForm: %w", err)
-	}
-
-	resp, ok := data.(PaymentsPaymentResult)
-	if !ok {
-		err := fmt.Errorf("PaymentsSendPaymentForm: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsSendPaymentForm: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp PaymentsPaymentResult
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PaymentsValidateRequestedInfoParams struct {
 	// flags position
-	Save  bool                  `tl:"flag:0,encoded_in_bitflag"`
+	Save  bool                  `flag:"0,encoded_in_bitflags"`
 	MsgId int32                 `validate:"required"`
 	Info  *PaymentRequestedInfo `validate:"required"`
 }
@@ -7554,20 +4563,10 @@ func (e *PaymentsValidateRequestedInfoParams) CRC() uint32 {
 	return uint32(0x770a8e74)
 }
 
-func (c *Client) PaymentsValidateRequestedInfo(params *PaymentsValidateRequestedInfoParams) (*PaymentsValidatedRequestedInfo, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PaymentsValidateRequestedInfo: %w", err)
-	}
-
-	resp, ok := data.(*PaymentsValidatedRequestedInfo)
-	if !ok {
-		err := fmt.Errorf("PaymentsValidateRequestedInfo: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PaymentsValidateRequestedInfo: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PaymentsValidateRequestedInfo(params *PaymentsValidateRequestedInfoParams) (PaymentsValidatedRequestedInfo, error) {
+	var resp PaymentsValidatedRequestedInfo
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneAcceptCallParams struct {
@@ -7580,20 +4579,10 @@ func (e *PhoneAcceptCallParams) CRC() uint32 {
 	return uint32(0x3bd2b4a0)
 }
 
-func (c *Client) PhoneAcceptCall(params *PhoneAcceptCallParams) (*PhonePhoneCall, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneAcceptCall: %w", err)
-	}
-
-	resp, ok := data.(*PhonePhoneCall)
-	if !ok {
-		err := fmt.Errorf("PhoneAcceptCall: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneAcceptCall: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneAcceptCall(params *PhoneAcceptCallParams) (PhonePhoneCall, error) {
+	var resp PhonePhoneCall
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneConfirmCallParams struct {
@@ -7607,25 +4596,15 @@ func (e *PhoneConfirmCallParams) CRC() uint32 {
 	return uint32(0x2efe1722)
 }
 
-func (c *Client) PhoneConfirmCall(params *PhoneConfirmCallParams) (*PhonePhoneCall, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneConfirmCall: %w", err)
-	}
-
-	resp, ok := data.(*PhonePhoneCall)
-	if !ok {
-		err := fmt.Errorf("PhoneConfirmCall: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneConfirmCall: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneConfirmCall(params *PhoneConfirmCallParams) (PhonePhoneCall, error) {
+	var resp PhonePhoneCall
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneDiscardCallParams struct {
 	// flags position
-	Video        bool                   `tl:"flag:0,encoded_in_bitflag"`
+	Video        bool                   `flag:"0,encoded_in_bitflags"`
 	Peer         *InputPhoneCall        `validate:"required"`
 	Duration     int32                  `validate:"required"`
 	Reason       PhoneCallDiscardReason `validate:"required"`
@@ -7637,19 +4616,9 @@ func (e *PhoneDiscardCallParams) CRC() uint32 {
 }
 
 func (c *Client) PhoneDiscardCall(params *PhoneDiscardCallParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneDiscardCall: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("PhoneDiscardCall: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneDiscardCall: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneGetCallConfigParams struct{}
@@ -7658,20 +4627,10 @@ func (e *PhoneGetCallConfigParams) CRC() uint32 {
 	return uint32(0x55451fa9)
 }
 
-func (c *Client) PhoneGetCallConfig() (*DataJSON, error) {
-	data, err := c.MakeRequest(&PhoneGetCallConfigParams{})
-	if err != nil {
-		return nil, fmt.Errorf("PhoneGetCallConfig: %w", err)
-	}
-
-	resp, ok := data.(*DataJSON)
-	if !ok {
-		err := fmt.Errorf("PhoneGetCallConfig: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneGetCallConfig: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneGetCallConfig() (DataJSON, error) {
+	var resp DataJSON
+	err := c.MakeRequest2(&PhoneGetCallConfigParams{}, &resp)
+	return resp, err
 }
 
 type PhoneReceivedCallParams struct {
@@ -7682,25 +4641,15 @@ func (e *PhoneReceivedCallParams) CRC() uint32 {
 	return uint32(0x17d54f61)
 }
 
-func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneReceivedCall: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("PhoneReceivedCall: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneReceivedCall: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneRequestCallParams struct {
 	// flags position
-	Video    bool               `tl:"flag:0,encoded_in_bitflag"`
+	Video    bool               `flag:"0,encoded_in_bitflags"`
 	UserId   InputUser          `validate:"required"`
 	RandomId int32              `validate:"required"`
 	GAHash   []byte             `validate:"required"`
@@ -7711,20 +4660,10 @@ func (e *PhoneRequestCallParams) CRC() uint32 {
 	return uint32(0x42ff96ed)
 }
 
-func (c *Client) PhoneRequestCall(params *PhoneRequestCallParams) (*PhonePhoneCall, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneRequestCall: %w", err)
-	}
-
-	resp, ok := data.(*PhonePhoneCall)
-	if !ok {
-		err := fmt.Errorf("PhoneRequestCall: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneRequestCall: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneRequestCall(params *PhoneRequestCallParams) (PhonePhoneCall, error) {
+	var resp PhonePhoneCall
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneSaveCallDebugParams struct {
@@ -7736,20 +4675,10 @@ func (e *PhoneSaveCallDebugParams) CRC() uint32 {
 	return uint32(0x277add7e)
 }
 
-func (c *Client) PhoneSaveCallDebug(params *PhoneSaveCallDebugParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneSaveCallDebug: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("PhoneSaveCallDebug: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneSaveCallDebug: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneSaveCallDebug(params *PhoneSaveCallDebugParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneSendSignalingDataParams struct {
@@ -7761,25 +4690,15 @@ func (e *PhoneSendSignalingDataParams) CRC() uint32 {
 	return uint32(0xff7a9383)
 }
 
-func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneSendSignalingData: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("PhoneSendSignalingData: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneSendSignalingData: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhoneSetCallRatingParams struct {
 	// flags position
-	UserInitiative bool            `tl:"flag:0,encoded_in_bitflag"`
+	UserInitiative bool            `flag:"0,encoded_in_bitflags"`
 	Peer           *InputPhoneCall `validate:"required"`
 	Rating         int32           `validate:"required"`
 	Comment        string          `validate:"required"`
@@ -7790,19 +4709,9 @@ func (e *PhoneSetCallRatingParams) CRC() uint32 {
 }
 
 func (c *Client) PhoneSetCallRating(params *PhoneSetCallRatingParams) (Updates, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhoneSetCallRating: %w", err)
-	}
-
-	resp, ok := data.(Updates)
-	if !ok {
-		err := fmt.Errorf("PhoneSetCallRating: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhoneSetCallRating: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp Updates
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhotosDeletePhotosParams struct {
@@ -7813,20 +4722,10 @@ func (e *PhotosDeletePhotosParams) CRC() uint32 {
 	return uint32(0x87cf7f2f)
 }
 
-func (c *Client) PhotosDeletePhotos(params *PhotosDeletePhotosParams) (*serialize.Long, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhotosDeletePhotos: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Long)
-	if !ok {
-		err := fmt.Errorf("PhotosDeletePhotos: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhotosDeletePhotos: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhotosDeletePhotos(params *PhotosDeletePhotosParams) (serialize.Long, error) {
+	var resp serialize.Long
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhotosGetUserPhotosParams struct {
@@ -7841,19 +4740,9 @@ func (e *PhotosGetUserPhotosParams) CRC() uint32 {
 }
 
 func (c *Client) PhotosGetUserPhotos(params *PhotosGetUserPhotosParams) (PhotosPhotos, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhotosGetUserPhotos: %w", err)
-	}
-
-	resp, ok := data.(PhotosPhotos)
-	if !ok {
-		err := fmt.Errorf("PhotosGetUserPhotos: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhotosGetUserPhotos: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp PhotosPhotos
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhotosUpdateProfilePhotoParams struct {
@@ -7864,52 +4753,32 @@ func (e *PhotosUpdateProfilePhotoParams) CRC() uint32 {
 	return uint32(0x72d4742c)
 }
 
-func (c *Client) PhotosUpdateProfilePhoto(params *PhotosUpdateProfilePhotoParams) (*PhotosPhoto, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhotosUpdateProfilePhoto: %w", err)
-	}
-
-	resp, ok := data.(*PhotosPhoto)
-	if !ok {
-		err := fmt.Errorf("PhotosUpdateProfilePhoto: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhotosUpdateProfilePhoto: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhotosUpdateProfilePhoto(params *PhotosUpdateProfilePhotoParams) (PhotosPhoto, error) {
+	var resp PhotosPhoto
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type PhotosUploadProfilePhotoParams struct {
 	// flags position
-	File         InputFile `tl:"flag:0"`
-	Video        InputFile `tl:"flag:1"`
-	VideoStartTs float64   `tl:"flag:2"`
+	File         InputFile `flag:"0"`
+	Video        InputFile `flag:"1"`
+	VideoStartTs float64   `flag:"2"`
 }
 
 func (e *PhotosUploadProfilePhotoParams) CRC() uint32 {
 	return uint32(0x89f30f69)
 }
 
-func (c *Client) PhotosUploadProfilePhoto(params *PhotosUploadProfilePhotoParams) (*PhotosPhoto, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("PhotosUploadProfilePhoto: %w", err)
-	}
-
-	resp, ok := data.(*PhotosPhoto)
-	if !ok {
-		err := fmt.Errorf("PhotosUploadProfilePhoto: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("PhotosUploadProfilePhoto: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) PhotosUploadProfilePhoto(params *PhotosUploadProfilePhotoParams) (PhotosPhoto, error) {
+	var resp PhotosPhoto
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StatsGetBroadcastStatsParams struct {
 	// flags position
-	Dark    bool         `tl:"flag:0,encoded_in_bitflag"`
+	Dark    bool         `flag:"0,encoded_in_bitflags"`
 	Channel InputChannel `validate:"required"`
 }
 
@@ -7917,25 +4786,15 @@ func (e *StatsGetBroadcastStatsParams) CRC() uint32 {
 	return uint32(0xab42441a)
 }
 
-func (c *Client) StatsGetBroadcastStats(params *StatsGetBroadcastStatsParams) (*StatsBroadcastStats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StatsGetBroadcastStats: %w", err)
-	}
-
-	resp, ok := data.(*StatsBroadcastStats)
-	if !ok {
-		err := fmt.Errorf("StatsGetBroadcastStats: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StatsGetBroadcastStats: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StatsGetBroadcastStats(params *StatsGetBroadcastStatsParams) (StatsBroadcastStats, error) {
+	var resp StatsBroadcastStats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StatsGetMegagroupStatsParams struct {
 	// flags position
-	Dark    bool         `tl:"flag:0,encoded_in_bitflag"`
+	Dark    bool         `flag:"0,encoded_in_bitflags"`
 	Channel InputChannel `validate:"required"`
 }
 
@@ -7943,26 +4802,16 @@ func (e *StatsGetMegagroupStatsParams) CRC() uint32 {
 	return uint32(0xdcdf8607)
 }
 
-func (c *Client) StatsGetMegagroupStats(params *StatsGetMegagroupStatsParams) (*StatsMegagroupStats, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StatsGetMegagroupStats: %w", err)
-	}
-
-	resp, ok := data.(*StatsMegagroupStats)
-	if !ok {
-		err := fmt.Errorf("StatsGetMegagroupStats: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StatsGetMegagroupStats: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StatsGetMegagroupStats(params *StatsGetMegagroupStatsParams) (StatsMegagroupStats, error) {
+	var resp StatsMegagroupStats
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StatsLoadAsyncGraphParams struct {
 	// flags position
 	Token string `validate:"required"`
-	X     int64  `tl:"flag:0"`
+	X     int64  `flag:"0"`
 }
 
 func (e *StatsLoadAsyncGraphParams) CRC() uint32 {
@@ -7970,19 +4819,9 @@ func (e *StatsLoadAsyncGraphParams) CRC() uint32 {
 }
 
 func (c *Client) StatsLoadAsyncGraph(params *StatsLoadAsyncGraphParams) (StatsGraph, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StatsLoadAsyncGraph: %w", err)
-	}
-
-	resp, ok := data.(StatsGraph)
-	if !ok {
-		err := fmt.Errorf("StatsLoadAsyncGraph: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StatsLoadAsyncGraph: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp StatsGraph
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StickersAddStickerToSetParams struct {
@@ -7994,20 +4833,10 @@ func (e *StickersAddStickerToSetParams) CRC() uint32 {
 	return uint32(0x8653febe)
 }
 
-func (c *Client) StickersAddStickerToSet(params *StickersAddStickerToSetParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StickersAddStickerToSet: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("StickersAddStickerToSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StickersAddStickerToSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StickersAddStickerToSet(params *StickersAddStickerToSetParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StickersChangeStickerPositionParams struct {
@@ -8019,30 +4848,20 @@ func (e *StickersChangeStickerPositionParams) CRC() uint32 {
 	return uint32(0xffb6d4ca)
 }
 
-func (c *Client) StickersChangeStickerPosition(params *StickersChangeStickerPositionParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StickersChangeStickerPosition: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("StickersChangeStickerPosition: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StickersChangeStickerPosition: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StickersChangeStickerPosition(params *StickersChangeStickerPositionParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StickersCreateStickerSetParams struct {
 	// flags position
-	Masks     bool                   `tl:"flag:0,encoded_in_bitflag"`
-	Animated  bool                   `tl:"flag:1,encoded_in_bitflag"`
+	Masks     bool                   `flag:"0,encoded_in_bitflags"`
+	Animated  bool                   `flag:"1,encoded_in_bitflags"`
 	UserId    InputUser              `validate:"required"`
 	Title     string                 `validate:"required"`
 	ShortName string                 `validate:"required"`
-	Thumb     InputDocument          `tl:"flag:2"`
+	Thumb     InputDocument          `flag:"2"`
 	Stickers  []*InputStickerSetItem `validate:"required"`
 }
 
@@ -8050,20 +4869,10 @@ func (e *StickersCreateStickerSetParams) CRC() uint32 {
 	return uint32(0xf1036780)
 }
 
-func (c *Client) StickersCreateStickerSet(params *StickersCreateStickerSetParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StickersCreateStickerSet: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("StickersCreateStickerSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StickersCreateStickerSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StickersCreateStickerSet(params *StickersCreateStickerSetParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StickersRemoveStickerFromSetParams struct {
@@ -8074,20 +4883,10 @@ func (e *StickersRemoveStickerFromSetParams) CRC() uint32 {
 	return uint32(0xf7760f51)
 }
 
-func (c *Client) StickersRemoveStickerFromSet(params *StickersRemoveStickerFromSetParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StickersRemoveStickerFromSet: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("StickersRemoveStickerFromSet: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StickersRemoveStickerFromSet: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StickersRemoveStickerFromSet(params *StickersRemoveStickerFromSetParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type StickersSetStickerSetThumbParams struct {
@@ -8099,25 +4898,15 @@ func (e *StickersSetStickerSetThumbParams) CRC() uint32 {
 	return uint32(0x9a364e30)
 }
 
-func (c *Client) StickersSetStickerSetThumb(params *StickersSetStickerSetThumbParams) (*MessagesStickerSet, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("StickersSetStickerSetThumb: %w", err)
-	}
-
-	resp, ok := data.(*MessagesStickerSet)
-	if !ok {
-		err := fmt.Errorf("StickersSetStickerSetThumb: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("StickersSetStickerSetThumb: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) StickersSetStickerSetThumb(params *StickersSetStickerSetThumbParams) (MessagesStickerSet, error) {
+	var resp MessagesStickerSet
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UpdatesGetChannelDifferenceParams struct {
 	// flags position
-	Force   bool                  `tl:"flag:0,encoded_in_bitflag"`
+	Force   bool                  `flag:"0,encoded_in_bitflags"`
 	Channel InputChannel          `validate:"required"`
 	Filter  ChannelMessagesFilter `validate:"required"`
 	Pts     int32                 `validate:"required"`
@@ -8129,25 +4918,15 @@ func (e *UpdatesGetChannelDifferenceParams) CRC() uint32 {
 }
 
 func (c *Client) UpdatesGetChannelDifference(params *UpdatesGetChannelDifferenceParams) (UpdatesChannelDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UpdatesGetChannelDifference: %w", err)
-	}
-
-	resp, ok := data.(UpdatesChannelDifference)
-	if !ok {
-		err := fmt.Errorf("UpdatesGetChannelDifference: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UpdatesGetChannelDifference: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UpdatesChannelDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UpdatesGetDifferenceParams struct {
 	// flags position
 	Pts           int32 `validate:"required"`
-	PtsTotalLimit int32 `tl:"flag:0"`
+	PtsTotalLimit int32 `flag:"0"`
 	Date          int32 `validate:"required"`
 	Qts           int32 `validate:"required"`
 }
@@ -8157,19 +4936,9 @@ func (e *UpdatesGetDifferenceParams) CRC() uint32 {
 }
 
 func (c *Client) UpdatesGetDifference(params *UpdatesGetDifferenceParams) (UpdatesDifference, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UpdatesGetDifference: %w", err)
-	}
-
-	resp, ok := data.(UpdatesDifference)
-	if !ok {
-		err := fmt.Errorf("UpdatesGetDifference: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UpdatesGetDifference: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UpdatesDifference
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UpdatesGetStateParams struct{}
@@ -8178,20 +4947,10 @@ func (e *UpdatesGetStateParams) CRC() uint32 {
 	return uint32(0xedd4882a)
 }
 
-func (c *Client) UpdatesGetState() (*UpdatesState, error) {
-	data, err := c.MakeRequest(&UpdatesGetStateParams{})
-	if err != nil {
-		return nil, fmt.Errorf("UpdatesGetState: %w", err)
-	}
-
-	resp, ok := data.(*UpdatesState)
-	if !ok {
-		err := fmt.Errorf("UpdatesGetState: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UpdatesGetState: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UpdatesGetState() (UpdatesState, error) {
+	var resp UpdatesState
+	err := c.MakeRequest2(&UpdatesGetStateParams{}, &resp)
+	return resp, err
 }
 
 type UploadGetCdnFileParams struct {
@@ -8205,19 +4964,9 @@ func (e *UploadGetCdnFileParams) CRC() uint32 {
 }
 
 func (c *Client) UploadGetCdnFile(params *UploadGetCdnFileParams) (UploadCdnFile, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadGetCdnFile: %w", err)
-	}
-
-	resp, ok := data.(UploadCdnFile)
-	if !ok {
-		err := fmt.Errorf("UploadGetCdnFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadGetCdnFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UploadCdnFile
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadGetCdnFileHashesParams struct {
@@ -8229,26 +4978,16 @@ func (e *UploadGetCdnFileHashesParams) CRC() uint32 {
 	return uint32(0x4da54231)
 }
 
-func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) (*FileHash, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadGetCdnFileHashes: %w", err)
-	}
-
-	resp, ok := data.(*FileHash)
-	if !ok {
-		err := fmt.Errorf("UploadGetCdnFileHashes: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadGetCdnFileHashes: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) (FileHash, error) {
+	var resp FileHash
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadGetFileParams struct {
 	// flags position
-	Precise      bool              `tl:"flag:0,encoded_in_bitflag"`
-	CdnSupported bool              `tl:"flag:1,encoded_in_bitflag"`
+	Precise      bool              `flag:"0,encoded_in_bitflags"`
+	CdnSupported bool              `flag:"1,encoded_in_bitflags"`
 	Location     InputFileLocation `validate:"required"`
 	Offset       int32             `validate:"required"`
 	Limit        int32             `validate:"required"`
@@ -8259,19 +4998,9 @@ func (e *UploadGetFileParams) CRC() uint32 {
 }
 
 func (c *Client) UploadGetFile(params *UploadGetFileParams) (UploadFile, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadGetFile: %w", err)
-	}
-
-	resp, ok := data.(UploadFile)
-	if !ok {
-		err := fmt.Errorf("UploadGetFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadGetFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp UploadFile
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadGetFileHashesParams struct {
@@ -8283,20 +5012,10 @@ func (e *UploadGetFileHashesParams) CRC() uint32 {
 	return uint32(0xc7025931)
 }
 
-func (c *Client) UploadGetFileHashes(params *UploadGetFileHashesParams) (*FileHash, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadGetFileHashes: %w", err)
-	}
-
-	resp, ok := data.(*FileHash)
-	if !ok {
-		err := fmt.Errorf("UploadGetFileHashes: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadGetFileHashes: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadGetFileHashes(params *UploadGetFileHashesParams) (FileHash, error) {
+	var resp FileHash
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadGetWebFileParams struct {
@@ -8309,20 +5028,10 @@ func (e *UploadGetWebFileParams) CRC() uint32 {
 	return uint32(0x24e6818d)
 }
 
-func (c *Client) UploadGetWebFile(params *UploadGetWebFileParams) (*UploadWebFile, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadGetWebFile: %w", err)
-	}
-
-	resp, ok := data.(*UploadWebFile)
-	if !ok {
-		err := fmt.Errorf("UploadGetWebFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadGetWebFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadGetWebFile(params *UploadGetWebFileParams) (UploadWebFile, error) {
+	var resp UploadWebFile
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadReuploadCdnFileParams struct {
@@ -8334,20 +5043,10 @@ func (e *UploadReuploadCdnFileParams) CRC() uint32 {
 	return uint32(0x9b2754a8)
 }
 
-func (c *Client) UploadReuploadCdnFile(params *UploadReuploadCdnFileParams) (*FileHash, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadReuploadCdnFile: %w", err)
-	}
-
-	resp, ok := data.(*FileHash)
-	if !ok {
-		err := fmt.Errorf("UploadReuploadCdnFile: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadReuploadCdnFile: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadReuploadCdnFile(params *UploadReuploadCdnFileParams) (FileHash, error) {
+	var resp FileHash
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadSaveBigFilePartParams struct {
@@ -8361,20 +5060,10 @@ func (e *UploadSaveBigFilePartParams) CRC() uint32 {
 	return uint32(0xde7b673d)
 }
 
-func (c *Client) UploadSaveBigFilePart(params *UploadSaveBigFilePartParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadSaveBigFilePart: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("UploadSaveBigFilePart: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadSaveBigFilePart: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadSaveBigFilePart(params *UploadSaveBigFilePartParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UploadSaveFilePartParams struct {
@@ -8387,20 +5076,10 @@ func (e *UploadSaveFilePartParams) CRC() uint32 {
 	return uint32(0xb304a621)
 }
 
-func (c *Client) UploadSaveFilePart(params *UploadSaveFilePartParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UploadSaveFilePart: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("UploadSaveFilePart: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UploadSaveFilePart: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UploadSaveFilePart(params *UploadSaveFilePartParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UsersGetFullUserParams struct {
@@ -8411,20 +5090,10 @@ func (e *UsersGetFullUserParams) CRC() uint32 {
 	return uint32(0xca30a5b1)
 }
 
-func (c *Client) UsersGetFullUser(params *UsersGetFullUserParams) (*UserFull, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UsersGetFullUser: %w", err)
-	}
-
-	resp, ok := data.(*UserFull)
-	if !ok {
-		err := fmt.Errorf("UsersGetFullUser: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UsersGetFullUser: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UsersGetFullUser(params *UsersGetFullUserParams) (UserFull, error) {
+	var resp UserFull
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UsersGetUsersParams struct {
@@ -8436,19 +5105,9 @@ func (e *UsersGetUsersParams) CRC() uint32 {
 }
 
 func (c *Client) UsersGetUsers(params *UsersGetUsersParams) (User, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UsersGetUsers: %w", err)
-	}
-
-	resp, ok := data.(User)
-	if !ok {
-		err := fmt.Errorf("UsersGetUsers: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UsersGetUsers: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+	var resp User
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }
 
 type UsersSetSecureValueErrorsParams struct {
@@ -8460,18 +5119,8 @@ func (e *UsersSetSecureValueErrorsParams) CRC() uint32 {
 	return uint32(0x90c894b5)
 }
 
-func (c *Client) UsersSetSecureValueErrors(params *UsersSetSecureValueErrorsParams) (*serialize.Bool, error) {
-	data, err := c.MakeRequest(params)
-	if err != nil {
-		return nil, fmt.Errorf("UsersSetSecureValueErrors: %w", err)
-	}
-
-	resp, ok := data.(*serialize.Bool)
-	if !ok {
-		err := fmt.Errorf("UsersSetSecureValueErrors: got invalid response type: %T", data)
-		// return nil, fmt.Errorf("UsersSetSecureValueErrors: got invalid response type: %T", data)
-		panic(err)
-	}
-
-	return resp, nil
+func (c *Client) UsersSetSecureValueErrors(params *UsersSetSecureValueErrorsParams) (serialize.Bool, error) {
+	var resp serialize.Bool
+	err := c.MakeRequest2(params, &resp)
+	return resp, err
 }

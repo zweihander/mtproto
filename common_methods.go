@@ -10,15 +10,6 @@ type ReqPQParams struct {
 
 func (_ *ReqPQParams) CRC() uint32 { return 0x60469778 }
 
-func (m *MTProto) ReqPQ(nonce *serialize.Int128) (*serialize.ResPQ, error) {
-	pq := new(serialize.ResPQ)
-	if err := m.MakeRequest2(&ReqPQParams{Nonce: nonce}, pq); err != nil {
-		return nil, err
-	}
-
-	return pq, nil
-}
-
 type ReqDHParamsParams struct {
 	Nonce                *serialize.Int128
 	ServerNonce          *serialize.Int128
@@ -32,22 +23,6 @@ func (_ *ReqDHParamsParams) CRC() uint32 {
 	return 0xd712e4be
 }
 
-func (m *MTProto) ReqDHParams(nonce, serverNonce *serialize.Int128, p, q []byte, publicKeyFingerprint int64, encryptedData []byte) (serialize.ServerDHParams, error) {
-	var dhp serialize.ServerDHParams
-	if err := m.MakeRequest2(&ReqDHParamsParams{
-		Nonce:                nonce,
-		ServerNonce:          serverNonce,
-		P:                    p,
-		Q:                    q,
-		PublicKeyFingerprint: publicKeyFingerprint,
-		EncryptedData:        encryptedData,
-	}, &dhp); err != nil {
-		return nil, err
-	}
-
-	return dhp, nil
-}
-
 type SetClientDHParamsParams struct {
 	Nonce         *serialize.Int128
 	ServerNonce   *serialize.Int128
@@ -56,19 +31,6 @@ type SetClientDHParamsParams struct {
 
 func (_ *SetClientDHParamsParams) CRC() uint32 {
 	return 0xf5045f1f
-}
-
-func (m *MTProto) SetClientDHParams(nonce, serverNonce *serialize.Int128, encryptedData []byte) (serialize.SetClientDHParamsAnswer, error) {
-	var dhpa serialize.SetClientDHParamsAnswer
-	if err := m.MakeRequest2(&SetClientDHParamsParams{
-		Nonce:         nonce,
-		ServerNonce:   serverNonce,
-		EncryptedData: encryptedData,
-	}, &dhpa); err != nil {
-		return nil, err
-	}
-
-	return dhpa, nil
 }
 
 // rpc_drop_answer
