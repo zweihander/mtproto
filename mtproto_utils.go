@@ -1,6 +1,8 @@
 package mtproto
 
 import (
+	"sync/atomic"
+
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/utils"
 )
@@ -37,12 +39,12 @@ func (m *MTProto) GetSessionID() int64 {
 
 // Получает lastSeqNo
 func (m *MTProto) GetLastSeqNo() int32 {
-	return m.lastSeqNo
+	return atomic.LoadInt32(&m.lastSeqNo)
 }
 
 // получает соль
 func (m *MTProto) GetServerSalt() int64 {
-	return m.serverSalt
+	return atomic.LoadInt64(&m.serverSalt)
 }
 
 // получает ключ авторизации

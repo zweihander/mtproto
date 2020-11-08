@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	bus "github.com/asaskevich/EventBus"
@@ -209,8 +210,14 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 				continue
 			}
 
-			err = m.processResponse(m.msgId, m.seqNo, response.GetMsg())
-			if err != nil {
+			// NOTE:
+			// Зачем сюда передавать m.msgId, m.seqNo
+			// если у сообщения есть методы GetMsgID() и GetSeqNo()?
+			if err := m.processResponse(
+				atomic.LoadInt64(&m.msgId),
+				atomic.LoadInt32(&m.seqNo),
+				response.GetMsg(),
+			); err != nil {
 				panic(err)
 			}
 		}
@@ -229,12 +236,14 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		req, found := m.pending[message.ReqMsgID]
 		if !found {
 			m.mutex.Unlock()
-			fmt.Printf("pending request for message %d not found\n", message.ReqMsgID)
+			fmt.Printf("pending request for messageID %d not found\n", message.ReqMsgID)
 			return nil
 		}
 		delete(m.pending, message.ReqMsgID)
 		m.mutex.Unlock()
 
+		// анмаршалим содержимое rpc
+		// NOTE:
 		rpcMessageObject, err := tl.DecodeRegistered(message.Payload)
 		if err != nil {
 			req.echan <- fmt.Errorf("decode rpc: %w", err)
@@ -242,6 +251,8 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		}
 
 		// джедайские трюки
+		// NOTE:
+		// мб сделать свитч чисто по CRC чтобы убрать двойной анмаршал?
 		switch rpcMessage := rpcMessageObject.(type) {
 		case *serialize.GzipPacked:
 			if req.response != nil {
@@ -254,25 +265,17 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		case *serialize.RpcError:
 			req.echan <- rpcMessage
 		default:
+			// Костыль:
+			// заново анмаршалим содержимое rpc в тот тип который запросил юзер
 			req.echan <- tl.Decode(message.Payload, req.response)
-
-			
-			// processed := false
-			// for _, f := range m.serverRequestHandlers {
-			// 	if f(rpcMessage) {
-			// 		processed = true
-			// 		break
-			// 	}
-			// }
-
-			// if !processed {
-			// 	panic(fmt.Sprintf("rpc %T not handled", rpcMessage))
-			// }
 		}
 
 	case *serialize.MessageContainer:
 		println("MessageContainer")
 		for _, v := range *message {
+			// NOTE:
+			// Зачем сюда передавать m.msgId, m.seqNo
+			// если у сообщения есть методы GetMsgID() и GetSeqNo()?
 			err := m.processResponse(v.MsgID, v.SeqNo, v.GetMsg())
 			if err != nil {
 				return errors.Wrap(err, "processing item in container")
@@ -285,7 +288,6 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		dry.PanicIfErr(err)
 
 		m.mutex.Lock()
-		// TODO: check id
 		for _, v := range m.pending {
 			v.echan <- &serialize.ErrorSessionConfigsChanged{}
 		}
@@ -308,6 +310,8 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		}
 
 	case *serialize.BadMsgNotification:
+		// NOTE:
+		// что-то сделать с этим)
 		panic(message)
 		return BadMsgErrorFromNative(message)
 
@@ -327,6 +331,9 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 	}
 
 	if (seqNo & 1) != 0 {
+		// NOTE:
+		// похоже MsgsAck можно кидать Ack на несколько сообщений сразу
+		// Мб отправлять их батчами для меньшего жора сети?
 		err = m.MakeRequest2(&serialize.MsgsAck{MsgIds: []int64{int64(msgID)}}, nil)
 		if err != nil {
 			return errors.Wrap(err, "sending ack")

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"sync/atomic"
 	"time"
 
 	"github.com/k0kubun/pp"
@@ -60,7 +61,7 @@ func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err erro
 
 		}
 		// этот кусок не часть кодирования так что делаем при отправке
-		m.lastSeqNo += 2
+		atomic.AddInt32(&m.lastSeqNo, 2)
 	} else {
 		msg, err := tl.Encode(request)
 		if err != nil {
@@ -150,7 +151,7 @@ func (m *MTProto) sendPacket3(request tl.Object, response interface{}) (err erro
 
 	}
 	// этот кусок не часть кодирования так что делаем при отправке
-	m.lastSeqNo += 2
+	atomic.AddInt32(&m.lastSeqNo, 2)
 
 	size := make([]byte, 4)
 	binary.LittleEndian.PutUint32(size, uint32(len(data)))
