@@ -19,10 +19,10 @@ func TestEncode(t *testing.T) {
 	}{
 		{
 			name: "AccountInstallThemeParams",
-			obj: &AccountInstallThemeParams{
+			obj: &telegram.AccountInstallThemeParams{
 				Dark:   true,
 				Format: "abc",
-				Theme: &InputThemeObj{
+				Theme: &telegram.InputThemeObj{
 					Id:         123,
 					AccessHash: 321,
 				},
@@ -34,7 +34,7 @@ func TestEncode(t *testing.T) {
 		},
 		{
 			name: "AccountUnregisterDeviceParams",
-			obj: &AccountUnregisterDeviceParams{
+			obj: &telegram.AccountUnregisterDeviceParams{
 				TokenType: 1,
 				Token:     "foo",
 				OtherUids: []int32{

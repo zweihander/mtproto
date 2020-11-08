@@ -169,6 +169,7 @@ func (m *MTProto) sendPacket3(request tl.Object, response interface{}) (err erro
 
 func (m *MTProto) sendServicePacket(request tl.Object, response interface{}) (err error) {
 	echan := make(chan error)
+	msgID := utils.GenerateMessageId()
 	msg, err := tl.Encode(request)
 	if err != nil {
 		return err

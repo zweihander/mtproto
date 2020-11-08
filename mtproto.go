@@ -209,7 +209,7 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 				continue
 			}
 
-			err = m.processResponse(int(m.msgId), int(m.seqNo), response.GetMsg())
+			err = m.processResponse(m.msgId, m.seqNo, response.GetMsg())
 			if err != nil {
 				panic(err)
 			}
@@ -217,7 +217,7 @@ func (m *MTProto) startReadingResponses(ctx context.Context) {
 	}
 }
 
-func (m *MTProto) processResponse(msgID, seqNo int, data []byte) error {
+func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 	object, err := tl.DecodeRegistered(data)
 	if err != nil {
 		return fmt.Errorf("decode base message: %w", err)
@@ -235,33 +235,45 @@ func (m *MTProto) processResponse(msgID, seqNo int, data []byte) error {
 		delete(m.pending, message.ReqMsgID)
 		m.mutex.Unlock()
 
-		ob, err := tl.DecodeRegistered(message.Payload)
+		rpcMessageObject, err := tl.DecodeRegistered(message.Payload)
 		if err != nil {
 			req.echan <- fmt.Errorf("decode rpc: %w", err)
 			return nil
 		}
 
-		switch obj := ob.(type) {
+		// джедайские трюки
+		switch rpcMessage := rpcMessageObject.(type) {
 		case *serialize.GzipPacked:
-			// джедайские трюки
 			if req.response != nil {
-				req.echan <- tl.Decode(obj.Payload, req.response)
-				return nil
+				req.echan <- tl.Decode(rpcMessage.Payload, req.response)
+			} else {
+				unzippedObj, err := tl.DecodeRegistered(rpcMessage.Payload)
+				req.response = unzippedObj
+				req.echan <- err
 			}
-
-			ob, err = tl.DecodeRegistered(obj.Payload)
-			req.response = ob
-			req.echan <- err
-			return nil
+		case *serialize.RpcError:
+			req.echan <- rpcMessage
 		default:
-			panic(fmt.Sprintf("type %T not handled", obj))
+			req.echan <- tl.Decode(message.Payload, req.response)
+
+			
+			// processed := false
+			// for _, f := range m.serverRequestHandlers {
+			// 	if f(rpcMessage) {
+			// 		processed = true
+			// 		break
+			// 	}
+			// }
+
+			// if !processed {
+			// 	panic(fmt.Sprintf("rpc %T not handled", rpcMessage))
+			// }
 		}
 
-		req.echan <- tl.Decode(message.Payload, req.response)
 	case *serialize.MessageContainer:
 		println("MessageContainer")
 		for _, v := range *message {
-			err := m.processResponse(int(v.MsgID), int(v.SeqNo), v.GetMsg())
+			err := m.processResponse(v.MsgID, v.SeqNo, v.GetMsg())
 			if err != nil {
 				return errors.Wrap(err, "processing item in container")
 			}
@@ -311,16 +323,7 @@ func (m *MTProto) processResponse(msgID, seqNo int, data []byte) error {
 		// }
 
 	default:
-		processed := false
-		for _, f := range m.serverRequestHandlers {
-			processed = f(message)
-			if processed {
-				break
-			}
-		}
-		if !processed {
-			panic(fmt.Errorf("got nonsystem message from server: %T", message))
-		}
+		panic(fmt.Sprintf("type %T not handled", message))
 	}
 
 	if (seqNo & 1) != 0 {

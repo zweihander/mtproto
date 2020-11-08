@@ -30,12 +30,11 @@ func main() {
 		AppHash:        "d7cbcde19de60a27f88ed3f467fdda25", // app hash, could be find at https://my.telegram.org
 	})
 	dry.PanicIfErr(err)
-	fmt.Println("client created!!!")
+
 	setCode, err := client.AuthSendCode(&telegram.AuthSendCodeParams{
 		phoneNumber, 94575, "a3406de8d171bb422bb6ddf3bbd800e2", &telegram.CodeSettings{},
 	})
 	dry.PanicIfErr(err)
-	pp.Println("authSetCode:", setCode)
 
 	fmt.Print("Код авторизации:")
 	code, _ := bufio.NewReader(os.Stdin).ReadString('\n')

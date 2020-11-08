@@ -108,7 +108,7 @@ func decode(c *ReadCursor, v interface{}) error {
 	if o, ok := v.(Object); ok {
 		err := decodeObject(c, o, false)
 		if err != nil {
-			return fmt.Errorf("decode %T: %w", v, err)
+			return fmt.Errorf("decode object %T: %w", v, err)
 		}
 
 		return nil
@@ -121,7 +121,7 @@ func decode(c *ReadCursor, v interface{}) error {
 		}
 
 		o, err := decodeRegisteredObject(c)
-		pp.Println("decoded_fromiface:", o, err)
+		pp.Println("decoded_from_iface:", o, err)
 		panic("kek")
 	}
 
@@ -297,10 +297,20 @@ func decodeField(cur *ReadCursor, field reflect.Value, ftyp reflect.Type) error 
 		// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
 		// 	panic("can't parse any type, if it don't implement Object")
 		// }
+		// fmt.Printf("decoding: %T\n", ftyp.Name())
+		// sd, err := cur.DumpWithoutRead()
+		// pp.Println("data:", sd, err)
 
-		if err := decode(cur, field.Interface()); err != nil {
-			return err
+		obj, err := decodeRegisteredObject(cur)
+		if err != nil {
+			return fmt.Errorf("decode interface: %w", err)
 		}
+
+		field.Set(reflect.ValueOf(obj))
+		// if err := decode(cur, field.Interface()); err != nil {
+		// 	panic(err)
+		// 	return err
+		// }
 
 		// if !reflect.TypeOf(field).Implements(value.Field(i).Type()) {
 		// 	panic("received value " + reflect.TypeOf(field).String() + "; expected " + value.Field(i).Type().String())
@@ -336,7 +346,7 @@ func decodeRegisteredObject(cur *ReadCursor) (Object, error) {
 	if _, isEnum := enumCrcs[crc]; !isEnum {
 		err := decodeObject(cur, o, true)
 		if err != nil {
-			return nil, fmt.Errorf("decode %T: %w", o, err)
+			return nil, fmt.Errorf("decode registered object %T: %w", o, err)
 		}
 	}
 
