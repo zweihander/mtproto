@@ -2,25 +2,20 @@
 
 package telegram
 
-import (
-	"github.com/xelaj/mtproto/serialize"
-)
-
-
 type AccountAcceptAuthorizationParams struct {
-	BotId       int32                       `validate:"required"`
-	Scope       string                      `validate:"required"`
-	PublicKey   string                      `validate:"required"`
-	ValueHashes []*SecureValueHash          `validate:"required"`
-	Credentials *SecureCredentialsEncrypted `validate:"required"`
+	BotId       int32
+	Scope       string
+	PublicKey   string
+	ValueHashes []*SecureValueHash
+	Credentials *SecureCredentialsEncrypted
 }
 
 func (e *AccountAcceptAuthorizationParams) CRC() uint32 {
 	return uint32(0xe7027c94)
 }
 
-func (c *Client) AccountAcceptAuthorization(params *AccountAcceptAuthorizationParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountAcceptAuthorization(params *AccountAcceptAuthorizationParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -31,16 +26,16 @@ func (e *AccountCancelPasswordEmailParams) CRC() uint32 {
 	return uint32(0xc1cbd5b6)
 }
 
-func (c *Client) AccountCancelPasswordEmail() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountCancelPasswordEmail() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountCancelPasswordEmailParams{}, &resp)
 	return resp, err
 }
 
 type AccountChangePhoneParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
-	PhoneCode     string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
+	PhoneCode     string
 }
 
 func (e *AccountChangePhoneParams) CRC() uint32 {
@@ -54,52 +49,52 @@ func (c *Client) AccountChangePhone(params *AccountChangePhoneParams) (User, err
 }
 
 type AccountCheckUsernameParams struct {
-	Username string `validate:"required"`
+	Username string
 }
 
 func (e *AccountCheckUsernameParams) CRC() uint32 {
 	return uint32(0x2714d86c)
 }
 
-func (c *Client) AccountCheckUsername(params *AccountCheckUsernameParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountCheckUsername(params *AccountCheckUsernameParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountConfirmPasswordEmailParams struct {
-	Code string `validate:"required"`
+	Code string
 }
 
 func (e *AccountConfirmPasswordEmailParams) CRC() uint32 {
 	return uint32(0x8fdf1920)
 }
 
-func (c *Client) AccountConfirmPasswordEmail(params *AccountConfirmPasswordEmailParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountConfirmPasswordEmail(params *AccountConfirmPasswordEmailParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountConfirmPhoneParams struct {
-	PhoneCodeHash string `validate:"required"`
-	PhoneCode     string `validate:"required"`
+	PhoneCodeHash string
+	PhoneCode     string
 }
 
 func (e *AccountConfirmPhoneParams) CRC() uint32 {
 	return uint32(0x5f2178c3)
 }
 
-func (c *Client) AccountConfirmPhone(params *AccountConfirmPhoneParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountConfirmPhone(params *AccountConfirmPhoneParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountCreateThemeParams struct {
 	// flags position
-	Slug     string              `validate:"required"`
-	Title    string              `validate:"required"`
+	Slug     string
+	Title    string
 	Document InputDocument       `tl:"flag:2"`
 	Settings *InputThemeSettings `tl:"flag:3"`
 }
@@ -115,29 +110,29 @@ func (c *Client) AccountCreateTheme(params *AccountCreateThemeParams) (Theme, er
 }
 
 type AccountDeleteAccountParams struct {
-	Reason string `validate:"required"`
+	Reason string
 }
 
 func (e *AccountDeleteAccountParams) CRC() uint32 {
 	return uint32(0x418d4e0b)
 }
 
-func (c *Client) AccountDeleteAccount(params *AccountDeleteAccountParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountDeleteAccount(params *AccountDeleteAccountParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountDeleteSecureValueParams struct {
-	Types []SecureValueType `validate:"required"`
+	Types []SecureValueType
 }
 
 func (e *AccountDeleteSecureValueParams) CRC() uint32 {
 	return uint32(0xb880bc4b)
 }
 
-func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -151,8 +146,8 @@ func (e *AccountFinishTakeoutSessionParams) CRC() uint32 {
 	return uint32(0x1d2652ee)
 }
 
-func (c *Client) AccountFinishTakeoutSession(params *AccountFinishTakeoutSessionParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountFinishTakeoutSession(params *AccountFinishTakeoutSessionParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -175,16 +170,16 @@ func (e *AccountGetAllSecureValuesParams) CRC() uint32 {
 	return uint32(0xb288bc7d)
 }
 
-func (c *Client) AccountGetAllSecureValues() (SecureValue, error) {
-	var resp SecureValue
+func (c *Client) AccountGetAllSecureValues() ([]SecureValue, error) {
+	var resp []SecureValue
 	err := c.MakeRequest2(&AccountGetAllSecureValuesParams{}, &resp)
 	return resp, err
 }
 
 type AccountGetAuthorizationFormParams struct {
-	BotId     int32  `validate:"required"`
-	Scope     string `validate:"required"`
-	PublicKey string `validate:"required"`
+	BotId     int32
+	Scope     string
+	PublicKey string
 }
 
 func (e *AccountGetAuthorizationFormParams) CRC() uint32 {
@@ -227,8 +222,8 @@ func (e *AccountGetContactSignUpNotificationParams) CRC() uint32 {
 	return uint32(0x9f07c728)
 }
 
-func (c *Client) AccountGetContactSignUpNotification() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountGetContactSignUpNotification() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountGetContactSignUpNotificationParams{}, &resp)
 	return resp, err
 }
@@ -258,15 +253,15 @@ func (c *Client) AccountGetGlobalPrivacySettings() (GlobalPrivacySettings, error
 }
 
 type AccountGetMultiWallPapersParams struct {
-	Wallpapers []InputWallPaper `validate:"required"`
+	Wallpapers []InputWallPaper
 }
 
 func (e *AccountGetMultiWallPapersParams) CRC() uint32 {
 	return uint32(0x65ad71dc)
 }
 
-func (c *Client) AccountGetMultiWallPapers(params *AccountGetMultiWallPapersParams) (WallPaper, error) {
-	var resp WallPaper
+func (c *Client) AccountGetMultiWallPapers(params *AccountGetMultiWallPapersParams) ([]WallPaper, error) {
+	var resp []WallPaper
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -288,7 +283,7 @@ func (c *Client) AccountGetNotifyExceptions(params *AccountGetNotifyExceptionsPa
 }
 
 type AccountGetNotifySettingsParams struct {
-	Peer InputNotifyPeer `validate:"required"`
+	Peer InputNotifyPeer
 }
 
 func (e *AccountGetNotifySettingsParams) CRC() uint32 {
@@ -314,7 +309,7 @@ func (c *Client) AccountGetPassword() (AccountPassword, error) {
 }
 
 type AccountGetPasswordSettingsParams struct {
-	Password InputCheckPasswordSRP `validate:"required"`
+	Password InputCheckPasswordSRP
 }
 
 func (e *AccountGetPasswordSettingsParams) CRC() uint32 {
@@ -328,7 +323,7 @@ func (c *Client) AccountGetPasswordSettings(params *AccountGetPasswordSettingsPa
 }
 
 type AccountGetPrivacyParams struct {
-	Key InputPrivacyKey `validate:"required"`
+	Key InputPrivacyKey
 }
 
 func (e *AccountGetPrivacyParams) CRC() uint32 {
@@ -342,23 +337,23 @@ func (c *Client) AccountGetPrivacy(params *AccountGetPrivacyParams) (AccountPriv
 }
 
 type AccountGetSecureValueParams struct {
-	Types []SecureValueType `validate:"required"`
+	Types []SecureValueType
 }
 
 func (e *AccountGetSecureValueParams) CRC() uint32 {
 	return uint32(0x73665bc2)
 }
 
-func (c *Client) AccountGetSecureValue(params *AccountGetSecureValueParams) (SecureValue, error) {
-	var resp SecureValue
+func (c *Client) AccountGetSecureValue(params *AccountGetSecureValueParams) ([]SecureValue, error) {
+	var resp []SecureValue
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountGetThemeParams struct {
-	Format     string     `validate:"required"`
-	Theme      InputTheme `validate:"required"`
-	DocumentId int64      `validate:"required"`
+	Format     string
+	Theme      InputTheme
+	DocumentId int64
 }
 
 func (e *AccountGetThemeParams) CRC() uint32 {
@@ -372,8 +367,8 @@ func (c *Client) AccountGetTheme(params *AccountGetThemeParams) (Theme, error) {
 }
 
 type AccountGetThemesParams struct {
-	Format string `validate:"required"`
-	Hash   int32  `validate:"required"`
+	Format string
+	Hash   int32
 }
 
 func (e *AccountGetThemesParams) CRC() uint32 {
@@ -387,8 +382,8 @@ func (c *Client) AccountGetThemes(params *AccountGetThemesParams) (AccountThemes
 }
 
 type AccountGetTmpPasswordParams struct {
-	Password InputCheckPasswordSRP `validate:"required"`
-	Period   int32                 `validate:"required"`
+	Password InputCheckPasswordSRP
+	Period   int32
 }
 
 func (e *AccountGetTmpPasswordParams) CRC() uint32 {
@@ -402,7 +397,7 @@ func (c *Client) AccountGetTmpPassword(params *AccountGetTmpPasswordParams) (Acc
 }
 
 type AccountGetWallPaperParams struct {
-	Wallpaper InputWallPaper `validate:"required"`
+	Wallpaper InputWallPaper
 }
 
 func (e *AccountGetWallPaperParams) CRC() uint32 {
@@ -416,7 +411,7 @@ func (c *Client) AccountGetWallPaper(params *AccountGetWallPaperParams) (WallPap
 }
 
 type AccountGetWallPapersParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *AccountGetWallPapersParams) CRC() uint32 {
@@ -473,58 +468,58 @@ func (e *AccountInstallThemeParams) CRC() uint32 {
 	return uint32(0x7ae43737)
 }
 
-func (c *Client) AccountInstallTheme(params *AccountInstallThemeParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountInstallTheme(params *AccountInstallThemeParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountInstallWallPaperParams struct {
-	Wallpaper InputWallPaper     `validate:"required"`
-	Settings  *WallPaperSettings `validate:"required"`
+	Wallpaper InputWallPaper
+	Settings  *WallPaperSettings
 }
 
 func (e *AccountInstallWallPaperParams) CRC() uint32 {
 	return uint32(0xfeed5769)
 }
 
-func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountRegisterDeviceParams struct {
 	// flags position
-	NoMuted    bool    `tl:"flag:0,encoded_in_bitflags"`
-	TokenType  int32   `validate:"required"`
-	Token      string  `validate:"required"`
-	AppSandbox bool    `validate:"required"`
-	Secret     []byte  `validate:"required"`
-	OtherUids  []int32 `validate:"required"`
+	NoMuted    bool `tl:"flag:0,encoded_in_bitflags"`
+	TokenType  int32
+	Token      string
+	AppSandbox bool
+	Secret     []byte
+	OtherUids  []int32
 }
 
 func (e *AccountRegisterDeviceParams) CRC() uint32 {
 	return uint32(0x68976c6f)
 }
 
-func (c *Client) AccountRegisterDevice(params *AccountRegisterDeviceParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountRegisterDevice(params *AccountRegisterDeviceParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountReportPeerParams struct {
-	Peer   InputPeer    `validate:"required"`
-	Reason ReportReason `validate:"required"`
+	Peer   InputPeer
+	Reason ReportReason
 }
 
 func (e *AccountReportPeerParams) CRC() uint32 {
 	return uint32(0xae189d5f)
 }
 
-func (c *Client) AccountReportPeer(params *AccountReportPeerParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountReportPeer(params *AccountReportPeerParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -535,22 +530,22 @@ func (e *AccountResendPasswordEmailParams) CRC() uint32 {
 	return uint32(0x7a7f2a15)
 }
 
-func (c *Client) AccountResendPasswordEmail() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResendPasswordEmail() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountResendPasswordEmailParams{}, &resp)
 	return resp, err
 }
 
 type AccountResetAuthorizationParams struct {
-	Hash int64 `validate:"required"`
+	Hash int64
 }
 
 func (e *AccountResetAuthorizationParams) CRC() uint32 {
 	return uint32(0xdf77f3bc)
 }
 
-func (c *Client) AccountResetAuthorization(params *AccountResetAuthorizationParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResetAuthorization(params *AccountResetAuthorizationParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -561,8 +556,8 @@ func (e *AccountResetNotifySettingsParams) CRC() uint32 {
 	return uint32(0xdb7e1747)
 }
 
-func (c *Client) AccountResetNotifySettings() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResetNotifySettings() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountResetNotifySettingsParams{}, &resp)
 	return resp, err
 }
@@ -573,22 +568,22 @@ func (e *AccountResetWallPapersParams) CRC() uint32 {
 	return uint32(0xbb3b9804)
 }
 
-func (c *Client) AccountResetWallPapers() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResetWallPapers() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountResetWallPapersParams{}, &resp)
 	return resp, err
 }
 
 type AccountResetWebAuthorizationParams struct {
-	Hash int64 `validate:"required"`
+	Hash int64
 }
 
 func (e *AccountResetWebAuthorizationParams) CRC() uint32 {
 	return uint32(0x2d01b9ef)
 }
 
-func (c *Client) AccountResetWebAuthorization(params *AccountResetWebAuthorizationParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResetWebAuthorization(params *AccountResetWebAuthorizationParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -599,32 +594,32 @@ func (e *AccountResetWebAuthorizationsParams) CRC() uint32 {
 	return uint32(0x682d2594)
 }
 
-func (c *Client) AccountResetWebAuthorizations() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountResetWebAuthorizations() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AccountResetWebAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
 type AccountSaveAutoDownloadSettingsParams struct {
 	// flags position
-	Low      bool                  `tl:"flag:0,encoded_in_bitflags"`
-	High     bool                  `tl:"flag:1,encoded_in_bitflags"`
-	Settings *AutoDownloadSettings `validate:"required"`
+	Low      bool `tl:"flag:0,encoded_in_bitflags"`
+	High     bool `tl:"flag:1,encoded_in_bitflags"`
+	Settings *AutoDownloadSettings
 }
 
 func (e *AccountSaveAutoDownloadSettingsParams) CRC() uint32 {
 	return uint32(0x76f36233)
 }
 
-func (c *Client) AccountSaveAutoDownloadSettings(params *AccountSaveAutoDownloadSettingsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSaveAutoDownloadSettings(params *AccountSaveAutoDownloadSettingsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountSaveSecureValueParams struct {
-	Value          *InputSecureValue `validate:"required"`
-	SecureSecretId int64             `validate:"required"`
+	Value          *InputSecureValue
+	SecureSecretId int64
 }
 
 func (e *AccountSaveSecureValueParams) CRC() uint32 {
@@ -638,39 +633,39 @@ func (c *Client) AccountSaveSecureValue(params *AccountSaveSecureValueParams) (S
 }
 
 type AccountSaveThemeParams struct {
-	Theme  InputTheme `validate:"required"`
-	Unsave bool       `validate:"required"`
+	Theme  InputTheme
+	Unsave bool
 }
 
 func (e *AccountSaveThemeParams) CRC() uint32 {
 	return uint32(0xf257106c)
 }
 
-func (c *Client) AccountSaveTheme(params *AccountSaveThemeParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSaveTheme(params *AccountSaveThemeParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountSaveWallPaperParams struct {
-	Wallpaper InputWallPaper     `validate:"required"`
-	Unsave    bool               `validate:"required"`
-	Settings  *WallPaperSettings `validate:"required"`
+	Wallpaper InputWallPaper
+	Unsave    bool
+	Settings  *WallPaperSettings
 }
 
 func (e *AccountSaveWallPaperParams) CRC() uint32 {
 	return uint32(0x6c5a5b37)
 }
 
-func (c *Client) AccountSaveWallPaper(params *AccountSaveWallPaperParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSaveWallPaper(params *AccountSaveWallPaperParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountSendChangePhoneCodeParams struct {
-	PhoneNumber string        `validate:"required"`
-	Settings    *CodeSettings `validate:"required"`
+	PhoneNumber string
+	Settings    *CodeSettings
 }
 
 func (e *AccountSendChangePhoneCodeParams) CRC() uint32 {
@@ -684,8 +679,8 @@ func (c *Client) AccountSendChangePhoneCode(params *AccountSendChangePhoneCodePa
 }
 
 type AccountSendConfirmPhoneCodeParams struct {
-	Hash     string        `validate:"required"`
-	Settings *CodeSettings `validate:"required"`
+	Hash     string
+	Settings *CodeSettings
 }
 
 func (e *AccountSendConfirmPhoneCodeParams) CRC() uint32 {
@@ -699,7 +694,7 @@ func (c *Client) AccountSendConfirmPhoneCode(params *AccountSendConfirmPhoneCode
 }
 
 type AccountSendVerifyEmailCodeParams struct {
-	Email string `validate:"required"`
+	Email string
 }
 
 func (e *AccountSendVerifyEmailCodeParams) CRC() uint32 {
@@ -713,8 +708,8 @@ func (c *Client) AccountSendVerifyEmailCode(params *AccountSendVerifyEmailCodePa
 }
 
 type AccountSendVerifyPhoneCodeParams struct {
-	PhoneNumber string        `validate:"required"`
-	Settings    *CodeSettings `validate:"required"`
+	PhoneNumber string
+	Settings    *CodeSettings
 }
 
 func (e *AccountSendVerifyPhoneCodeParams) CRC() uint32 {
@@ -728,29 +723,29 @@ func (c *Client) AccountSendVerifyPhoneCode(params *AccountSendVerifyPhoneCodePa
 }
 
 type AccountSetAccountTTLParams struct {
-	Ttl *AccountDaysTTL `validate:"required"`
+	Ttl *AccountDaysTTL
 }
 
 func (e *AccountSetAccountTTLParams) CRC() uint32 {
 	return uint32(0x2442485e)
 }
 
-func (c *Client) AccountSetAccountTTL(params *AccountSetAccountTTLParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSetAccountTTL(params *AccountSetAccountTTLParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountSetContactSignUpNotificationParams struct {
-	Silent bool `validate:"required"`
+	Silent bool
 }
 
 func (e *AccountSetContactSignUpNotificationParams) CRC() uint32 {
 	return uint32(0xcff43f61)
 }
 
-func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSignUpNotificationParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSignUpNotificationParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -764,14 +759,14 @@ func (e *AccountSetContentSettingsParams) CRC() uint32 {
 	return uint32(0xb574b16b)
 }
 
-func (c *Client) AccountSetContentSettings(params *AccountSetContentSettingsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountSetContentSettings(params *AccountSetContentSettingsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountSetGlobalPrivacySettingsParams struct {
-	Settings *GlobalPrivacySettings `validate:"required"`
+	Settings *GlobalPrivacySettings
 }
 
 func (e *AccountSetGlobalPrivacySettingsParams) CRC() uint32 {
@@ -785,8 +780,8 @@ func (c *Client) AccountSetGlobalPrivacySettings(params *AccountSetGlobalPrivacy
 }
 
 type AccountSetPrivacyParams struct {
-	Key   InputPrivacyKey    `validate:"required"`
-	Rules []InputPrivacyRule `validate:"required"`
+	Key   InputPrivacyKey
+	Rules []InputPrivacyRule
 }
 
 func (e *AccountSetPrivacyParams) CRC() uint32 {
@@ -800,61 +795,61 @@ func (c *Client) AccountSetPrivacy(params *AccountSetPrivacyParams) (AccountPriv
 }
 
 type AccountUnregisterDeviceParams struct {
-	TokenType int32   `validate:"required"`
-	Token     string  `validate:"required"`
-	OtherUids []int32 `validate:"required"`
+	TokenType int32
+	Token     string
+	OtherUids []int32
 }
 
 func (e *AccountUnregisterDeviceParams) CRC() uint32 {
 	return uint32(0x3076c4bf)
 }
 
-func (c *Client) AccountUnregisterDevice(params *AccountUnregisterDeviceParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountUnregisterDevice(params *AccountUnregisterDeviceParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountUpdateDeviceLockedParams struct {
-	Period int32 `validate:"required"`
+	Period int32
 }
 
 func (e *AccountUpdateDeviceLockedParams) CRC() uint32 {
 	return uint32(0x38df3532)
 }
 
-func (c *Client) AccountUpdateDeviceLocked(params *AccountUpdateDeviceLockedParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountUpdateDeviceLocked(params *AccountUpdateDeviceLockedParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountUpdateNotifySettingsParams struct {
-	Peer     InputNotifyPeer          `validate:"required"`
-	Settings *InputPeerNotifySettings `validate:"required"`
+	Peer     InputNotifyPeer
+	Settings *InputPeerNotifySettings
 }
 
 func (e *AccountUpdateNotifySettingsParams) CRC() uint32 {
 	return uint32(0x84be5b93)
 }
 
-func (c *Client) AccountUpdateNotifySettings(params *AccountUpdateNotifySettingsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountUpdateNotifySettings(params *AccountUpdateNotifySettingsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountUpdatePasswordSettingsParams struct {
-	Password    InputCheckPasswordSRP         `validate:"required"`
-	NewSettings *AccountPasswordInputSettings `validate:"required"`
+	Password    InputCheckPasswordSRP
+	NewSettings *AccountPasswordInputSettings
 }
 
 func (e *AccountUpdatePasswordSettingsParams) CRC() uint32 {
 	return uint32(0xa59b102f)
 }
 
-func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSettingsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSettingsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -877,23 +872,23 @@ func (c *Client) AccountUpdateProfile(params *AccountUpdateProfileParams) (User,
 }
 
 type AccountUpdateStatusParams struct {
-	Offline bool `validate:"required"`
+	Offline bool
 }
 
 func (e *AccountUpdateStatusParams) CRC() uint32 {
 	return uint32(0x6628562c)
 }
 
-func (c *Client) AccountUpdateStatus(params *AccountUpdateStatusParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountUpdateStatus(params *AccountUpdateStatusParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountUpdateThemeParams struct {
 	// flags position
-	Format   string              `validate:"required"`
-	Theme    InputTheme          `validate:"required"`
+	Format   string
+	Theme    InputTheme
 	Slug     string              `tl:"flag:0"`
 	Title    string              `tl:"flag:1"`
 	Document InputDocument       `tl:"flag:2"`
@@ -911,7 +906,7 @@ func (c *Client) AccountUpdateTheme(params *AccountUpdateThemeParams) (Theme, er
 }
 
 type AccountUpdateUsernameParams struct {
-	Username string `validate:"required"`
+	Username string
 }
 
 func (e *AccountUpdateUsernameParams) CRC() uint32 {
@@ -926,10 +921,10 @@ func (c *Client) AccountUpdateUsername(params *AccountUpdateUsernameParams) (Use
 
 type AccountUploadThemeParams struct {
 	// flags position
-	File     InputFile `validate:"required"`
+	File     InputFile
 	Thumb    InputFile `tl:"flag:0"`
-	FileName string    `validate:"required"`
-	MimeType string    `validate:"required"`
+	FileName string
+	MimeType string
 }
 
 func (e *AccountUploadThemeParams) CRC() uint32 {
@@ -943,9 +938,9 @@ func (c *Client) AccountUploadTheme(params *AccountUploadThemeParams) (Document,
 }
 
 type AccountUploadWallPaperParams struct {
-	File     InputFile          `validate:"required"`
-	MimeType string             `validate:"required"`
-	Settings *WallPaperSettings `validate:"required"`
+	File     InputFile
+	MimeType string
+	Settings *WallPaperSettings
 }
 
 func (e *AccountUploadWallPaperParams) CRC() uint32 {
@@ -959,38 +954,38 @@ func (c *Client) AccountUploadWallPaper(params *AccountUploadWallPaperParams) (W
 }
 
 type AccountVerifyEmailParams struct {
-	Email string `validate:"required"`
-	Code  string `validate:"required"`
+	Email string
+	Code  string
 }
 
 func (e *AccountVerifyEmailParams) CRC() uint32 {
 	return uint32(0xecba39db)
 }
 
-func (c *Client) AccountVerifyEmail(params *AccountVerifyEmailParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountVerifyEmail(params *AccountVerifyEmailParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AccountVerifyPhoneParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
-	PhoneCode     string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
+	PhoneCode     string
 }
 
 func (e *AccountVerifyPhoneParams) CRC() uint32 {
 	return uint32(0x4dd3a7f6)
 }
 
-func (c *Client) AccountVerifyPhone(params *AccountVerifyPhoneParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AccountVerifyPhone(params *AccountVerifyPhoneParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AuthAcceptLoginTokenParams struct {
-	Token []byte `validate:"required"`
+	Token []byte
 }
 
 func (e *AuthAcceptLoginTokenParams) CRC() uint32 {
@@ -1004,39 +999,39 @@ func (c *Client) AuthAcceptLoginToken(params *AuthAcceptLoginTokenParams) (Autho
 }
 
 type AuthBindTempAuthKeyParams struct {
-	PermAuthKeyId    int64  `validate:"required"`
-	Nonce            int64  `validate:"required"`
-	ExpiresAt        int32  `validate:"required"`
-	EncryptedMessage []byte `validate:"required"`
+	PermAuthKeyId    int64
+	Nonce            int64
+	ExpiresAt        int32
+	EncryptedMessage []byte
 }
 
 func (e *AuthBindTempAuthKeyParams) CRC() uint32 {
 	return uint32(0xcdd42a05)
 }
 
-func (c *Client) AuthBindTempAuthKey(params *AuthBindTempAuthKeyParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AuthBindTempAuthKey(params *AuthBindTempAuthKeyParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AuthCancelCodeParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
 }
 
 func (e *AuthCancelCodeParams) CRC() uint32 {
 	return uint32(0x1f040578)
 }
 
-func (c *Client) AuthCancelCode(params *AuthCancelCodeParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AuthCancelCode(params *AuthCancelCodeParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AuthCheckPasswordParams struct {
-	Password InputCheckPasswordSRP `validate:"required"`
+	Password InputCheckPasswordSRP
 }
 
 func (e *AuthCheckPasswordParams) CRC() uint32 {
@@ -1050,21 +1045,21 @@ func (c *Client) AuthCheckPassword(params *AuthCheckPasswordParams) (AuthAuthori
 }
 
 type AuthDropTempAuthKeysParams struct {
-	ExceptAuthKeys []int64 `validate:"required"`
+	ExceptAuthKeys []int64
 }
 
 func (e *AuthDropTempAuthKeysParams) CRC() uint32 {
 	return uint32(0x8e48a188)
 }
 
-func (c *Client) AuthDropTempAuthKeys(params *AuthDropTempAuthKeysParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AuthDropTempAuthKeys(params *AuthDropTempAuthKeysParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type AuthExportAuthorizationParams struct {
-	DcId int32 `validate:"required"`
+	DcId int32
 }
 
 func (e *AuthExportAuthorizationParams) CRC() uint32 {
@@ -1078,9 +1073,9 @@ func (c *Client) AuthExportAuthorization(params *AuthExportAuthorizationParams) 
 }
 
 type AuthExportLoginTokenParams struct {
-	ApiId     int32   `validate:"required"`
-	ApiHash   string  `validate:"required"`
-	ExceptIds []int32 `validate:"required"`
+	ApiId     int32
+	ApiHash   string
+	ExceptIds []int32
 }
 
 func (e *AuthExportLoginTokenParams) CRC() uint32 {
@@ -1094,8 +1089,8 @@ func (c *Client) AuthExportLoginToken(params *AuthExportLoginTokenParams) (AuthL
 }
 
 type AuthImportAuthorizationParams struct {
-	Id    int32  `validate:"required"`
-	Bytes []byte `validate:"required"`
+	Id    int32
+	Bytes []byte
 }
 
 func (e *AuthImportAuthorizationParams) CRC() uint32 {
@@ -1109,10 +1104,10 @@ func (c *Client) AuthImportAuthorization(params *AuthImportAuthorizationParams) 
 }
 
 type AuthImportBotAuthorizationParams struct {
-	Flags        int32  `validate:"required"`
-	ApiId        int32  `validate:"required"`
-	ApiHash      string `validate:"required"`
-	BotAuthToken string `validate:"required"`
+	Flags        int32
+	ApiId        int32
+	ApiHash      string
+	BotAuthToken string
 }
 
 func (e *AuthImportBotAuthorizationParams) CRC() uint32 {
@@ -1126,7 +1121,7 @@ func (c *Client) AuthImportBotAuthorization(params *AuthImportBotAuthorizationPa
 }
 
 type AuthImportLoginTokenParams struct {
-	Token []byte `validate:"required"`
+	Token []byte
 }
 
 func (e *AuthImportLoginTokenParams) CRC() uint32 {
@@ -1145,14 +1140,14 @@ func (e *AuthLogOutParams) CRC() uint32 {
 	return uint32(0x5717da40)
 }
 
-func (c *Client) AuthLogOut() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AuthLogOut() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AuthLogOutParams{}, &resp)
 	return resp, err
 }
 
 type AuthRecoverPasswordParams struct {
-	Code string `validate:"required"`
+	Code string
 }
 
 func (e *AuthRecoverPasswordParams) CRC() uint32 {
@@ -1178,8 +1173,8 @@ func (c *Client) AuthRequestPasswordRecovery() (AuthPasswordRecovery, error) {
 }
 
 type AuthResendCodeParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
 }
 
 func (e *AuthResendCodeParams) CRC() uint32 {
@@ -1198,17 +1193,17 @@ func (e *AuthResetAuthorizationsParams) CRC() uint32 {
 	return uint32(0x9fab0d1a)
 }
 
-func (c *Client) AuthResetAuthorizations() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) AuthResetAuthorizations() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&AuthResetAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
 type AuthSendCodeParams struct {
-	PhoneNumber string        `validate:"required"`
-	ApiId       int32         `validate:"required"`
-	ApiHash     string        `validate:"required"`
-	Settings    *CodeSettings `validate:"required"`
+	PhoneNumber string
+	ApiId       int32
+	ApiHash     string
+	Settings    *CodeSettings
 }
 
 func (e *AuthSendCodeParams) CRC() uint32 {
@@ -1222,9 +1217,9 @@ func (c *Client) AuthSendCode(params *AuthSendCodeParams) (AuthSentCode, error) 
 }
 
 type AuthSignInParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
-	PhoneCode     string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
+	PhoneCode     string
 }
 
 func (e *AuthSignInParams) CRC() uint32 {
@@ -1238,10 +1233,10 @@ func (c *Client) AuthSignIn(params *AuthSignInParams) (AuthAuthorization, error)
 }
 
 type AuthSignUpParams struct {
-	PhoneNumber   string `validate:"required"`
-	PhoneCodeHash string `validate:"required"`
-	FirstName     string `validate:"required"`
-	LastName      string `validate:"required"`
+	PhoneNumber   string
+	PhoneCodeHash string
+	FirstName     string
+	LastName      string
 }
 
 func (e *AuthSignUpParams) CRC() uint32 {
@@ -1255,23 +1250,23 @@ func (c *Client) AuthSignUp(params *AuthSignUpParams) (AuthAuthorization, error)
 }
 
 type BotsAnswerWebhookJSONQueryParams struct {
-	QueryId int64     `validate:"required"`
-	Data    *DataJSON `validate:"required"`
+	QueryId int64
+	Data    *DataJSON
 }
 
 func (e *BotsAnswerWebhookJSONQueryParams) CRC() uint32 {
 	return uint32(0xe6213f4d)
 }
 
-func (c *Client) BotsAnswerWebhookJSONQuery(params *BotsAnswerWebhookJSONQueryParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) BotsAnswerWebhookJSONQuery(params *BotsAnswerWebhookJSONQueryParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type BotsSendCustomRequestParams struct {
-	CustomMethod string    `validate:"required"`
-	Params       *DataJSON `validate:"required"`
+	CustomMethod string
+	Params       *DataJSON
 }
 
 func (e *BotsSendCustomRequestParams) CRC() uint32 {
@@ -1285,40 +1280,40 @@ func (c *Client) BotsSendCustomRequest(params *BotsSendCustomRequestParams) (Dat
 }
 
 type BotsSetBotCommandsParams struct {
-	Commands []*BotCommand `validate:"required"`
+	Commands []*BotCommand
 }
 
 func (e *BotsSetBotCommandsParams) CRC() uint32 {
 	return uint32(0x805d46f6)
 }
 
-func (c *Client) BotsSetBotCommands(params *BotsSetBotCommandsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) BotsSetBotCommands(params *BotsSetBotCommandsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsCheckUsernameParams struct {
-	Channel  InputChannel `validate:"required"`
-	Username string       `validate:"required"`
+	Channel  InputChannel
+	Username string
 }
 
 func (e *ChannelsCheckUsernameParams) CRC() uint32 {
 	return uint32(0x10e6bd2c)
 }
 
-func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsCreateChannelParams struct {
 	// flags position
-	Broadcast bool          `tl:"flag:0,encoded_in_bitflags"`
-	Megagroup bool          `tl:"flag:1,encoded_in_bitflags"`
-	Title     string        `validate:"required"`
-	About     string        `validate:"required"`
+	Broadcast bool `tl:"flag:0,encoded_in_bitflags"`
+	Megagroup bool `tl:"flag:1,encoded_in_bitflags"`
+	Title     string
+	About     string
 	GeoPoint  InputGeoPoint `tl:"flag:2"`
 	Address   string        `tl:"flag:2"`
 }
@@ -1334,7 +1329,7 @@ func (c *Client) ChannelsCreateChannel(params *ChannelsCreateChannelParams) (Upd
 }
 
 type ChannelsDeleteChannelParams struct {
-	Channel InputChannel `validate:"required"`
+	Channel InputChannel
 }
 
 func (e *ChannelsDeleteChannelParams) CRC() uint32 {
@@ -1348,23 +1343,23 @@ func (c *Client) ChannelsDeleteChannel(params *ChannelsDeleteChannelParams) (Upd
 }
 
 type ChannelsDeleteHistoryParams struct {
-	Channel InputChannel `validate:"required"`
-	MaxId   int32        `validate:"required"`
+	Channel InputChannel
+	MaxId   int32
 }
 
 func (e *ChannelsDeleteHistoryParams) CRC() uint32 {
 	return uint32(0xaf369d42)
 }
 
-func (c *Client) ChannelsDeleteHistory(params *ChannelsDeleteHistoryParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsDeleteHistory(params *ChannelsDeleteHistoryParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsDeleteMessagesParams struct {
-	Channel InputChannel `validate:"required"`
-	Id      []int32      `validate:"required"`
+	Channel InputChannel
+	Id      []int32
 }
 
 func (e *ChannelsDeleteMessagesParams) CRC() uint32 {
@@ -1378,8 +1373,8 @@ func (c *Client) ChannelsDeleteMessages(params *ChannelsDeleteMessagesParams) (M
 }
 
 type ChannelsDeleteUserHistoryParams struct {
-	Channel InputChannel `validate:"required"`
-	UserId  InputUser    `validate:"required"`
+	Channel InputChannel
+	UserId  InputUser
 }
 
 func (e *ChannelsDeleteUserHistoryParams) CRC() uint32 {
@@ -1393,10 +1388,10 @@ func (c *Client) ChannelsDeleteUserHistory(params *ChannelsDeleteUserHistoryPara
 }
 
 type ChannelsEditAdminParams struct {
-	Channel     InputChannel     `validate:"required"`
-	UserId      InputUser        `validate:"required"`
-	AdminRights *ChatAdminRights `validate:"required"`
-	Rank        string           `validate:"required"`
+	Channel     InputChannel
+	UserId      InputUser
+	AdminRights *ChatAdminRights
+	Rank        string
 }
 
 func (e *ChannelsEditAdminParams) CRC() uint32 {
@@ -1410,9 +1405,9 @@ func (c *Client) ChannelsEditAdmin(params *ChannelsEditAdminParams) (Updates, er
 }
 
 type ChannelsEditBannedParams struct {
-	Channel      InputChannel      `validate:"required"`
-	UserId       InputUser         `validate:"required"`
-	BannedRights *ChatBannedRights `validate:"required"`
+	Channel      InputChannel
+	UserId       InputUser
+	BannedRights *ChatBannedRights
 }
 
 func (e *ChannelsEditBannedParams) CRC() uint32 {
@@ -1426,9 +1421,9 @@ func (c *Client) ChannelsEditBanned(params *ChannelsEditBannedParams) (Updates, 
 }
 
 type ChannelsEditCreatorParams struct {
-	Channel  InputChannel          `validate:"required"`
-	UserId   InputUser             `validate:"required"`
-	Password InputCheckPasswordSRP `validate:"required"`
+	Channel  InputChannel
+	UserId   InputUser
+	Password InputCheckPasswordSRP
 }
 
 func (e *ChannelsEditCreatorParams) CRC() uint32 {
@@ -1442,24 +1437,24 @@ func (c *Client) ChannelsEditCreator(params *ChannelsEditCreatorParams) (Updates
 }
 
 type ChannelsEditLocationParams struct {
-	Channel  InputChannel  `validate:"required"`
-	GeoPoint InputGeoPoint `validate:"required"`
-	Address  string        `validate:"required"`
+	Channel  InputChannel
+	GeoPoint InputGeoPoint
+	Address  string
 }
 
 func (e *ChannelsEditLocationParams) CRC() uint32 {
 	return uint32(0x58e63f6d)
 }
 
-func (c *Client) ChannelsEditLocation(params *ChannelsEditLocationParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsEditLocation(params *ChannelsEditLocationParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsEditPhotoParams struct {
-	Channel InputChannel   `validate:"required"`
-	Photo   InputChatPhoto `validate:"required"`
+	Channel InputChannel
+	Photo   InputChatPhoto
 }
 
 func (e *ChannelsEditPhotoParams) CRC() uint32 {
@@ -1473,8 +1468,8 @@ func (c *Client) ChannelsEditPhoto(params *ChannelsEditPhotoParams) (Updates, er
 }
 
 type ChannelsEditTitleParams struct {
-	Channel InputChannel `validate:"required"`
-	Title   string       `validate:"required"`
+	Channel InputChannel
+	Title   string
 }
 
 func (e *ChannelsEditTitleParams) CRC() uint32 {
@@ -1488,9 +1483,9 @@ func (c *Client) ChannelsEditTitle(params *ChannelsEditTitleParams) (Updates, er
 }
 
 type ChannelsExportMessageLinkParams struct {
-	Channel InputChannel `validate:"required"`
-	Id      int32        `validate:"required"`
-	Grouped bool         `validate:"required"`
+	Channel InputChannel
+	Id      int32
+	Grouped bool
 }
 
 func (e *ChannelsExportMessageLinkParams) CRC() uint32 {
@@ -1505,13 +1500,13 @@ func (c *Client) ChannelsExportMessageLink(params *ChannelsExportMessageLinkPara
 
 type ChannelsGetAdminLogParams struct {
 	// flags position
-	Channel      InputChannel                 `validate:"required"`
-	Q            string                       `validate:"required"`
+	Channel      InputChannel
+	Q            string
 	EventsFilter *ChannelAdminLogEventsFilter `tl:"flag:0"`
 	Admins       []InputUser                  `tl:"flag:1"`
-	MaxId        int64                        `validate:"required"`
-	MinId        int64                        `validate:"required"`
-	Limit        int32                        `validate:"required"`
+	MaxId        int64
+	MinId        int64
+	Limit        int32
 }
 
 func (e *ChannelsGetAdminLogParams) CRC() uint32 {
@@ -1541,7 +1536,7 @@ func (c *Client) ChannelsGetAdminedPublicChannels(params *ChannelsGetAdminedPubl
 }
 
 type ChannelsGetChannelsParams struct {
-	Id []InputChannel `validate:"required"`
+	Id []InputChannel
 }
 
 func (e *ChannelsGetChannelsParams) CRC() uint32 {
@@ -1555,7 +1550,7 @@ func (c *Client) ChannelsGetChannels(params *ChannelsGetChannelsParams) (Message
 }
 
 type ChannelsGetFullChannelParams struct {
-	Channel InputChannel `validate:"required"`
+	Channel InputChannel
 }
 
 func (e *ChannelsGetFullChannelParams) CRC() uint32 {
@@ -1593,7 +1588,7 @@ func (c *Client) ChannelsGetInactiveChannels() (MessagesInactiveChats, error) {
 }
 
 type ChannelsGetLeftChannelsParams struct {
-	Offset int32 `validate:"required"`
+	Offset int32
 }
 
 func (e *ChannelsGetLeftChannelsParams) CRC() uint32 {
@@ -1607,8 +1602,8 @@ func (c *Client) ChannelsGetLeftChannels(params *ChannelsGetLeftChannelsParams) 
 }
 
 type ChannelsGetMessagesParams struct {
-	Channel InputChannel   `validate:"required"`
-	Id      []InputMessage `validate:"required"`
+	Channel InputChannel
+	Id      []InputMessage
 }
 
 func (e *ChannelsGetMessagesParams) CRC() uint32 {
@@ -1622,8 +1617,8 @@ func (c *Client) ChannelsGetMessages(params *ChannelsGetMessagesParams) (Message
 }
 
 type ChannelsGetParticipantParams struct {
-	Channel InputChannel `validate:"required"`
-	UserId  InputUser    `validate:"required"`
+	Channel InputChannel
+	UserId  InputUser
 }
 
 func (e *ChannelsGetParticipantParams) CRC() uint32 {
@@ -1637,11 +1632,11 @@ func (c *Client) ChannelsGetParticipant(params *ChannelsGetParticipantParams) (C
 }
 
 type ChannelsGetParticipantsParams struct {
-	Channel InputChannel              `validate:"required"`
-	Filter  ChannelParticipantsFilter `validate:"required"`
-	Offset  int32                     `validate:"required"`
-	Limit   int32                     `validate:"required"`
-	Hash    int32                     `validate:"required"`
+	Channel InputChannel
+	Filter  ChannelParticipantsFilter
+	Offset  int32
+	Limit   int32
+	Hash    int32
 }
 
 func (e *ChannelsGetParticipantsParams) CRC() uint32 {
@@ -1655,8 +1650,8 @@ func (c *Client) ChannelsGetParticipants(params *ChannelsGetParticipantsParams) 
 }
 
 type ChannelsInviteToChannelParams struct {
-	Channel InputChannel `validate:"required"`
-	Users   []InputUser  `validate:"required"`
+	Channel InputChannel
+	Users   []InputUser
 }
 
 func (e *ChannelsInviteToChannelParams) CRC() uint32 {
@@ -1670,7 +1665,7 @@ func (c *Client) ChannelsInviteToChannel(params *ChannelsInviteToChannelParams) 
 }
 
 type ChannelsJoinChannelParams struct {
-	Channel InputChannel `validate:"required"`
+	Channel InputChannel
 }
 
 func (e *ChannelsJoinChannelParams) CRC() uint32 {
@@ -1684,7 +1679,7 @@ func (c *Client) ChannelsJoinChannel(params *ChannelsJoinChannelParams) (Updates
 }
 
 type ChannelsLeaveChannelParams struct {
-	Channel InputChannel `validate:"required"`
+	Channel InputChannel
 }
 
 func (e *ChannelsLeaveChannelParams) CRC() uint32 {
@@ -1698,84 +1693,84 @@ func (c *Client) ChannelsLeaveChannel(params *ChannelsLeaveChannelParams) (Updat
 }
 
 type ChannelsReadHistoryParams struct {
-	Channel InputChannel `validate:"required"`
-	MaxId   int32        `validate:"required"`
+	Channel InputChannel
+	MaxId   int32
 }
 
 func (e *ChannelsReadHistoryParams) CRC() uint32 {
 	return uint32(0xcc104937)
 }
 
-func (c *Client) ChannelsReadHistory(params *ChannelsReadHistoryParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsReadHistory(params *ChannelsReadHistoryParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsReadMessageContentsParams struct {
-	Channel InputChannel `validate:"required"`
-	Id      []int32      `validate:"required"`
+	Channel InputChannel
+	Id      []int32
 }
 
 func (e *ChannelsReadMessageContentsParams) CRC() uint32 {
 	return uint32(0xeab5dc38)
 }
 
-func (c *Client) ChannelsReadMessageContents(params *ChannelsReadMessageContentsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsReadMessageContents(params *ChannelsReadMessageContentsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsReportSpamParams struct {
-	Channel InputChannel `validate:"required"`
-	UserId  InputUser    `validate:"required"`
-	Id      []int32      `validate:"required"`
+	Channel InputChannel
+	UserId  InputUser
+	Id      []int32
 }
 
 func (e *ChannelsReportSpamParams) CRC() uint32 {
 	return uint32(0xfe087810)
 }
 
-func (c *Client) ChannelsReportSpam(params *ChannelsReportSpamParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsReportSpam(params *ChannelsReportSpamParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsSetDiscussionGroupParams struct {
-	Broadcast InputChannel `validate:"required"`
-	Group     InputChannel `validate:"required"`
+	Broadcast InputChannel
+	Group     InputChannel
 }
 
 func (e *ChannelsSetDiscussionGroupParams) CRC() uint32 {
 	return uint32(0x40582bb2)
 }
 
-func (c *Client) ChannelsSetDiscussionGroup(params *ChannelsSetDiscussionGroupParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsSetDiscussionGroup(params *ChannelsSetDiscussionGroupParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsSetStickersParams struct {
-	Channel    InputChannel    `validate:"required"`
-	Stickerset InputStickerSet `validate:"required"`
+	Channel    InputChannel
+	Stickerset InputStickerSet
 }
 
 func (e *ChannelsSetStickersParams) CRC() uint32 {
 	return uint32(0xea8ca4f9)
 }
 
-func (c *Client) ChannelsSetStickers(params *ChannelsSetStickersParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsSetStickers(params *ChannelsSetStickersParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ChannelsTogglePreHistoryHiddenParams struct {
-	Channel InputChannel `validate:"required"`
-	Enabled bool         `validate:"required"`
+	Channel InputChannel
+	Enabled bool
 }
 
 func (e *ChannelsTogglePreHistoryHiddenParams) CRC() uint32 {
@@ -1789,8 +1784,8 @@ func (c *Client) ChannelsTogglePreHistoryHidden(params *ChannelsTogglePreHistory
 }
 
 type ChannelsToggleSignaturesParams struct {
-	Channel InputChannel `validate:"required"`
-	Enabled bool         `validate:"required"`
+	Channel InputChannel
+	Enabled bool
 }
 
 func (e *ChannelsToggleSignaturesParams) CRC() uint32 {
@@ -1804,8 +1799,8 @@ func (c *Client) ChannelsToggleSignatures(params *ChannelsToggleSignaturesParams
 }
 
 type ChannelsToggleSlowModeParams struct {
-	Channel InputChannel `validate:"required"`
-	Seconds int32        `validate:"required"`
+	Channel InputChannel
+	Seconds int32
 }
 
 func (e *ChannelsToggleSlowModeParams) CRC() uint32 {
@@ -1819,22 +1814,22 @@ func (c *Client) ChannelsToggleSlowMode(params *ChannelsToggleSlowModeParams) (U
 }
 
 type ChannelsUpdateUsernameParams struct {
-	Channel  InputChannel `validate:"required"`
-	Username string       `validate:"required"`
+	Channel  InputChannel
+	Username string
 }
 
 func (e *ChannelsUpdateUsernameParams) CRC() uint32 {
 	return uint32(0x3514b3de)
 }
 
-func (c *Client) ChannelsUpdateUsername(params *ChannelsUpdateUsernameParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ChannelsUpdateUsername(params *ChannelsUpdateUsernameParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsAcceptContactParams struct {
-	Id InputUser `validate:"required"`
+	Id InputUser
 }
 
 func (e *ContactsAcceptContactParams) CRC() uint32 {
@@ -1849,11 +1844,11 @@ func (c *Client) ContactsAcceptContact(params *ContactsAcceptContactParams) (Upd
 
 type ContactsAddContactParams struct {
 	// flags position
-	AddPhonePrivacyException bool      `tl:"flag:0,encoded_in_bitflags"`
-	Id                       InputUser `validate:"required"`
-	FirstName                string    `validate:"required"`
-	LastName                 string    `validate:"required"`
-	Phone                    string    `validate:"required"`
+	AddPhonePrivacyException bool `tl:"flag:0,encoded_in_bitflags"`
+	Id                       InputUser
+	FirstName                string
+	LastName                 string
+	Phone                    string
 }
 
 func (e *ContactsAddContactParams) CRC() uint32 {
@@ -1867,35 +1862,35 @@ func (c *Client) ContactsAddContact(params *ContactsAddContactParams) (Updates, 
 }
 
 type ContactsBlockParams struct {
-	Id InputUser `validate:"required"`
+	Id InputUser
 }
 
 func (e *ContactsBlockParams) CRC() uint32 {
 	return uint32(0x332b49fc)
 }
 
-func (c *Client) ContactsBlock(params *ContactsBlockParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsBlock(params *ContactsBlockParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsDeleteByPhonesParams struct {
-	Phones []string `validate:"required"`
+	Phones []string
 }
 
 func (e *ContactsDeleteByPhonesParams) CRC() uint32 {
 	return uint32(0x1013fd9e)
 }
 
-func (c *Client) ContactsDeleteByPhones(params *ContactsDeleteByPhonesParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsDeleteByPhones(params *ContactsDeleteByPhonesParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsDeleteContactsParams struct {
-	Id []InputUser `validate:"required"`
+	Id []InputUser
 }
 
 func (e *ContactsDeleteContactsParams) CRC() uint32 {
@@ -1909,8 +1904,8 @@ func (c *Client) ContactsDeleteContacts(params *ContactsDeleteContactsParams) (U
 }
 
 type ContactsGetBlockedParams struct {
-	Offset int32 `validate:"required"`
-	Limit  int32 `validate:"required"`
+	Offset int32
+	Limit  int32
 }
 
 func (e *ContactsGetBlockedParams) CRC() uint32 {
@@ -1924,21 +1919,21 @@ func (c *Client) ContactsGetBlocked(params *ContactsGetBlockedParams) (ContactsB
 }
 
 type ContactsGetContactIDsParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *ContactsGetContactIDsParams) CRC() uint32 {
 	return uint32(0x2caa4a42)
 }
 
-func (c *Client) ContactsGetContactIDs(params *ContactsGetContactIDsParams) (serialize.Int, error) {
-	var resp serialize.Int
+func (c *Client) ContactsGetContactIDs(params *ContactsGetContactIDsParams) ([]int, error) {
+	var resp []int
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsGetContactsParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *ContactsGetContactsParams) CRC() uint32 {
@@ -1953,9 +1948,9 @@ func (c *Client) ContactsGetContacts(params *ContactsGetContactsParams) (Contact
 
 type ContactsGetLocatedParams struct {
 	// flags position
-	Background  bool          `tl:"flag:1,encoded_in_bitflags"`
-	GeoPoint    InputGeoPoint `validate:"required"`
-	SelfExpires int32         `tl:"flag:0"`
+	Background  bool `tl:"flag:1,encoded_in_bitflags"`
+	GeoPoint    InputGeoPoint
+	SelfExpires int32 `tl:"flag:0"`
 }
 
 func (e *ContactsGetLocatedParams) CRC() uint32 {
@@ -1974,8 +1969,8 @@ func (e *ContactsGetSavedParams) CRC() uint32 {
 	return uint32(0x82f1e39f)
 }
 
-func (c *Client) ContactsGetSaved() (SavedContact, error) {
-	var resp SavedContact
+func (c *Client) ContactsGetSaved() ([]SavedContact, error) {
+	var resp []SavedContact
 	err := c.MakeRequest2(&ContactsGetSavedParams{}, &resp)
 	return resp, err
 }
@@ -1986,25 +1981,25 @@ func (e *ContactsGetStatusesParams) CRC() uint32 {
 	return uint32(0xc4a353ee)
 }
 
-func (c *Client) ContactsGetStatuses() (ContactStatus, error) {
-	var resp ContactStatus
+func (c *Client) ContactsGetStatuses() ([]ContactStatus, error) {
+	var resp []ContactStatus
 	err := c.MakeRequest2(&ContactsGetStatusesParams{}, &resp)
 	return resp, err
 }
 
 type ContactsGetTopPeersParams struct {
 	// flags position
-	Correspondents bool  `tl:"flag:0,encoded_in_bitflags"`
-	BotsPm         bool  `tl:"flag:1,encoded_in_bitflags"`
-	BotsInline     bool  `tl:"flag:2,encoded_in_bitflags"`
-	PhoneCalls     bool  `tl:"flag:3,encoded_in_bitflags"`
-	ForwardUsers   bool  `tl:"flag:4,encoded_in_bitflags"`
-	ForwardChats   bool  `tl:"flag:5,encoded_in_bitflags"`
-	Groups         bool  `tl:"flag:10,encoded_in_bitflags"`
-	Channels       bool  `tl:"flag:15,encoded_in_bitflags"`
-	Offset         int32 `validate:"required"`
-	Limit          int32 `validate:"required"`
-	Hash           int32 `validate:"required"`
+	Correspondents bool `tl:"flag:0,encoded_in_bitflags"`
+	BotsPm         bool `tl:"flag:1,encoded_in_bitflags"`
+	BotsInline     bool `tl:"flag:2,encoded_in_bitflags"`
+	PhoneCalls     bool `tl:"flag:3,encoded_in_bitflags"`
+	ForwardUsers   bool `tl:"flag:4,encoded_in_bitflags"`
+	ForwardChats   bool `tl:"flag:5,encoded_in_bitflags"`
+	Groups         bool `tl:"flag:10,encoded_in_bitflags"`
+	Channels       bool `tl:"flag:15,encoded_in_bitflags"`
+	Offset         int32
+	Limit          int32
+	Hash           int32
 }
 
 func (e *ContactsGetTopPeersParams) CRC() uint32 {
@@ -2018,7 +2013,7 @@ func (c *Client) ContactsGetTopPeers(params *ContactsGetTopPeersParams) (Contact
 }
 
 type ContactsImportContactsParams struct {
-	Contacts []*InputContact `validate:"required"`
+	Contacts []*InputContact
 }
 
 func (e *ContactsImportContactsParams) CRC() uint32 {
@@ -2037,29 +2032,29 @@ func (e *ContactsResetSavedParams) CRC() uint32 {
 	return uint32(0x879537f1)
 }
 
-func (c *Client) ContactsResetSaved() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsResetSaved() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&ContactsResetSavedParams{}, &resp)
 	return resp, err
 }
 
 type ContactsResetTopPeerRatingParams struct {
-	Category TopPeerCategory `validate:"required"`
-	Peer     InputPeer       `validate:"required"`
+	Category TopPeerCategory
+	Peer     InputPeer
 }
 
 func (e *ContactsResetTopPeerRatingParams) CRC() uint32 {
 	return uint32(0x1ae373ac)
 }
 
-func (c *Client) ContactsResetTopPeerRating(params *ContactsResetTopPeerRatingParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsResetTopPeerRating(params *ContactsResetTopPeerRatingParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsResolveUsernameParams struct {
-	Username string `validate:"required"`
+	Username string
 }
 
 func (e *ContactsResolveUsernameParams) CRC() uint32 {
@@ -2073,8 +2068,8 @@ func (c *Client) ContactsResolveUsername(params *ContactsResolveUsernameParams) 
 }
 
 type ContactsSearchParams struct {
-	Q     string `validate:"required"`
-	Limit int32  `validate:"required"`
+	Q     string
+	Limit int32
 }
 
 func (e *ContactsSearchParams) CRC() uint32 {
@@ -2088,35 +2083,35 @@ func (c *Client) ContactsSearch(params *ContactsSearchParams) (ContactsFound, er
 }
 
 type ContactsToggleTopPeersParams struct {
-	Enabled bool `validate:"required"`
+	Enabled bool
 }
 
 func (e *ContactsToggleTopPeersParams) CRC() uint32 {
 	return uint32(0x8514bdda)
 }
 
-func (c *Client) ContactsToggleTopPeers(params *ContactsToggleTopPeersParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsToggleTopPeers(params *ContactsToggleTopPeersParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type ContactsUnblockParams struct {
-	Id InputUser `validate:"required"`
+	Id InputUser
 }
 
 func (e *ContactsUnblockParams) CRC() uint32 {
 	return uint32(0xe54100bd)
 }
 
-func (c *Client) ContactsUnblock(params *ContactsUnblockParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) ContactsUnblock(params *ContactsUnblockParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type FoldersDeleteFolderParams struct {
-	FolderId int32 `validate:"required"`
+	FolderId int32
 }
 
 func (e *FoldersDeleteFolderParams) CRC() uint32 {
@@ -2130,7 +2125,7 @@ func (c *Client) FoldersDeleteFolder(params *FoldersDeleteFolderParams) (Updates
 }
 
 type FoldersEditPeerFoldersParams struct {
-	FolderPeers []*InputFolderPeer `validate:"required"`
+	FolderPeers []*InputFolderPeer
 }
 
 func (e *FoldersEditPeerFoldersParams) CRC() uint32 {
@@ -2144,37 +2139,37 @@ func (c *Client) FoldersEditPeerFolders(params *FoldersEditPeerFoldersParams) (U
 }
 
 type HelpAcceptTermsOfServiceParams struct {
-	Id *DataJSON `validate:"required"`
+	Id *DataJSON
 }
 
 func (e *HelpAcceptTermsOfServiceParams) CRC() uint32 {
 	return uint32(0xee72f79a)
 }
 
-func (c *Client) HelpAcceptTermsOfService(params *HelpAcceptTermsOfServiceParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) HelpAcceptTermsOfService(params *HelpAcceptTermsOfServiceParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type HelpDismissSuggestionParams struct {
-	Suggestion string `validate:"required"`
+	Suggestion string
 }
 
 func (e *HelpDismissSuggestionParams) CRC() uint32 {
 	return uint32(0x77fa99f)
 }
 
-func (c *Client) HelpDismissSuggestion(params *HelpDismissSuggestionParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) HelpDismissSuggestion(params *HelpDismissSuggestionParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type HelpEditUserInfoParams struct {
-	UserId   InputUser       `validate:"required"`
-	Message  string          `validate:"required"`
-	Entities []MessageEntity `validate:"required"`
+	UserId   InputUser
+	Message  string
+	Entities []MessageEntity
 }
 
 func (e *HelpEditUserInfoParams) CRC() uint32 {
@@ -2188,7 +2183,7 @@ func (c *Client) HelpEditUserInfo(params *HelpEditUserInfoParams) (HelpUserInfo,
 }
 
 type HelpGetAppChangelogParams struct {
-	PrevAppVersion string `validate:"required"`
+	PrevAppVersion string
 }
 
 func (e *HelpGetAppChangelogParams) CRC() uint32 {
@@ -2214,7 +2209,7 @@ func (c *Client) HelpGetAppConfig() (JSONValue, error) {
 }
 
 type HelpGetAppUpdateParams struct {
-	Source string `validate:"required"`
+	Source string
 }
 
 func (e *HelpGetAppUpdateParams) CRC() uint32 {
@@ -2252,7 +2247,7 @@ func (c *Client) HelpGetConfig() (Config, error) {
 }
 
 type HelpGetDeepLinkInfoParams struct {
-	Path string `validate:"required"`
+	Path string
 }
 
 func (e *HelpGetDeepLinkInfoParams) CRC() uint32 {
@@ -2290,7 +2285,7 @@ func (c *Client) HelpGetNearestDc() (NearestDc, error) {
 }
 
 type HelpGetPassportConfigParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *HelpGetPassportConfigParams) CRC() uint32 {
@@ -2316,7 +2311,7 @@ func (c *Client) HelpGetPromoData() (HelpPromoData, error) {
 }
 
 type HelpGetRecentMeUrlsParams struct {
-	Referer string `validate:"required"`
+	Referer string
 }
 
 func (e *HelpGetRecentMeUrlsParams) CRC() uint32 {
@@ -2366,7 +2361,7 @@ func (c *Client) HelpGetTermsOfServiceUpdate() (HelpTermsOfServiceUpdate, error)
 }
 
 type HelpGetUserInfoParams struct {
-	UserId InputUser `validate:"required"`
+	UserId InputUser
 }
 
 func (e *HelpGetUserInfoParams) CRC() uint32 {
@@ -2380,52 +2375,52 @@ func (c *Client) HelpGetUserInfo(params *HelpGetUserInfoParams) (HelpUserInfo, e
 }
 
 type HelpHidePromoDataParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *HelpHidePromoDataParams) CRC() uint32 {
 	return uint32(0x1e251c95)
 }
 
-func (c *Client) HelpHidePromoData(params *HelpHidePromoDataParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) HelpHidePromoData(params *HelpHidePromoDataParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type HelpSaveAppLogParams struct {
-	Events []*InputAppEvent `validate:"required"`
+	Events []*InputAppEvent
 }
 
 func (e *HelpSaveAppLogParams) CRC() uint32 {
 	return uint32(0x6f02f748)
 }
 
-func (c *Client) HelpSaveAppLog(params *HelpSaveAppLogParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) HelpSaveAppLog(params *HelpSaveAppLogParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type HelpSetBotUpdatesStatusParams struct {
-	PendingUpdatesCount int32  `validate:"required"`
-	Message             string `validate:"required"`
+	PendingUpdatesCount int32
+	Message             string
 }
 
 func (e *HelpSetBotUpdatesStatusParams) CRC() uint32 {
 	return uint32(0xec22cfcd)
 }
 
-func (c *Client) HelpSetBotUpdatesStatus(params *HelpSetBotUpdatesStatusParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) HelpSetBotUpdatesStatus(params *HelpSetBotUpdatesStatusParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type LangpackGetDifferenceParams struct {
-	LangPack    string `validate:"required"`
-	LangCode    string `validate:"required"`
-	FromVersion int32  `validate:"required"`
+	LangPack    string
+	LangCode    string
+	FromVersion int32
 }
 
 func (e *LangpackGetDifferenceParams) CRC() uint32 {
@@ -2439,8 +2434,8 @@ func (c *Client) LangpackGetDifference(params *LangpackGetDifferenceParams) (Lan
 }
 
 type LangpackGetLangPackParams struct {
-	LangPack string `validate:"required"`
-	LangCode string `validate:"required"`
+	LangPack string
+	LangCode string
 }
 
 func (e *LangpackGetLangPackParams) CRC() uint32 {
@@ -2454,8 +2449,8 @@ func (c *Client) LangpackGetLangPack(params *LangpackGetLangPackParams) (LangPac
 }
 
 type LangpackGetLanguageParams struct {
-	LangPack string `validate:"required"`
-	LangCode string `validate:"required"`
+	LangPack string
+	LangCode string
 }
 
 func (e *LangpackGetLanguageParams) CRC() uint32 {
@@ -2469,39 +2464,39 @@ func (c *Client) LangpackGetLanguage(params *LangpackGetLanguageParams) (LangPac
 }
 
 type LangpackGetLanguagesParams struct {
-	LangPack string `validate:"required"`
+	LangPack string
 }
 
 func (e *LangpackGetLanguagesParams) CRC() uint32 {
 	return uint32(0x42c6978f)
 }
 
-func (c *Client) LangpackGetLanguages(params *LangpackGetLanguagesParams) (LangPackLanguage, error) {
-	var resp LangPackLanguage
+func (c *Client) LangpackGetLanguages(params *LangpackGetLanguagesParams) ([]LangPackLanguage, error) {
+	var resp []LangPackLanguage
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type LangpackGetStringsParams struct {
-	LangPack string   `validate:"required"`
-	LangCode string   `validate:"required"`
-	Keys     []string `validate:"required"`
+	LangPack string
+	LangCode string
+	Keys     []string
 }
 
 func (e *LangpackGetStringsParams) CRC() uint32 {
 	return uint32(0xefea3803)
 }
 
-func (c *Client) LangpackGetStrings(params *LangpackGetStringsParams) (LangPackString, error) {
-	var resp LangPackString
+func (c *Client) LangpackGetStrings(params *LangpackGetStringsParams) ([]LangPackString, error) {
+	var resp []LangPackString
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesAcceptEncryptionParams struct {
-	Peer           *InputEncryptedChat `validate:"required"`
-	GB             []byte              `validate:"required"`
-	KeyFingerprint int64               `validate:"required"`
+	Peer           *InputEncryptedChat
+	GB             []byte
+	KeyFingerprint int64
 }
 
 func (e *MessagesAcceptEncryptionParams) CRC() uint32 {
@@ -2516,10 +2511,10 @@ func (c *Client) MessagesAcceptEncryption(params *MessagesAcceptEncryptionParams
 
 type MessagesAcceptUrlAuthParams struct {
 	// flags position
-	WriteAllowed bool      `tl:"flag:0,encoded_in_bitflags"`
-	Peer         InputPeer `validate:"required"`
-	MsgId        int32     `validate:"required"`
-	ButtonId     int32     `validate:"required"`
+	WriteAllowed bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer         InputPeer
+	MsgId        int32
+	ButtonId     int32
 }
 
 func (e *MessagesAcceptUrlAuthParams) CRC() uint32 {
@@ -2533,9 +2528,9 @@ func (c *Client) MessagesAcceptUrlAuth(params *MessagesAcceptUrlAuthParams) (Url
 }
 
 type MessagesAddChatUserParams struct {
-	ChatId   int32     `validate:"required"`
-	UserId   InputUser `validate:"required"`
-	FwdLimit int32     `validate:"required"`
+	ChatId   int32
+	UserId   InputUser
+	FwdLimit int32
 }
 
 func (e *MessagesAddChatUserParams) CRC() uint32 {
@@ -2549,7 +2544,7 @@ func (c *Client) MessagesAddChatUser(params *MessagesAddChatUserParams) (Updates
 }
 
 type MessagesCheckChatInviteParams struct {
-	Hash string `validate:"required"`
+	Hash string
 }
 
 func (e *MessagesCheckChatInviteParams) CRC() uint32 {
@@ -2568,8 +2563,8 @@ func (e *MessagesClearAllDraftsParams) CRC() uint32 {
 	return uint32(0x7e58ee9c)
 }
 
-func (c *Client) MessagesClearAllDrafts() (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesClearAllDrafts() (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(&MessagesClearAllDraftsParams{}, &resp)
 	return resp, err
 }
@@ -2583,15 +2578,15 @@ func (e *MessagesClearRecentStickersParams) CRC() uint32 {
 	return uint32(0x8999602d)
 }
 
-func (c *Client) MessagesClearRecentStickers(params *MessagesClearRecentStickersParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesClearRecentStickers(params *MessagesClearRecentStickersParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesCreateChatParams struct {
-	Users []InputUser `validate:"required"`
-	Title string      `validate:"required"`
+	Users []InputUser
+	Title string
 }
 
 func (e *MessagesCreateChatParams) CRC() uint32 {
@@ -2605,8 +2600,8 @@ func (c *Client) MessagesCreateChat(params *MessagesCreateChatParams) (Updates, 
 }
 
 type MessagesDeleteChatUserParams struct {
-	ChatId int32     `validate:"required"`
-	UserId InputUser `validate:"required"`
+	ChatId int32
+	UserId InputUser
 }
 
 func (e *MessagesDeleteChatUserParams) CRC() uint32 {
@@ -2621,10 +2616,10 @@ func (c *Client) MessagesDeleteChatUser(params *MessagesDeleteChatUserParams) (U
 
 type MessagesDeleteHistoryParams struct {
 	// flags position
-	JustClear bool      `tl:"flag:0,encoded_in_bitflags"`
-	Revoke    bool      `tl:"flag:1,encoded_in_bitflags"`
-	Peer      InputPeer `validate:"required"`
-	MaxId     int32     `validate:"required"`
+	JustClear bool `tl:"flag:0,encoded_in_bitflags"`
+	Revoke    bool `tl:"flag:1,encoded_in_bitflags"`
+	Peer      InputPeer
+	MaxId     int32
 }
 
 func (e *MessagesDeleteHistoryParams) CRC() uint32 {
@@ -2639,8 +2634,8 @@ func (c *Client) MessagesDeleteHistory(params *MessagesDeleteHistoryParams) (Mes
 
 type MessagesDeleteMessagesParams struct {
 	// flags position
-	Revoke bool    `tl:"flag:0,encoded_in_bitflags"`
-	Id     []int32 `validate:"required"`
+	Revoke bool `tl:"flag:0,encoded_in_bitflags"`
+	Id     []int32
 }
 
 func (e *MessagesDeleteMessagesParams) CRC() uint32 {
@@ -2654,8 +2649,8 @@ func (c *Client) MessagesDeleteMessages(params *MessagesDeleteMessagesParams) (M
 }
 
 type MessagesDeleteScheduledMessagesParams struct {
-	Peer InputPeer `validate:"required"`
-	Id   []int32   `validate:"required"`
+	Peer InputPeer
+	Id   []int32
 }
 
 func (e *MessagesDeleteScheduledMessagesParams) CRC() uint32 {
@@ -2669,53 +2664,53 @@ func (c *Client) MessagesDeleteScheduledMessages(params *MessagesDeleteScheduled
 }
 
 type MessagesDiscardEncryptionParams struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (e *MessagesDiscardEncryptionParams) CRC() uint32 {
 	return uint32(0xedd923c5)
 }
 
-func (c *Client) MessagesDiscardEncryption(params *MessagesDiscardEncryptionParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesDiscardEncryption(params *MessagesDiscardEncryptionParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesEditChatAboutParams struct {
-	Peer  InputPeer `validate:"required"`
-	About string    `validate:"required"`
+	Peer  InputPeer
+	About string
 }
 
 func (e *MessagesEditChatAboutParams) CRC() uint32 {
 	return uint32(0xdef60797)
 }
 
-func (c *Client) MessagesEditChatAbout(params *MessagesEditChatAboutParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesEditChatAbout(params *MessagesEditChatAboutParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesEditChatAdminParams struct {
-	ChatId  int32     `validate:"required"`
-	UserId  InputUser `validate:"required"`
-	IsAdmin bool      `validate:"required"`
+	ChatId  int32
+	UserId  InputUser
+	IsAdmin bool
 }
 
 func (e *MessagesEditChatAdminParams) CRC() uint32 {
 	return uint32(0xa9e69f2e)
 }
 
-func (c *Client) MessagesEditChatAdmin(params *MessagesEditChatAdminParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesEditChatAdmin(params *MessagesEditChatAdminParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesEditChatDefaultBannedRightsParams struct {
-	Peer         InputPeer         `validate:"required"`
-	BannedRights *ChatBannedRights `validate:"required"`
+	Peer         InputPeer
+	BannedRights *ChatBannedRights
 }
 
 func (e *MessagesEditChatDefaultBannedRightsParams) CRC() uint32 {
@@ -2729,8 +2724,8 @@ func (c *Client) MessagesEditChatDefaultBannedRights(params *MessagesEditChatDef
 }
 
 type MessagesEditChatPhotoParams struct {
-	ChatId int32          `validate:"required"`
-	Photo  InputChatPhoto `validate:"required"`
+	ChatId int32
+	Photo  InputChatPhoto
 }
 
 func (e *MessagesEditChatPhotoParams) CRC() uint32 {
@@ -2744,8 +2739,8 @@ func (c *Client) MessagesEditChatPhoto(params *MessagesEditChatPhotoParams) (Upd
 }
 
 type MessagesEditChatTitleParams struct {
-	ChatId int32  `validate:"required"`
-	Title  string `validate:"required"`
+	ChatId int32
+	Title  string
 }
 
 func (e *MessagesEditChatTitleParams) CRC() uint32 {
@@ -2760,29 +2755,29 @@ func (c *Client) MessagesEditChatTitle(params *MessagesEditChatTitleParams) (Upd
 
 type MessagesEditInlineBotMessageParams struct {
 	// flags position
-	NoWebpage   bool                     `tl:"flag:1,encoded_in_bitflags"`
-	Id          *InputBotInlineMessageID `validate:"required"`
-	Message     string                   `tl:"flag:11"`
-	Media       InputMedia               `tl:"flag:14"`
-	ReplyMarkup ReplyMarkup              `tl:"flag:2"`
-	Entities    []MessageEntity          `tl:"flag:3"`
+	NoWebpage   bool `tl:"flag:1,encoded_in_bitflags"`
+	Id          *InputBotInlineMessageID
+	Message     string          `tl:"flag:11"`
+	Media       InputMedia      `tl:"flag:14"`
+	ReplyMarkup ReplyMarkup     `tl:"flag:2"`
+	Entities    []MessageEntity `tl:"flag:3"`
 }
 
 func (e *MessagesEditInlineBotMessageParams) CRC() uint32 {
 	return uint32(0x83557dba)
 }
 
-func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessageParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessageParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesEditMessageParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflags"`
-	Peer         InputPeer       `validate:"required"`
-	Id           int32           `validate:"required"`
+	NoWebpage    bool `tl:"flag:1,encoded_in_bitflags"`
+	Peer         InputPeer
+	Id           int32
 	Message      string          `tl:"flag:11"`
 	Media        InputMedia      `tl:"flag:14"`
 	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
@@ -2801,7 +2796,7 @@ func (c *Client) MessagesEditMessage(params *MessagesEditMessageParams) (Updates
 }
 
 type MessagesExportChatInviteParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesExportChatInviteParams) CRC() uint32 {
@@ -2815,31 +2810,31 @@ func (c *Client) MessagesExportChatInvite(params *MessagesExportChatInviteParams
 }
 
 type MessagesFaveStickerParams struct {
-	Id     InputDocument `validate:"required"`
-	Unfave bool          `validate:"required"`
+	Id     InputDocument
+	Unfave bool
 }
 
 func (e *MessagesFaveStickerParams) CRC() uint32 {
 	return uint32(0xb9ffc55b)
 }
 
-func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesForwardMessagesParams struct {
 	// flags position
-	Silent       bool      `tl:"flag:5,encoded_in_bitflags"`
-	Background   bool      `tl:"flag:6,encoded_in_bitflags"`
-	WithMyScore  bool      `tl:"flag:8,encoded_in_bitflags"`
-	Grouped      bool      `tl:"flag:9,encoded_in_bitflags"`
-	FromPeer     InputPeer `validate:"required"`
-	Id           []int32   `validate:"required"`
-	RandomId     []int64   `validate:"required"`
-	ToPeer       InputPeer `validate:"required"`
-	ScheduleDate int32     `tl:"flag:10"`
+	Silent       bool `tl:"flag:5,encoded_in_bitflags"`
+	Background   bool `tl:"flag:6,encoded_in_bitflags"`
+	WithMyScore  bool `tl:"flag:8,encoded_in_bitflags"`
+	Grouped      bool `tl:"flag:9,encoded_in_bitflags"`
+	FromPeer     InputPeer
+	Id           []int32
+	RandomId     []int64
+	ToPeer       InputPeer
+	ScheduleDate int32 `tl:"flag:10"`
 }
 
 func (e *MessagesForwardMessagesParams) CRC() uint32 {
@@ -2853,7 +2848,7 @@ func (c *Client) MessagesForwardMessages(params *MessagesForwardMessagesParams) 
 }
 
 type MessagesGetAllChatsParams struct {
-	ExceptIds []int32 `validate:"required"`
+	ExceptIds []int32
 }
 
 func (e *MessagesGetAllChatsParams) CRC() uint32 {
@@ -2879,7 +2874,7 @@ func (c *Client) MessagesGetAllDrafts() (Updates, error) {
 }
 
 type MessagesGetAllStickersParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *MessagesGetAllStickersParams) CRC() uint32 {
@@ -2894,9 +2889,9 @@ func (c *Client) MessagesGetAllStickers(params *MessagesGetAllStickersParams) (M
 
 type MessagesGetArchivedStickersParams struct {
 	// flags position
-	Masks    bool  `tl:"flag:0,encoded_in_bitflags"`
-	OffsetId int64 `validate:"required"`
-	Limit    int32 `validate:"required"`
+	Masks    bool `tl:"flag:0,encoded_in_bitflags"`
+	OffsetId int64
+	Limit    int32
 }
 
 func (e *MessagesGetArchivedStickersParams) CRC() uint32 {
@@ -2910,25 +2905,25 @@ func (c *Client) MessagesGetArchivedStickers(params *MessagesGetArchivedStickers
 }
 
 type MessagesGetAttachedStickersParams struct {
-	Media InputStickeredMedia `validate:"required"`
+	Media InputStickeredMedia
 }
 
 func (e *MessagesGetAttachedStickersParams) CRC() uint32 {
 	return uint32(0xcc5b67cc)
 }
 
-func (c *Client) MessagesGetAttachedStickers(params *MessagesGetAttachedStickersParams) (StickerSetCovered, error) {
-	var resp StickerSetCovered
+func (c *Client) MessagesGetAttachedStickers(params *MessagesGetAttachedStickersParams) ([]StickerSetCovered, error) {
+	var resp []StickerSetCovered
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesGetBotCallbackAnswerParams struct {
 	// flags position
-	Game  bool      `tl:"flag:1,encoded_in_bitflags"`
-	Peer  InputPeer `validate:"required"`
-	MsgId int32     `validate:"required"`
-	Data  []byte    `tl:"flag:0"`
+	Game  bool `tl:"flag:1,encoded_in_bitflags"`
+	Peer  InputPeer
+	MsgId int32
+	Data  []byte `tl:"flag:0"`
 }
 
 func (e *MessagesGetBotCallbackAnswerParams) CRC() uint32 {
@@ -2942,7 +2937,7 @@ func (c *Client) MessagesGetBotCallbackAnswer(params *MessagesGetBotCallbackAnsw
 }
 
 type MessagesGetChatsParams struct {
-	Id []int32 `validate:"required"`
+	Id []int32
 }
 
 func (e *MessagesGetChatsParams) CRC() uint32 {
@@ -2956,9 +2951,9 @@ func (c *Client) MessagesGetChats(params *MessagesGetChatsParams) (MessagesChats
 }
 
 type MessagesGetCommonChatsParams struct {
-	UserId InputUser `validate:"required"`
-	MaxId  int32     `validate:"required"`
-	Limit  int32     `validate:"required"`
+	UserId InputUser
+	MaxId  int32
+	Limit  int32
 }
 
 func (e *MessagesGetCommonChatsParams) CRC() uint32 {
@@ -2972,8 +2967,8 @@ func (c *Client) MessagesGetCommonChats(params *MessagesGetCommonChatsParams) (M
 }
 
 type MessagesGetDhConfigParams struct {
-	Version      int32 `validate:"required"`
-	RandomLength int32 `validate:"required"`
+	Version      int32
+	RandomLength int32
 }
 
 func (e *MessagesGetDhConfigParams) CRC() uint32 {
@@ -2992,8 +2987,8 @@ func (e *MessagesGetDialogFiltersParams) CRC() uint32 {
 	return uint32(0xf19ed96d)
 }
 
-func (c *Client) MessagesGetDialogFilters() (DialogFilter, error) {
-	var resp DialogFilter
+func (c *Client) MessagesGetDialogFilters() ([]DialogFilter, error) {
+	var resp []DialogFilter
 	err := c.MakeRequest2(&MessagesGetDialogFiltersParams{}, &resp)
 	return resp, err
 }
@@ -3004,21 +2999,21 @@ func (e *MessagesGetDialogUnreadMarksParams) CRC() uint32 {
 	return uint32(0x22e24e22)
 }
 
-func (c *Client) MessagesGetDialogUnreadMarks() (DialogPeer, error) {
-	var resp DialogPeer
+func (c *Client) MessagesGetDialogUnreadMarks() ([]DialogPeer, error) {
+	var resp []DialogPeer
 	err := c.MakeRequest2(&MessagesGetDialogUnreadMarksParams{}, &resp)
 	return resp, err
 }
 
 type MessagesGetDialogsParams struct {
 	// flags position
-	ExcludePinned bool      `tl:"flag:0,encoded_in_bitflags"`
-	FolderId      int32     `tl:"flag:1"`
-	OffsetDate    int32     `validate:"required"`
-	OffsetId      int32     `validate:"required"`
-	OffsetPeer    InputPeer `validate:"required"`
-	Limit         int32     `validate:"required"`
-	Hash          int32     `validate:"required"`
+	ExcludePinned bool  `tl:"flag:0,encoded_in_bitflags"`
+	FolderId      int32 `tl:"flag:1"`
+	OffsetDate    int32
+	OffsetId      int32
+	OffsetPeer    InputPeer
+	Limit         int32
+	Hash          int32
 }
 
 func (e *MessagesGetDialogsParams) CRC() uint32 {
@@ -3032,9 +3027,9 @@ func (c *Client) MessagesGetDialogs(params *MessagesGetDialogsParams) (MessagesD
 }
 
 type MessagesGetDocumentByHashParams struct {
-	Sha256   []byte `validate:"required"`
-	Size     int32  `validate:"required"`
-	MimeType string `validate:"required"`
+	Sha256   []byte
+	Size     int32
+	MimeType string
 }
 
 func (e *MessagesGetDocumentByHashParams) CRC() uint32 {
@@ -3048,7 +3043,7 @@ func (c *Client) MessagesGetDocumentByHash(params *MessagesGetDocumentByHashPara
 }
 
 type MessagesGetEmojiKeywordsParams struct {
-	LangCode string `validate:"required"`
+	LangCode string
 }
 
 func (e *MessagesGetEmojiKeywordsParams) CRC() uint32 {
@@ -3062,8 +3057,8 @@ func (c *Client) MessagesGetEmojiKeywords(params *MessagesGetEmojiKeywordsParams
 }
 
 type MessagesGetEmojiKeywordsDifferenceParams struct {
-	LangCode    string `validate:"required"`
-	FromVersion int32  `validate:"required"`
+	LangCode    string
+	FromVersion int32
 }
 
 func (e *MessagesGetEmojiKeywordsDifferenceParams) CRC() uint32 {
@@ -3077,21 +3072,21 @@ func (c *Client) MessagesGetEmojiKeywordsDifference(params *MessagesGetEmojiKeyw
 }
 
 type MessagesGetEmojiKeywordsLanguagesParams struct {
-	LangCodes []string `validate:"required"`
+	LangCodes []string
 }
 
 func (e *MessagesGetEmojiKeywordsLanguagesParams) CRC() uint32 {
 	return uint32(0x4e9963b2)
 }
 
-func (c *Client) MessagesGetEmojiKeywordsLanguages(params *MessagesGetEmojiKeywordsLanguagesParams) (EmojiLanguage, error) {
-	var resp EmojiLanguage
+func (c *Client) MessagesGetEmojiKeywordsLanguages(params *MessagesGetEmojiKeywordsLanguagesParams) ([]EmojiLanguage, error) {
+	var resp []EmojiLanguage
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesGetEmojiURLParams struct {
-	LangCode string `validate:"required"`
+	LangCode string
 }
 
 func (e *MessagesGetEmojiURLParams) CRC() uint32 {
@@ -3105,7 +3100,7 @@ func (c *Client) MessagesGetEmojiURL(params *MessagesGetEmojiURLParams) (EmojiUR
 }
 
 type MessagesGetFavedStickersParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *MessagesGetFavedStickersParams) CRC() uint32 {
@@ -3119,7 +3114,7 @@ func (c *Client) MessagesGetFavedStickers(params *MessagesGetFavedStickersParams
 }
 
 type MessagesGetFeaturedStickersParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *MessagesGetFeaturedStickersParams) CRC() uint32 {
@@ -3133,7 +3128,7 @@ func (c *Client) MessagesGetFeaturedStickers(params *MessagesGetFeaturedStickers
 }
 
 type MessagesGetFullChatParams struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (e *MessagesGetFullChatParams) CRC() uint32 {
@@ -3147,9 +3142,9 @@ func (c *Client) MessagesGetFullChat(params *MessagesGetFullChatParams) (Message
 }
 
 type MessagesGetGameHighScoresParams struct {
-	Peer   InputPeer `validate:"required"`
-	Id     int32     `validate:"required"`
-	UserId InputUser `validate:"required"`
+	Peer   InputPeer
+	Id     int32
+	UserId InputUser
 }
 
 func (e *MessagesGetGameHighScoresParams) CRC() uint32 {
@@ -3163,14 +3158,14 @@ func (c *Client) MessagesGetGameHighScores(params *MessagesGetGameHighScoresPara
 }
 
 type MessagesGetHistoryParams struct {
-	Peer       InputPeer `validate:"required"`
-	OffsetId   int32     `validate:"required"`
-	OffsetDate int32     `validate:"required"`
-	AddOffset  int32     `validate:"required"`
-	Limit      int32     `validate:"required"`
-	MaxId      int32     `validate:"required"`
-	MinId      int32     `validate:"required"`
-	Hash       int32     `validate:"required"`
+	Peer       InputPeer
+	OffsetId   int32
+	OffsetDate int32
+	AddOffset  int32
+	Limit      int32
+	MaxId      int32
+	MinId      int32
+	Hash       int32
 }
 
 func (e *MessagesGetHistoryParams) CRC() uint32 {
@@ -3185,11 +3180,11 @@ func (c *Client) MessagesGetHistory(params *MessagesGetHistoryParams) (MessagesM
 
 type MessagesGetInlineBotResultsParams struct {
 	// flags position
-	Bot      InputUser     `validate:"required"`
-	Peer     InputPeer     `validate:"required"`
+	Bot      InputUser
+	Peer     InputPeer
 	GeoPoint InputGeoPoint `tl:"flag:0"`
-	Query    string        `validate:"required"`
-	Offset   string        `validate:"required"`
+	Query    string
+	Offset   string
 }
 
 func (e *MessagesGetInlineBotResultsParams) CRC() uint32 {
@@ -3203,8 +3198,8 @@ func (c *Client) MessagesGetInlineBotResults(params *MessagesGetInlineBotResults
 }
 
 type MessagesGetInlineGameHighScoresParams struct {
-	Id     *InputBotInlineMessageID `validate:"required"`
-	UserId InputUser                `validate:"required"`
+	Id     *InputBotInlineMessageID
+	UserId InputUser
 }
 
 func (e *MessagesGetInlineGameHighScoresParams) CRC() uint32 {
@@ -3218,7 +3213,7 @@ func (c *Client) MessagesGetInlineGameHighScores(params *MessagesGetInlineGameHi
 }
 
 type MessagesGetMaskStickersParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *MessagesGetMaskStickersParams) CRC() uint32 {
@@ -3232,8 +3227,8 @@ func (c *Client) MessagesGetMaskStickers(params *MessagesGetMaskStickersParams) 
 }
 
 type MessagesGetMessageEditDataParams struct {
-	Peer InputPeer `validate:"required"`
-	Id   int32     `validate:"required"`
+	Peer InputPeer
+	Id   int32
 }
 
 func (e *MessagesGetMessageEditDataParams) CRC() uint32 {
@@ -3247,7 +3242,7 @@ func (c *Client) MessagesGetMessageEditData(params *MessagesGetMessageEditDataPa
 }
 
 type MessagesGetMessagesParams struct {
-	Id []InputMessage `validate:"required"`
+	Id []InputMessage
 }
 
 func (e *MessagesGetMessagesParams) CRC() uint32 {
@@ -3261,25 +3256,25 @@ func (c *Client) MessagesGetMessages(params *MessagesGetMessagesParams) (Message
 }
 
 type MessagesGetMessagesViewsParams struct {
-	Peer      InputPeer `validate:"required"`
-	Id        []int32   `validate:"required"`
-	Increment bool      `validate:"required"`
+	Peer      InputPeer
+	Id        []int32
+	Increment bool
 }
 
 func (e *MessagesGetMessagesViewsParams) CRC() uint32 {
 	return uint32(0xc4c8a55d)
 }
 
-func (c *Client) MessagesGetMessagesViews(params *MessagesGetMessagesViewsParams) (serialize.Int, error) {
-	var resp serialize.Int
+func (c *Client) MessagesGetMessagesViews(params *MessagesGetMessagesViewsParams) ([]int, error) {
+	var resp []int
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesGetOldFeaturedStickersParams struct {
-	Offset int32 `validate:"required"`
-	Limit  int32 `validate:"required"`
-	Hash   int32 `validate:"required"`
+	Offset int32
+	Limit  int32
+	Hash   int32
 }
 
 func (e *MessagesGetOldFeaturedStickersParams) CRC() uint32 {
@@ -3293,7 +3288,7 @@ func (c *Client) MessagesGetOldFeaturedStickers(params *MessagesGetOldFeaturedSt
 }
 
 type MessagesGetOnlinesParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesGetOnlinesParams) CRC() uint32 {
@@ -3307,7 +3302,7 @@ func (c *Client) MessagesGetOnlines(params *MessagesGetOnlinesParams) (ChatOnlin
 }
 
 type MessagesGetPeerDialogsParams struct {
-	Peers []InputDialogPeer `validate:"required"`
+	Peers []InputDialogPeer
 }
 
 func (e *MessagesGetPeerDialogsParams) CRC() uint32 {
@@ -3321,7 +3316,7 @@ func (c *Client) MessagesGetPeerDialogs(params *MessagesGetPeerDialogsParams) (M
 }
 
 type MessagesGetPeerSettingsParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesGetPeerSettingsParams) CRC() uint32 {
@@ -3335,7 +3330,7 @@ func (c *Client) MessagesGetPeerSettings(params *MessagesGetPeerSettingsParams) 
 }
 
 type MessagesGetPinnedDialogsParams struct {
-	FolderId int32 `validate:"required"`
+	FolderId int32
 }
 
 func (e *MessagesGetPinnedDialogsParams) CRC() uint32 {
@@ -3349,8 +3344,8 @@ func (c *Client) MessagesGetPinnedDialogs(params *MessagesGetPinnedDialogsParams
 }
 
 type MessagesGetPollResultsParams struct {
-	Peer  InputPeer `validate:"required"`
-	MsgId int32     `validate:"required"`
+	Peer  InputPeer
+	MsgId int32
 }
 
 func (e *MessagesGetPollResultsParams) CRC() uint32 {
@@ -3365,11 +3360,11 @@ func (c *Client) MessagesGetPollResults(params *MessagesGetPollResultsParams) (U
 
 type MessagesGetPollVotesParams struct {
 	// flags position
-	Peer   InputPeer `validate:"required"`
-	Id     int32     `validate:"required"`
-	Option []byte    `tl:"flag:0"`
-	Offset string    `tl:"flag:1"`
-	Limit  int32     `validate:"required"`
+	Peer   InputPeer
+	Id     int32
+	Option []byte `tl:"flag:0"`
+	Offset string `tl:"flag:1"`
+	Limit  int32
 }
 
 func (e *MessagesGetPollVotesParams) CRC() uint32 {
@@ -3383,9 +3378,9 @@ func (c *Client) MessagesGetPollVotes(params *MessagesGetPollVotesParams) (Messa
 }
 
 type MessagesGetRecentLocationsParams struct {
-	Peer  InputPeer `validate:"required"`
-	Limit int32     `validate:"required"`
-	Hash  int32     `validate:"required"`
+	Peer  InputPeer
+	Limit int32
+	Hash  int32
 }
 
 func (e *MessagesGetRecentLocationsParams) CRC() uint32 {
@@ -3400,8 +3395,8 @@ func (c *Client) MessagesGetRecentLocations(params *MessagesGetRecentLocationsPa
 
 type MessagesGetRecentStickersParams struct {
 	// flags position
-	Attached bool  `tl:"flag:0,encoded_in_bitflags"`
-	Hash     int32 `validate:"required"`
+	Attached bool `tl:"flag:0,encoded_in_bitflags"`
+	Hash     int32
 }
 
 func (e *MessagesGetRecentStickersParams) CRC() uint32 {
@@ -3415,7 +3410,7 @@ func (c *Client) MessagesGetRecentStickers(params *MessagesGetRecentStickersPara
 }
 
 type MessagesGetSavedGifsParams struct {
-	Hash int32 `validate:"required"`
+	Hash int32
 }
 
 func (e *MessagesGetSavedGifsParams) CRC() uint32 {
@@ -3429,8 +3424,8 @@ func (c *Client) MessagesGetSavedGifs(params *MessagesGetSavedGifsParams) (Messa
 }
 
 type MessagesGetScheduledHistoryParams struct {
-	Peer InputPeer `validate:"required"`
-	Hash int32     `validate:"required"`
+	Peer InputPeer
+	Hash int32
 }
 
 func (e *MessagesGetScheduledHistoryParams) CRC() uint32 {
@@ -3444,8 +3439,8 @@ func (c *Client) MessagesGetScheduledHistory(params *MessagesGetScheduledHistory
 }
 
 type MessagesGetScheduledMessagesParams struct {
-	Peer InputPeer `validate:"required"`
-	Id   []int32   `validate:"required"`
+	Peer InputPeer
+	Id   []int32
 }
 
 func (e *MessagesGetScheduledMessagesParams) CRC() uint32 {
@@ -3459,16 +3454,16 @@ func (c *Client) MessagesGetScheduledMessages(params *MessagesGetScheduledMessag
 }
 
 type MessagesGetSearchCountersParams struct {
-	Peer    InputPeer        `validate:"required"`
-	Filters []MessagesFilter `validate:"required"`
+	Peer    InputPeer
+	Filters []MessagesFilter
 }
 
 func (e *MessagesGetSearchCountersParams) CRC() uint32 {
 	return uint32(0x732eef00)
 }
 
-func (c *Client) MessagesGetSearchCounters(params *MessagesGetSearchCountersParams) (MessagesSearchCounter, error) {
-	var resp MessagesSearchCounter
+func (c *Client) MessagesGetSearchCounters(params *MessagesGetSearchCountersParams) ([]MessagesSearchCounter, error) {
+	var resp []MessagesSearchCounter
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
@@ -3479,17 +3474,17 @@ func (e *MessagesGetSplitRangesParams) CRC() uint32 {
 	return uint32(0x1cff7e08)
 }
 
-func (c *Client) MessagesGetSplitRanges() (MessageRange, error) {
-	var resp MessageRange
+func (c *Client) MessagesGetSplitRanges() ([]MessageRange, error) {
+	var resp []MessageRange
 	err := c.MakeRequest2(&MessagesGetSplitRangesParams{}, &resp)
 	return resp, err
 }
 
 type MessagesGetStatsURLParams struct {
 	// flags position
-	Dark   bool      `tl:"flag:0,encoded_in_bitflags"`
-	Peer   InputPeer `validate:"required"`
-	Params string    `validate:"required"`
+	Dark   bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer   InputPeer
+	Params string
 }
 
 func (e *MessagesGetStatsURLParams) CRC() uint32 {
@@ -3503,7 +3498,7 @@ func (c *Client) MessagesGetStatsURL(params *MessagesGetStatsURLParams) (StatsUR
 }
 
 type MessagesGetStickerSetParams struct {
-	Stickerset InputStickerSet `validate:"required"`
+	Stickerset InputStickerSet
 }
 
 func (e *MessagesGetStickerSetParams) CRC() uint32 {
@@ -3517,8 +3512,8 @@ func (c *Client) MessagesGetStickerSet(params *MessagesGetStickerSetParams) (Mes
 }
 
 type MessagesGetStickersParams struct {
-	Emoticon string `validate:"required"`
-	Hash     int32  `validate:"required"`
+	Emoticon string
+	Hash     int32
 }
 
 func (e *MessagesGetStickersParams) CRC() uint32 {
@@ -3537,19 +3532,19 @@ func (e *MessagesGetSuggestedDialogFiltersParams) CRC() uint32 {
 	return uint32(0xa29cd42c)
 }
 
-func (c *Client) MessagesGetSuggestedDialogFilters() (DialogFilterSuggested, error) {
-	var resp DialogFilterSuggested
+func (c *Client) MessagesGetSuggestedDialogFilters() ([]DialogFilterSuggested, error) {
+	var resp []DialogFilterSuggested
 	err := c.MakeRequest2(&MessagesGetSuggestedDialogFiltersParams{}, &resp)
 	return resp, err
 }
 
 type MessagesGetUnreadMentionsParams struct {
-	Peer      InputPeer `validate:"required"`
-	OffsetId  int32     `validate:"required"`
-	AddOffset int32     `validate:"required"`
-	Limit     int32     `validate:"required"`
-	MaxId     int32     `validate:"required"`
-	MinId     int32     `validate:"required"`
+	Peer      InputPeer
+	OffsetId  int32
+	AddOffset int32
+	Limit     int32
+	MaxId     int32
+	MinId     int32
 }
 
 func (e *MessagesGetUnreadMentionsParams) CRC() uint32 {
@@ -3563,8 +3558,8 @@ func (c *Client) MessagesGetUnreadMentions(params *MessagesGetUnreadMentionsPara
 }
 
 type MessagesGetWebPageParams struct {
-	Url  string `validate:"required"`
-	Hash int32  `validate:"required"`
+	Url  string
+	Hash int32
 }
 
 func (e *MessagesGetWebPageParams) CRC() uint32 {
@@ -3579,7 +3574,7 @@ func (c *Client) MessagesGetWebPage(params *MessagesGetWebPageParams) (WebPage, 
 
 type MessagesGetWebPagePreviewParams struct {
 	// flags position
-	Message  string          `validate:"required"`
+	Message  string
 	Entities []MessageEntity `tl:"flag:3"`
 }
 
@@ -3594,21 +3589,21 @@ func (c *Client) MessagesGetWebPagePreview(params *MessagesGetWebPagePreviewPara
 }
 
 type MessagesHidePeerSettingsBarParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesHidePeerSettingsBarParams) CRC() uint32 {
 	return uint32(0x4facb138)
 }
 
-func (c *Client) MessagesHidePeerSettingsBar(params *MessagesHidePeerSettingsBarParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesHidePeerSettingsBar(params *MessagesHidePeerSettingsBarParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesImportChatInviteParams struct {
-	Hash string `validate:"required"`
+	Hash string
 }
 
 func (e *MessagesImportChatInviteParams) CRC() uint32 {
@@ -3622,8 +3617,8 @@ func (c *Client) MessagesImportChatInvite(params *MessagesImportChatInviteParams
 }
 
 type MessagesInstallStickerSetParams struct {
-	Stickerset InputStickerSet `validate:"required"`
-	Archived   bool            `validate:"required"`
+	Stickerset InputStickerSet
+	Archived   bool
 }
 
 func (e *MessagesInstallStickerSetParams) CRC() uint32 {
@@ -3638,22 +3633,22 @@ func (c *Client) MessagesInstallStickerSet(params *MessagesInstallStickerSetPara
 
 type MessagesMarkDialogUnreadParams struct {
 	// flags position
-	Unread bool            `tl:"flag:0,encoded_in_bitflags"`
-	Peer   InputDialogPeer `validate:"required"`
+	Unread bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer   InputDialogPeer
 }
 
 func (e *MessagesMarkDialogUnreadParams) CRC() uint32 {
 	return uint32(0xc286d98f)
 }
 
-func (c *Client) MessagesMarkDialogUnread(params *MessagesMarkDialogUnreadParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesMarkDialogUnread(params *MessagesMarkDialogUnreadParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesMigrateChatParams struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (e *MessagesMigrateChatParams) CRC() uint32 {
@@ -3667,37 +3662,37 @@ func (c *Client) MessagesMigrateChat(params *MessagesMigrateChatParams) (Updates
 }
 
 type MessagesReadEncryptedHistoryParams struct {
-	Peer    *InputEncryptedChat `validate:"required"`
-	MaxDate int32               `validate:"required"`
+	Peer    *InputEncryptedChat
+	MaxDate int32
 }
 
 func (e *MessagesReadEncryptedHistoryParams) CRC() uint32 {
 	return uint32(0x7f4b690a)
 }
 
-func (c *Client) MessagesReadEncryptedHistory(params *MessagesReadEncryptedHistoryParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReadEncryptedHistory(params *MessagesReadEncryptedHistoryParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReadFeaturedStickersParams struct {
-	Id []int64 `validate:"required"`
+	Id []int64
 }
 
 func (e *MessagesReadFeaturedStickersParams) CRC() uint32 {
 	return uint32(0x5b118126)
 }
 
-func (c *Client) MessagesReadFeaturedStickers(params *MessagesReadFeaturedStickersParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReadFeaturedStickers(params *MessagesReadFeaturedStickersParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReadHistoryParams struct {
-	Peer  InputPeer `validate:"required"`
-	MaxId int32     `validate:"required"`
+	Peer  InputPeer
+	MaxId int32
 }
 
 func (e *MessagesReadHistoryParams) CRC() uint32 {
@@ -3711,7 +3706,7 @@ func (c *Client) MessagesReadHistory(params *MessagesReadHistoryParams) (Message
 }
 
 type MessagesReadMentionsParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesReadMentionsParams) CRC() uint32 {
@@ -3725,7 +3720,7 @@ func (c *Client) MessagesReadMentions(params *MessagesReadMentionsParams) (Messa
 }
 
 type MessagesReadMessageContentsParams struct {
-	Id []int32 `validate:"required"`
+	Id []int32
 }
 
 func (e *MessagesReadMessageContentsParams) CRC() uint32 {
@@ -3739,114 +3734,114 @@ func (c *Client) MessagesReadMessageContents(params *MessagesReadMessageContents
 }
 
 type MessagesReceivedMessagesParams struct {
-	MaxId int32 `validate:"required"`
+	MaxId int32
 }
 
 func (e *MessagesReceivedMessagesParams) CRC() uint32 {
 	return uint32(0x5a954c0)
 }
 
-func (c *Client) MessagesReceivedMessages(params *MessagesReceivedMessagesParams) (ReceivedNotifyMessage, error) {
-	var resp ReceivedNotifyMessage
+func (c *Client) MessagesReceivedMessages(params *MessagesReceivedMessagesParams) ([]ReceivedNotifyMessage, error) {
+	var resp []ReceivedNotifyMessage
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReceivedQueueParams struct {
-	MaxQts int32 `validate:"required"`
+	MaxQts int32
 }
 
 func (e *MessagesReceivedQueueParams) CRC() uint32 {
 	return uint32(0x55a5bb66)
 }
 
-func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) (serialize.Long, error) {
-	var resp serialize.Long
+func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) ([]int64, error) {
+	var resp []int64
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReorderPinnedDialogsParams struct {
 	// flags position
-	Force    bool              `tl:"flag:0,encoded_in_bitflags"`
-	FolderId int32             `validate:"required"`
-	Order    []InputDialogPeer `validate:"required"`
+	Force    bool `tl:"flag:0,encoded_in_bitflags"`
+	FolderId int32
+	Order    []InputDialogPeer
 }
 
 func (e *MessagesReorderPinnedDialogsParams) CRC() uint32 {
 	return uint32(0x3b1adf37)
 }
 
-func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialogsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialogsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReorderStickerSetsParams struct {
 	// flags position
-	Masks bool    `tl:"flag:0,encoded_in_bitflags"`
-	Order []int64 `validate:"required"`
+	Masks bool `tl:"flag:0,encoded_in_bitflags"`
+	Order []int64
 }
 
 func (e *MessagesReorderStickerSetsParams) CRC() uint32 {
 	return uint32(0x78337739)
 }
 
-func (c *Client) MessagesReorderStickerSets(params *MessagesReorderStickerSetsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReorderStickerSets(params *MessagesReorderStickerSetsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReportParams struct {
-	Peer   InputPeer    `validate:"required"`
-	Id     []int32      `validate:"required"`
-	Reason ReportReason `validate:"required"`
+	Peer   InputPeer
+	Id     []int32
+	Reason ReportReason
 }
 
 func (e *MessagesReportParams) CRC() uint32 {
 	return uint32(0xbd82b658)
 }
 
-func (c *Client) MessagesReport(params *MessagesReportParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReport(params *MessagesReportParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReportEncryptedSpamParams struct {
-	Peer *InputEncryptedChat `validate:"required"`
+	Peer *InputEncryptedChat
 }
 
 func (e *MessagesReportEncryptedSpamParams) CRC() uint32 {
 	return uint32(0x4b0c8c0f)
 }
 
-func (c *Client) MessagesReportEncryptedSpam(params *MessagesReportEncryptedSpamParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReportEncryptedSpam(params *MessagesReportEncryptedSpamParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesReportSpamParams struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (e *MessagesReportSpamParams) CRC() uint32 {
 	return uint32(0xcf1592db)
 }
 
-func (c *Client) MessagesReportSpam(params *MessagesReportSpamParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesReportSpam(params *MessagesReportSpamParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesRequestEncryptionParams struct {
-	UserId   InputUser `validate:"required"`
-	RandomId int32     `validate:"required"`
-	GA       []byte    `validate:"required"`
+	UserId   InputUser
+	RandomId int32
+	GA       []byte
 }
 
 func (e *MessagesRequestEncryptionParams) CRC() uint32 {
@@ -3860,9 +3855,9 @@ func (c *Client) MessagesRequestEncryption(params *MessagesRequestEncryptionPara
 }
 
 type MessagesRequestUrlAuthParams struct {
-	Peer     InputPeer `validate:"required"`
-	MsgId    int32     `validate:"required"`
-	ButtonId int32     `validate:"required"`
+	Peer     InputPeer
+	MsgId    int32
+	ButtonId int32
 }
 
 func (e *MessagesRequestUrlAuthParams) CRC() uint32 {
@@ -3877,10 +3872,10 @@ func (c *Client) MessagesRequestUrlAuth(params *MessagesRequestUrlAuthParams) (U
 
 type MessagesSaveDraftParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflags"`
-	ReplyToMsgId int32           `tl:"flag:0"`
-	Peer         InputPeer       `validate:"required"`
-	Message      string          `validate:"required"`
+	NoWebpage    bool  `tl:"flag:1,encoded_in_bitflags"`
+	ReplyToMsgId int32 `tl:"flag:0"`
+	Peer         InputPeer
+	Message      string
 	Entities     []MessageEntity `tl:"flag:3"`
 }
 
@@ -3888,58 +3883,58 @@ func (e *MessagesSaveDraftParams) CRC() uint32 {
 	return uint32(0xbc39e14b)
 }
 
-func (c *Client) MessagesSaveDraft(params *MessagesSaveDraftParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSaveDraft(params *MessagesSaveDraftParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSaveGifParams struct {
-	Id     InputDocument `validate:"required"`
-	Unsave bool          `validate:"required"`
+	Id     InputDocument
+	Unsave bool
 }
 
 func (e *MessagesSaveGifParams) CRC() uint32 {
 	return uint32(0x327a30cb)
 }
 
-func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSaveRecentStickerParams struct {
 	// flags position
-	Attached bool          `tl:"flag:0,encoded_in_bitflags"`
-	Id       InputDocument `validate:"required"`
-	Unsave   bool          `validate:"required"`
+	Attached bool `tl:"flag:0,encoded_in_bitflags"`
+	Id       InputDocument
+	Unsave   bool
 }
 
 func (e *MessagesSaveRecentStickerParams) CRC() uint32 {
 	return uint32(0x392718f8)
 }
 
-func (c *Client) MessagesSaveRecentSticker(params *MessagesSaveRecentStickerParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSaveRecentSticker(params *MessagesSaveRecentStickerParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSearchParams struct {
 	// flags position
-	Peer      InputPeer      `validate:"required"`
-	Q         string         `validate:"required"`
-	FromId    InputUser      `tl:"flag:0"`
-	Filter    MessagesFilter `validate:"required"`
-	MinDate   int32          `validate:"required"`
-	MaxDate   int32          `validate:"required"`
-	OffsetId  int32          `validate:"required"`
-	AddOffset int32          `validate:"required"`
-	Limit     int32          `validate:"required"`
-	MaxId     int32          `validate:"required"`
-	MinId     int32          `validate:"required"`
-	Hash      int32          `validate:"required"`
+	Peer      InputPeer
+	Q         string
+	FromId    InputUser `tl:"flag:0"`
+	Filter    MessagesFilter
+	MinDate   int32
+	MaxDate   int32
+	OffsetId  int32
+	AddOffset int32
+	Limit     int32
+	MaxId     int32
+	MinId     int32
+	Hash      int32
 }
 
 func (e *MessagesSearchParams) CRC() uint32 {
@@ -3954,12 +3949,12 @@ func (c *Client) MessagesSearch(params *MessagesSearchParams) (MessagesMessages,
 
 type MessagesSearchGlobalParams struct {
 	// flags position
-	FolderId   int32     `tl:"flag:0"`
-	Q          string    `validate:"required"`
-	OffsetRate int32     `validate:"required"`
-	OffsetPeer InputPeer `validate:"required"`
-	OffsetId   int32     `validate:"required"`
-	Limit      int32     `validate:"required"`
+	FolderId   int32 `tl:"flag:0"`
+	Q          string
+	OffsetRate int32
+	OffsetPeer InputPeer
+	OffsetId   int32
+	Limit      int32
 }
 
 func (e *MessagesSearchGlobalParams) CRC() uint32 {
@@ -3974,9 +3969,9 @@ func (c *Client) MessagesSearchGlobal(params *MessagesSearchGlobalParams) (Messa
 
 type MessagesSearchStickerSetsParams struct {
 	// flags position
-	ExcludeFeatured bool   `tl:"flag:0,encoded_in_bitflags"`
-	Q               string `validate:"required"`
-	Hash            int32  `validate:"required"`
+	ExcludeFeatured bool `tl:"flag:0,encoded_in_bitflags"`
+	Q               string
+	Hash            int32
 }
 
 func (e *MessagesSearchStickerSetsParams) CRC() uint32 {
@@ -3990,9 +3985,9 @@ func (c *Client) MessagesSearchStickerSets(params *MessagesSearchStickerSetsPara
 }
 
 type MessagesSendEncryptedParams struct {
-	Peer     *InputEncryptedChat `validate:"required"`
-	RandomId int64               `validate:"required"`
-	Data     []byte              `validate:"required"`
+	Peer     *InputEncryptedChat
+	RandomId int64
+	Data     []byte
 }
 
 func (e *MessagesSendEncryptedParams) CRC() uint32 {
@@ -4006,10 +4001,10 @@ func (c *Client) MessagesSendEncrypted(params *MessagesSendEncryptedParams) (Mes
 }
 
 type MessagesSendEncryptedFileParams struct {
-	Peer     *InputEncryptedChat `validate:"required"`
-	RandomId int64               `validate:"required"`
-	Data     []byte              `validate:"required"`
-	File     InputEncryptedFile  `validate:"required"`
+	Peer     *InputEncryptedChat
+	RandomId int64
+	Data     []byte
+	File     InputEncryptedFile
 }
 
 func (e *MessagesSendEncryptedFileParams) CRC() uint32 {
@@ -4023,9 +4018,9 @@ func (c *Client) MessagesSendEncryptedFile(params *MessagesSendEncryptedFilePara
 }
 
 type MessagesSendEncryptedServiceParams struct {
-	Peer     *InputEncryptedChat `validate:"required"`
-	RandomId int64               `validate:"required"`
-	Data     []byte              `validate:"required"`
+	Peer     *InputEncryptedChat
+	RandomId int64
+	Data     []byte
 }
 
 func (e *MessagesSendEncryptedServiceParams) CRC() uint32 {
@@ -4040,16 +4035,16 @@ func (c *Client) MessagesSendEncryptedService(params *MessagesSendEncryptedServi
 
 type MessagesSendInlineBotResultParams struct {
 	// flags position
-	Silent       bool      `tl:"flag:5,encoded_in_bitflags"`
-	Background   bool      `tl:"flag:6,encoded_in_bitflags"`
-	ClearDraft   bool      `tl:"flag:7,encoded_in_bitflags"`
-	HideVia      bool      `tl:"flag:11,encoded_in_bitflags"`
-	Peer         InputPeer `validate:"required"`
-	ReplyToMsgId int32     `tl:"flag:0"`
-	RandomId     int64     `validate:"required"`
-	QueryId      int64     `validate:"required"`
-	Id           string    `validate:"required"`
-	ScheduleDate int32     `tl:"flag:10"`
+	Silent       bool `tl:"flag:5,encoded_in_bitflags"`
+	Background   bool `tl:"flag:6,encoded_in_bitflags"`
+	ClearDraft   bool `tl:"flag:7,encoded_in_bitflags"`
+	HideVia      bool `tl:"flag:11,encoded_in_bitflags"`
+	Peer         InputPeer
+	ReplyToMsgId int32 `tl:"flag:0"`
+	RandomId     int64
+	QueryId      int64
+	Id           string
+	ScheduleDate int32 `tl:"flag:10"`
 }
 
 func (e *MessagesSendInlineBotResultParams) CRC() uint32 {
@@ -4064,14 +4059,14 @@ func (c *Client) MessagesSendInlineBotResult(params *MessagesSendInlineBotResult
 
 type MessagesSendMediaParams struct {
 	// flags position
-	Silent       bool            `tl:"flag:5,encoded_in_bitflags"`
-	Background   bool            `tl:"flag:6,encoded_in_bitflags"`
-	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflags"`
-	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `tl:"flag:0"`
-	Media        InputMedia      `validate:"required"`
-	Message      string          `validate:"required"`
-	RandomId     int64           `validate:"required"`
+	Silent       bool `tl:"flag:5,encoded_in_bitflags"`
+	Background   bool `tl:"flag:6,encoded_in_bitflags"`
+	ClearDraft   bool `tl:"flag:7,encoded_in_bitflags"`
+	Peer         InputPeer
+	ReplyToMsgId int32 `tl:"flag:0"`
+	Media        InputMedia
+	Message      string
+	RandomId     int64
 	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
 	Entities     []MessageEntity `tl:"flag:3"`
 	ScheduleDate int32           `tl:"flag:10"`
@@ -4089,14 +4084,14 @@ func (c *Client) MessagesSendMedia(params *MessagesSendMediaParams) (Updates, er
 
 type MessagesSendMessageParams struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflags"`
-	Silent       bool            `tl:"flag:5,encoded_in_bitflags"`
-	Background   bool            `tl:"flag:6,encoded_in_bitflags"`
-	ClearDraft   bool            `tl:"flag:7,encoded_in_bitflags"`
-	Peer         InputPeer       `validate:"required"`
-	ReplyToMsgId int32           `tl:"flag:0"`
-	Message      string          `validate:"required"`
-	RandomId     int64           `validate:"required"`
+	NoWebpage    bool `tl:"flag:1,encoded_in_bitflags"`
+	Silent       bool `tl:"flag:5,encoded_in_bitflags"`
+	Background   bool `tl:"flag:6,encoded_in_bitflags"`
+	ClearDraft   bool `tl:"flag:7,encoded_in_bitflags"`
+	Peer         InputPeer
+	ReplyToMsgId int32 `tl:"flag:0"`
+	Message      string
+	RandomId     int64
 	ReplyMarkup  ReplyMarkup     `tl:"flag:2"`
 	Entities     []MessageEntity `tl:"flag:3"`
 	ScheduleDate int32           `tl:"flag:10"`
@@ -4114,13 +4109,13 @@ func (c *Client) MessagesSendMessage(params *MessagesSendMessageParams) (Updates
 
 type MessagesSendMultiMediaParams struct {
 	// flags position
-	Silent       bool                `tl:"flag:5,encoded_in_bitflags"`
-	Background   bool                `tl:"flag:6,encoded_in_bitflags"`
-	ClearDraft   bool                `tl:"flag:7,encoded_in_bitflags"`
-	Peer         InputPeer           `validate:"required"`
-	ReplyToMsgId int32               `tl:"flag:0"`
-	MultiMedia   []*InputSingleMedia `validate:"required"`
-	ScheduleDate int32               `tl:"flag:10"`
+	Silent       bool `tl:"flag:5,encoded_in_bitflags"`
+	Background   bool `tl:"flag:6,encoded_in_bitflags"`
+	ClearDraft   bool `tl:"flag:7,encoded_in_bitflags"`
+	Peer         InputPeer
+	ReplyToMsgId int32 `tl:"flag:0"`
+	MultiMedia   []*InputSingleMedia
+	ScheduleDate int32 `tl:"flag:10"`
 }
 
 func (e *MessagesSendMultiMediaParams) CRC() uint32 {
@@ -4134,8 +4129,8 @@ func (c *Client) MessagesSendMultiMedia(params *MessagesSendMultiMediaParams) (U
 }
 
 type MessagesSendScheduledMessagesParams struct {
-	Peer InputPeer `validate:"required"`
-	Id   []int32   `validate:"required"`
+	Peer InputPeer
+	Id   []int32
 }
 
 func (e *MessagesSendScheduledMessagesParams) CRC() uint32 {
@@ -4149,9 +4144,9 @@ func (c *Client) MessagesSendScheduledMessages(params *MessagesSendScheduledMess
 }
 
 type MessagesSendScreenshotNotificationParams struct {
-	Peer         InputPeer `validate:"required"`
-	ReplyToMsgId int32     `validate:"required"`
-	RandomId     int64     `validate:"required"`
+	Peer         InputPeer
+	ReplyToMsgId int32
+	RandomId     int64
 }
 
 func (e *MessagesSendScreenshotNotificationParams) CRC() uint32 {
@@ -4165,9 +4160,9 @@ func (c *Client) MessagesSendScreenshotNotification(params *MessagesSendScreensh
 }
 
 type MessagesSendVoteParams struct {
-	Peer    InputPeer `validate:"required"`
-	MsgId   int32     `validate:"required"`
-	Options [][]byte  `validate:"required"`
+	Peer    InputPeer
+	MsgId   int32
+	Options [][]byte
 }
 
 func (e *MessagesSendVoteParams) CRC() uint32 {
@@ -4182,27 +4177,27 @@ func (c *Client) MessagesSendVote(params *MessagesSendVoteParams) (Updates, erro
 
 type MessagesSetBotCallbackAnswerParams struct {
 	// flags position
-	Alert     bool   `tl:"flag:1,encoded_in_bitflags"`
-	QueryId   int64  `validate:"required"`
+	Alert     bool `tl:"flag:1,encoded_in_bitflags"`
+	QueryId   int64
 	Message   string `tl:"flag:0"`
 	Url       string `tl:"flag:2"`
-	CacheTime int32  `validate:"required"`
+	CacheTime int32
 }
 
 func (e *MessagesSetBotCallbackAnswerParams) CRC() uint32 {
 	return uint32(0xd58f130a)
 }
 
-func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnswerParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnswerParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetBotPrecheckoutResultsParams struct {
 	// flags position
-	Success bool   `tl:"flag:1,encoded_in_bitflags"`
-	QueryId int64  `validate:"required"`
+	Success bool `tl:"flag:1,encoded_in_bitflags"`
+	QueryId int64
 	Error   string `tl:"flag:0"`
 }
 
@@ -4210,15 +4205,15 @@ func (e *MessagesSetBotPrecheckoutResultsParams) CRC() uint32 {
 	return uint32(0x9c2dd95)
 }
 
-func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheckoutResultsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheckoutResultsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetBotShippingResultsParams struct {
 	// flags position
-	QueryId         int64             `validate:"required"`
+	QueryId         int64
 	Error           string            `tl:"flag:0"`
 	ShippingOptions []*ShippingOption `tl:"flag:1"`
 }
@@ -4227,35 +4222,35 @@ func (e *MessagesSetBotShippingResultsParams) CRC() uint32 {
 	return uint32(0xe5f672fa)
 }
 
-func (c *Client) MessagesSetBotShippingResults(params *MessagesSetBotShippingResultsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetBotShippingResults(params *MessagesSetBotShippingResultsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetEncryptedTypingParams struct {
-	Peer   *InputEncryptedChat `validate:"required"`
-	Typing bool                `validate:"required"`
+	Peer   *InputEncryptedChat
+	Typing bool
 }
 
 func (e *MessagesSetEncryptedTypingParams) CRC() uint32 {
 	return uint32(0x791451ed)
 }
 
-func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetGameScoreParams struct {
 	// flags position
-	EditMessage bool      `tl:"flag:0,encoded_in_bitflags"`
-	Force       bool      `tl:"flag:1,encoded_in_bitflags"`
-	Peer        InputPeer `validate:"required"`
-	Id          int32     `validate:"required"`
-	UserId      InputUser `validate:"required"`
-	Score       int32     `validate:"required"`
+	EditMessage bool `tl:"flag:0,encoded_in_bitflags"`
+	Force       bool `tl:"flag:1,encoded_in_bitflags"`
+	Peer        InputPeer
+	Id          int32
+	UserId      InputUser
+	Score       int32
 }
 
 func (e *MessagesSetGameScoreParams) CRC() uint32 {
@@ -4270,64 +4265,64 @@ func (c *Client) MessagesSetGameScore(params *MessagesSetGameScoreParams) (Updat
 
 type MessagesSetInlineBotResultsParams struct {
 	// flags position
-	Gallery    bool                   `tl:"flag:0,encoded_in_bitflags"`
-	Private    bool                   `tl:"flag:1,encoded_in_bitflags"`
-	QueryId    int64                  `validate:"required"`
-	Results    []InputBotInlineResult `validate:"required"`
-	CacheTime  int32                  `validate:"required"`
-	NextOffset string                 `tl:"flag:2"`
-	SwitchPm   *InlineBotSwitchPM     `tl:"flag:3"`
+	Gallery    bool `tl:"flag:0,encoded_in_bitflags"`
+	Private    bool `tl:"flag:1,encoded_in_bitflags"`
+	QueryId    int64
+	Results    []InputBotInlineResult
+	CacheTime  int32
+	NextOffset string             `tl:"flag:2"`
+	SwitchPm   *InlineBotSwitchPM `tl:"flag:3"`
 }
 
 func (e *MessagesSetInlineBotResultsParams) CRC() uint32 {
 	return uint32(0xeb5ea206)
 }
 
-func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResultsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResultsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetInlineGameScoreParams struct {
 	// flags position
-	EditMessage bool                     `tl:"flag:0,encoded_in_bitflags"`
-	Force       bool                     `tl:"flag:1,encoded_in_bitflags"`
-	Id          *InputBotInlineMessageID `validate:"required"`
-	UserId      InputUser                `validate:"required"`
-	Score       int32                    `validate:"required"`
+	EditMessage bool `tl:"flag:0,encoded_in_bitflags"`
+	Force       bool `tl:"flag:1,encoded_in_bitflags"`
+	Id          *InputBotInlineMessageID
+	UserId      InputUser
+	Score       int32
 }
 
 func (e *MessagesSetInlineGameScoreParams) CRC() uint32 {
 	return uint32(0x15ad9f64)
 }
 
-func (c *Client) MessagesSetInlineGameScore(params *MessagesSetInlineGameScoreParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetInlineGameScore(params *MessagesSetInlineGameScoreParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesSetTypingParams struct {
-	Peer   InputPeer         `validate:"required"`
-	Action SendMessageAction `validate:"required"`
+	Peer   InputPeer
+	Action SendMessageAction
 }
 
 func (e *MessagesSetTypingParams) CRC() uint32 {
 	return uint32(0xa3825e50)
 }
 
-func (c *Client) MessagesSetTyping(params *MessagesSetTypingParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesSetTyping(params *MessagesSetTypingParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesStartBotParams struct {
-	Bot        InputUser `validate:"required"`
-	Peer       InputPeer `validate:"required"`
-	RandomId   int64     `validate:"required"`
-	StartParam string    `validate:"required"`
+	Bot        InputUser
+	Peer       InputPeer
+	RandomId   int64
+	StartParam string
 }
 
 func (e *MessagesStartBotParams) CRC() uint32 {
@@ -4342,55 +4337,55 @@ func (c *Client) MessagesStartBot(params *MessagesStartBotParams) (Updates, erro
 
 type MessagesToggleDialogPinParams struct {
 	// flags position
-	Pinned bool            `tl:"flag:0,encoded_in_bitflags"`
-	Peer   InputDialogPeer `validate:"required"`
+	Pinned bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer   InputDialogPeer
 }
 
 func (e *MessagesToggleDialogPinParams) CRC() uint32 {
 	return uint32(0xa731e257)
 }
 
-func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesToggleStickerSetsParams struct {
 	// flags position
-	Uninstall   bool              `tl:"flag:0,encoded_in_bitflags"`
-	Archive     bool              `tl:"flag:1,encoded_in_bitflags"`
-	Unarchive   bool              `tl:"flag:2,encoded_in_bitflags"`
-	Stickersets []InputStickerSet `validate:"required"`
+	Uninstall   bool `tl:"flag:0,encoded_in_bitflags"`
+	Archive     bool `tl:"flag:1,encoded_in_bitflags"`
+	Unarchive   bool `tl:"flag:2,encoded_in_bitflags"`
+	Stickersets []InputStickerSet
 }
 
 func (e *MessagesToggleStickerSetsParams) CRC() uint32 {
 	return uint32(0xb5052fea)
 }
 
-func (c *Client) MessagesToggleStickerSets(params *MessagesToggleStickerSetsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesToggleStickerSets(params *MessagesToggleStickerSetsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesUninstallStickerSetParams struct {
-	Stickerset InputStickerSet `validate:"required"`
+	Stickerset InputStickerSet
 }
 
 func (e *MessagesUninstallStickerSetParams) CRC() uint32 {
 	return uint32(0xf96e55de)
 }
 
-func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSetParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSetParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesUpdateDialogFilterParams struct {
 	// flags position
-	Id     int32         `validate:"required"`
+	Id     int32
 	Filter *DialogFilter `tl:"flag:0"`
 }
 
@@ -4398,31 +4393,31 @@ func (e *MessagesUpdateDialogFilterParams) CRC() uint32 {
 	return uint32(0x1ad4a04a)
 }
 
-func (c *Client) MessagesUpdateDialogFilter(params *MessagesUpdateDialogFilterParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesUpdateDialogFilter(params *MessagesUpdateDialogFilterParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesUpdateDialogFiltersOrderParams struct {
-	Order []int32 `validate:"required"`
+	Order []int32
 }
 
 func (e *MessagesUpdateDialogFiltersOrderParams) CRC() uint32 {
 	return uint32(0xc563c1e4)
 }
 
-func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFiltersOrderParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFiltersOrderParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type MessagesUpdatePinnedMessageParams struct {
 	// flags position
-	Silent bool      `tl:"flag:0,encoded_in_bitflags"`
-	Peer   InputPeer `validate:"required"`
-	Id     int32     `validate:"required"`
+	Silent bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer   InputPeer
+	Id     int32
 }
 
 func (e *MessagesUpdatePinnedMessageParams) CRC() uint32 {
@@ -4436,8 +4431,8 @@ func (c *Client) MessagesUpdatePinnedMessage(params *MessagesUpdatePinnedMessage
 }
 
 type MessagesUploadEncryptedFileParams struct {
-	Peer *InputEncryptedChat `validate:"required"`
-	File InputEncryptedFile  `validate:"required"`
+	Peer *InputEncryptedChat
+	File InputEncryptedFile
 }
 
 func (e *MessagesUploadEncryptedFileParams) CRC() uint32 {
@@ -4451,8 +4446,8 @@ func (c *Client) MessagesUploadEncryptedFile(params *MessagesUploadEncryptedFile
 }
 
 type MessagesUploadMediaParams struct {
-	Peer  InputPeer  `validate:"required"`
-	Media InputMedia `validate:"required"`
+	Peer  InputPeer
+	Media InputMedia
 }
 
 func (e *MessagesUploadMediaParams) CRC() uint32 {
@@ -4475,14 +4470,14 @@ func (e *PaymentsClearSavedInfoParams) CRC() uint32 {
 	return uint32(0xd83d70c1)
 }
 
-func (c *Client) PaymentsClearSavedInfo(params *PaymentsClearSavedInfoParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) PaymentsClearSavedInfo(params *PaymentsClearSavedInfoParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type PaymentsGetBankCardDataParams struct {
-	Number string `validate:"required"`
+	Number string
 }
 
 func (e *PaymentsGetBankCardDataParams) CRC() uint32 {
@@ -4496,7 +4491,7 @@ func (c *Client) PaymentsGetBankCardData(params *PaymentsGetBankCardDataParams) 
 }
 
 type PaymentsGetPaymentFormParams struct {
-	MsgId int32 `validate:"required"`
+	MsgId int32
 }
 
 func (e *PaymentsGetPaymentFormParams) CRC() uint32 {
@@ -4510,7 +4505,7 @@ func (c *Client) PaymentsGetPaymentForm(params *PaymentsGetPaymentFormParams) (P
 }
 
 type PaymentsGetPaymentReceiptParams struct {
-	MsgId int32 `validate:"required"`
+	MsgId int32
 }
 
 func (e *PaymentsGetPaymentReceiptParams) CRC() uint32 {
@@ -4537,10 +4532,10 @@ func (c *Client) PaymentsGetSavedInfo() (PaymentsSavedInfo, error) {
 
 type PaymentsSendPaymentFormParams struct {
 	// flags position
-	MsgId            int32                   `validate:"required"`
-	RequestedInfoId  string                  `tl:"flag:0"`
-	ShippingOptionId string                  `tl:"flag:1"`
-	Credentials      InputPaymentCredentials `validate:"required"`
+	MsgId            int32
+	RequestedInfoId  string `tl:"flag:0"`
+	ShippingOptionId string `tl:"flag:1"`
+	Credentials      InputPaymentCredentials
 }
 
 func (e *PaymentsSendPaymentFormParams) CRC() uint32 {
@@ -4555,9 +4550,9 @@ func (c *Client) PaymentsSendPaymentForm(params *PaymentsSendPaymentFormParams) 
 
 type PaymentsValidateRequestedInfoParams struct {
 	// flags position
-	Save  bool                  `tl:"flag:0,encoded_in_bitflags"`
-	MsgId int32                 `validate:"required"`
-	Info  *PaymentRequestedInfo `validate:"required"`
+	Save  bool `tl:"flag:0,encoded_in_bitflags"`
+	MsgId int32
+	Info  *PaymentRequestedInfo
 }
 
 func (e *PaymentsValidateRequestedInfoParams) CRC() uint32 {
@@ -4571,9 +4566,9 @@ func (c *Client) PaymentsValidateRequestedInfo(params *PaymentsValidateRequested
 }
 
 type PhoneAcceptCallParams struct {
-	Peer     *InputPhoneCall    `validate:"required"`
-	GB       []byte             `validate:"required"`
-	Protocol *PhoneCallProtocol `validate:"required"`
+	Peer     *InputPhoneCall
+	GB       []byte
+	Protocol *PhoneCallProtocol
 }
 
 func (e *PhoneAcceptCallParams) CRC() uint32 {
@@ -4587,10 +4582,10 @@ func (c *Client) PhoneAcceptCall(params *PhoneAcceptCallParams) (PhonePhoneCall,
 }
 
 type PhoneConfirmCallParams struct {
-	Peer           *InputPhoneCall    `validate:"required"`
-	GA             []byte             `validate:"required"`
-	KeyFingerprint int64              `validate:"required"`
-	Protocol       *PhoneCallProtocol `validate:"required"`
+	Peer           *InputPhoneCall
+	GA             []byte
+	KeyFingerprint int64
+	Protocol       *PhoneCallProtocol
 }
 
 func (e *PhoneConfirmCallParams) CRC() uint32 {
@@ -4605,11 +4600,11 @@ func (c *Client) PhoneConfirmCall(params *PhoneConfirmCallParams) (PhonePhoneCal
 
 type PhoneDiscardCallParams struct {
 	// flags position
-	Video        bool                   `tl:"flag:0,encoded_in_bitflags"`
-	Peer         *InputPhoneCall        `validate:"required"`
-	Duration     int32                  `validate:"required"`
-	Reason       PhoneCallDiscardReason `validate:"required"`
-	ConnectionId int64                  `validate:"required"`
+	Video        bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer         *InputPhoneCall
+	Duration     int32
+	Reason       PhoneCallDiscardReason
+	ConnectionId int64
 }
 
 func (e *PhoneDiscardCallParams) CRC() uint32 {
@@ -4635,26 +4630,26 @@ func (c *Client) PhoneGetCallConfig() (DataJSON, error) {
 }
 
 type PhoneReceivedCallParams struct {
-	Peer *InputPhoneCall `validate:"required"`
+	Peer *InputPhoneCall
 }
 
 func (e *PhoneReceivedCallParams) CRC() uint32 {
 	return uint32(0x17d54f61)
 }
 
-func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type PhoneRequestCallParams struct {
 	// flags position
-	Video    bool               `tl:"flag:0,encoded_in_bitflags"`
-	UserId   InputUser          `validate:"required"`
-	RandomId int32              `validate:"required"`
-	GAHash   []byte             `validate:"required"`
-	Protocol *PhoneCallProtocol `validate:"required"`
+	Video    bool `tl:"flag:0,encoded_in_bitflags"`
+	UserId   InputUser
+	RandomId int32
+	GAHash   []byte
+	Protocol *PhoneCallProtocol
 }
 
 func (e *PhoneRequestCallParams) CRC() uint32 {
@@ -4668,41 +4663,41 @@ func (c *Client) PhoneRequestCall(params *PhoneRequestCallParams) (PhonePhoneCal
 }
 
 type PhoneSaveCallDebugParams struct {
-	Peer  *InputPhoneCall `validate:"required"`
-	Debug *DataJSON       `validate:"required"`
+	Peer  *InputPhoneCall
+	Debug *DataJSON
 }
 
 func (e *PhoneSaveCallDebugParams) CRC() uint32 {
 	return uint32(0x277add7e)
 }
 
-func (c *Client) PhoneSaveCallDebug(params *PhoneSaveCallDebugParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) PhoneSaveCallDebug(params *PhoneSaveCallDebugParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type PhoneSendSignalingDataParams struct {
-	Peer *InputPhoneCall `validate:"required"`
-	Data []byte          `validate:"required"`
+	Peer *InputPhoneCall
+	Data []byte
 }
 
 func (e *PhoneSendSignalingDataParams) CRC() uint32 {
 	return uint32(0xff7a9383)
 }
 
-func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type PhoneSetCallRatingParams struct {
 	// flags position
-	UserInitiative bool            `tl:"flag:0,encoded_in_bitflags"`
-	Peer           *InputPhoneCall `validate:"required"`
-	Rating         int32           `validate:"required"`
-	Comment        string          `validate:"required"`
+	UserInitiative bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer           *InputPhoneCall
+	Rating         int32
+	Comment        string
 }
 
 func (e *PhoneSetCallRatingParams) CRC() uint32 {
@@ -4716,24 +4711,24 @@ func (c *Client) PhoneSetCallRating(params *PhoneSetCallRatingParams) (Updates, 
 }
 
 type PhotosDeletePhotosParams struct {
-	Id []InputPhoto `validate:"required"`
+	Id []InputPhoto
 }
 
 func (e *PhotosDeletePhotosParams) CRC() uint32 {
 	return uint32(0x87cf7f2f)
 }
 
-func (c *Client) PhotosDeletePhotos(params *PhotosDeletePhotosParams) (serialize.Long, error) {
-	var resp serialize.Long
+func (c *Client) PhotosDeletePhotos(params *PhotosDeletePhotosParams) ([]int64, error) {
+	var resp []int64
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type PhotosGetUserPhotosParams struct {
-	UserId InputUser `validate:"required"`
-	Offset int32     `validate:"required"`
-	MaxId  int64     `validate:"required"`
-	Limit  int32     `validate:"required"`
+	UserId InputUser
+	Offset int32
+	MaxId  int64
+	Limit  int32
 }
 
 func (e *PhotosGetUserPhotosParams) CRC() uint32 {
@@ -4747,7 +4742,7 @@ func (c *Client) PhotosGetUserPhotos(params *PhotosGetUserPhotosParams) (PhotosP
 }
 
 type PhotosUpdateProfilePhotoParams struct {
-	Id InputPhoto `validate:"required"`
+	Id InputPhoto
 }
 
 func (e *PhotosUpdateProfilePhotoParams) CRC() uint32 {
@@ -4779,8 +4774,8 @@ func (c *Client) PhotosUploadProfilePhoto(params *PhotosUploadProfilePhotoParams
 
 type StatsGetBroadcastStatsParams struct {
 	// flags position
-	Dark    bool         `tl:"flag:0,encoded_in_bitflags"`
-	Channel InputChannel `validate:"required"`
+	Dark    bool `tl:"flag:0,encoded_in_bitflags"`
+	Channel InputChannel
 }
 
 func (e *StatsGetBroadcastStatsParams) CRC() uint32 {
@@ -4795,8 +4790,8 @@ func (c *Client) StatsGetBroadcastStats(params *StatsGetBroadcastStatsParams) (S
 
 type StatsGetMegagroupStatsParams struct {
 	// flags position
-	Dark    bool         `tl:"flag:0,encoded_in_bitflags"`
-	Channel InputChannel `validate:"required"`
+	Dark    bool `tl:"flag:0,encoded_in_bitflags"`
+	Channel InputChannel
 }
 
 func (e *StatsGetMegagroupStatsParams) CRC() uint32 {
@@ -4811,8 +4806,8 @@ func (c *Client) StatsGetMegagroupStats(params *StatsGetMegagroupStatsParams) (S
 
 type StatsLoadAsyncGraphParams struct {
 	// flags position
-	Token string `validate:"required"`
-	X     int64  `tl:"flag:0"`
+	Token string
+	X     int64 `tl:"flag:0"`
 }
 
 func (e *StatsLoadAsyncGraphParams) CRC() uint32 {
@@ -4826,8 +4821,8 @@ func (c *Client) StatsLoadAsyncGraph(params *StatsLoadAsyncGraphParams) (StatsGr
 }
 
 type StickersAddStickerToSetParams struct {
-	Stickerset InputStickerSet      `validate:"required"`
-	Sticker    *InputStickerSetItem `validate:"required"`
+	Stickerset InputStickerSet
+	Sticker    *InputStickerSetItem
 }
 
 func (e *StickersAddStickerToSetParams) CRC() uint32 {
@@ -4841,8 +4836,8 @@ func (c *Client) StickersAddStickerToSet(params *StickersAddStickerToSetParams) 
 }
 
 type StickersChangeStickerPositionParams struct {
-	Sticker  InputDocument `validate:"required"`
-	Position int32         `validate:"required"`
+	Sticker  InputDocument
+	Position int32
 }
 
 func (e *StickersChangeStickerPositionParams) CRC() uint32 {
@@ -4857,13 +4852,13 @@ func (c *Client) StickersChangeStickerPosition(params *StickersChangeStickerPosi
 
 type StickersCreateStickerSetParams struct {
 	// flags position
-	Masks     bool                   `tl:"flag:0,encoded_in_bitflags"`
-	Animated  bool                   `tl:"flag:1,encoded_in_bitflags"`
-	UserId    InputUser              `validate:"required"`
-	Title     string                 `validate:"required"`
-	ShortName string                 `validate:"required"`
-	Thumb     InputDocument          `tl:"flag:2"`
-	Stickers  []*InputStickerSetItem `validate:"required"`
+	Masks     bool `tl:"flag:0,encoded_in_bitflags"`
+	Animated  bool `tl:"flag:1,encoded_in_bitflags"`
+	UserId    InputUser
+	Title     string
+	ShortName string
+	Thumb     InputDocument `tl:"flag:2"`
+	Stickers  []*InputStickerSetItem
 }
 
 func (e *StickersCreateStickerSetParams) CRC() uint32 {
@@ -4877,7 +4872,7 @@ func (c *Client) StickersCreateStickerSet(params *StickersCreateStickerSetParams
 }
 
 type StickersRemoveStickerFromSetParams struct {
-	Sticker InputDocument `validate:"required"`
+	Sticker InputDocument
 }
 
 func (e *StickersRemoveStickerFromSetParams) CRC() uint32 {
@@ -4891,8 +4886,8 @@ func (c *Client) StickersRemoveStickerFromSet(params *StickersRemoveStickerFromS
 }
 
 type StickersSetStickerSetThumbParams struct {
-	Stickerset InputStickerSet `validate:"required"`
-	Thumb      InputDocument   `validate:"required"`
+	Stickerset InputStickerSet
+	Thumb      InputDocument
 }
 
 func (e *StickersSetStickerSetThumbParams) CRC() uint32 {
@@ -4907,11 +4902,11 @@ func (c *Client) StickersSetStickerSetThumb(params *StickersSetStickerSetThumbPa
 
 type UpdatesGetChannelDifferenceParams struct {
 	// flags position
-	Force   bool                  `tl:"flag:0,encoded_in_bitflags"`
-	Channel InputChannel          `validate:"required"`
-	Filter  ChannelMessagesFilter `validate:"required"`
-	Pts     int32                 `validate:"required"`
-	Limit   int32                 `validate:"required"`
+	Force   bool `tl:"flag:0,encoded_in_bitflags"`
+	Channel InputChannel
+	Filter  ChannelMessagesFilter
+	Pts     int32
+	Limit   int32
 }
 
 func (e *UpdatesGetChannelDifferenceParams) CRC() uint32 {
@@ -4926,10 +4921,10 @@ func (c *Client) UpdatesGetChannelDifference(params *UpdatesGetChannelDifference
 
 type UpdatesGetDifferenceParams struct {
 	// flags position
-	Pts           int32 `validate:"required"`
+	Pts           int32
 	PtsTotalLimit int32 `tl:"flag:0"`
-	Date          int32 `validate:"required"`
-	Qts           int32 `validate:"required"`
+	Date          int32
+	Qts           int32
 }
 
 func (e *UpdatesGetDifferenceParams) CRC() uint32 {
@@ -4955,9 +4950,9 @@ func (c *Client) UpdatesGetState() (UpdatesState, error) {
 }
 
 type UploadGetCdnFileParams struct {
-	FileToken []byte `validate:"required"`
-	Offset    int32  `validate:"required"`
-	Limit     int32  `validate:"required"`
+	FileToken []byte
+	Offset    int32
+	Limit     int32
 }
 
 func (e *UploadGetCdnFileParams) CRC() uint32 {
@@ -4971,27 +4966,27 @@ func (c *Client) UploadGetCdnFile(params *UploadGetCdnFileParams) (UploadCdnFile
 }
 
 type UploadGetCdnFileHashesParams struct {
-	FileToken []byte `validate:"required"`
-	Offset    int32  `validate:"required"`
+	FileToken []byte
+	Offset    int32
 }
 
 func (e *UploadGetCdnFileHashesParams) CRC() uint32 {
 	return uint32(0x4da54231)
 }
 
-func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) (FileHash, error) {
-	var resp FileHash
+func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) ([]FileHash, error) {
+	var resp []FileHash
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UploadGetFileParams struct {
 	// flags position
-	Precise      bool              `tl:"flag:0,encoded_in_bitflags"`
-	CdnSupported bool              `tl:"flag:1,encoded_in_bitflags"`
-	Location     InputFileLocation `validate:"required"`
-	Offset       int32             `validate:"required"`
-	Limit        int32             `validate:"required"`
+	Precise      bool `tl:"flag:0,encoded_in_bitflags"`
+	CdnSupported bool `tl:"flag:1,encoded_in_bitflags"`
+	Location     InputFileLocation
+	Offset       int32
+	Limit        int32
 }
 
 func (e *UploadGetFileParams) CRC() uint32 {
@@ -5005,24 +5000,24 @@ func (c *Client) UploadGetFile(params *UploadGetFileParams) (UploadFile, error) 
 }
 
 type UploadGetFileHashesParams struct {
-	Location InputFileLocation `validate:"required"`
-	Offset   int32             `validate:"required"`
+	Location InputFileLocation
+	Offset   int32
 }
 
 func (e *UploadGetFileHashesParams) CRC() uint32 {
 	return uint32(0xc7025931)
 }
 
-func (c *Client) UploadGetFileHashes(params *UploadGetFileHashesParams) (FileHash, error) {
-	var resp FileHash
+func (c *Client) UploadGetFileHashes(params *UploadGetFileHashesParams) ([]FileHash, error) {
+	var resp []FileHash
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UploadGetWebFileParams struct {
-	Location InputWebFileLocation `validate:"required"`
-	Offset   int32                `validate:"required"`
-	Limit    int32                `validate:"required"`
+	Location InputWebFileLocation
+	Offset   int32
+	Limit    int32
 }
 
 func (e *UploadGetWebFileParams) CRC() uint32 {
@@ -5036,55 +5031,55 @@ func (c *Client) UploadGetWebFile(params *UploadGetWebFileParams) (UploadWebFile
 }
 
 type UploadReuploadCdnFileParams struct {
-	FileToken    []byte `validate:"required"`
-	RequestToken []byte `validate:"required"`
+	FileToken    []byte
+	RequestToken []byte
 }
 
 func (e *UploadReuploadCdnFileParams) CRC() uint32 {
 	return uint32(0x9b2754a8)
 }
 
-func (c *Client) UploadReuploadCdnFile(params *UploadReuploadCdnFileParams) (FileHash, error) {
-	var resp FileHash
+func (c *Client) UploadReuploadCdnFile(params *UploadReuploadCdnFileParams) ([]FileHash, error) {
+	var resp []FileHash
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UploadSaveBigFilePartParams struct {
-	FileId         int64  `validate:"required"`
-	FilePart       int32  `validate:"required"`
-	FileTotalParts int32  `validate:"required"`
-	Bytes          []byte `validate:"required"`
+	FileId         int64
+	FilePart       int32
+	FileTotalParts int32
+	Bytes          []byte
 }
 
 func (e *UploadSaveBigFilePartParams) CRC() uint32 {
 	return uint32(0xde7b673d)
 }
 
-func (c *Client) UploadSaveBigFilePart(params *UploadSaveBigFilePartParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) UploadSaveBigFilePart(params *UploadSaveBigFilePartParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UploadSaveFilePartParams struct {
-	FileId   int64  `validate:"required"`
-	FilePart int32  `validate:"required"`
-	Bytes    []byte `validate:"required"`
+	FileId   int64
+	FilePart int32
+	Bytes    []byte
 }
 
 func (e *UploadSaveFilePartParams) CRC() uint32 {
 	return uint32(0xb304a621)
 }
 
-func (c *Client) UploadSaveFilePart(params *UploadSaveFilePartParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) UploadSaveFilePart(params *UploadSaveFilePartParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UsersGetFullUserParams struct {
-	Id InputUser `validate:"required"`
+	Id InputUser
 }
 
 func (e *UsersGetFullUserParams) CRC() uint32 {
@@ -5098,30 +5093,30 @@ func (c *Client) UsersGetFullUser(params *UsersGetFullUserParams) (UserFull, err
 }
 
 type UsersGetUsersParams struct {
-	Id []InputUser `validate:"required"`
+	Id []InputUser
 }
 
 func (e *UsersGetUsersParams) CRC() uint32 {
 	return uint32(0xd91a548)
 }
 
-func (c *Client) UsersGetUsers(params *UsersGetUsersParams) (User, error) {
-	var resp User
+func (c *Client) UsersGetUsers(params *UsersGetUsersParams) ([]User, error) {
+	var resp []User
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }
 
 type UsersSetSecureValueErrorsParams struct {
-	Id     InputUser          `validate:"required"`
-	Errors []SecureValueError `validate:"required"`
+	Id     InputUser
+	Errors []SecureValueError
 }
 
 func (e *UsersSetSecureValueErrorsParams) CRC() uint32 {
 	return uint32(0x90c894b5)
 }
 
-func (c *Client) UsersSetSecureValueErrors(params *UsersSetSecureValueErrorsParams) (serialize.Bool, error) {
-	var resp serialize.Bool
+func (c *Client) UsersSetSecureValueErrors(params *UsersSetSecureValueErrorsParams) (bool, error) {
+	var resp bool
 	err := c.MakeRequest2(params, &resp)
 	return resp, err
 }

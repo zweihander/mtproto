@@ -245,9 +245,9 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		switch rpcMessage := rpcMessageObject.(type) {
 		case *serialize.GzipPacked:
 			if req.response != nil {
-				req.echan <- tl.Decode(rpcMessage.Payload, req.response)
+				req.echan <- tl.Decode(rpcMessage.PackedData, req.response)
 			} else {
-				unzippedObj, err := tl.DecodeRegistered(rpcMessage.Payload)
+				unzippedObj, err := tl.DecodeRegistered(rpcMessage.PackedData)
 				req.response = unzippedObj
 				req.echan <- err
 			}

@@ -99,29 +99,6 @@ func (*ErrorSessionConfigsChanged) Error() string {
 	return "session configuration was changed"
 }
 
-// --------------------------------------------------------------------------------------
-
-// dummy bool struct for methods generation
-type Bool struct{}
-
-func (*Bool) CRC() uint32 {
-	panic("it's a dummy constructor!")
-}
-
-// dummy bool struct for methods generation
-type Long struct{}
-
-func (*Long) CRC() uint32 {
-	panic("it's a dummy constructor!")
-}
-
-// dummy bool struct for methods generation
-type Int struct{}
-
-func (*Int) CRC() uint32 {
-	panic("it's a dummy constructor!")
-}
-
 // блять! вектор ведь это тоже структура! короче вот эта структура просто в себе хранит
 // слайс либо стандартных типов ([]int32, []float64, []bool и прочее), либо тл объекта
 // ([]TL). алгоритм который использует эту структуру должен гарантировать, что параметр

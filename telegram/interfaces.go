@@ -11,7 +11,7 @@ type BotInlineMessage interface {
 
 type BotInlineMessageMediaAuto struct {
 	// flags position
-	Message     string          `validate:"required"`
+	Message     string
 	Entities    []MessageEntity `tl:"flag:1"`
 	ReplyMarkup ReplyMarkup     `tl:"flag:2"`
 }
@@ -24,8 +24,8 @@ func (*BotInlineMessageMediaAuto) ImplementsBotInlineMessage() {}
 
 type BotInlineMessageText struct {
 	// flags position
-	NoWebpage   bool            `tl:"flag:0,encoded_in_bitflags"`
-	Message     string          `validate:"required"`
+	NoWebpage   bool `tl:"flag:0,encoded_in_bitflags"`
+	Message     string
 	Entities    []MessageEntity `tl:"flag:1"`
 	ReplyMarkup ReplyMarkup     `tl:"flag:2"`
 }
@@ -38,8 +38,8 @@ func (*BotInlineMessageText) ImplementsBotInlineMessage() {}
 
 type BotInlineMessageMediaGeo struct {
 	// flags position
-	Geo         GeoPoint    `validate:"required"`
-	Period      int32       `validate:"required"`
+	Geo         GeoPoint
+	Period      int32
 	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
@@ -51,12 +51,12 @@ func (*BotInlineMessageMediaGeo) ImplementsBotInlineMessage() {}
 
 type BotInlineMessageMediaVenue struct {
 	// flags position
-	Geo         GeoPoint    `validate:"required"`
-	Title       string      `validate:"required"`
-	Address     string      `validate:"required"`
-	Provider    string      `validate:"required"`
-	VenueId     string      `validate:"required"`
-	VenueType   string      `validate:"required"`
+	Geo         GeoPoint
+	Title       string
+	Address     string
+	Provider    string
+	VenueId     string
+	VenueType   string
 	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
@@ -68,10 +68,10 @@ func (*BotInlineMessageMediaVenue) ImplementsBotInlineMessage() {}
 
 type BotInlineMessageMediaContact struct {
 	// flags position
-	PhoneNumber string      `validate:"required"`
-	FirstName   string      `validate:"required"`
-	LastName    string      `validate:"required"`
-	Vcard       string      `validate:"required"`
+	PhoneNumber string
+	FirstName   string
+	LastName    string
+	Vcard       string
 	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
@@ -88,14 +88,14 @@ type BotInlineResult interface {
 
 type BotInlineResultObj struct {
 	// flags position
-	Id          string           `validate:"required"`
-	Type        string           `validate:"required"`
-	Title       string           `tl:"flag:1"`
-	Description string           `tl:"flag:2"`
-	Url         string           `tl:"flag:3"`
-	Thumb       WebDocument      `tl:"flag:4"`
-	Content     WebDocument      `tl:"flag:5"`
-	SendMessage BotInlineMessage `validate:"required"`
+	Id          string
+	Type        string
+	Title       string      `tl:"flag:1"`
+	Description string      `tl:"flag:2"`
+	Url         string      `tl:"flag:3"`
+	Thumb       WebDocument `tl:"flag:4"`
+	Content     WebDocument `tl:"flag:5"`
+	SendMessage BotInlineMessage
 }
 
 func (*BotInlineResultObj) CRC() uint32 {
@@ -106,13 +106,13 @@ func (*BotInlineResultObj) ImplementsBotInlineResult() {}
 
 type BotInlineMediaResult struct {
 	// flags position
-	Id          string           `validate:"required"`
-	Type        string           `validate:"required"`
-	Photo       Photo            `tl:"flag:0"`
-	Document    Document         `tl:"flag:1"`
-	Title       string           `tl:"flag:2"`
-	Description string           `tl:"flag:3"`
-	SendMessage BotInlineMessage `validate:"required"`
+	Id          string
+	Type        string
+	Photo       Photo    `tl:"flag:0"`
+	Document    Document `tl:"flag:1"`
+	Title       string   `tl:"flag:2"`
+	Description string   `tl:"flag:3"`
+	SendMessage BotInlineMessage
 }
 
 func (*BotInlineMediaResult) CRC() uint32 {
@@ -127,8 +127,8 @@ type ChannelAdminLogEventAction interface {
 }
 
 type ChannelAdminLogEventActionChangeTitle struct {
-	PrevValue string `validate:"required"`
-	NewValue  string `validate:"required"`
+	PrevValue string
+	NewValue  string
 }
 
 func (*ChannelAdminLogEventActionChangeTitle) CRC() uint32 {
@@ -138,8 +138,8 @@ func (*ChannelAdminLogEventActionChangeTitle) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeTitle) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangeAbout struct {
-	PrevValue string `validate:"required"`
-	NewValue  string `validate:"required"`
+	PrevValue string
+	NewValue  string
 }
 
 func (*ChannelAdminLogEventActionChangeAbout) CRC() uint32 {
@@ -149,8 +149,8 @@ func (*ChannelAdminLogEventActionChangeAbout) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeAbout) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangeUsername struct {
-	PrevValue string `validate:"required"`
-	NewValue  string `validate:"required"`
+	PrevValue string
+	NewValue  string
 }
 
 func (*ChannelAdminLogEventActionChangeUsername) CRC() uint32 {
@@ -160,8 +160,8 @@ func (*ChannelAdminLogEventActionChangeUsername) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeUsername) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangePhoto struct {
-	PrevPhoto Photo `validate:"required"`
-	NewPhoto  Photo `validate:"required"`
+	PrevPhoto Photo
+	NewPhoto  Photo
 }
 
 func (*ChannelAdminLogEventActionChangePhoto) CRC() uint32 {
@@ -171,7 +171,7 @@ func (*ChannelAdminLogEventActionChangePhoto) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangePhoto) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionToggleInvites struct {
-	NewValue bool `validate:"required"`
+	NewValue bool
 }
 
 func (*ChannelAdminLogEventActionToggleInvites) CRC() uint32 {
@@ -181,7 +181,7 @@ func (*ChannelAdminLogEventActionToggleInvites) CRC() uint32 {
 func (*ChannelAdminLogEventActionToggleInvites) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionToggleSignatures struct {
-	NewValue bool `validate:"required"`
+	NewValue bool
 }
 
 func (*ChannelAdminLogEventActionToggleSignatures) CRC() uint32 {
@@ -191,7 +191,7 @@ func (*ChannelAdminLogEventActionToggleSignatures) CRC() uint32 {
 func (*ChannelAdminLogEventActionToggleSignatures) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionUpdatePinned struct {
-	Message Message `validate:"required"`
+	Message Message
 }
 
 func (*ChannelAdminLogEventActionUpdatePinned) CRC() uint32 {
@@ -201,8 +201,8 @@ func (*ChannelAdminLogEventActionUpdatePinned) CRC() uint32 {
 func (*ChannelAdminLogEventActionUpdatePinned) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionEditMessage struct {
-	PrevMessage Message `validate:"required"`
-	NewMessage  Message `validate:"required"`
+	PrevMessage Message
+	NewMessage  Message
 }
 
 func (*ChannelAdminLogEventActionEditMessage) CRC() uint32 {
@@ -212,7 +212,7 @@ func (*ChannelAdminLogEventActionEditMessage) CRC() uint32 {
 func (*ChannelAdminLogEventActionEditMessage) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionDeleteMessage struct {
-	Message Message `validate:"required"`
+	Message Message
 }
 
 func (*ChannelAdminLogEventActionDeleteMessage) CRC() uint32 {
@@ -238,7 +238,7 @@ func (*ChannelAdminLogEventActionParticipantLeave) CRC() uint32 {
 func (*ChannelAdminLogEventActionParticipantLeave) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionParticipantInvite struct {
-	Participant ChannelParticipant `validate:"required"`
+	Participant ChannelParticipant
 }
 
 func (*ChannelAdminLogEventActionParticipantInvite) CRC() uint32 {
@@ -248,8 +248,8 @@ func (*ChannelAdminLogEventActionParticipantInvite) CRC() uint32 {
 func (*ChannelAdminLogEventActionParticipantInvite) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionParticipantToggleBan struct {
-	PrevParticipant ChannelParticipant `validate:"required"`
-	NewParticipant  ChannelParticipant `validate:"required"`
+	PrevParticipant ChannelParticipant
+	NewParticipant  ChannelParticipant
 }
 
 func (*ChannelAdminLogEventActionParticipantToggleBan) CRC() uint32 {
@@ -259,8 +259,8 @@ func (*ChannelAdminLogEventActionParticipantToggleBan) CRC() uint32 {
 func (*ChannelAdminLogEventActionParticipantToggleBan) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionParticipantToggleAdmin struct {
-	PrevParticipant ChannelParticipant `validate:"required"`
-	NewParticipant  ChannelParticipant `validate:"required"`
+	PrevParticipant ChannelParticipant
+	NewParticipant  ChannelParticipant
 }
 
 func (*ChannelAdminLogEventActionParticipantToggleAdmin) CRC() uint32 {
@@ -270,8 +270,8 @@ func (*ChannelAdminLogEventActionParticipantToggleAdmin) CRC() uint32 {
 func (*ChannelAdminLogEventActionParticipantToggleAdmin) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangeStickerSet struct {
-	PrevStickerset InputStickerSet `validate:"required"`
-	NewStickerset  InputStickerSet `validate:"required"`
+	PrevStickerset InputStickerSet
+	NewStickerset  InputStickerSet
 }
 
 func (*ChannelAdminLogEventActionChangeStickerSet) CRC() uint32 {
@@ -281,7 +281,7 @@ func (*ChannelAdminLogEventActionChangeStickerSet) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeStickerSet) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionTogglePreHistoryHidden struct {
-	NewValue bool `validate:"required"`
+	NewValue bool
 }
 
 func (*ChannelAdminLogEventActionTogglePreHistoryHidden) CRC() uint32 {
@@ -291,8 +291,8 @@ func (*ChannelAdminLogEventActionTogglePreHistoryHidden) CRC() uint32 {
 func (*ChannelAdminLogEventActionTogglePreHistoryHidden) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionDefaultBannedRights struct {
-	PrevBannedRights *ChatBannedRights `validate:"required"`
-	NewBannedRights  *ChatBannedRights `validate:"required"`
+	PrevBannedRights *ChatBannedRights
+	NewBannedRights  *ChatBannedRights
 }
 
 func (*ChannelAdminLogEventActionDefaultBannedRights) CRC() uint32 {
@@ -302,7 +302,7 @@ func (*ChannelAdminLogEventActionDefaultBannedRights) CRC() uint32 {
 func (*ChannelAdminLogEventActionDefaultBannedRights) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionStopPoll struct {
-	Message Message `validate:"required"`
+	Message Message
 }
 
 func (*ChannelAdminLogEventActionStopPoll) CRC() uint32 {
@@ -312,8 +312,8 @@ func (*ChannelAdminLogEventActionStopPoll) CRC() uint32 {
 func (*ChannelAdminLogEventActionStopPoll) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangeLinkedChat struct {
-	PrevValue int32 `validate:"required"`
-	NewValue  int32 `validate:"required"`
+	PrevValue int32
+	NewValue  int32
 }
 
 func (*ChannelAdminLogEventActionChangeLinkedChat) CRC() uint32 {
@@ -323,8 +323,8 @@ func (*ChannelAdminLogEventActionChangeLinkedChat) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeLinkedChat) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionChangeLocation struct {
-	PrevValue ChannelLocation `validate:"required"`
-	NewValue  ChannelLocation `validate:"required"`
+	PrevValue ChannelLocation
+	NewValue  ChannelLocation
 }
 
 func (*ChannelAdminLogEventActionChangeLocation) CRC() uint32 {
@@ -334,8 +334,8 @@ func (*ChannelAdminLogEventActionChangeLocation) CRC() uint32 {
 func (*ChannelAdminLogEventActionChangeLocation) ImplementsChannelAdminLogEventAction() {}
 
 type ChannelAdminLogEventActionToggleSlowMode struct {
-	PrevValue int32 `validate:"required"`
-	NewValue  int32 `validate:"required"`
+	PrevValue int32
+	NewValue  int32
 }
 
 func (*ChannelAdminLogEventActionToggleSlowMode) CRC() uint32 {
@@ -358,8 +358,8 @@ func (*ChannelLocationEmpty) CRC() uint32 {
 func (*ChannelLocationEmpty) ImplementsChannelLocation() {}
 
 type ChannelLocationObj struct {
-	GeoPoint GeoPoint `validate:"required"`
-	Address  string   `validate:"required"`
+	GeoPoint GeoPoint
+	Address  string
 }
 
 func (*ChannelLocationObj) CRC() uint32 {
@@ -383,8 +383,8 @@ func (*ChannelMessagesFilterEmpty) ImplementsChannelMessagesFilter() {}
 
 type ChannelMessagesFilterObj struct {
 	// flags position
-	ExcludeNewMessages bool            `tl:"flag:1,encoded_in_bitflags"`
-	Ranges             []*MessageRange `validate:"required"`
+	ExcludeNewMessages bool `tl:"flag:1,encoded_in_bitflags"`
+	Ranges             []*MessageRange
 }
 
 func (*ChannelMessagesFilterObj) CRC() uint32 {
@@ -399,8 +399,8 @@ type ChannelParticipant interface {
 }
 
 type ChannelParticipantObj struct {
-	UserId int32 `validate:"required"`
-	Date   int32 `validate:"required"`
+	UserId int32
+	Date   int32
 }
 
 func (*ChannelParticipantObj) CRC() uint32 {
@@ -410,9 +410,9 @@ func (*ChannelParticipantObj) CRC() uint32 {
 func (*ChannelParticipantObj) ImplementsChannelParticipant() {}
 
 type ChannelParticipantSelf struct {
-	UserId    int32 `validate:"required"`
-	InviterId int32 `validate:"required"`
-	Date      int32 `validate:"required"`
+	UserId    int32
+	InviterId int32
+	Date      int32
 }
 
 func (*ChannelParticipantSelf) CRC() uint32 {
@@ -423,7 +423,7 @@ func (*ChannelParticipantSelf) ImplementsChannelParticipant() {}
 
 type ChannelParticipantCreator struct {
 	// flags position
-	UserId int32  `validate:"required"`
+	UserId int32
 	Rank   string `tl:"flag:0"`
 }
 
@@ -435,14 +435,14 @@ func (*ChannelParticipantCreator) ImplementsChannelParticipant() {}
 
 type ChannelParticipantAdmin struct {
 	// flags position
-	CanEdit     bool             `tl:"flag:0,encoded_in_bitflags"`
-	Self        bool             `tl:"flag:1,encoded_in_bitflags"`
-	UserId      int32            `validate:"required"`
-	InviterId   int32            `tl:"flag:1"`
-	PromotedBy  int32            `validate:"required"`
-	Date        int32            `validate:"required"`
-	AdminRights *ChatAdminRights `validate:"required"`
-	Rank        string           `tl:"flag:2"`
+	CanEdit     bool `tl:"flag:0,encoded_in_bitflags"`
+	Self        bool `tl:"flag:1,encoded_in_bitflags"`
+	UserId      int32
+	InviterId   int32 `tl:"flag:1"`
+	PromotedBy  int32
+	Date        int32
+	AdminRights *ChatAdminRights
+	Rank        string `tl:"flag:2"`
 }
 
 func (*ChannelParticipantAdmin) CRC() uint32 {
@@ -453,11 +453,11 @@ func (*ChannelParticipantAdmin) ImplementsChannelParticipant() {}
 
 type ChannelParticipantBanned struct {
 	// flags position
-	Left         bool              `tl:"flag:0,encoded_in_bitflags"`
-	UserId       int32             `validate:"required"`
-	KickedBy     int32             `validate:"required"`
-	Date         int32             `validate:"required"`
-	BannedRights *ChatBannedRights `validate:"required"`
+	Left         bool `tl:"flag:0,encoded_in_bitflags"`
+	UserId       int32
+	KickedBy     int32
+	Date         int32
+	BannedRights *ChatBannedRights
 }
 
 func (*ChannelParticipantBanned) CRC() uint32 {
@@ -488,7 +488,7 @@ func (*ChannelParticipantsAdmins) CRC() uint32 {
 func (*ChannelParticipantsAdmins) ImplementsChannelParticipantsFilter() {}
 
 type ChannelParticipantsKicked struct {
-	Q string `validate:"required"`
+	Q string
 }
 
 func (*ChannelParticipantsKicked) CRC() uint32 {
@@ -506,7 +506,7 @@ func (*ChannelParticipantsBots) CRC() uint32 {
 func (*ChannelParticipantsBots) ImplementsChannelParticipantsFilter() {}
 
 type ChannelParticipantsBanned struct {
-	Q string `validate:"required"`
+	Q string
 }
 
 func (*ChannelParticipantsBanned) CRC() uint32 {
@@ -516,7 +516,7 @@ func (*ChannelParticipantsBanned) CRC() uint32 {
 func (*ChannelParticipantsBanned) ImplementsChannelParticipantsFilter() {}
 
 type ChannelParticipantsSearch struct {
-	Q string `validate:"required"`
+	Q string
 }
 
 func (*ChannelParticipantsSearch) CRC() uint32 {
@@ -526,7 +526,7 @@ func (*ChannelParticipantsSearch) CRC() uint32 {
 func (*ChannelParticipantsSearch) ImplementsChannelParticipantsFilter() {}
 
 type ChannelParticipantsContacts struct {
-	Q string `validate:"required"`
+	Q string
 }
 
 func (*ChannelParticipantsContacts) CRC() uint32 {
@@ -541,7 +541,7 @@ type Chat interface {
 }
 
 type ChatEmpty struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*ChatEmpty) CRC() uint32 {
@@ -552,16 +552,16 @@ func (*ChatEmpty) ImplementsChat() {}
 
 type ChatObj struct {
 	// flags position
-	Creator             bool              `tl:"flag:0,encoded_in_bitflags"`
-	Kicked              bool              `tl:"flag:1,encoded_in_bitflags"`
-	Left                bool              `tl:"flag:2,encoded_in_bitflags"`
-	Deactivated         bool              `tl:"flag:5,encoded_in_bitflags"`
-	Id                  int32             `validate:"required"`
-	Title               string            `validate:"required"`
-	Photo               ChatPhoto         `validate:"required"`
-	ParticipantsCount   int32             `validate:"required"`
-	Date                int32             `validate:"required"`
-	Version             int32             `validate:"required"`
+	Creator             bool `tl:"flag:0,encoded_in_bitflags"`
+	Kicked              bool `tl:"flag:1,encoded_in_bitflags"`
+	Left                bool `tl:"flag:2,encoded_in_bitflags"`
+	Deactivated         bool `tl:"flag:5,encoded_in_bitflags"`
+	Id                  int32
+	Title               string
+	Photo               ChatPhoto
+	ParticipantsCount   int32
+	Date                int32
+	Version             int32
 	MigratedTo          InputChannel      `tl:"flag:6"`
 	AdminRights         *ChatAdminRights  `tl:"flag:14"`
 	DefaultBannedRights *ChatBannedRights `tl:"flag:18"`
@@ -574,8 +574,8 @@ func (*ChatObj) CRC() uint32 {
 func (*ChatObj) ImplementsChat() {}
 
 type ChatForbidden struct {
-	Id    int32  `validate:"required"`
-	Title string `validate:"required"`
+	Id    int32
+	Title string
 }
 
 func (*ChatForbidden) CRC() uint32 {
@@ -586,25 +586,25 @@ func (*ChatForbidden) ImplementsChat() {}
 
 type Channel struct {
 	// flags position
-	Creator             bool                 `tl:"flag:0,encoded_in_bitflags"`
-	Left                bool                 `tl:"flag:2,encoded_in_bitflags"`
-	Broadcast           bool                 `tl:"flag:5,encoded_in_bitflags"`
-	Verified            bool                 `tl:"flag:7,encoded_in_bitflags"`
-	Megagroup           bool                 `tl:"flag:8,encoded_in_bitflags"`
-	Restricted          bool                 `tl:"flag:9,encoded_in_bitflags"`
-	Signatures          bool                 `tl:"flag:11,encoded_in_bitflags"`
-	Min                 bool                 `tl:"flag:12,encoded_in_bitflags"`
-	Scam                bool                 `tl:"flag:19,encoded_in_bitflags"`
-	HasLink             bool                 `tl:"flag:20,encoded_in_bitflags"`
-	HasGeo              bool                 `tl:"flag:21,encoded_in_bitflags"`
-	SlowmodeEnabled     bool                 `tl:"flag:22,encoded_in_bitflags"`
-	Id                  int32                `validate:"required"`
-	AccessHash          int64                `tl:"flag:13"`
-	Title               string               `validate:"required"`
-	Username            string               `tl:"flag:6"`
-	Photo               ChatPhoto            `validate:"required"`
-	Date                int32                `validate:"required"`
-	Version             int32                `validate:"required"`
+	Creator             bool `tl:"flag:0,encoded_in_bitflags"`
+	Left                bool `tl:"flag:2,encoded_in_bitflags"`
+	Broadcast           bool `tl:"flag:5,encoded_in_bitflags"`
+	Verified            bool `tl:"flag:7,encoded_in_bitflags"`
+	Megagroup           bool `tl:"flag:8,encoded_in_bitflags"`
+	Restricted          bool `tl:"flag:9,encoded_in_bitflags"`
+	Signatures          bool `tl:"flag:11,encoded_in_bitflags"`
+	Min                 bool `tl:"flag:12,encoded_in_bitflags"`
+	Scam                bool `tl:"flag:19,encoded_in_bitflags"`
+	HasLink             bool `tl:"flag:20,encoded_in_bitflags"`
+	HasGeo              bool `tl:"flag:21,encoded_in_bitflags"`
+	SlowmodeEnabled     bool `tl:"flag:22,encoded_in_bitflags"`
+	Id                  int32
+	AccessHash          int64 `tl:"flag:13"`
+	Title               string
+	Username            string `tl:"flag:6"`
+	Photo               ChatPhoto
+	Date                int32
+	Version             int32
 	RestrictionReason   []*RestrictionReason `tl:"flag:9"`
 	AdminRights         *ChatAdminRights     `tl:"flag:14"`
 	BannedRights        *ChatBannedRights    `tl:"flag:15"`
@@ -620,12 +620,12 @@ func (*Channel) ImplementsChat() {}
 
 type ChannelForbidden struct {
 	// flags position
-	Broadcast  bool   `tl:"flag:5,encoded_in_bitflags"`
-	Megagroup  bool   `tl:"flag:8,encoded_in_bitflags"`
-	Id         int32  `validate:"required"`
-	AccessHash int64  `validate:"required"`
-	Title      string `validate:"required"`
-	UntilDate  int32  `tl:"flag:16"`
+	Broadcast  bool `tl:"flag:5,encoded_in_bitflags"`
+	Megagroup  bool `tl:"flag:8,encoded_in_bitflags"`
+	Id         int32
+	AccessHash int64
+	Title      string
+	UntilDate  int32 `tl:"flag:16"`
 }
 
 func (*ChannelForbidden) CRC() uint32 {
@@ -641,17 +641,17 @@ type ChatFull interface {
 
 type ChatFullObj struct {
 	// flags position
-	CanSetUsername bool                `tl:"flag:7,encoded_in_bitflags"`
-	HasScheduled   bool                `tl:"flag:8,encoded_in_bitflags"`
-	Id             int32               `validate:"required"`
-	About          string              `validate:"required"`
-	Participants   ChatParticipants    `validate:"required"`
-	ChatPhoto      Photo               `tl:"flag:2"`
-	NotifySettings *PeerNotifySettings `validate:"required"`
-	ExportedInvite ExportedChatInvite  `validate:"required"`
-	BotInfo        []*BotInfo          `tl:"flag:3"`
-	PinnedMsgId    int32               `tl:"flag:6"`
-	FolderId       int32               `tl:"flag:11"`
+	CanSetUsername bool `tl:"flag:7,encoded_in_bitflags"`
+	HasScheduled   bool `tl:"flag:8,encoded_in_bitflags"`
+	Id             int32
+	About          string
+	Participants   ChatParticipants
+	ChatPhoto      Photo `tl:"flag:2"`
+	NotifySettings *PeerNotifySettings
+	ExportedInvite ExportedChatInvite
+	BotInfo        []*BotInfo `tl:"flag:3"`
+	PinnedMsgId    int32      `tl:"flag:6"`
+	FolderId       int32      `tl:"flag:11"`
 }
 
 func (*ChatFullObj) CRC() uint32 {
@@ -662,39 +662,39 @@ func (*ChatFullObj) ImplementsChatFull() {}
 
 type ChannelFull struct {
 	// flags position
-	CanViewParticipants  bool                `tl:"flag:3,encoded_in_bitflags"`
-	CanSetUsername       bool                `tl:"flag:6,encoded_in_bitflags"`
-	CanSetStickers       bool                `tl:"flag:7,encoded_in_bitflags"`
-	HiddenPrehistory     bool                `tl:"flag:10,encoded_in_bitflags"`
-	CanSetLocation       bool                `tl:"flag:16,encoded_in_bitflags"`
-	HasScheduled         bool                `tl:"flag:19,encoded_in_bitflags"`
-	CanViewStats         bool                `tl:"flag:20,encoded_in_bitflags"`
-	Id                   int32               `validate:"required"`
-	About                string              `validate:"required"`
-	ParticipantsCount    int32               `tl:"flag:0"`
-	AdminsCount          int32               `tl:"flag:1"`
-	KickedCount          int32               `tl:"flag:2"`
-	BannedCount          int32               `tl:"flag:2"`
-	OnlineCount          int32               `tl:"flag:13"`
-	ReadInboxMaxId       int32               `validate:"required"`
-	ReadOutboxMaxId      int32               `validate:"required"`
-	UnreadCount          int32               `validate:"required"`
-	ChatPhoto            Photo               `validate:"required"`
-	NotifySettings       *PeerNotifySettings `validate:"required"`
-	ExportedInvite       ExportedChatInvite  `validate:"required"`
-	BotInfo              []*BotInfo          `validate:"required"`
-	MigratedFromChatId   int32               `tl:"flag:4"`
-	MigratedFromMaxId    int32               `tl:"flag:4"`
-	PinnedMsgId          int32               `tl:"flag:5"`
-	Stickerset           *StickerSet         `tl:"flag:8"`
-	AvailableMinId       int32               `tl:"flag:9"`
-	FolderId             int32               `tl:"flag:11"`
-	LinkedChatId         int32               `tl:"flag:14"`
-	Location             ChannelLocation     `tl:"flag:15"`
-	SlowmodeSeconds      int32               `tl:"flag:17"`
-	SlowmodeNextSendDate int32               `tl:"flag:18"`
-	StatsDc              int32               `tl:"flag:12"`
-	Pts                  int32               `validate:"required"`
+	CanViewParticipants  bool `tl:"flag:3,encoded_in_bitflags"`
+	CanSetUsername       bool `tl:"flag:6,encoded_in_bitflags"`
+	CanSetStickers       bool `tl:"flag:7,encoded_in_bitflags"`
+	HiddenPrehistory     bool `tl:"flag:10,encoded_in_bitflags"`
+	CanSetLocation       bool `tl:"flag:16,encoded_in_bitflags"`
+	HasScheduled         bool `tl:"flag:19,encoded_in_bitflags"`
+	CanViewStats         bool `tl:"flag:20,encoded_in_bitflags"`
+	Id                   int32
+	About                string
+	ParticipantsCount    int32 `tl:"flag:0"`
+	AdminsCount          int32 `tl:"flag:1"`
+	KickedCount          int32 `tl:"flag:2"`
+	BannedCount          int32 `tl:"flag:2"`
+	OnlineCount          int32 `tl:"flag:13"`
+	ReadInboxMaxId       int32
+	ReadOutboxMaxId      int32
+	UnreadCount          int32
+	ChatPhoto            Photo
+	NotifySettings       *PeerNotifySettings
+	ExportedInvite       ExportedChatInvite
+	BotInfo              []*BotInfo
+	MigratedFromChatId   int32           `tl:"flag:4"`
+	MigratedFromMaxId    int32           `tl:"flag:4"`
+	PinnedMsgId          int32           `tl:"flag:5"`
+	Stickerset           *StickerSet     `tl:"flag:8"`
+	AvailableMinId       int32           `tl:"flag:9"`
+	FolderId             int32           `tl:"flag:11"`
+	LinkedChatId         int32           `tl:"flag:14"`
+	Location             ChannelLocation `tl:"flag:15"`
+	SlowmodeSeconds      int32           `tl:"flag:17"`
+	SlowmodeNextSendDate int32           `tl:"flag:18"`
+	StatsDc              int32           `tl:"flag:12"`
+	Pts                  int32
 }
 
 func (*ChannelFull) CRC() uint32 {
@@ -709,7 +709,7 @@ type ChatInvite interface {
 }
 
 type ChatInviteAlready struct {
-	Chat Chat `validate:"required"`
+	Chat Chat
 }
 
 func (*ChatInviteAlready) CRC() uint32 {
@@ -720,13 +720,13 @@ func (*ChatInviteAlready) ImplementsChatInvite() {}
 
 type ChatInviteObj struct {
 	// flags position
-	Channel           bool   `tl:"flag:0,encoded_in_bitflags"`
-	Broadcast         bool   `tl:"flag:1,encoded_in_bitflags"`
-	Public            bool   `tl:"flag:2,encoded_in_bitflags"`
-	Megagroup         bool   `tl:"flag:3,encoded_in_bitflags"`
-	Title             string `validate:"required"`
-	Photo             Photo  `validate:"required"`
-	ParticipantsCount int32  `validate:"required"`
+	Channel           bool `tl:"flag:0,encoded_in_bitflags"`
+	Broadcast         bool `tl:"flag:1,encoded_in_bitflags"`
+	Public            bool `tl:"flag:2,encoded_in_bitflags"`
+	Megagroup         bool `tl:"flag:3,encoded_in_bitflags"`
+	Title             string
+	Photo             Photo
+	ParticipantsCount int32
 	Participants      []User `tl:"flag:4"`
 }
 
@@ -737,8 +737,8 @@ func (*ChatInviteObj) CRC() uint32 {
 func (*ChatInviteObj) ImplementsChatInvite() {}
 
 type ChatInvitePeek struct {
-	Chat    Chat  `validate:"required"`
-	Expires int32 `validate:"required"`
+	Chat    Chat
+	Expires int32
 }
 
 func (*ChatInvitePeek) CRC() uint32 {
@@ -753,9 +753,9 @@ type ChatParticipant interface {
 }
 
 type ChatParticipantObj struct {
-	UserId    int32 `validate:"required"`
-	InviterId int32 `validate:"required"`
-	Date      int32 `validate:"required"`
+	UserId    int32
+	InviterId int32
+	Date      int32
 }
 
 func (*ChatParticipantObj) CRC() uint32 {
@@ -765,7 +765,7 @@ func (*ChatParticipantObj) CRC() uint32 {
 func (*ChatParticipantObj) ImplementsChatParticipant() {}
 
 type ChatParticipantCreator struct {
-	UserId int32 `validate:"required"`
+	UserId int32
 }
 
 func (*ChatParticipantCreator) CRC() uint32 {
@@ -775,9 +775,9 @@ func (*ChatParticipantCreator) CRC() uint32 {
 func (*ChatParticipantCreator) ImplementsChatParticipant() {}
 
 type ChatParticipantAdmin struct {
-	UserId    int32 `validate:"required"`
-	InviterId int32 `validate:"required"`
-	Date      int32 `validate:"required"`
+	UserId    int32
+	InviterId int32
+	Date      int32
 }
 
 func (*ChatParticipantAdmin) CRC() uint32 {
@@ -793,7 +793,7 @@ type ChatParticipants interface {
 
 type ChatParticipantsForbidden struct {
 	// flags position
-	ChatId          int32           `validate:"required"`
+	ChatId          int32
 	SelfParticipant ChatParticipant `tl:"flag:0"`
 }
 
@@ -804,9 +804,9 @@ func (*ChatParticipantsForbidden) CRC() uint32 {
 func (*ChatParticipantsForbidden) ImplementsChatParticipants() {}
 
 type ChatParticipantsObj struct {
-	ChatId       int32             `validate:"required"`
-	Participants []ChatParticipant `validate:"required"`
-	Version      int32             `validate:"required"`
+	ChatId       int32
+	Participants []ChatParticipant
+	Version      int32
 }
 
 func (*ChatParticipantsObj) CRC() uint32 {
@@ -830,10 +830,10 @@ func (*ChatPhotoEmpty) ImplementsChatPhoto() {}
 
 type ChatPhotoObj struct {
 	// flags position
-	HasVideo   bool          `tl:"flag:0,encoded_in_bitflags"`
-	PhotoSmall *FileLocation `validate:"required"`
-	PhotoBig   *FileLocation `validate:"required"`
-	DcId       int32         `validate:"required"`
+	HasVideo   bool `tl:"flag:0,encoded_in_bitflags"`
+	PhotoSmall *FileLocation
+	PhotoBig   *FileLocation
+	DcId       int32
 }
 
 func (*ChatPhotoObj) CRC() uint32 {
@@ -849,18 +849,18 @@ type Dialog interface {
 
 type DialogObj struct {
 	// flags position
-	Pinned              bool                `tl:"flag:2,encoded_in_bitflags"`
-	UnreadMark          bool                `tl:"flag:3,encoded_in_bitflags"`
-	Peer                Peer                `validate:"required"`
-	TopMessage          int32               `validate:"required"`
-	ReadInboxMaxId      int32               `validate:"required"`
-	ReadOutboxMaxId     int32               `validate:"required"`
-	UnreadCount         int32               `validate:"required"`
-	UnreadMentionsCount int32               `validate:"required"`
-	NotifySettings      *PeerNotifySettings `validate:"required"`
-	Pts                 int32               `tl:"flag:0"`
-	Draft               DraftMessage        `tl:"flag:1"`
-	FolderId            int32               `tl:"flag:4"`
+	Pinned              bool `tl:"flag:2,encoded_in_bitflags"`
+	UnreadMark          bool `tl:"flag:3,encoded_in_bitflags"`
+	Peer                Peer
+	TopMessage          int32
+	ReadInboxMaxId      int32
+	ReadOutboxMaxId     int32
+	UnreadCount         int32
+	UnreadMentionsCount int32
+	NotifySettings      *PeerNotifySettings
+	Pts                 int32        `tl:"flag:0"`
+	Draft               DraftMessage `tl:"flag:1"`
+	FolderId            int32        `tl:"flag:4"`
 }
 
 func (*DialogObj) CRC() uint32 {
@@ -871,14 +871,14 @@ func (*DialogObj) ImplementsDialog() {}
 
 type DialogFolder struct {
 	// flags position
-	Pinned                     bool    `tl:"flag:2,encoded_in_bitflags"`
-	Folder                     *Folder `validate:"required"`
-	Peer                       Peer    `validate:"required"`
-	TopMessage                 int32   `validate:"required"`
-	UnreadMutedPeersCount      int32   `validate:"required"`
-	UnreadUnmutedPeersCount    int32   `validate:"required"`
-	UnreadMutedMessagesCount   int32   `validate:"required"`
-	UnreadUnmutedMessagesCount int32   `validate:"required"`
+	Pinned                     bool `tl:"flag:2,encoded_in_bitflags"`
+	Folder                     *Folder
+	Peer                       Peer
+	TopMessage                 int32
+	UnreadMutedPeersCount      int32
+	UnreadUnmutedPeersCount    int32
+	UnreadMutedMessagesCount   int32
+	UnreadUnmutedMessagesCount int32
 }
 
 func (*DialogFolder) CRC() uint32 {
@@ -893,7 +893,7 @@ type DialogPeer interface {
 }
 
 type DialogPeerObj struct {
-	Peer Peer `validate:"required"`
+	Peer Peer
 }
 
 func (*DialogPeerObj) CRC() uint32 {
@@ -903,7 +903,7 @@ func (*DialogPeerObj) CRC() uint32 {
 func (*DialogPeerObj) ImplementsDialogPeer() {}
 
 type DialogPeerFolder struct {
-	FolderId int32 `validate:"required"`
+	FolderId int32
 }
 
 func (*DialogPeerFolder) CRC() uint32 {
@@ -918,7 +918,7 @@ type Document interface {
 }
 
 type DocumentEmpty struct {
-	Id int64 `validate:"required"`
+	Id int64
 }
 
 func (*DocumentEmpty) CRC() uint32 {
@@ -929,16 +929,16 @@ func (*DocumentEmpty) ImplementsDocument() {}
 
 type DocumentObj struct {
 	// flags position
-	Id            int64               `validate:"required"`
-	AccessHash    int64               `validate:"required"`
-	FileReference []byte              `validate:"required"`
-	Date          int32               `validate:"required"`
-	MimeType      string              `validate:"required"`
-	Size          int32               `validate:"required"`
-	Thumbs        []PhotoSize         `tl:"flag:0"`
-	VideoThumbs   []*VideoSize        `tl:"flag:1"`
-	DcId          int32               `validate:"required"`
-	Attributes    []DocumentAttribute `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
+	Date          int32
+	MimeType      string
+	Size          int32
+	Thumbs        []PhotoSize  `tl:"flag:0"`
+	VideoThumbs   []*VideoSize `tl:"flag:1"`
+	DcId          int32
+	Attributes    []DocumentAttribute
 }
 
 func (*DocumentObj) CRC() uint32 {
@@ -953,8 +953,8 @@ type DocumentAttribute interface {
 }
 
 type DocumentAttributeImageSize struct {
-	W int32 `validate:"required"`
-	H int32 `validate:"required"`
+	W int32
+	H int32
 }
 
 func (*DocumentAttributeImageSize) CRC() uint32 {
@@ -973,10 +973,10 @@ func (*DocumentAttributeAnimated) ImplementsDocumentAttribute() {}
 
 type DocumentAttributeSticker struct {
 	// flags position
-	Mask       bool            `tl:"flag:1,encoded_in_bitflags"`
-	Alt        string          `validate:"required"`
-	Stickerset InputStickerSet `validate:"required"`
-	MaskCoords *MaskCoords     `tl:"flag:0"`
+	Mask       bool `tl:"flag:1,encoded_in_bitflags"`
+	Alt        string
+	Stickerset InputStickerSet
+	MaskCoords *MaskCoords `tl:"flag:0"`
 }
 
 func (*DocumentAttributeSticker) CRC() uint32 {
@@ -987,11 +987,11 @@ func (*DocumentAttributeSticker) ImplementsDocumentAttribute() {}
 
 type DocumentAttributeVideo struct {
 	// flags position
-	RoundMessage      bool  `tl:"flag:0,encoded_in_bitflags"`
-	SupportsStreaming bool  `tl:"flag:1,encoded_in_bitflags"`
-	Duration          int32 `validate:"required"`
-	W                 int32 `validate:"required"`
-	H                 int32 `validate:"required"`
+	RoundMessage      bool `tl:"flag:0,encoded_in_bitflags"`
+	SupportsStreaming bool `tl:"flag:1,encoded_in_bitflags"`
+	Duration          int32
+	W                 int32
+	H                 int32
 }
 
 func (*DocumentAttributeVideo) CRC() uint32 {
@@ -1002,8 +1002,8 @@ func (*DocumentAttributeVideo) ImplementsDocumentAttribute() {}
 
 type DocumentAttributeAudio struct {
 	// flags position
-	Voice     bool   `tl:"flag:10,encoded_in_bitflags"`
-	Duration  int32  `validate:"required"`
+	Voice     bool `tl:"flag:10,encoded_in_bitflags"`
+	Duration  int32
 	Title     string `tl:"flag:0"`
 	Performer string `tl:"flag:1"`
 	Waveform  []byte `tl:"flag:2"`
@@ -1016,7 +1016,7 @@ func (*DocumentAttributeAudio) CRC() uint32 {
 func (*DocumentAttributeAudio) ImplementsDocumentAttribute() {}
 
 type DocumentAttributeFilename struct {
-	FileName string `validate:"required"`
+	FileName string
 }
 
 func (*DocumentAttributeFilename) CRC() uint32 {
@@ -1051,11 +1051,11 @@ func (*DraftMessageEmpty) ImplementsDraftMessage() {}
 
 type DraftMessageObj struct {
 	// flags position
-	NoWebpage    bool            `tl:"flag:1,encoded_in_bitflags"`
-	ReplyToMsgId int32           `tl:"flag:0"`
-	Message      string          `validate:"required"`
+	NoWebpage    bool  `tl:"flag:1,encoded_in_bitflags"`
+	ReplyToMsgId int32 `tl:"flag:0"`
+	Message      string
 	Entities     []MessageEntity `tl:"flag:3"`
-	Date         int32           `validate:"required"`
+	Date         int32
 }
 
 func (*DraftMessageObj) CRC() uint32 {
@@ -1070,8 +1070,8 @@ type EmojiKeyword interface {
 }
 
 type EmojiKeywordObj struct {
-	Keyword   string   `validate:"required"`
-	Emoticons []string `validate:"required"`
+	Keyword   string
+	Emoticons []string
 }
 
 func (*EmojiKeywordObj) CRC() uint32 {
@@ -1081,8 +1081,8 @@ func (*EmojiKeywordObj) CRC() uint32 {
 func (*EmojiKeywordObj) ImplementsEmojiKeyword() {}
 
 type EmojiKeywordDeleted struct {
-	Keyword   string   `validate:"required"`
-	Emoticons []string `validate:"required"`
+	Keyword   string
+	Emoticons []string
 }
 
 func (*EmojiKeywordDeleted) CRC() uint32 {
@@ -1097,7 +1097,7 @@ type EncryptedChat interface {
 }
 
 type EncryptedChatEmpty struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*EncryptedChatEmpty) CRC() uint32 {
@@ -1107,11 +1107,11 @@ func (*EncryptedChatEmpty) CRC() uint32 {
 func (*EncryptedChatEmpty) ImplementsEncryptedChat() {}
 
 type EncryptedChatWaiting struct {
-	Id            int32 `validate:"required"`
-	AccessHash    int64 `validate:"required"`
-	Date          int32 `validate:"required"`
-	AdminId       int32 `validate:"required"`
-	ParticipantId int32 `validate:"required"`
+	Id            int32
+	AccessHash    int64
+	Date          int32
+	AdminId       int32
+	ParticipantId int32
 }
 
 func (*EncryptedChatWaiting) CRC() uint32 {
@@ -1122,13 +1122,13 @@ func (*EncryptedChatWaiting) ImplementsEncryptedChat() {}
 
 type EncryptedChatRequested struct {
 	// flags position
-	FolderId      int32  `tl:"flag:0"`
-	Id            int32  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	Date          int32  `validate:"required"`
-	AdminId       int32  `validate:"required"`
-	ParticipantId int32  `validate:"required"`
-	GA            []byte `validate:"required"`
+	FolderId      int32 `tl:"flag:0"`
+	Id            int32
+	AccessHash    int64
+	Date          int32
+	AdminId       int32
+	ParticipantId int32
+	GA            []byte
 }
 
 func (*EncryptedChatRequested) CRC() uint32 {
@@ -1138,13 +1138,13 @@ func (*EncryptedChatRequested) CRC() uint32 {
 func (*EncryptedChatRequested) ImplementsEncryptedChat() {}
 
 type EncryptedChatObj struct {
-	Id             int32  `validate:"required"`
-	AccessHash     int64  `validate:"required"`
-	Date           int32  `validate:"required"`
-	AdminId        int32  `validate:"required"`
-	ParticipantId  int32  `validate:"required"`
-	GAOrB          []byte `validate:"required"`
-	KeyFingerprint int64  `validate:"required"`
+	Id             int32
+	AccessHash     int64
+	Date           int32
+	AdminId        int32
+	ParticipantId  int32
+	GAOrB          []byte
+	KeyFingerprint int64
 }
 
 func (*EncryptedChatObj) CRC() uint32 {
@@ -1154,7 +1154,7 @@ func (*EncryptedChatObj) CRC() uint32 {
 func (*EncryptedChatObj) ImplementsEncryptedChat() {}
 
 type EncryptedChatDiscarded struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*EncryptedChatDiscarded) CRC() uint32 {
@@ -1177,11 +1177,11 @@ func (*EncryptedFileEmpty) CRC() uint32 {
 func (*EncryptedFileEmpty) ImplementsEncryptedFile() {}
 
 type EncryptedFileObj struct {
-	Id             int64 `validate:"required"`
-	AccessHash     int64 `validate:"required"`
-	Size           int32 `validate:"required"`
-	DcId           int32 `validate:"required"`
-	KeyFingerprint int32 `validate:"required"`
+	Id             int64
+	AccessHash     int64
+	Size           int32
+	DcId           int32
+	KeyFingerprint int32
 }
 
 func (*EncryptedFileObj) CRC() uint32 {
@@ -1196,11 +1196,11 @@ type EncryptedMessage interface {
 }
 
 type EncryptedMessageObj struct {
-	RandomId int64         `validate:"required"`
-	ChatId   int32         `validate:"required"`
-	Date     int32         `validate:"required"`
-	Bytes    []byte        `validate:"required"`
-	File     EncryptedFile `validate:"required"`
+	RandomId int64
+	ChatId   int32
+	Date     int32
+	Bytes    []byte
+	File     EncryptedFile
 }
 
 func (*EncryptedMessageObj) CRC() uint32 {
@@ -1210,10 +1210,10 @@ func (*EncryptedMessageObj) CRC() uint32 {
 func (*EncryptedMessageObj) ImplementsEncryptedMessage() {}
 
 type EncryptedMessageService struct {
-	RandomId int64  `validate:"required"`
-	ChatId   int32  `validate:"required"`
-	Date     int32  `validate:"required"`
-	Bytes    []byte `validate:"required"`
+	RandomId int64
+	ChatId   int32
+	Date     int32
+	Bytes    []byte
 }
 
 func (*EncryptedMessageService) CRC() uint32 {
@@ -1236,7 +1236,7 @@ func (*ChatInviteEmpty) CRC() uint32 {
 func (*ChatInviteEmpty) ImplementsExportedChatInvite() {}
 
 type ChatInviteExported struct {
-	Link string `validate:"required"`
+	Link string
 }
 
 func (*ChatInviteExported) CRC() uint32 {
@@ -1259,9 +1259,9 @@ func (*GeoPointEmpty) CRC() uint32 {
 func (*GeoPointEmpty) ImplementsGeoPoint() {}
 
 type GeoPointObj struct {
-	Long       float64 `validate:"required"`
-	Lat        float64 `validate:"required"`
-	AccessHash int64   `validate:"required"`
+	Long       float64
+	Lat        float64
+	AccessHash int64
 }
 
 func (*GeoPointObj) CRC() uint32 {
@@ -1277,7 +1277,7 @@ type InputBotInlineMessage interface {
 
 type InputBotInlineMessageMediaAuto struct {
 	// flags position
-	Message     string          `validate:"required"`
+	Message     string
 	Entities    []MessageEntity `tl:"flag:1"`
 	ReplyMarkup ReplyMarkup     `tl:"flag:2"`
 }
@@ -1290,8 +1290,8 @@ func (*InputBotInlineMessageMediaAuto) ImplementsInputBotInlineMessage() {}
 
 type InputBotInlineMessageText struct {
 	// flags position
-	NoWebpage   bool            `tl:"flag:0,encoded_in_bitflags"`
-	Message     string          `validate:"required"`
+	NoWebpage   bool `tl:"flag:0,encoded_in_bitflags"`
+	Message     string
 	Entities    []MessageEntity `tl:"flag:1"`
 	ReplyMarkup ReplyMarkup     `tl:"flag:2"`
 }
@@ -1304,9 +1304,9 @@ func (*InputBotInlineMessageText) ImplementsInputBotInlineMessage() {}
 
 type InputBotInlineMessageMediaGeo struct {
 	// flags position
-	GeoPoint    InputGeoPoint `validate:"required"`
-	Period      int32         `validate:"required"`
-	ReplyMarkup ReplyMarkup   `tl:"flag:2"`
+	GeoPoint    InputGeoPoint
+	Period      int32
+	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
 func (*InputBotInlineMessageMediaGeo) CRC() uint32 {
@@ -1317,13 +1317,13 @@ func (*InputBotInlineMessageMediaGeo) ImplementsInputBotInlineMessage() {}
 
 type InputBotInlineMessageMediaVenue struct {
 	// flags position
-	GeoPoint    InputGeoPoint `validate:"required"`
-	Title       string        `validate:"required"`
-	Address     string        `validate:"required"`
-	Provider    string        `validate:"required"`
-	VenueId     string        `validate:"required"`
-	VenueType   string        `validate:"required"`
-	ReplyMarkup ReplyMarkup   `tl:"flag:2"`
+	GeoPoint    InputGeoPoint
+	Title       string
+	Address     string
+	Provider    string
+	VenueId     string
+	VenueType   string
+	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
 func (*InputBotInlineMessageMediaVenue) CRC() uint32 {
@@ -1334,10 +1334,10 @@ func (*InputBotInlineMessageMediaVenue) ImplementsInputBotInlineMessage() {}
 
 type InputBotInlineMessageMediaContact struct {
 	// flags position
-	PhoneNumber string      `validate:"required"`
-	FirstName   string      `validate:"required"`
-	LastName    string      `validate:"required"`
-	Vcard       string      `validate:"required"`
+	PhoneNumber string
+	FirstName   string
+	LastName    string
+	Vcard       string
 	ReplyMarkup ReplyMarkup `tl:"flag:2"`
 }
 
@@ -1365,14 +1365,14 @@ type InputBotInlineResult interface {
 
 type InputBotInlineResultObj struct {
 	// flags position
-	Id          string                `validate:"required"`
-	Type        string                `validate:"required"`
-	Title       string                `tl:"flag:1"`
-	Description string                `tl:"flag:2"`
-	Url         string                `tl:"flag:3"`
-	Thumb       *InputWebDocument     `tl:"flag:4"`
-	Content     *InputWebDocument     `tl:"flag:5"`
-	SendMessage InputBotInlineMessage `validate:"required"`
+	Id          string
+	Type        string
+	Title       string            `tl:"flag:1"`
+	Description string            `tl:"flag:2"`
+	Url         string            `tl:"flag:3"`
+	Thumb       *InputWebDocument `tl:"flag:4"`
+	Content     *InputWebDocument `tl:"flag:5"`
+	SendMessage InputBotInlineMessage
 }
 
 func (*InputBotInlineResultObj) CRC() uint32 {
@@ -1382,10 +1382,10 @@ func (*InputBotInlineResultObj) CRC() uint32 {
 func (*InputBotInlineResultObj) ImplementsInputBotInlineResult() {}
 
 type InputBotInlineResultPhoto struct {
-	Id          string                `validate:"required"`
-	Type        string                `validate:"required"`
-	Photo       InputPhoto            `validate:"required"`
-	SendMessage InputBotInlineMessage `validate:"required"`
+	Id          string
+	Type        string
+	Photo       InputPhoto
+	SendMessage InputBotInlineMessage
 }
 
 func (*InputBotInlineResultPhoto) CRC() uint32 {
@@ -1396,12 +1396,12 @@ func (*InputBotInlineResultPhoto) ImplementsInputBotInlineResult() {}
 
 type InputBotInlineResultDocument struct {
 	// flags position
-	Id          string                `validate:"required"`
-	Type        string                `validate:"required"`
-	Title       string                `tl:"flag:1"`
-	Description string                `tl:"flag:2"`
-	Document    InputDocument         `validate:"required"`
-	SendMessage InputBotInlineMessage `validate:"required"`
+	Id          string
+	Type        string
+	Title       string `tl:"flag:1"`
+	Description string `tl:"flag:2"`
+	Document    InputDocument
+	SendMessage InputBotInlineMessage
 }
 
 func (*InputBotInlineResultDocument) CRC() uint32 {
@@ -1411,9 +1411,9 @@ func (*InputBotInlineResultDocument) CRC() uint32 {
 func (*InputBotInlineResultDocument) ImplementsInputBotInlineResult() {}
 
 type InputBotInlineResultGame struct {
-	Id          string                `validate:"required"`
-	ShortName   string                `validate:"required"`
-	SendMessage InputBotInlineMessage `validate:"required"`
+	Id          string
+	ShortName   string
+	SendMessage InputBotInlineMessage
 }
 
 func (*InputBotInlineResultGame) CRC() uint32 {
@@ -1436,8 +1436,8 @@ func (*InputChannelEmpty) CRC() uint32 {
 func (*InputChannelEmpty) ImplementsInputChannel() {}
 
 type InputChannelObj struct {
-	ChannelId  int32 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	ChannelId  int32
+	AccessHash int64
 }
 
 func (*InputChannelObj) CRC() uint32 {
@@ -1447,9 +1447,9 @@ func (*InputChannelObj) CRC() uint32 {
 func (*InputChannelObj) ImplementsInputChannel() {}
 
 type InputChannelFromMessage struct {
-	Peer      InputPeer `validate:"required"`
-	MsgId     int32     `validate:"required"`
-	ChannelId int32     `validate:"required"`
+	Peer      InputPeer
+	MsgId     int32
+	ChannelId int32
 }
 
 func (*InputChannelFromMessage) CRC() uint32 {
@@ -1485,7 +1485,7 @@ func (*InputChatUploadedPhoto) CRC() uint32 {
 func (*InputChatUploadedPhoto) ImplementsInputChatPhoto() {}
 
 type InputChatPhotoObj struct {
-	Id InputPhoto `validate:"required"`
+	Id InputPhoto
 }
 
 func (*InputChatPhotoObj) CRC() uint32 {
@@ -1508,9 +1508,9 @@ func (*InputCheckPasswordEmpty) CRC() uint32 {
 func (*InputCheckPasswordEmpty) ImplementsInputCheckPasswordSRP() {}
 
 type InputCheckPasswordSRPObj struct {
-	SrpId int64  `validate:"required"`
-	A     []byte `validate:"required"`
-	M1    []byte `validate:"required"`
+	SrpId int64
+	A     []byte
+	M1    []byte
 }
 
 func (*InputCheckPasswordSRPObj) CRC() uint32 {
@@ -1525,7 +1525,7 @@ type InputDialogPeer interface {
 }
 
 type InputDialogPeerObj struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (*InputDialogPeerObj) CRC() uint32 {
@@ -1535,7 +1535,7 @@ func (*InputDialogPeerObj) CRC() uint32 {
 func (*InputDialogPeerObj) ImplementsInputDialogPeer() {}
 
 type InputDialogPeerFolder struct {
-	FolderId int32 `validate:"required"`
+	FolderId int32
 }
 
 func (*InputDialogPeerFolder) CRC() uint32 {
@@ -1558,9 +1558,9 @@ func (*InputDocumentEmpty) CRC() uint32 {
 func (*InputDocumentEmpty) ImplementsInputDocument() {}
 
 type InputDocumentObj struct {
-	Id            int64  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
 }
 
 func (*InputDocumentObj) CRC() uint32 {
@@ -1583,10 +1583,10 @@ func (*InputEncryptedFileEmpty) CRC() uint32 {
 func (*InputEncryptedFileEmpty) ImplementsInputEncryptedFile() {}
 
 type InputEncryptedFileUploaded struct {
-	Id             int64  `validate:"required"`
-	Parts          int32  `validate:"required"`
-	Md5Checksum    string `validate:"required"`
-	KeyFingerprint int32  `validate:"required"`
+	Id             int64
+	Parts          int32
+	Md5Checksum    string
+	KeyFingerprint int32
 }
 
 func (*InputEncryptedFileUploaded) CRC() uint32 {
@@ -1596,8 +1596,8 @@ func (*InputEncryptedFileUploaded) CRC() uint32 {
 func (*InputEncryptedFileUploaded) ImplementsInputEncryptedFile() {}
 
 type InputEncryptedFileObj struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputEncryptedFileObj) CRC() uint32 {
@@ -1607,9 +1607,9 @@ func (*InputEncryptedFileObj) CRC() uint32 {
 func (*InputEncryptedFileObj) ImplementsInputEncryptedFile() {}
 
 type InputEncryptedFileBigUploaded struct {
-	Id             int64 `validate:"required"`
-	Parts          int32 `validate:"required"`
-	KeyFingerprint int32 `validate:"required"`
+	Id             int64
+	Parts          int32
+	KeyFingerprint int32
 }
 
 func (*InputEncryptedFileBigUploaded) CRC() uint32 {
@@ -1624,10 +1624,10 @@ type InputFile interface {
 }
 
 type InputFileObj struct {
-	Id          int64  `validate:"required"`
-	Parts       int32  `validate:"required"`
-	Name        string `validate:"required"`
-	Md5Checksum string `validate:"required"`
+	Id          int64
+	Parts       int32
+	Name        string
+	Md5Checksum string
 }
 
 func (*InputFileObj) CRC() uint32 {
@@ -1637,9 +1637,9 @@ func (*InputFileObj) CRC() uint32 {
 func (*InputFileObj) ImplementsInputFile() {}
 
 type InputFileBig struct {
-	Id    int64  `validate:"required"`
-	Parts int32  `validate:"required"`
-	Name  string `validate:"required"`
+	Id    int64
+	Parts int32
+	Name  string
 }
 
 func (*InputFileBig) CRC() uint32 {
@@ -1654,10 +1654,10 @@ type InputFileLocation interface {
 }
 
 type InputFileLocationObj struct {
-	VolumeId      int64  `validate:"required"`
-	LocalId       int32  `validate:"required"`
-	Secret        int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
+	VolumeId      int64
+	LocalId       int32
+	Secret        int64
+	FileReference []byte
 }
 
 func (*InputFileLocationObj) CRC() uint32 {
@@ -1667,8 +1667,8 @@ func (*InputFileLocationObj) CRC() uint32 {
 func (*InputFileLocationObj) ImplementsInputFileLocation() {}
 
 type InputEncryptedFileLocation struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputEncryptedFileLocation) CRC() uint32 {
@@ -1678,10 +1678,10 @@ func (*InputEncryptedFileLocation) CRC() uint32 {
 func (*InputEncryptedFileLocation) ImplementsInputFileLocation() {}
 
 type InputDocumentFileLocation struct {
-	Id            int64  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
-	ThumbSize     string `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
+	ThumbSize     string
 }
 
 func (*InputDocumentFileLocation) CRC() uint32 {
@@ -1691,8 +1691,8 @@ func (*InputDocumentFileLocation) CRC() uint32 {
 func (*InputDocumentFileLocation) ImplementsInputFileLocation() {}
 
 type InputSecureFileLocation struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputSecureFileLocation) CRC() uint32 {
@@ -1710,10 +1710,10 @@ func (*InputTakeoutFileLocation) CRC() uint32 {
 func (*InputTakeoutFileLocation) ImplementsInputFileLocation() {}
 
 type InputPhotoFileLocation struct {
-	Id            int64  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
-	ThumbSize     string `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
+	ThumbSize     string
 }
 
 func (*InputPhotoFileLocation) CRC() uint32 {
@@ -1723,12 +1723,12 @@ func (*InputPhotoFileLocation) CRC() uint32 {
 func (*InputPhotoFileLocation) ImplementsInputFileLocation() {}
 
 type InputPhotoLegacyFileLocation struct {
-	Id            int64  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
-	VolumeId      int64  `validate:"required"`
-	LocalId       int32  `validate:"required"`
-	Secret        int64  `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
+	VolumeId      int64
+	LocalId       int32
+	Secret        int64
 }
 
 func (*InputPhotoLegacyFileLocation) CRC() uint32 {
@@ -1739,10 +1739,10 @@ func (*InputPhotoLegacyFileLocation) ImplementsInputFileLocation() {}
 
 type InputPeerPhotoFileLocation struct {
 	// flags position
-	Big      bool      `tl:"flag:0,encoded_in_bitflags"`
-	Peer     InputPeer `validate:"required"`
-	VolumeId int64     `validate:"required"`
-	LocalId  int32     `validate:"required"`
+	Big      bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer     InputPeer
+	VolumeId int64
+	LocalId  int32
 }
 
 func (*InputPeerPhotoFileLocation) CRC() uint32 {
@@ -1752,9 +1752,9 @@ func (*InputPeerPhotoFileLocation) CRC() uint32 {
 func (*InputPeerPhotoFileLocation) ImplementsInputFileLocation() {}
 
 type InputStickerSetThumb struct {
-	Stickerset InputStickerSet `validate:"required"`
-	VolumeId   int64           `validate:"required"`
-	LocalId    int32           `validate:"required"`
+	Stickerset InputStickerSet
+	VolumeId   int64
+	LocalId    int32
 }
 
 func (*InputStickerSetThumb) CRC() uint32 {
@@ -1769,8 +1769,8 @@ type InputGame interface {
 }
 
 type InputGameID struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputGameID) CRC() uint32 {
@@ -1780,8 +1780,8 @@ func (*InputGameID) CRC() uint32 {
 func (*InputGameID) ImplementsInputGame() {}
 
 type InputGameShortName struct {
-	BotId     InputUser `validate:"required"`
-	ShortName string    `validate:"required"`
+	BotId     InputUser
+	ShortName string
 }
 
 func (*InputGameShortName) CRC() uint32 {
@@ -1804,8 +1804,8 @@ func (*InputGeoPointEmpty) CRC() uint32 {
 func (*InputGeoPointEmpty) ImplementsInputGeoPoint() {}
 
 type InputGeoPointObj struct {
-	Lat  float64 `validate:"required"`
-	Long float64 `validate:"required"`
+	Lat  float64
+	Long float64
 }
 
 func (*InputGeoPointObj) CRC() uint32 {
@@ -1829,7 +1829,7 @@ func (*InputMediaEmpty) ImplementsInputMedia() {}
 
 type InputMediaUploadedPhoto struct {
 	// flags position
-	File       InputFile       `validate:"required"`
+	File       InputFile
 	Stickers   []InputDocument `tl:"flag:0"`
 	TtlSeconds int32           `tl:"flag:1"`
 }
@@ -1842,8 +1842,8 @@ func (*InputMediaUploadedPhoto) ImplementsInputMedia() {}
 
 type InputMediaPhoto struct {
 	// flags position
-	Id         InputPhoto `validate:"required"`
-	TtlSeconds int32      `tl:"flag:0"`
+	Id         InputPhoto
+	TtlSeconds int32 `tl:"flag:0"`
 }
 
 func (*InputMediaPhoto) CRC() uint32 {
@@ -1853,7 +1853,7 @@ func (*InputMediaPhoto) CRC() uint32 {
 func (*InputMediaPhoto) ImplementsInputMedia() {}
 
 type InputMediaGeoPoint struct {
-	GeoPoint InputGeoPoint `validate:"required"`
+	GeoPoint InputGeoPoint
 }
 
 func (*InputMediaGeoPoint) CRC() uint32 {
@@ -1863,10 +1863,10 @@ func (*InputMediaGeoPoint) CRC() uint32 {
 func (*InputMediaGeoPoint) ImplementsInputMedia() {}
 
 type InputMediaContact struct {
-	PhoneNumber string `validate:"required"`
-	FirstName   string `validate:"required"`
-	LastName    string `validate:"required"`
-	Vcard       string `validate:"required"`
+	PhoneNumber string
+	FirstName   string
+	LastName    string
+	Vcard       string
 }
 
 func (*InputMediaContact) CRC() uint32 {
@@ -1877,14 +1877,14 @@ func (*InputMediaContact) ImplementsInputMedia() {}
 
 type InputMediaUploadedDocument struct {
 	// flags position
-	NosoundVideo bool                `tl:"flag:3,encoded_in_bitflags"`
-	ForceFile    bool                `tl:"flag:4,encoded_in_bitflags"`
-	File         InputFile           `validate:"required"`
-	Thumb        InputFile           `tl:"flag:2"`
-	MimeType     string              `validate:"required"`
-	Attributes   []DocumentAttribute `validate:"required"`
-	Stickers     []InputDocument     `tl:"flag:0"`
-	TtlSeconds   int32               `tl:"flag:1"`
+	NosoundVideo bool `tl:"flag:3,encoded_in_bitflags"`
+	ForceFile    bool `tl:"flag:4,encoded_in_bitflags"`
+	File         InputFile
+	Thumb        InputFile `tl:"flag:2"`
+	MimeType     string
+	Attributes   []DocumentAttribute
+	Stickers     []InputDocument `tl:"flag:0"`
+	TtlSeconds   int32           `tl:"flag:1"`
 }
 
 func (*InputMediaUploadedDocument) CRC() uint32 {
@@ -1895,8 +1895,8 @@ func (*InputMediaUploadedDocument) ImplementsInputMedia() {}
 
 type InputMediaDocument struct {
 	// flags position
-	Id         InputDocument `validate:"required"`
-	TtlSeconds int32         `tl:"flag:0"`
+	Id         InputDocument
+	TtlSeconds int32 `tl:"flag:0"`
 }
 
 func (*InputMediaDocument) CRC() uint32 {
@@ -1906,12 +1906,12 @@ func (*InputMediaDocument) CRC() uint32 {
 func (*InputMediaDocument) ImplementsInputMedia() {}
 
 type InputMediaVenue struct {
-	GeoPoint  InputGeoPoint `validate:"required"`
-	Title     string        `validate:"required"`
-	Address   string        `validate:"required"`
-	Provider  string        `validate:"required"`
-	VenueId   string        `validate:"required"`
-	VenueType string        `validate:"required"`
+	GeoPoint  InputGeoPoint
+	Title     string
+	Address   string
+	Provider  string
+	VenueId   string
+	VenueType string
 }
 
 func (*InputMediaVenue) CRC() uint32 {
@@ -1922,8 +1922,8 @@ func (*InputMediaVenue) ImplementsInputMedia() {}
 
 type InputMediaPhotoExternal struct {
 	// flags position
-	Url        string `validate:"required"`
-	TtlSeconds int32  `tl:"flag:0"`
+	Url        string
+	TtlSeconds int32 `tl:"flag:0"`
 }
 
 func (*InputMediaPhotoExternal) CRC() uint32 {
@@ -1934,8 +1934,8 @@ func (*InputMediaPhotoExternal) ImplementsInputMedia() {}
 
 type InputMediaDocumentExternal struct {
 	// flags position
-	Url        string `validate:"required"`
-	TtlSeconds int32  `tl:"flag:0"`
+	Url        string
+	TtlSeconds int32 `tl:"flag:0"`
 }
 
 func (*InputMediaDocumentExternal) CRC() uint32 {
@@ -1945,7 +1945,7 @@ func (*InputMediaDocumentExternal) CRC() uint32 {
 func (*InputMediaDocumentExternal) ImplementsInputMedia() {}
 
 type InputMediaGame struct {
-	Id InputGame `validate:"required"`
+	Id InputGame
 }
 
 func (*InputMediaGame) CRC() uint32 {
@@ -1956,14 +1956,14 @@ func (*InputMediaGame) ImplementsInputMedia() {}
 
 type InputMediaInvoice struct {
 	// flags position
-	Title        string            `validate:"required"`
-	Description  string            `validate:"required"`
+	Title        string
+	Description  string
 	Photo        *InputWebDocument `tl:"flag:0"`
-	Invoice      *Invoice          `validate:"required"`
-	Payload      []byte            `validate:"required"`
-	Provider     string            `validate:"required"`
-	ProviderData *DataJSON         `validate:"required"`
-	StartParam   string            `validate:"required"`
+	Invoice      *Invoice
+	Payload      []byte
+	Provider     string
+	ProviderData *DataJSON
+	StartParam   string
 }
 
 func (*InputMediaInvoice) CRC() uint32 {
@@ -1974,9 +1974,9 @@ func (*InputMediaInvoice) ImplementsInputMedia() {}
 
 type InputMediaGeoLive struct {
 	// flags position
-	Stopped  bool          `tl:"flag:0,encoded_in_bitflags"`
-	GeoPoint InputGeoPoint `validate:"required"`
-	Period   int32         `tl:"flag:1"`
+	Stopped  bool `tl:"flag:0,encoded_in_bitflags"`
+	GeoPoint InputGeoPoint
+	Period   int32 `tl:"flag:1"`
 }
 
 func (*InputMediaGeoLive) CRC() uint32 {
@@ -1987,7 +1987,7 @@ func (*InputMediaGeoLive) ImplementsInputMedia() {}
 
 type InputMediaPoll struct {
 	// flags position
-	Poll             *Poll           `validate:"required"`
+	Poll             *Poll
 	CorrectAnswers   [][]byte        `tl:"flag:0"`
 	Solution         string          `tl:"flag:1"`
 	SolutionEntities []MessageEntity `tl:"flag:1"`
@@ -2000,7 +2000,7 @@ func (*InputMediaPoll) CRC() uint32 {
 func (*InputMediaPoll) ImplementsInputMedia() {}
 
 type InputMediaDice struct {
-	Emoticon string `validate:"required"`
+	Emoticon string
 }
 
 func (*InputMediaDice) CRC() uint32 {
@@ -2015,7 +2015,7 @@ type InputMessage interface {
 }
 
 type InputMessageID struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*InputMessageID) CRC() uint32 {
@@ -2025,7 +2025,7 @@ func (*InputMessageID) CRC() uint32 {
 func (*InputMessageID) ImplementsInputMessage() {}
 
 type InputMessageReplyTo struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*InputMessageReplyTo) CRC() uint32 {
@@ -2048,7 +2048,7 @@ type InputNotifyPeer interface {
 }
 
 type InputNotifyPeerObj struct {
-	Peer InputPeer `validate:"required"`
+	Peer InputPeer
 }
 
 func (*InputNotifyPeerObj) CRC() uint32 {
@@ -2087,8 +2087,8 @@ type InputPaymentCredentials interface {
 }
 
 type InputPaymentCredentialsSaved struct {
-	Id          string `validate:"required"`
-	TmpPassword []byte `validate:"required"`
+	Id          string
+	TmpPassword []byte
 }
 
 func (*InputPaymentCredentialsSaved) CRC() uint32 {
@@ -2099,8 +2099,8 @@ func (*InputPaymentCredentialsSaved) ImplementsInputPaymentCredentials() {}
 
 type InputPaymentCredentialsObj struct {
 	// flags position
-	Save bool      `tl:"flag:0,encoded_in_bitflags"`
-	Data *DataJSON `validate:"required"`
+	Save bool `tl:"flag:0,encoded_in_bitflags"`
+	Data *DataJSON
 }
 
 func (*InputPaymentCredentialsObj) CRC() uint32 {
@@ -2110,7 +2110,7 @@ func (*InputPaymentCredentialsObj) CRC() uint32 {
 func (*InputPaymentCredentialsObj) ImplementsInputPaymentCredentials() {}
 
 type InputPaymentCredentialsApplePay struct {
-	PaymentData *DataJSON `validate:"required"`
+	PaymentData *DataJSON
 }
 
 func (*InputPaymentCredentialsApplePay) CRC() uint32 {
@@ -2120,8 +2120,8 @@ func (*InputPaymentCredentialsApplePay) CRC() uint32 {
 func (*InputPaymentCredentialsApplePay) ImplementsInputPaymentCredentials() {}
 
 type InputPaymentCredentialsAndroidPay struct {
-	PaymentToken        *DataJSON `validate:"required"`
-	GoogleTransactionId string    `validate:"required"`
+	PaymentToken        *DataJSON
+	GoogleTransactionId string
 }
 
 func (*InputPaymentCredentialsAndroidPay) CRC() uint32 {
@@ -2152,7 +2152,7 @@ func (*InputPeerSelf) CRC() uint32 {
 func (*InputPeerSelf) ImplementsInputPeer() {}
 
 type InputPeerChat struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (*InputPeerChat) CRC() uint32 {
@@ -2162,8 +2162,8 @@ func (*InputPeerChat) CRC() uint32 {
 func (*InputPeerChat) ImplementsInputPeer() {}
 
 type InputPeerUser struct {
-	UserId     int32 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	UserId     int32
+	AccessHash int64
 }
 
 func (*InputPeerUser) CRC() uint32 {
@@ -2173,8 +2173,8 @@ func (*InputPeerUser) CRC() uint32 {
 func (*InputPeerUser) ImplementsInputPeer() {}
 
 type InputPeerChannel struct {
-	ChannelId  int32 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	ChannelId  int32
+	AccessHash int64
 }
 
 func (*InputPeerChannel) CRC() uint32 {
@@ -2184,9 +2184,9 @@ func (*InputPeerChannel) CRC() uint32 {
 func (*InputPeerChannel) ImplementsInputPeer() {}
 
 type InputPeerUserFromMessage struct {
-	Peer   InputPeer `validate:"required"`
-	MsgId  int32     `validate:"required"`
-	UserId int32     `validate:"required"`
+	Peer   InputPeer
+	MsgId  int32
+	UserId int32
 }
 
 func (*InputPeerUserFromMessage) CRC() uint32 {
@@ -2196,9 +2196,9 @@ func (*InputPeerUserFromMessage) CRC() uint32 {
 func (*InputPeerUserFromMessage) ImplementsInputPeer() {}
 
 type InputPeerChannelFromMessage struct {
-	Peer      InputPeer `validate:"required"`
-	MsgId     int32     `validate:"required"`
-	ChannelId int32     `validate:"required"`
+	Peer      InputPeer
+	MsgId     int32
+	ChannelId int32
 }
 
 func (*InputPeerChannelFromMessage) CRC() uint32 {
@@ -2221,9 +2221,9 @@ func (*InputPhotoEmpty) CRC() uint32 {
 func (*InputPhotoEmpty) ImplementsInputPhoto() {}
 
 type InputPhotoObj struct {
-	Id            int64  `validate:"required"`
-	AccessHash    int64  `validate:"required"`
-	FileReference []byte `validate:"required"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
 }
 
 func (*InputPhotoObj) CRC() uint32 {
@@ -2254,7 +2254,7 @@ func (*InputPrivacyValueAllowAll) CRC() uint32 {
 func (*InputPrivacyValueAllowAll) ImplementsInputPrivacyRule() {}
 
 type InputPrivacyValueAllowUsers struct {
-	Users []InputUser `validate:"required"`
+	Users []InputUser
 }
 
 func (*InputPrivacyValueAllowUsers) CRC() uint32 {
@@ -2280,7 +2280,7 @@ func (*InputPrivacyValueDisallowAll) CRC() uint32 {
 func (*InputPrivacyValueDisallowAll) ImplementsInputPrivacyRule() {}
 
 type InputPrivacyValueDisallowUsers struct {
-	Users []InputUser `validate:"required"`
+	Users []InputUser
 }
 
 func (*InputPrivacyValueDisallowUsers) CRC() uint32 {
@@ -2290,7 +2290,7 @@ func (*InputPrivacyValueDisallowUsers) CRC() uint32 {
 func (*InputPrivacyValueDisallowUsers) ImplementsInputPrivacyRule() {}
 
 type InputPrivacyValueAllowChatParticipants struct {
-	Chats []int32 `validate:"required"`
+	Chats []int32
 }
 
 func (*InputPrivacyValueAllowChatParticipants) CRC() uint32 {
@@ -2300,7 +2300,7 @@ func (*InputPrivacyValueAllowChatParticipants) CRC() uint32 {
 func (*InputPrivacyValueAllowChatParticipants) ImplementsInputPrivacyRule() {}
 
 type InputPrivacyValueDisallowChatParticipants struct {
-	Chats []int32 `validate:"required"`
+	Chats []int32
 }
 
 func (*InputPrivacyValueDisallowChatParticipants) CRC() uint32 {
@@ -2315,11 +2315,11 @@ type InputSecureFile interface {
 }
 
 type InputSecureFileUploaded struct {
-	Id          int64  `validate:"required"`
-	Parts       int32  `validate:"required"`
-	Md5Checksum string `validate:"required"`
-	FileHash    []byte `validate:"required"`
-	Secret      []byte `validate:"required"`
+	Id          int64
+	Parts       int32
+	Md5Checksum string
+	FileHash    []byte
+	Secret      []byte
 }
 
 func (*InputSecureFileUploaded) CRC() uint32 {
@@ -2329,8 +2329,8 @@ func (*InputSecureFileUploaded) CRC() uint32 {
 func (*InputSecureFileUploaded) ImplementsInputSecureFile() {}
 
 type InputSecureFileObj struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputSecureFileObj) CRC() uint32 {
@@ -2353,8 +2353,8 @@ func (*InputStickerSetEmpty) CRC() uint32 {
 func (*InputStickerSetEmpty) ImplementsInputStickerSet() {}
 
 type InputStickerSetID struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputStickerSetID) CRC() uint32 {
@@ -2364,7 +2364,7 @@ func (*InputStickerSetID) CRC() uint32 {
 func (*InputStickerSetID) ImplementsInputStickerSet() {}
 
 type InputStickerSetShortName struct {
-	ShortName string `validate:"required"`
+	ShortName string
 }
 
 func (*InputStickerSetShortName) CRC() uint32 {
@@ -2382,7 +2382,7 @@ func (*InputStickerSetAnimatedEmoji) CRC() uint32 {
 func (*InputStickerSetAnimatedEmoji) ImplementsInputStickerSet() {}
 
 type InputStickerSetDice struct {
-	Emoticon string `validate:"required"`
+	Emoticon string
 }
 
 func (*InputStickerSetDice) CRC() uint32 {
@@ -2397,7 +2397,7 @@ type InputStickeredMedia interface {
 }
 
 type InputStickeredMediaPhoto struct {
-	Id InputPhoto `validate:"required"`
+	Id InputPhoto
 }
 
 func (*InputStickeredMediaPhoto) CRC() uint32 {
@@ -2407,7 +2407,7 @@ func (*InputStickeredMediaPhoto) CRC() uint32 {
 func (*InputStickeredMediaPhoto) ImplementsInputStickeredMedia() {}
 
 type InputStickeredMediaDocument struct {
-	Id InputDocument `validate:"required"`
+	Id InputDocument
 }
 
 func (*InputStickeredMediaDocument) CRC() uint32 {
@@ -2422,8 +2422,8 @@ type InputTheme interface {
 }
 
 type InputThemeObj struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputThemeObj) CRC() uint32 {
@@ -2433,7 +2433,7 @@ func (*InputThemeObj) CRC() uint32 {
 func (*InputThemeObj) ImplementsInputTheme() {}
 
 type InputThemeSlug struct {
-	Slug string `validate:"required"`
+	Slug string
 }
 
 func (*InputThemeSlug) CRC() uint32 {
@@ -2464,8 +2464,8 @@ func (*InputUserSelf) CRC() uint32 {
 func (*InputUserSelf) ImplementsInputUser() {}
 
 type InputUserObj struct {
-	UserId     int32 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	UserId     int32
+	AccessHash int64
 }
 
 func (*InputUserObj) CRC() uint32 {
@@ -2475,9 +2475,9 @@ func (*InputUserObj) CRC() uint32 {
 func (*InputUserObj) ImplementsInputUser() {}
 
 type InputUserFromMessage struct {
-	Peer   InputPeer `validate:"required"`
-	MsgId  int32     `validate:"required"`
-	UserId int32     `validate:"required"`
+	Peer   InputPeer
+	MsgId  int32
+	UserId int32
 }
 
 func (*InputUserFromMessage) CRC() uint32 {
@@ -2492,8 +2492,8 @@ type InputWallPaper interface {
 }
 
 type InputWallPaperObj struct {
-	Id         int64 `validate:"required"`
-	AccessHash int64 `validate:"required"`
+	Id         int64
+	AccessHash int64
 }
 
 func (*InputWallPaperObj) CRC() uint32 {
@@ -2503,7 +2503,7 @@ func (*InputWallPaperObj) CRC() uint32 {
 func (*InputWallPaperObj) ImplementsInputWallPaper() {}
 
 type InputWallPaperSlug struct {
-	Slug string `validate:"required"`
+	Slug string
 }
 
 func (*InputWallPaperSlug) CRC() uint32 {
@@ -2526,8 +2526,8 @@ type InputWebFileLocation interface {
 }
 
 type InputWebFileLocationObj struct {
-	Url        string `validate:"required"`
-	AccessHash int64  `validate:"required"`
+	Url        string
+	AccessHash int64
 }
 
 func (*InputWebFileLocationObj) CRC() uint32 {
@@ -2537,12 +2537,12 @@ func (*InputWebFileLocationObj) CRC() uint32 {
 func (*InputWebFileLocationObj) ImplementsInputWebFileLocation() {}
 
 type InputWebFileGeoPointLocation struct {
-	GeoPoint   InputGeoPoint `validate:"required"`
-	AccessHash int64         `validate:"required"`
-	W          int32         `validate:"required"`
-	H          int32         `validate:"required"`
-	Zoom       int32         `validate:"required"`
-	Scale      int32         `validate:"required"`
+	GeoPoint   InputGeoPoint
+	AccessHash int64
+	W          int32
+	H          int32
+	Zoom       int32
+	Scale      int32
 }
 
 func (*InputWebFileGeoPointLocation) CRC() uint32 {
@@ -2557,8 +2557,8 @@ type IpPort interface {
 }
 
 type IpPortObj struct {
-	Ipv4 int32 `validate:"required"`
-	Port int32 `validate:"required"`
+	Ipv4 int32
+	Port int32
 }
 
 func (*IpPortObj) CRC() uint32 {
@@ -2568,9 +2568,9 @@ func (*IpPortObj) CRC() uint32 {
 func (*IpPortObj) ImplementsIpPort() {}
 
 type IpPortSecret struct {
-	Ipv4   int32  `validate:"required"`
-	Port   int32  `validate:"required"`
-	Secret []byte `validate:"required"`
+	Ipv4   int32
+	Port   int32
+	Secret []byte
 }
 
 func (*IpPortSecret) CRC() uint32 {
@@ -2593,7 +2593,7 @@ func (*JsonNull) CRC() uint32 {
 func (*JsonNull) ImplementsJSONValue() {}
 
 type JsonBool struct {
-	Value bool `validate:"required"`
+	Value bool
 }
 
 func (*JsonBool) CRC() uint32 {
@@ -2603,7 +2603,7 @@ func (*JsonBool) CRC() uint32 {
 func (*JsonBool) ImplementsJSONValue() {}
 
 type JsonNumber struct {
-	Value float64 `validate:"required"`
+	Value float64
 }
 
 func (*JsonNumber) CRC() uint32 {
@@ -2613,7 +2613,7 @@ func (*JsonNumber) CRC() uint32 {
 func (*JsonNumber) ImplementsJSONValue() {}
 
 type JsonString struct {
-	Value string `validate:"required"`
+	Value string
 }
 
 func (*JsonString) CRC() uint32 {
@@ -2623,7 +2623,7 @@ func (*JsonString) CRC() uint32 {
 func (*JsonString) ImplementsJSONValue() {}
 
 type JsonArray struct {
-	Value []JSONValue `validate:"required"`
+	Value []JSONValue
 }
 
 func (*JsonArray) CRC() uint32 {
@@ -2633,7 +2633,7 @@ func (*JsonArray) CRC() uint32 {
 func (*JsonArray) ImplementsJSONValue() {}
 
 type JsonObject struct {
-	Value []*JSONObjectValue `validate:"required"`
+	Value []*JSONObjectValue
 }
 
 func (*JsonObject) CRC() uint32 {
@@ -2648,7 +2648,7 @@ type KeyboardButton interface {
 }
 
 type KeyboardButtonObj struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*KeyboardButtonObj) CRC() uint32 {
@@ -2658,8 +2658,8 @@ func (*KeyboardButtonObj) CRC() uint32 {
 func (*KeyboardButtonObj) ImplementsKeyboardButton() {}
 
 type KeyboardButtonUrl struct {
-	Text string `validate:"required"`
-	Url  string `validate:"required"`
+	Text string
+	Url  string
 }
 
 func (*KeyboardButtonUrl) CRC() uint32 {
@@ -2669,8 +2669,8 @@ func (*KeyboardButtonUrl) CRC() uint32 {
 func (*KeyboardButtonUrl) ImplementsKeyboardButton() {}
 
 type KeyboardButtonCallback struct {
-	Text string `validate:"required"`
-	Data []byte `validate:"required"`
+	Text string
+	Data []byte
 }
 
 func (*KeyboardButtonCallback) CRC() uint32 {
@@ -2680,7 +2680,7 @@ func (*KeyboardButtonCallback) CRC() uint32 {
 func (*KeyboardButtonCallback) ImplementsKeyboardButton() {}
 
 type KeyboardButtonRequestPhone struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*KeyboardButtonRequestPhone) CRC() uint32 {
@@ -2690,7 +2690,7 @@ func (*KeyboardButtonRequestPhone) CRC() uint32 {
 func (*KeyboardButtonRequestPhone) ImplementsKeyboardButton() {}
 
 type KeyboardButtonRequestGeoLocation struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*KeyboardButtonRequestGeoLocation) CRC() uint32 {
@@ -2701,9 +2701,9 @@ func (*KeyboardButtonRequestGeoLocation) ImplementsKeyboardButton() {}
 
 type KeyboardButtonSwitchInline struct {
 	// flags position
-	SamePeer bool   `tl:"flag:0,encoded_in_bitflags"`
-	Text     string `validate:"required"`
-	Query    string `validate:"required"`
+	SamePeer bool `tl:"flag:0,encoded_in_bitflags"`
+	Text     string
+	Query    string
 }
 
 func (*KeyboardButtonSwitchInline) CRC() uint32 {
@@ -2713,7 +2713,7 @@ func (*KeyboardButtonSwitchInline) CRC() uint32 {
 func (*KeyboardButtonSwitchInline) ImplementsKeyboardButton() {}
 
 type KeyboardButtonGame struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*KeyboardButtonGame) CRC() uint32 {
@@ -2723,7 +2723,7 @@ func (*KeyboardButtonGame) CRC() uint32 {
 func (*KeyboardButtonGame) ImplementsKeyboardButton() {}
 
 type KeyboardButtonBuy struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*KeyboardButtonBuy) CRC() uint32 {
@@ -2734,10 +2734,10 @@ func (*KeyboardButtonBuy) ImplementsKeyboardButton() {}
 
 type KeyboardButtonUrlAuth struct {
 	// flags position
-	Text     string `validate:"required"`
+	Text     string
 	FwdText  string `tl:"flag:0"`
-	Url      string `validate:"required"`
-	ButtonId int32  `validate:"required"`
+	Url      string
+	ButtonId int32
 }
 
 func (*KeyboardButtonUrlAuth) CRC() uint32 {
@@ -2748,11 +2748,11 @@ func (*KeyboardButtonUrlAuth) ImplementsKeyboardButton() {}
 
 type InputKeyboardButtonUrlAuth struct {
 	// flags position
-	RequestWriteAccess bool      `tl:"flag:0,encoded_in_bitflags"`
-	Text               string    `validate:"required"`
-	FwdText            string    `tl:"flag:1"`
-	Url                string    `validate:"required"`
-	Bot                InputUser `validate:"required"`
+	RequestWriteAccess bool `tl:"flag:0,encoded_in_bitflags"`
+	Text               string
+	FwdText            string `tl:"flag:1"`
+	Url                string
+	Bot                InputUser
 }
 
 func (*InputKeyboardButtonUrlAuth) CRC() uint32 {
@@ -2763,8 +2763,8 @@ func (*InputKeyboardButtonUrlAuth) ImplementsKeyboardButton() {}
 
 type KeyboardButtonRequestPoll struct {
 	// flags position
-	Quiz bool   `tl:"flag:0"`
-	Text string `validate:"required"`
+	Quiz bool `tl:"flag:0"`
+	Text string
 }
 
 func (*KeyboardButtonRequestPoll) CRC() uint32 {
@@ -2779,8 +2779,8 @@ type LangPackString interface {
 }
 
 type LangPackStringObj struct {
-	Key   string `validate:"required"`
-	Value string `validate:"required"`
+	Key   string
+	Value string
 }
 
 func (*LangPackStringObj) CRC() uint32 {
@@ -2791,13 +2791,13 @@ func (*LangPackStringObj) ImplementsLangPackString() {}
 
 type LangPackStringPluralized struct {
 	// flags position
-	Key        string `validate:"required"`
+	Key        string
 	ZeroValue  string `tl:"flag:0"`
 	OneValue   string `tl:"flag:1"`
 	TwoValue   string `tl:"flag:2"`
 	FewValue   string `tl:"flag:3"`
 	ManyValue  string `tl:"flag:4"`
-	OtherValue string `validate:"required"`
+	OtherValue string
 }
 
 func (*LangPackStringPluralized) CRC() uint32 {
@@ -2807,7 +2807,7 @@ func (*LangPackStringPluralized) CRC() uint32 {
 func (*LangPackStringPluralized) ImplementsLangPackString() {}
 
 type LangPackStringDeleted struct {
-	Key string `validate:"required"`
+	Key string
 }
 
 func (*LangPackStringDeleted) CRC() uint32 {
@@ -2822,7 +2822,7 @@ type Message interface {
 }
 
 type MessageEmpty struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*MessageEmpty) CRC() uint32 {
@@ -2833,22 +2833,22 @@ func (*MessageEmpty) ImplementsMessage() {}
 
 type MessageObj struct {
 	// flags position
-	Out               bool                 `tl:"flag:1,encoded_in_bitflags"`
-	Mentioned         bool                 `tl:"flag:4,encoded_in_bitflags"`
-	MediaUnread       bool                 `tl:"flag:5,encoded_in_bitflags"`
-	Silent            bool                 `tl:"flag:13,encoded_in_bitflags"`
-	Post              bool                 `tl:"flag:14,encoded_in_bitflags"`
-	FromScheduled     bool                 `tl:"flag:18,encoded_in_bitflags"`
-	Legacy            bool                 `tl:"flag:19,encoded_in_bitflags"`
-	EditHide          bool                 `tl:"flag:21,encoded_in_bitflags"`
-	Id                int32                `validate:"required"`
-	FromId            int32                `tl:"flag:8"`
-	ToId              Peer                 `validate:"required"`
-	FwdFrom           *MessageFwdHeader    `tl:"flag:2"`
-	ViaBotId          int32                `tl:"flag:11"`
-	ReplyToMsgId      int32                `tl:"flag:3"`
-	Date              int32                `validate:"required"`
-	Message           string               `validate:"required"`
+	Out               bool `tl:"flag:1,encoded_in_bitflags"`
+	Mentioned         bool `tl:"flag:4,encoded_in_bitflags"`
+	MediaUnread       bool `tl:"flag:5,encoded_in_bitflags"`
+	Silent            bool `tl:"flag:13,encoded_in_bitflags"`
+	Post              bool `tl:"flag:14,encoded_in_bitflags"`
+	FromScheduled     bool `tl:"flag:18,encoded_in_bitflags"`
+	Legacy            bool `tl:"flag:19,encoded_in_bitflags"`
+	EditHide          bool `tl:"flag:21,encoded_in_bitflags"`
+	Id                int32
+	FromId            int32 `tl:"flag:8"`
+	ToId              Peer
+	FwdFrom           *MessageFwdHeader `tl:"flag:2"`
+	ViaBotId          int32             `tl:"flag:11"`
+	ReplyToMsgId      int32             `tl:"flag:3"`
+	Date              int32
+	Message           string
 	Media             MessageMedia         `tl:"flag:9"`
 	ReplyMarkup       ReplyMarkup          `tl:"flag:6"`
 	Entities          []MessageEntity      `tl:"flag:7"`
@@ -2867,18 +2867,18 @@ func (*MessageObj) ImplementsMessage() {}
 
 type MessageService struct {
 	// flags position
-	Out          bool          `tl:"flag:1,encoded_in_bitflags"`
-	Mentioned    bool          `tl:"flag:4,encoded_in_bitflags"`
-	MediaUnread  bool          `tl:"flag:5,encoded_in_bitflags"`
-	Silent       bool          `tl:"flag:13,encoded_in_bitflags"`
-	Post         bool          `tl:"flag:14,encoded_in_bitflags"`
-	Legacy       bool          `tl:"flag:19,encoded_in_bitflags"`
-	Id           int32         `validate:"required"`
-	FromId       int32         `tl:"flag:8"`
-	ToId         Peer          `validate:"required"`
-	ReplyToMsgId int32         `tl:"flag:3"`
-	Date         int32         `validate:"required"`
-	Action       MessageAction `validate:"required"`
+	Out          bool `tl:"flag:1,encoded_in_bitflags"`
+	Mentioned    bool `tl:"flag:4,encoded_in_bitflags"`
+	MediaUnread  bool `tl:"flag:5,encoded_in_bitflags"`
+	Silent       bool `tl:"flag:13,encoded_in_bitflags"`
+	Post         bool `tl:"flag:14,encoded_in_bitflags"`
+	Legacy       bool `tl:"flag:19,encoded_in_bitflags"`
+	Id           int32
+	FromId       int32 `tl:"flag:8"`
+	ToId         Peer
+	ReplyToMsgId int32 `tl:"flag:3"`
+	Date         int32
+	Action       MessageAction
 }
 
 func (*MessageService) CRC() uint32 {
@@ -2901,8 +2901,8 @@ func (*MessageActionEmpty) CRC() uint32 {
 func (*MessageActionEmpty) ImplementsMessageAction() {}
 
 type MessageActionChatCreate struct {
-	Title string  `validate:"required"`
-	Users []int32 `validate:"required"`
+	Title string
+	Users []int32
 }
 
 func (*MessageActionChatCreate) CRC() uint32 {
@@ -2912,7 +2912,7 @@ func (*MessageActionChatCreate) CRC() uint32 {
 func (*MessageActionChatCreate) ImplementsMessageAction() {}
 
 type MessageActionChatEditTitle struct {
-	Title string `validate:"required"`
+	Title string
 }
 
 func (*MessageActionChatEditTitle) CRC() uint32 {
@@ -2922,7 +2922,7 @@ func (*MessageActionChatEditTitle) CRC() uint32 {
 func (*MessageActionChatEditTitle) ImplementsMessageAction() {}
 
 type MessageActionChatEditPhoto struct {
-	Photo Photo `validate:"required"`
+	Photo Photo
 }
 
 func (*MessageActionChatEditPhoto) CRC() uint32 {
@@ -2940,7 +2940,7 @@ func (*MessageActionChatDeletePhoto) CRC() uint32 {
 func (*MessageActionChatDeletePhoto) ImplementsMessageAction() {}
 
 type MessageActionChatAddUser struct {
-	Users []int32 `validate:"required"`
+	Users []int32
 }
 
 func (*MessageActionChatAddUser) CRC() uint32 {
@@ -2950,7 +2950,7 @@ func (*MessageActionChatAddUser) CRC() uint32 {
 func (*MessageActionChatAddUser) ImplementsMessageAction() {}
 
 type MessageActionChatDeleteUser struct {
-	UserId int32 `validate:"required"`
+	UserId int32
 }
 
 func (*MessageActionChatDeleteUser) CRC() uint32 {
@@ -2960,7 +2960,7 @@ func (*MessageActionChatDeleteUser) CRC() uint32 {
 func (*MessageActionChatDeleteUser) ImplementsMessageAction() {}
 
 type MessageActionChatJoinedByLink struct {
-	InviterId int32 `validate:"required"`
+	InviterId int32
 }
 
 func (*MessageActionChatJoinedByLink) CRC() uint32 {
@@ -2970,7 +2970,7 @@ func (*MessageActionChatJoinedByLink) CRC() uint32 {
 func (*MessageActionChatJoinedByLink) ImplementsMessageAction() {}
 
 type MessageActionChannelCreate struct {
-	Title string `validate:"required"`
+	Title string
 }
 
 func (*MessageActionChannelCreate) CRC() uint32 {
@@ -2980,7 +2980,7 @@ func (*MessageActionChannelCreate) CRC() uint32 {
 func (*MessageActionChannelCreate) ImplementsMessageAction() {}
 
 type MessageActionChatMigrateTo struct {
-	ChannelId int32 `validate:"required"`
+	ChannelId int32
 }
 
 func (*MessageActionChatMigrateTo) CRC() uint32 {
@@ -2990,8 +2990,8 @@ func (*MessageActionChatMigrateTo) CRC() uint32 {
 func (*MessageActionChatMigrateTo) ImplementsMessageAction() {}
 
 type MessageActionChannelMigrateFrom struct {
-	Title  string `validate:"required"`
-	ChatId int32  `validate:"required"`
+	Title  string
+	ChatId int32
 }
 
 func (*MessageActionChannelMigrateFrom) CRC() uint32 {
@@ -3017,8 +3017,8 @@ func (*MessageActionHistoryClear) CRC() uint32 {
 func (*MessageActionHistoryClear) ImplementsMessageAction() {}
 
 type MessageActionGameScore struct {
-	GameId int64 `validate:"required"`
-	Score  int32 `validate:"required"`
+	GameId int64
+	Score  int32
 }
 
 func (*MessageActionGameScore) CRC() uint32 {
@@ -3029,12 +3029,12 @@ func (*MessageActionGameScore) ImplementsMessageAction() {}
 
 type MessageActionPaymentSentMe struct {
 	// flags position
-	Currency         string                `validate:"required"`
-	TotalAmount      int64                 `validate:"required"`
-	Payload          []byte                `validate:"required"`
+	Currency         string
+	TotalAmount      int64
+	Payload          []byte
 	Info             *PaymentRequestedInfo `tl:"flag:0"`
 	ShippingOptionId string                `tl:"flag:1"`
-	Charge           *PaymentCharge        `validate:"required"`
+	Charge           *PaymentCharge
 }
 
 func (*MessageActionPaymentSentMe) CRC() uint32 {
@@ -3044,8 +3044,8 @@ func (*MessageActionPaymentSentMe) CRC() uint32 {
 func (*MessageActionPaymentSentMe) ImplementsMessageAction() {}
 
 type MessageActionPaymentSent struct {
-	Currency    string `validate:"required"`
-	TotalAmount int64  `validate:"required"`
+	Currency    string
+	TotalAmount int64
 }
 
 func (*MessageActionPaymentSent) CRC() uint32 {
@@ -3056,8 +3056,8 @@ func (*MessageActionPaymentSent) ImplementsMessageAction() {}
 
 type MessageActionPhoneCall struct {
 	// flags position
-	Video    bool                   `tl:"flag:2,encoded_in_bitflags"`
-	CallId   int64                  `validate:"required"`
+	Video    bool `tl:"flag:2,encoded_in_bitflags"`
+	CallId   int64
 	Reason   PhoneCallDiscardReason `tl:"flag:0"`
 	Duration int32                  `tl:"flag:1"`
 }
@@ -3077,7 +3077,7 @@ func (*MessageActionScreenshotTaken) CRC() uint32 {
 func (*MessageActionScreenshotTaken) ImplementsMessageAction() {}
 
 type MessageActionCustomAction struct {
-	Message string `validate:"required"`
+	Message string
 }
 
 func (*MessageActionCustomAction) CRC() uint32 {
@@ -3087,7 +3087,7 @@ func (*MessageActionCustomAction) CRC() uint32 {
 func (*MessageActionCustomAction) ImplementsMessageAction() {}
 
 type MessageActionBotAllowed struct {
-	Domain string `validate:"required"`
+	Domain string
 }
 
 func (*MessageActionBotAllowed) CRC() uint32 {
@@ -3097,8 +3097,8 @@ func (*MessageActionBotAllowed) CRC() uint32 {
 func (*MessageActionBotAllowed) ImplementsMessageAction() {}
 
 type MessageActionSecureValuesSentMe struct {
-	Values      []*SecureValue              `validate:"required"`
-	Credentials *SecureCredentialsEncrypted `validate:"required"`
+	Values      []*SecureValue
+	Credentials *SecureCredentialsEncrypted
 }
 
 func (*MessageActionSecureValuesSentMe) CRC() uint32 {
@@ -3108,7 +3108,7 @@ func (*MessageActionSecureValuesSentMe) CRC() uint32 {
 func (*MessageActionSecureValuesSentMe) ImplementsMessageAction() {}
 
 type MessageActionSecureValuesSent struct {
-	Types []SecureValueType `validate:"required"`
+	Types []SecureValueType
 }
 
 func (*MessageActionSecureValuesSent) CRC() uint32 {
@@ -3131,8 +3131,8 @@ type MessageEntity interface {
 }
 
 type MessageEntityUnknown struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityUnknown) CRC() uint32 {
@@ -3142,8 +3142,8 @@ func (*MessageEntityUnknown) CRC() uint32 {
 func (*MessageEntityUnknown) ImplementsMessageEntity() {}
 
 type MessageEntityMention struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityMention) CRC() uint32 {
@@ -3153,8 +3153,8 @@ func (*MessageEntityMention) CRC() uint32 {
 func (*MessageEntityMention) ImplementsMessageEntity() {}
 
 type MessageEntityHashtag struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityHashtag) CRC() uint32 {
@@ -3164,8 +3164,8 @@ func (*MessageEntityHashtag) CRC() uint32 {
 func (*MessageEntityHashtag) ImplementsMessageEntity() {}
 
 type MessageEntityBotCommand struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityBotCommand) CRC() uint32 {
@@ -3175,8 +3175,8 @@ func (*MessageEntityBotCommand) CRC() uint32 {
 func (*MessageEntityBotCommand) ImplementsMessageEntity() {}
 
 type MessageEntityUrl struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityUrl) CRC() uint32 {
@@ -3186,8 +3186,8 @@ func (*MessageEntityUrl) CRC() uint32 {
 func (*MessageEntityUrl) ImplementsMessageEntity() {}
 
 type MessageEntityEmail struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityEmail) CRC() uint32 {
@@ -3197,8 +3197,8 @@ func (*MessageEntityEmail) CRC() uint32 {
 func (*MessageEntityEmail) ImplementsMessageEntity() {}
 
 type MessageEntityBold struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityBold) CRC() uint32 {
@@ -3208,8 +3208,8 @@ func (*MessageEntityBold) CRC() uint32 {
 func (*MessageEntityBold) ImplementsMessageEntity() {}
 
 type MessageEntityItalic struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityItalic) CRC() uint32 {
@@ -3219,8 +3219,8 @@ func (*MessageEntityItalic) CRC() uint32 {
 func (*MessageEntityItalic) ImplementsMessageEntity() {}
 
 type MessageEntityCode struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityCode) CRC() uint32 {
@@ -3230,9 +3230,9 @@ func (*MessageEntityCode) CRC() uint32 {
 func (*MessageEntityCode) ImplementsMessageEntity() {}
 
 type MessageEntityPre struct {
-	Offset   int32  `validate:"required"`
-	Length   int32  `validate:"required"`
-	Language string `validate:"required"`
+	Offset   int32
+	Length   int32
+	Language string
 }
 
 func (*MessageEntityPre) CRC() uint32 {
@@ -3242,9 +3242,9 @@ func (*MessageEntityPre) CRC() uint32 {
 func (*MessageEntityPre) ImplementsMessageEntity() {}
 
 type MessageEntityTextUrl struct {
-	Offset int32  `validate:"required"`
-	Length int32  `validate:"required"`
-	Url    string `validate:"required"`
+	Offset int32
+	Length int32
+	Url    string
 }
 
 func (*MessageEntityTextUrl) CRC() uint32 {
@@ -3254,9 +3254,9 @@ func (*MessageEntityTextUrl) CRC() uint32 {
 func (*MessageEntityTextUrl) ImplementsMessageEntity() {}
 
 type MessageEntityMentionName struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
-	UserId int32 `validate:"required"`
+	Offset int32
+	Length int32
+	UserId int32
 }
 
 func (*MessageEntityMentionName) CRC() uint32 {
@@ -3266,9 +3266,9 @@ func (*MessageEntityMentionName) CRC() uint32 {
 func (*MessageEntityMentionName) ImplementsMessageEntity() {}
 
 type InputMessageEntityMentionName struct {
-	Offset int32     `validate:"required"`
-	Length int32     `validate:"required"`
-	UserId InputUser `validate:"required"`
+	Offset int32
+	Length int32
+	UserId InputUser
 }
 
 func (*InputMessageEntityMentionName) CRC() uint32 {
@@ -3278,8 +3278,8 @@ func (*InputMessageEntityMentionName) CRC() uint32 {
 func (*InputMessageEntityMentionName) ImplementsMessageEntity() {}
 
 type MessageEntityPhone struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityPhone) CRC() uint32 {
@@ -3289,8 +3289,8 @@ func (*MessageEntityPhone) CRC() uint32 {
 func (*MessageEntityPhone) ImplementsMessageEntity() {}
 
 type MessageEntityCashtag struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityCashtag) CRC() uint32 {
@@ -3300,8 +3300,8 @@ func (*MessageEntityCashtag) CRC() uint32 {
 func (*MessageEntityCashtag) ImplementsMessageEntity() {}
 
 type MessageEntityUnderline struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityUnderline) CRC() uint32 {
@@ -3311,8 +3311,8 @@ func (*MessageEntityUnderline) CRC() uint32 {
 func (*MessageEntityUnderline) ImplementsMessageEntity() {}
 
 type MessageEntityStrike struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityStrike) CRC() uint32 {
@@ -3322,8 +3322,8 @@ func (*MessageEntityStrike) CRC() uint32 {
 func (*MessageEntityStrike) ImplementsMessageEntity() {}
 
 type MessageEntityBlockquote struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityBlockquote) CRC() uint32 {
@@ -3333,8 +3333,8 @@ func (*MessageEntityBlockquote) CRC() uint32 {
 func (*MessageEntityBlockquote) ImplementsMessageEntity() {}
 
 type MessageEntityBankCard struct {
-	Offset int32 `validate:"required"`
-	Length int32 `validate:"required"`
+	Offset int32
+	Length int32
 }
 
 func (*MessageEntityBankCard) CRC() uint32 {
@@ -3369,7 +3369,7 @@ func (*MessageMediaPhoto) CRC() uint32 {
 func (*MessageMediaPhoto) ImplementsMessageMedia() {}
 
 type MessageMediaGeo struct {
-	Geo GeoPoint `validate:"required"`
+	Geo GeoPoint
 }
 
 func (*MessageMediaGeo) CRC() uint32 {
@@ -3379,11 +3379,11 @@ func (*MessageMediaGeo) CRC() uint32 {
 func (*MessageMediaGeo) ImplementsMessageMedia() {}
 
 type MessageMediaContact struct {
-	PhoneNumber string `validate:"required"`
-	FirstName   string `validate:"required"`
-	LastName    string `validate:"required"`
-	Vcard       string `validate:"required"`
-	UserId      int32  `validate:"required"`
+	PhoneNumber string
+	FirstName   string
+	LastName    string
+	Vcard       string
+	UserId      int32
 }
 
 func (*MessageMediaContact) CRC() uint32 {
@@ -3413,7 +3413,7 @@ func (*MessageMediaDocument) CRC() uint32 {
 func (*MessageMediaDocument) ImplementsMessageMedia() {}
 
 type MessageMediaWebPage struct {
-	Webpage WebPage `validate:"required"`
+	Webpage WebPage
 }
 
 func (*MessageMediaWebPage) CRC() uint32 {
@@ -3423,12 +3423,12 @@ func (*MessageMediaWebPage) CRC() uint32 {
 func (*MessageMediaWebPage) ImplementsMessageMedia() {}
 
 type MessageMediaVenue struct {
-	Geo       GeoPoint `validate:"required"`
-	Title     string   `validate:"required"`
-	Address   string   `validate:"required"`
-	Provider  string   `validate:"required"`
-	VenueId   string   `validate:"required"`
-	VenueType string   `validate:"required"`
+	Geo       GeoPoint
+	Title     string
+	Address   string
+	Provider  string
+	VenueId   string
+	VenueType string
 }
 
 func (*MessageMediaVenue) CRC() uint32 {
@@ -3438,7 +3438,7 @@ func (*MessageMediaVenue) CRC() uint32 {
 func (*MessageMediaVenue) ImplementsMessageMedia() {}
 
 type MessageMediaGame struct {
-	Game *Game `validate:"required"`
+	Game *Game
 }
 
 func (*MessageMediaGame) CRC() uint32 {
@@ -3449,15 +3449,15 @@ func (*MessageMediaGame) ImplementsMessageMedia() {}
 
 type MessageMediaInvoice struct {
 	// flags position
-	ShippingAddressRequested bool        `tl:"flag:1,encoded_in_bitflags"`
-	Test                     bool        `tl:"flag:3,encoded_in_bitflags"`
-	Title                    string      `validate:"required"`
-	Description              string      `validate:"required"`
+	ShippingAddressRequested bool `tl:"flag:1,encoded_in_bitflags"`
+	Test                     bool `tl:"flag:3,encoded_in_bitflags"`
+	Title                    string
+	Description              string
 	Photo                    WebDocument `tl:"flag:0"`
 	ReceiptMsgId             int32       `tl:"flag:2"`
-	Currency                 string      `validate:"required"`
-	TotalAmount              int64       `validate:"required"`
-	StartParam               string      `validate:"required"`
+	Currency                 string
+	TotalAmount              int64
+	StartParam               string
 }
 
 func (*MessageMediaInvoice) CRC() uint32 {
@@ -3467,8 +3467,8 @@ func (*MessageMediaInvoice) CRC() uint32 {
 func (*MessageMediaInvoice) ImplementsMessageMedia() {}
 
 type MessageMediaGeoLive struct {
-	Geo    GeoPoint `validate:"required"`
-	Period int32    `validate:"required"`
+	Geo    GeoPoint
+	Period int32
 }
 
 func (*MessageMediaGeoLive) CRC() uint32 {
@@ -3478,8 +3478,8 @@ func (*MessageMediaGeoLive) CRC() uint32 {
 func (*MessageMediaGeoLive) ImplementsMessageMedia() {}
 
 type MessageMediaPoll struct {
-	Poll    *Poll        `validate:"required"`
-	Results *PollResults `validate:"required"`
+	Poll    *Poll
+	Results *PollResults
 }
 
 func (*MessageMediaPoll) CRC() uint32 {
@@ -3489,8 +3489,8 @@ func (*MessageMediaPoll) CRC() uint32 {
 func (*MessageMediaPoll) ImplementsMessageMedia() {}
 
 type MessageMediaDice struct {
-	Value    int32  `validate:"required"`
-	Emoticon string `validate:"required"`
+	Value    int32
+	Emoticon string
 }
 
 func (*MessageMediaDice) CRC() uint32 {
@@ -3505,9 +3505,9 @@ type MessageUserVote interface {
 }
 
 type MessageUserVoteObj struct {
-	UserId int32  `validate:"required"`
-	Option []byte `validate:"required"`
-	Date   int32  `validate:"required"`
+	UserId int32
+	Option []byte
+	Date   int32
 }
 
 func (*MessageUserVoteObj) CRC() uint32 {
@@ -3517,8 +3517,8 @@ func (*MessageUserVoteObj) CRC() uint32 {
 func (*MessageUserVoteObj) ImplementsMessageUserVote() {}
 
 type MessageUserVoteInputOption struct {
-	UserId int32 `validate:"required"`
-	Date   int32 `validate:"required"`
+	UserId int32
+	Date   int32
 }
 
 func (*MessageUserVoteInputOption) CRC() uint32 {
@@ -3528,9 +3528,9 @@ func (*MessageUserVoteInputOption) CRC() uint32 {
 func (*MessageUserVoteInputOption) ImplementsMessageUserVote() {}
 
 type MessageUserVoteMultiple struct {
-	UserId  int32    `validate:"required"`
-	Options [][]byte `validate:"required"`
-	Date    int32    `validate:"required"`
+	UserId  int32
+	Options [][]byte
+	Date    int32
 }
 
 func (*MessageUserVoteMultiple) CRC() uint32 {
@@ -3681,7 +3681,7 @@ type NotifyPeer interface {
 }
 
 type NotifyPeerObj struct {
-	Peer Peer `validate:"required"`
+	Peer Peer
 }
 
 func (*NotifyPeerObj) CRC() uint32 {
@@ -3728,7 +3728,7 @@ func (*PageBlockUnsupported) CRC() uint32 {
 func (*PageBlockUnsupported) ImplementsPageBlock() {}
 
 type PageBlockTitle struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockTitle) CRC() uint32 {
@@ -3738,7 +3738,7 @@ func (*PageBlockTitle) CRC() uint32 {
 func (*PageBlockTitle) ImplementsPageBlock() {}
 
 type PageBlockSubtitle struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockSubtitle) CRC() uint32 {
@@ -3748,8 +3748,8 @@ func (*PageBlockSubtitle) CRC() uint32 {
 func (*PageBlockSubtitle) ImplementsPageBlock() {}
 
 type PageBlockAuthorDate struct {
-	Author        RichText `validate:"required"`
-	PublishedDate int32    `validate:"required"`
+	Author        RichText
+	PublishedDate int32
 }
 
 func (*PageBlockAuthorDate) CRC() uint32 {
@@ -3759,7 +3759,7 @@ func (*PageBlockAuthorDate) CRC() uint32 {
 func (*PageBlockAuthorDate) ImplementsPageBlock() {}
 
 type PageBlockHeader struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockHeader) CRC() uint32 {
@@ -3769,7 +3769,7 @@ func (*PageBlockHeader) CRC() uint32 {
 func (*PageBlockHeader) ImplementsPageBlock() {}
 
 type PageBlockSubheader struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockSubheader) CRC() uint32 {
@@ -3779,7 +3779,7 @@ func (*PageBlockSubheader) CRC() uint32 {
 func (*PageBlockSubheader) ImplementsPageBlock() {}
 
 type PageBlockParagraph struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockParagraph) CRC() uint32 {
@@ -3789,8 +3789,8 @@ func (*PageBlockParagraph) CRC() uint32 {
 func (*PageBlockParagraph) ImplementsPageBlock() {}
 
 type PageBlockPreformatted struct {
-	Text     RichText `validate:"required"`
-	Language string   `validate:"required"`
+	Text     RichText
+	Language string
 }
 
 func (*PageBlockPreformatted) CRC() uint32 {
@@ -3800,7 +3800,7 @@ func (*PageBlockPreformatted) CRC() uint32 {
 func (*PageBlockPreformatted) ImplementsPageBlock() {}
 
 type PageBlockFooter struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockFooter) CRC() uint32 {
@@ -3818,7 +3818,7 @@ func (*PageBlockDivider) CRC() uint32 {
 func (*PageBlockDivider) ImplementsPageBlock() {}
 
 type PageBlockAnchor struct {
-	Name string `validate:"required"`
+	Name string
 }
 
 func (*PageBlockAnchor) CRC() uint32 {
@@ -3828,7 +3828,7 @@ func (*PageBlockAnchor) CRC() uint32 {
 func (*PageBlockAnchor) ImplementsPageBlock() {}
 
 type PageBlockList struct {
-	Items []PageListItem `validate:"required"`
+	Items []PageListItem
 }
 
 func (*PageBlockList) CRC() uint32 {
@@ -3838,8 +3838,8 @@ func (*PageBlockList) CRC() uint32 {
 func (*PageBlockList) ImplementsPageBlock() {}
 
 type PageBlockBlockquote struct {
-	Text    RichText `validate:"required"`
-	Caption RichText `validate:"required"`
+	Text    RichText
+	Caption RichText
 }
 
 func (*PageBlockBlockquote) CRC() uint32 {
@@ -3849,8 +3849,8 @@ func (*PageBlockBlockquote) CRC() uint32 {
 func (*PageBlockBlockquote) ImplementsPageBlock() {}
 
 type PageBlockPullquote struct {
-	Text    RichText `validate:"required"`
-	Caption RichText `validate:"required"`
+	Text    RichText
+	Caption RichText
 }
 
 func (*PageBlockPullquote) CRC() uint32 {
@@ -3861,10 +3861,10 @@ func (*PageBlockPullquote) ImplementsPageBlock() {}
 
 type PageBlockPhoto struct {
 	// flags position
-	PhotoId   int64        `validate:"required"`
-	Caption   *PageCaption `validate:"required"`
-	Url       string       `tl:"flag:0"`
-	WebpageId int64        `tl:"flag:0"`
+	PhotoId   int64
+	Caption   *PageCaption
+	Url       string `tl:"flag:0"`
+	WebpageId int64  `tl:"flag:0"`
 }
 
 func (*PageBlockPhoto) CRC() uint32 {
@@ -3875,10 +3875,10 @@ func (*PageBlockPhoto) ImplementsPageBlock() {}
 
 type PageBlockVideo struct {
 	// flags position
-	Autoplay bool         `tl:"flag:0,encoded_in_bitflags"`
-	Loop     bool         `tl:"flag:1,encoded_in_bitflags"`
-	VideoId  int64        `validate:"required"`
-	Caption  *PageCaption `validate:"required"`
+	Autoplay bool `tl:"flag:0,encoded_in_bitflags"`
+	Loop     bool `tl:"flag:1,encoded_in_bitflags"`
+	VideoId  int64
+	Caption  *PageCaption
 }
 
 func (*PageBlockVideo) CRC() uint32 {
@@ -3888,7 +3888,7 @@ func (*PageBlockVideo) CRC() uint32 {
 func (*PageBlockVideo) ImplementsPageBlock() {}
 
 type PageBlockCover struct {
-	Cover PageBlock `validate:"required"`
+	Cover PageBlock
 }
 
 func (*PageBlockCover) CRC() uint32 {
@@ -3899,14 +3899,14 @@ func (*PageBlockCover) ImplementsPageBlock() {}
 
 type PageBlockEmbed struct {
 	// flags position
-	FullWidth      bool         `tl:"flag:0,encoded_in_bitflags"`
-	AllowScrolling bool         `tl:"flag:3,encoded_in_bitflags"`
-	Url            string       `tl:"flag:1"`
-	Html           string       `tl:"flag:2"`
-	PosterPhotoId  int64        `tl:"flag:4"`
-	W              int32        `tl:"flag:5"`
-	H              int32        `tl:"flag:5"`
-	Caption        *PageCaption `validate:"required"`
+	FullWidth      bool   `tl:"flag:0,encoded_in_bitflags"`
+	AllowScrolling bool   `tl:"flag:3,encoded_in_bitflags"`
+	Url            string `tl:"flag:1"`
+	Html           string `tl:"flag:2"`
+	PosterPhotoId  int64  `tl:"flag:4"`
+	W              int32  `tl:"flag:5"`
+	H              int32  `tl:"flag:5"`
+	Caption        *PageCaption
 }
 
 func (*PageBlockEmbed) CRC() uint32 {
@@ -3916,13 +3916,13 @@ func (*PageBlockEmbed) CRC() uint32 {
 func (*PageBlockEmbed) ImplementsPageBlock() {}
 
 type PageBlockEmbedPost struct {
-	Url           string       `validate:"required"`
-	WebpageId     int64        `validate:"required"`
-	AuthorPhotoId int64        `validate:"required"`
-	Author        string       `validate:"required"`
-	Date          int32        `validate:"required"`
-	Blocks        []PageBlock  `validate:"required"`
-	Caption       *PageCaption `validate:"required"`
+	Url           string
+	WebpageId     int64
+	AuthorPhotoId int64
+	Author        string
+	Date          int32
+	Blocks        []PageBlock
+	Caption       *PageCaption
 }
 
 func (*PageBlockEmbedPost) CRC() uint32 {
@@ -3932,8 +3932,8 @@ func (*PageBlockEmbedPost) CRC() uint32 {
 func (*PageBlockEmbedPost) ImplementsPageBlock() {}
 
 type PageBlockCollage struct {
-	Items   []PageBlock  `validate:"required"`
-	Caption *PageCaption `validate:"required"`
+	Items   []PageBlock
+	Caption *PageCaption
 }
 
 func (*PageBlockCollage) CRC() uint32 {
@@ -3943,8 +3943,8 @@ func (*PageBlockCollage) CRC() uint32 {
 func (*PageBlockCollage) ImplementsPageBlock() {}
 
 type PageBlockSlideshow struct {
-	Items   []PageBlock  `validate:"required"`
-	Caption *PageCaption `validate:"required"`
+	Items   []PageBlock
+	Caption *PageCaption
 }
 
 func (*PageBlockSlideshow) CRC() uint32 {
@@ -3954,7 +3954,7 @@ func (*PageBlockSlideshow) CRC() uint32 {
 func (*PageBlockSlideshow) ImplementsPageBlock() {}
 
 type PageBlockChannel struct {
-	Channel Chat `validate:"required"`
+	Channel Chat
 }
 
 func (*PageBlockChannel) CRC() uint32 {
@@ -3964,8 +3964,8 @@ func (*PageBlockChannel) CRC() uint32 {
 func (*PageBlockChannel) ImplementsPageBlock() {}
 
 type PageBlockAudio struct {
-	AudioId int64        `validate:"required"`
-	Caption *PageCaption `validate:"required"`
+	AudioId int64
+	Caption *PageCaption
 }
 
 func (*PageBlockAudio) CRC() uint32 {
@@ -3975,7 +3975,7 @@ func (*PageBlockAudio) CRC() uint32 {
 func (*PageBlockAudio) ImplementsPageBlock() {}
 
 type PageBlockKicker struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageBlockKicker) CRC() uint32 {
@@ -3986,10 +3986,10 @@ func (*PageBlockKicker) ImplementsPageBlock() {}
 
 type PageBlockTable struct {
 	// flags position
-	Bordered bool            `tl:"flag:0,encoded_in_bitflags"`
-	Striped  bool            `tl:"flag:1,encoded_in_bitflags"`
-	Title    RichText        `validate:"required"`
-	Rows     []*PageTableRow `validate:"required"`
+	Bordered bool `tl:"flag:0,encoded_in_bitflags"`
+	Striped  bool `tl:"flag:1,encoded_in_bitflags"`
+	Title    RichText
+	Rows     []*PageTableRow
 }
 
 func (*PageBlockTable) CRC() uint32 {
@@ -3999,7 +3999,7 @@ func (*PageBlockTable) CRC() uint32 {
 func (*PageBlockTable) ImplementsPageBlock() {}
 
 type PageBlockOrderedList struct {
-	Items []PageListOrderedItem `validate:"required"`
+	Items []PageListOrderedItem
 }
 
 func (*PageBlockOrderedList) CRC() uint32 {
@@ -4010,9 +4010,9 @@ func (*PageBlockOrderedList) ImplementsPageBlock() {}
 
 type PageBlockDetails struct {
 	// flags position
-	Open   bool        `tl:"flag:0,encoded_in_bitflags"`
-	Blocks []PageBlock `validate:"required"`
-	Title  RichText    `validate:"required"`
+	Open   bool `tl:"flag:0,encoded_in_bitflags"`
+	Blocks []PageBlock
+	Title  RichText
 }
 
 func (*PageBlockDetails) CRC() uint32 {
@@ -4022,8 +4022,8 @@ func (*PageBlockDetails) CRC() uint32 {
 func (*PageBlockDetails) ImplementsPageBlock() {}
 
 type PageBlockRelatedArticles struct {
-	Title    RichText              `validate:"required"`
-	Articles []*PageRelatedArticle `validate:"required"`
+	Title    RichText
+	Articles []*PageRelatedArticle
 }
 
 func (*PageBlockRelatedArticles) CRC() uint32 {
@@ -4033,11 +4033,11 @@ func (*PageBlockRelatedArticles) CRC() uint32 {
 func (*PageBlockRelatedArticles) ImplementsPageBlock() {}
 
 type PageBlockMap struct {
-	Geo     GeoPoint     `validate:"required"`
-	Zoom    int32        `validate:"required"`
-	W       int32        `validate:"required"`
-	H       int32        `validate:"required"`
-	Caption *PageCaption `validate:"required"`
+	Geo     GeoPoint
+	Zoom    int32
+	W       int32
+	H       int32
+	Caption *PageCaption
 }
 
 func (*PageBlockMap) CRC() uint32 {
@@ -4052,7 +4052,7 @@ type PageListItem interface {
 }
 
 type PageListItemText struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*PageListItemText) CRC() uint32 {
@@ -4062,7 +4062,7 @@ func (*PageListItemText) CRC() uint32 {
 func (*PageListItemText) ImplementsPageListItem() {}
 
 type PageListItemBlocks struct {
-	Blocks []PageBlock `validate:"required"`
+	Blocks []PageBlock
 }
 
 func (*PageListItemBlocks) CRC() uint32 {
@@ -4077,8 +4077,8 @@ type PageListOrderedItem interface {
 }
 
 type PageListOrderedItemText struct {
-	Num  string   `validate:"required"`
-	Text RichText `validate:"required"`
+	Num  string
+	Text RichText
 }
 
 func (*PageListOrderedItemText) CRC() uint32 {
@@ -4088,8 +4088,8 @@ func (*PageListOrderedItemText) CRC() uint32 {
 func (*PageListOrderedItemText) ImplementsPageListOrderedItem() {}
 
 type PageListOrderedItemBlocks struct {
-	Num    string      `validate:"required"`
-	Blocks []PageBlock `validate:"required"`
+	Num    string
+	Blocks []PageBlock
 }
 
 func (*PageListOrderedItemBlocks) CRC() uint32 {
@@ -4112,10 +4112,10 @@ func (*PasswordKdfAlgoUnknown) CRC() uint32 {
 func (*PasswordKdfAlgoUnknown) ImplementsPasswordKdfAlgo() {}
 
 type PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow struct {
-	Salt1 []byte `validate:"required"`
-	Salt2 []byte `validate:"required"`
-	G     int32  `validate:"required"`
-	P     []byte `validate:"required"`
+	Salt1 []byte
+	Salt2 []byte
+	G     int32
+	P     []byte
 }
 
 func (*PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow) CRC() uint32 {
@@ -4131,7 +4131,7 @@ type Peer interface {
 }
 
 type PeerUser struct {
-	UserId int32 `validate:"required"`
+	UserId int32
 }
 
 func (*PeerUser) CRC() uint32 {
@@ -4141,7 +4141,7 @@ func (*PeerUser) CRC() uint32 {
 func (*PeerUser) ImplementsPeer() {}
 
 type PeerChat struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (*PeerChat) CRC() uint32 {
@@ -4151,7 +4151,7 @@ func (*PeerChat) CRC() uint32 {
 func (*PeerChat) ImplementsPeer() {}
 
 type PeerChannel struct {
-	ChannelId int32 `validate:"required"`
+	ChannelId int32
 }
 
 func (*PeerChannel) CRC() uint32 {
@@ -4166,9 +4166,9 @@ type PeerLocated interface {
 }
 
 type PeerLocatedObj struct {
-	Peer     Peer  `validate:"required"`
-	Expires  int32 `validate:"required"`
-	Distance int32 `validate:"required"`
+	Peer     Peer
+	Expires  int32
+	Distance int32
 }
 
 func (*PeerLocatedObj) CRC() uint32 {
@@ -4178,7 +4178,7 @@ func (*PeerLocatedObj) CRC() uint32 {
 func (*PeerLocatedObj) ImplementsPeerLocated() {}
 
 type PeerSelfLocated struct {
-	Expires int32 `validate:"required"`
+	Expires int32
 }
 
 func (*PeerSelfLocated) CRC() uint32 {
@@ -4193,7 +4193,7 @@ type PhoneCall interface {
 }
 
 type PhoneCallEmpty struct {
-	Id int64 `validate:"required"`
+	Id int64
 }
 
 func (*PhoneCallEmpty) CRC() uint32 {
@@ -4204,14 +4204,14 @@ func (*PhoneCallEmpty) ImplementsPhoneCall() {}
 
 type PhoneCallWaiting struct {
 	// flags position
-	Video         bool               `tl:"flag:6,encoded_in_bitflags"`
-	Id            int64              `validate:"required"`
-	AccessHash    int64              `validate:"required"`
-	Date          int32              `validate:"required"`
-	AdminId       int32              `validate:"required"`
-	ParticipantId int32              `validate:"required"`
-	Protocol      *PhoneCallProtocol `validate:"required"`
-	ReceiveDate   int32              `tl:"flag:0"`
+	Video         bool `tl:"flag:6,encoded_in_bitflags"`
+	Id            int64
+	AccessHash    int64
+	Date          int32
+	AdminId       int32
+	ParticipantId int32
+	Protocol      *PhoneCallProtocol
+	ReceiveDate   int32 `tl:"flag:0"`
 }
 
 func (*PhoneCallWaiting) CRC() uint32 {
@@ -4222,14 +4222,14 @@ func (*PhoneCallWaiting) ImplementsPhoneCall() {}
 
 type PhoneCallRequested struct {
 	// flags position
-	Video         bool               `tl:"flag:6,encoded_in_bitflags"`
-	Id            int64              `validate:"required"`
-	AccessHash    int64              `validate:"required"`
-	Date          int32              `validate:"required"`
-	AdminId       int32              `validate:"required"`
-	ParticipantId int32              `validate:"required"`
-	GAHash        []byte             `validate:"required"`
-	Protocol      *PhoneCallProtocol `validate:"required"`
+	Video         bool `tl:"flag:6,encoded_in_bitflags"`
+	Id            int64
+	AccessHash    int64
+	Date          int32
+	AdminId       int32
+	ParticipantId int32
+	GAHash        []byte
+	Protocol      *PhoneCallProtocol
 }
 
 func (*PhoneCallRequested) CRC() uint32 {
@@ -4240,14 +4240,14 @@ func (*PhoneCallRequested) ImplementsPhoneCall() {}
 
 type PhoneCallAccepted struct {
 	// flags position
-	Video         bool               `tl:"flag:6,encoded_in_bitflags"`
-	Id            int64              `validate:"required"`
-	AccessHash    int64              `validate:"required"`
-	Date          int32              `validate:"required"`
-	AdminId       int32              `validate:"required"`
-	ParticipantId int32              `validate:"required"`
-	GB            []byte             `validate:"required"`
-	Protocol      *PhoneCallProtocol `validate:"required"`
+	Video         bool `tl:"flag:6,encoded_in_bitflags"`
+	Id            int64
+	AccessHash    int64
+	Date          int32
+	AdminId       int32
+	ParticipantId int32
+	GB            []byte
+	Protocol      *PhoneCallProtocol
 }
 
 func (*PhoneCallAccepted) CRC() uint32 {
@@ -4258,18 +4258,18 @@ func (*PhoneCallAccepted) ImplementsPhoneCall() {}
 
 type PhoneCallObj struct {
 	// flags position
-	P2PAllowed     bool               `tl:"flag:5,encoded_in_bitflags"`
-	Video          bool               `tl:"flag:6,encoded_in_bitflags"`
-	Id             int64              `validate:"required"`
-	AccessHash     int64              `validate:"required"`
-	Date           int32              `validate:"required"`
-	AdminId        int32              `validate:"required"`
-	ParticipantId  int32              `validate:"required"`
-	GAOrB          []byte             `validate:"required"`
-	KeyFingerprint int64              `validate:"required"`
-	Protocol       *PhoneCallProtocol `validate:"required"`
-	Connections    []PhoneConnection  `validate:"required"`
-	StartDate      int32              `validate:"required"`
+	P2PAllowed     bool `tl:"flag:5,encoded_in_bitflags"`
+	Video          bool `tl:"flag:6,encoded_in_bitflags"`
+	Id             int64
+	AccessHash     int64
+	Date           int32
+	AdminId        int32
+	ParticipantId  int32
+	GAOrB          []byte
+	KeyFingerprint int64
+	Protocol       *PhoneCallProtocol
+	Connections    []PhoneConnection
+	StartDate      int32
 }
 
 func (*PhoneCallObj) CRC() uint32 {
@@ -4280,10 +4280,10 @@ func (*PhoneCallObj) ImplementsPhoneCall() {}
 
 type PhoneCallDiscarded struct {
 	// flags position
-	NeedRating bool                   `tl:"flag:2,encoded_in_bitflags"`
-	NeedDebug  bool                   `tl:"flag:3,encoded_in_bitflags"`
-	Video      bool                   `tl:"flag:6,encoded_in_bitflags"`
-	Id         int64                  `validate:"required"`
+	NeedRating bool `tl:"flag:2,encoded_in_bitflags"`
+	NeedDebug  bool `tl:"flag:3,encoded_in_bitflags"`
+	Video      bool `tl:"flag:6,encoded_in_bitflags"`
+	Id         int64
 	Reason     PhoneCallDiscardReason `tl:"flag:0"`
 	Duration   int32                  `tl:"flag:1"`
 }
@@ -4300,11 +4300,11 @@ type PhoneConnection interface {
 }
 
 type PhoneConnectionObj struct {
-	Id      int64  `validate:"required"`
-	Ip      string `validate:"required"`
-	Ipv6    string `validate:"required"`
-	Port    int32  `validate:"required"`
-	PeerTag []byte `validate:"required"`
+	Id      int64
+	Ip      string
+	Ipv6    string
+	Port    int32
+	PeerTag []byte
 }
 
 func (*PhoneConnectionObj) CRC() uint32 {
@@ -4315,14 +4315,14 @@ func (*PhoneConnectionObj) ImplementsPhoneConnection() {}
 
 type PhoneConnectionWebrtc struct {
 	// flags position
-	Turn     bool   `tl:"flag:0,encoded_in_bitflags"`
-	Stun     bool   `tl:"flag:1,encoded_in_bitflags"`
-	Id       int64  `validate:"required"`
-	Ip       string `validate:"required"`
-	Ipv6     string `validate:"required"`
-	Port     int32  `validate:"required"`
-	Username string `validate:"required"`
-	Password string `validate:"required"`
+	Turn     bool `tl:"flag:0,encoded_in_bitflags"`
+	Stun     bool `tl:"flag:1,encoded_in_bitflags"`
+	Id       int64
+	Ip       string
+	Ipv6     string
+	Port     int32
+	Username string
+	Password string
 }
 
 func (*PhoneConnectionWebrtc) CRC() uint32 {
@@ -4337,7 +4337,7 @@ type Photo interface {
 }
 
 type PhotoEmpty struct {
-	Id int64 `validate:"required"`
+	Id int64
 }
 
 func (*PhotoEmpty) CRC() uint32 {
@@ -4348,14 +4348,14 @@ func (*PhotoEmpty) ImplementsPhoto() {}
 
 type PhotoObj struct {
 	// flags position
-	HasStickers   bool         `tl:"flag:0,encoded_in_bitflags"`
-	Id            int64        `validate:"required"`
-	AccessHash    int64        `validate:"required"`
-	FileReference []byte       `validate:"required"`
-	Date          int32        `validate:"required"`
-	Sizes         []PhotoSize  `validate:"required"`
+	HasStickers   bool `tl:"flag:0,encoded_in_bitflags"`
+	Id            int64
+	AccessHash    int64
+	FileReference []byte
+	Date          int32
+	Sizes         []PhotoSize
 	VideoSizes    []*VideoSize `tl:"flag:1"`
-	DcId          int32        `validate:"required"`
+	DcId          int32
 }
 
 func (*PhotoObj) CRC() uint32 {
@@ -4370,7 +4370,7 @@ type PhotoSize interface {
 }
 
 type PhotoSizeEmpty struct {
-	Type string `validate:"required"`
+	Type string
 }
 
 func (*PhotoSizeEmpty) CRC() uint32 {
@@ -4380,11 +4380,11 @@ func (*PhotoSizeEmpty) CRC() uint32 {
 func (*PhotoSizeEmpty) ImplementsPhotoSize() {}
 
 type PhotoSizeObj struct {
-	Type     string        `validate:"required"`
-	Location *FileLocation `validate:"required"`
-	W        int32         `validate:"required"`
-	H        int32         `validate:"required"`
-	Size     int32         `validate:"required"`
+	Type     string
+	Location *FileLocation
+	W        int32
+	H        int32
+	Size     int32
 }
 
 func (*PhotoSizeObj) CRC() uint32 {
@@ -4394,11 +4394,11 @@ func (*PhotoSizeObj) CRC() uint32 {
 func (*PhotoSizeObj) ImplementsPhotoSize() {}
 
 type PhotoCachedSize struct {
-	Type     string        `validate:"required"`
-	Location *FileLocation `validate:"required"`
-	W        int32         `validate:"required"`
-	H        int32         `validate:"required"`
-	Bytes    []byte        `validate:"required"`
+	Type     string
+	Location *FileLocation
+	W        int32
+	H        int32
+	Bytes    []byte
 }
 
 func (*PhotoCachedSize) CRC() uint32 {
@@ -4408,8 +4408,8 @@ func (*PhotoCachedSize) CRC() uint32 {
 func (*PhotoCachedSize) ImplementsPhotoSize() {}
 
 type PhotoStrippedSize struct {
-	Type  string `validate:"required"`
-	Bytes []byte `validate:"required"`
+	Type  string
+	Bytes []byte
 }
 
 func (*PhotoStrippedSize) CRC() uint32 {
@@ -4440,7 +4440,7 @@ func (*PrivacyValueAllowAll) CRC() uint32 {
 func (*PrivacyValueAllowAll) ImplementsPrivacyRule() {}
 
 type PrivacyValueAllowUsers struct {
-	Users []int32 `validate:"required"`
+	Users []int32
 }
 
 func (*PrivacyValueAllowUsers) CRC() uint32 {
@@ -4466,7 +4466,7 @@ func (*PrivacyValueDisallowAll) CRC() uint32 {
 func (*PrivacyValueDisallowAll) ImplementsPrivacyRule() {}
 
 type PrivacyValueDisallowUsers struct {
-	Users []int32 `validate:"required"`
+	Users []int32
 }
 
 func (*PrivacyValueDisallowUsers) CRC() uint32 {
@@ -4476,7 +4476,7 @@ func (*PrivacyValueDisallowUsers) CRC() uint32 {
 func (*PrivacyValueDisallowUsers) ImplementsPrivacyRule() {}
 
 type PrivacyValueAllowChatParticipants struct {
-	Chats []int32 `validate:"required"`
+	Chats []int32
 }
 
 func (*PrivacyValueAllowChatParticipants) CRC() uint32 {
@@ -4486,7 +4486,7 @@ func (*PrivacyValueAllowChatParticipants) CRC() uint32 {
 func (*PrivacyValueAllowChatParticipants) ImplementsPrivacyRule() {}
 
 type PrivacyValueDisallowChatParticipants struct {
-	Chats []int32 `validate:"required"`
+	Chats []int32
 }
 
 func (*PrivacyValueDisallowChatParticipants) CRC() uint32 {
@@ -4501,7 +4501,7 @@ type RecentMeUrl interface {
 }
 
 type RecentMeUrlUnknown struct {
-	Url string `validate:"required"`
+	Url string
 }
 
 func (*RecentMeUrlUnknown) CRC() uint32 {
@@ -4511,8 +4511,8 @@ func (*RecentMeUrlUnknown) CRC() uint32 {
 func (*RecentMeUrlUnknown) ImplementsRecentMeUrl() {}
 
 type RecentMeUrlUser struct {
-	Url    string `validate:"required"`
-	UserId int32  `validate:"required"`
+	Url    string
+	UserId int32
 }
 
 func (*RecentMeUrlUser) CRC() uint32 {
@@ -4522,8 +4522,8 @@ func (*RecentMeUrlUser) CRC() uint32 {
 func (*RecentMeUrlUser) ImplementsRecentMeUrl() {}
 
 type RecentMeUrlChat struct {
-	Url    string `validate:"required"`
-	ChatId int32  `validate:"required"`
+	Url    string
+	ChatId int32
 }
 
 func (*RecentMeUrlChat) CRC() uint32 {
@@ -4533,8 +4533,8 @@ func (*RecentMeUrlChat) CRC() uint32 {
 func (*RecentMeUrlChat) ImplementsRecentMeUrl() {}
 
 type RecentMeUrlChatInvite struct {
-	Url        string     `validate:"required"`
-	ChatInvite ChatInvite `validate:"required"`
+	Url        string
+	ChatInvite ChatInvite
 }
 
 func (*RecentMeUrlChatInvite) CRC() uint32 {
@@ -4544,8 +4544,8 @@ func (*RecentMeUrlChatInvite) CRC() uint32 {
 func (*RecentMeUrlChatInvite) ImplementsRecentMeUrl() {}
 
 type RecentMeUrlStickerSet struct {
-	Url string            `validate:"required"`
-	Set StickerSetCovered `validate:"required"`
+	Url string
+	Set StickerSetCovered
 }
 
 func (*RecentMeUrlStickerSet) CRC() uint32 {
@@ -4584,10 +4584,10 @@ func (*ReplyKeyboardForceReply) ImplementsReplyMarkup() {}
 
 type ReplyKeyboardMarkup struct {
 	// flags position
-	Resize    bool                 `tl:"flag:0,encoded_in_bitflags"`
-	SingleUse bool                 `tl:"flag:1,encoded_in_bitflags"`
-	Selective bool                 `tl:"flag:2,encoded_in_bitflags"`
-	Rows      []*KeyboardButtonRow `validate:"required"`
+	Resize    bool `tl:"flag:0,encoded_in_bitflags"`
+	SingleUse bool `tl:"flag:1,encoded_in_bitflags"`
+	Selective bool `tl:"flag:2,encoded_in_bitflags"`
+	Rows      []*KeyboardButtonRow
 }
 
 func (*ReplyKeyboardMarkup) CRC() uint32 {
@@ -4597,7 +4597,7 @@ func (*ReplyKeyboardMarkup) CRC() uint32 {
 func (*ReplyKeyboardMarkup) ImplementsReplyMarkup() {}
 
 type ReplyInlineMarkup struct {
-	Rows []*KeyboardButtonRow `validate:"required"`
+	Rows []*KeyboardButtonRow
 }
 
 func (*ReplyInlineMarkup) CRC() uint32 {
@@ -4644,7 +4644,7 @@ func (*InputReportReasonChildAbuse) CRC() uint32 {
 func (*InputReportReasonChildAbuse) ImplementsReportReason() {}
 
 type InputReportReasonOther struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*InputReportReasonOther) CRC() uint32 {
@@ -4683,7 +4683,7 @@ func (*TextEmpty) CRC() uint32 {
 func (*TextEmpty) ImplementsRichText() {}
 
 type TextPlain struct {
-	Text string `validate:"required"`
+	Text string
 }
 
 func (*TextPlain) CRC() uint32 {
@@ -4693,7 +4693,7 @@ func (*TextPlain) CRC() uint32 {
 func (*TextPlain) ImplementsRichText() {}
 
 type TextBold struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextBold) CRC() uint32 {
@@ -4703,7 +4703,7 @@ func (*TextBold) CRC() uint32 {
 func (*TextBold) ImplementsRichText() {}
 
 type TextItalic struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextItalic) CRC() uint32 {
@@ -4713,7 +4713,7 @@ func (*TextItalic) CRC() uint32 {
 func (*TextItalic) ImplementsRichText() {}
 
 type TextUnderline struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextUnderline) CRC() uint32 {
@@ -4723,7 +4723,7 @@ func (*TextUnderline) CRC() uint32 {
 func (*TextUnderline) ImplementsRichText() {}
 
 type TextStrike struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextStrike) CRC() uint32 {
@@ -4733,7 +4733,7 @@ func (*TextStrike) CRC() uint32 {
 func (*TextStrike) ImplementsRichText() {}
 
 type TextFixed struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextFixed) CRC() uint32 {
@@ -4743,9 +4743,9 @@ func (*TextFixed) CRC() uint32 {
 func (*TextFixed) ImplementsRichText() {}
 
 type TextUrl struct {
-	Text      RichText `validate:"required"`
-	Url       string   `validate:"required"`
-	WebpageId int64    `validate:"required"`
+	Text      RichText
+	Url       string
+	WebpageId int64
 }
 
 func (*TextUrl) CRC() uint32 {
@@ -4755,8 +4755,8 @@ func (*TextUrl) CRC() uint32 {
 func (*TextUrl) ImplementsRichText() {}
 
 type TextEmail struct {
-	Text  RichText `validate:"required"`
-	Email string   `validate:"required"`
+	Text  RichText
+	Email string
 }
 
 func (*TextEmail) CRC() uint32 {
@@ -4766,7 +4766,7 @@ func (*TextEmail) CRC() uint32 {
 func (*TextEmail) ImplementsRichText() {}
 
 type TextConcat struct {
-	Texts []RichText `validate:"required"`
+	Texts []RichText
 }
 
 func (*TextConcat) CRC() uint32 {
@@ -4776,7 +4776,7 @@ func (*TextConcat) CRC() uint32 {
 func (*TextConcat) ImplementsRichText() {}
 
 type TextSubscript struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextSubscript) CRC() uint32 {
@@ -4786,7 +4786,7 @@ func (*TextSubscript) CRC() uint32 {
 func (*TextSubscript) ImplementsRichText() {}
 
 type TextSuperscript struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextSuperscript) CRC() uint32 {
@@ -4796,7 +4796,7 @@ func (*TextSuperscript) CRC() uint32 {
 func (*TextSuperscript) ImplementsRichText() {}
 
 type TextMarked struct {
-	Text RichText `validate:"required"`
+	Text RichText
 }
 
 func (*TextMarked) CRC() uint32 {
@@ -4806,8 +4806,8 @@ func (*TextMarked) CRC() uint32 {
 func (*TextMarked) ImplementsRichText() {}
 
 type TextPhone struct {
-	Text  RichText `validate:"required"`
-	Phone string   `validate:"required"`
+	Text  RichText
+	Phone string
 }
 
 func (*TextPhone) CRC() uint32 {
@@ -4817,9 +4817,9 @@ func (*TextPhone) CRC() uint32 {
 func (*TextPhone) ImplementsRichText() {}
 
 type TextImage struct {
-	DocumentId int64 `validate:"required"`
-	W          int32 `validate:"required"`
-	H          int32 `validate:"required"`
+	DocumentId int64
+	W          int32
+	H          int32
 }
 
 func (*TextImage) CRC() uint32 {
@@ -4829,8 +4829,8 @@ func (*TextImage) CRC() uint32 {
 func (*TextImage) ImplementsRichText() {}
 
 type TextAnchor struct {
-	Text RichText `validate:"required"`
-	Name string   `validate:"required"`
+	Text RichText
+	Name string
 }
 
 func (*TextAnchor) CRC() uint32 {
@@ -4853,13 +4853,13 @@ func (*SecureFileEmpty) CRC() uint32 {
 func (*SecureFileEmpty) ImplementsSecureFile() {}
 
 type SecureFileObj struct {
-	Id         int64  `validate:"required"`
-	AccessHash int64  `validate:"required"`
-	Size       int32  `validate:"required"`
-	DcId       int32  `validate:"required"`
-	Date       int32  `validate:"required"`
-	FileHash   []byte `validate:"required"`
-	Secret     []byte `validate:"required"`
+	Id         int64
+	AccessHash int64
+	Size       int32
+	DcId       int32
+	Date       int32
+	FileHash   []byte
+	Secret     []byte
 }
 
 func (*SecureFileObj) CRC() uint32 {
@@ -4882,7 +4882,7 @@ func (*SecurePasswordKdfAlgoUnknown) CRC() uint32 {
 func (*SecurePasswordKdfAlgoUnknown) ImplementsSecurePasswordKdfAlgo() {}
 
 type SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000 struct {
-	Salt []byte `validate:"required"`
+	Salt []byte
 }
 
 func (*SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000) CRC() uint32 {
@@ -4892,7 +4892,7 @@ func (*SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000) CRC() uint32 {
 func (*SecurePasswordKdfAlgoPBKDF2HMACSHA512iter100000) ImplementsSecurePasswordKdfAlgo() {}
 
 type SecurePasswordKdfAlgoSHA512 struct {
-	Salt []byte `validate:"required"`
+	Salt []byte
 }
 
 func (*SecurePasswordKdfAlgoSHA512) CRC() uint32 {
@@ -4907,7 +4907,7 @@ type SecurePlainData interface {
 }
 
 type SecurePlainPhone struct {
-	Phone string `validate:"required"`
+	Phone string
 }
 
 func (*SecurePlainPhone) CRC() uint32 {
@@ -4917,7 +4917,7 @@ func (*SecurePlainPhone) CRC() uint32 {
 func (*SecurePlainPhone) ImplementsSecurePlainData() {}
 
 type SecurePlainEmail struct {
-	Email string `validate:"required"`
+	Email string
 }
 
 func (*SecurePlainEmail) CRC() uint32 {
@@ -4933,10 +4933,10 @@ type SecureRequiredType interface {
 
 type SecureRequiredTypeObj struct {
 	// flags position
-	NativeNames         bool            `tl:"flag:0,encoded_in_bitflags"`
-	SelfieRequired      bool            `tl:"flag:1,encoded_in_bitflags"`
-	TranslationRequired bool            `tl:"flag:2,encoded_in_bitflags"`
-	Type                SecureValueType `validate:"required"`
+	NativeNames         bool `tl:"flag:0,encoded_in_bitflags"`
+	SelfieRequired      bool `tl:"flag:1,encoded_in_bitflags"`
+	TranslationRequired bool `tl:"flag:2,encoded_in_bitflags"`
+	Type                SecureValueType
 }
 
 func (*SecureRequiredTypeObj) CRC() uint32 {
@@ -4946,7 +4946,7 @@ func (*SecureRequiredTypeObj) CRC() uint32 {
 func (*SecureRequiredTypeObj) ImplementsSecureRequiredType() {}
 
 type SecureRequiredTypeOneOf struct {
-	Types []SecureRequiredType `validate:"required"`
+	Types []SecureRequiredType
 }
 
 func (*SecureRequiredTypeOneOf) CRC() uint32 {
@@ -4961,10 +4961,10 @@ type SecureValueError interface {
 }
 
 type SecureValueErrorData struct {
-	Type     SecureValueType `validate:"required"`
-	DataHash []byte          `validate:"required"`
-	Field    string          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	DataHash []byte
+	Field    string
+	Text     string
 }
 
 func (*SecureValueErrorData) CRC() uint32 {
@@ -4974,9 +4974,9 @@ func (*SecureValueErrorData) CRC() uint32 {
 func (*SecureValueErrorData) ImplementsSecureValueError() {}
 
 type SecureValueErrorFrontSide struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash []byte          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash []byte
+	Text     string
 }
 
 func (*SecureValueErrorFrontSide) CRC() uint32 {
@@ -4986,9 +4986,9 @@ func (*SecureValueErrorFrontSide) CRC() uint32 {
 func (*SecureValueErrorFrontSide) ImplementsSecureValueError() {}
 
 type SecureValueErrorReverseSide struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash []byte          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash []byte
+	Text     string
 }
 
 func (*SecureValueErrorReverseSide) CRC() uint32 {
@@ -4998,9 +4998,9 @@ func (*SecureValueErrorReverseSide) CRC() uint32 {
 func (*SecureValueErrorReverseSide) ImplementsSecureValueError() {}
 
 type SecureValueErrorSelfie struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash []byte          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash []byte
+	Text     string
 }
 
 func (*SecureValueErrorSelfie) CRC() uint32 {
@@ -5010,9 +5010,9 @@ func (*SecureValueErrorSelfie) CRC() uint32 {
 func (*SecureValueErrorSelfie) ImplementsSecureValueError() {}
 
 type SecureValueErrorFile struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash []byte          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash []byte
+	Text     string
 }
 
 func (*SecureValueErrorFile) CRC() uint32 {
@@ -5022,9 +5022,9 @@ func (*SecureValueErrorFile) CRC() uint32 {
 func (*SecureValueErrorFile) ImplementsSecureValueError() {}
 
 type SecureValueErrorFiles struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash [][]byte        `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash [][]byte
+	Text     string
 }
 
 func (*SecureValueErrorFiles) CRC() uint32 {
@@ -5034,9 +5034,9 @@ func (*SecureValueErrorFiles) CRC() uint32 {
 func (*SecureValueErrorFiles) ImplementsSecureValueError() {}
 
 type SecureValueErrorObj struct {
-	Type SecureValueType `validate:"required"`
-	Hash []byte          `validate:"required"`
-	Text string          `validate:"required"`
+	Type SecureValueType
+	Hash []byte
+	Text string
 }
 
 func (*SecureValueErrorObj) CRC() uint32 {
@@ -5046,9 +5046,9 @@ func (*SecureValueErrorObj) CRC() uint32 {
 func (*SecureValueErrorObj) ImplementsSecureValueError() {}
 
 type SecureValueErrorTranslationFile struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash []byte          `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash []byte
+	Text     string
 }
 
 func (*SecureValueErrorTranslationFile) CRC() uint32 {
@@ -5058,9 +5058,9 @@ func (*SecureValueErrorTranslationFile) CRC() uint32 {
 func (*SecureValueErrorTranslationFile) ImplementsSecureValueError() {}
 
 type SecureValueErrorTranslationFiles struct {
-	Type     SecureValueType `validate:"required"`
-	FileHash [][]byte        `validate:"required"`
-	Text     string          `validate:"required"`
+	Type     SecureValueType
+	FileHash [][]byte
+	Text     string
 }
 
 func (*SecureValueErrorTranslationFiles) CRC() uint32 {
@@ -5099,7 +5099,7 @@ func (*SendMessageRecordVideoAction) CRC() uint32 {
 func (*SendMessageRecordVideoAction) ImplementsSendMessageAction() {}
 
 type SendMessageUploadVideoAction struct {
-	Progress int32 `validate:"required"`
+	Progress int32
 }
 
 func (*SendMessageUploadVideoAction) CRC() uint32 {
@@ -5117,7 +5117,7 @@ func (*SendMessageRecordAudioAction) CRC() uint32 {
 func (*SendMessageRecordAudioAction) ImplementsSendMessageAction() {}
 
 type SendMessageUploadAudioAction struct {
-	Progress int32 `validate:"required"`
+	Progress int32
 }
 
 func (*SendMessageUploadAudioAction) CRC() uint32 {
@@ -5127,7 +5127,7 @@ func (*SendMessageUploadAudioAction) CRC() uint32 {
 func (*SendMessageUploadAudioAction) ImplementsSendMessageAction() {}
 
 type SendMessageUploadPhotoAction struct {
-	Progress int32 `validate:"required"`
+	Progress int32
 }
 
 func (*SendMessageUploadPhotoAction) CRC() uint32 {
@@ -5137,7 +5137,7 @@ func (*SendMessageUploadPhotoAction) CRC() uint32 {
 func (*SendMessageUploadPhotoAction) ImplementsSendMessageAction() {}
 
 type SendMessageUploadDocumentAction struct {
-	Progress int32 `validate:"required"`
+	Progress int32
 }
 
 func (*SendMessageUploadDocumentAction) CRC() uint32 {
@@ -5179,7 +5179,7 @@ func (*SendMessageRecordRoundAction) CRC() uint32 {
 func (*SendMessageRecordRoundAction) ImplementsSendMessageAction() {}
 
 type SendMessageUploadRoundAction struct {
-	Progress int32 `validate:"required"`
+	Progress int32
 }
 
 func (*SendMessageUploadRoundAction) CRC() uint32 {
@@ -5194,7 +5194,7 @@ type StatsGraph interface {
 }
 
 type StatsGraphAsync struct {
-	Token string `validate:"required"`
+	Token string
 }
 
 func (*StatsGraphAsync) CRC() uint32 {
@@ -5204,7 +5204,7 @@ func (*StatsGraphAsync) CRC() uint32 {
 func (*StatsGraphAsync) ImplementsStatsGraph() {}
 
 type StatsGraphError struct {
-	Error string `validate:"required"`
+	Error string
 }
 
 func (*StatsGraphError) CRC() uint32 {
@@ -5215,8 +5215,8 @@ func (*StatsGraphError) ImplementsStatsGraph() {}
 
 type StatsGraphObj struct {
 	// flags position
-	Json      *DataJSON `validate:"required"`
-	ZoomToken string    `tl:"flag:0"`
+	Json      *DataJSON
+	ZoomToken string `tl:"flag:0"`
 }
 
 func (*StatsGraphObj) CRC() uint32 {
@@ -5231,8 +5231,8 @@ type StickerSetCovered interface {
 }
 
 type StickerSetCoveredObj struct {
-	Set   *StickerSet `validate:"required"`
-	Cover Document    `validate:"required"`
+	Set   *StickerSet
+	Cover Document
 }
 
 func (*StickerSetCoveredObj) CRC() uint32 {
@@ -5242,8 +5242,8 @@ func (*StickerSetCoveredObj) CRC() uint32 {
 func (*StickerSetCoveredObj) ImplementsStickerSetCovered() {}
 
 type StickerSetMultiCovered struct {
-	Set    *StickerSet `validate:"required"`
-	Covers []Document  `validate:"required"`
+	Set    *StickerSet
+	Covers []Document
 }
 
 func (*StickerSetMultiCovered) CRC() uint32 {
@@ -5258,9 +5258,9 @@ type Update interface {
 }
 
 type UpdateNewMessage struct {
-	Message  Message `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Message  Message
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateNewMessage) CRC() uint32 {
@@ -5270,8 +5270,8 @@ func (*UpdateNewMessage) CRC() uint32 {
 func (*UpdateNewMessage) ImplementsUpdate() {}
 
 type UpdateMessageID struct {
-	Id       int32 `validate:"required"`
-	RandomId int64 `validate:"required"`
+	Id       int32
+	RandomId int64
 }
 
 func (*UpdateMessageID) CRC() uint32 {
@@ -5281,9 +5281,9 @@ func (*UpdateMessageID) CRC() uint32 {
 func (*UpdateMessageID) ImplementsUpdate() {}
 
 type UpdateDeleteMessages struct {
-	Messages []int32 `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Messages []int32
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateDeleteMessages) CRC() uint32 {
@@ -5293,8 +5293,8 @@ func (*UpdateDeleteMessages) CRC() uint32 {
 func (*UpdateDeleteMessages) ImplementsUpdate() {}
 
 type UpdateUserTyping struct {
-	UserId int32             `validate:"required"`
-	Action SendMessageAction `validate:"required"`
+	UserId int32
+	Action SendMessageAction
 }
 
 func (*UpdateUserTyping) CRC() uint32 {
@@ -5304,9 +5304,9 @@ func (*UpdateUserTyping) CRC() uint32 {
 func (*UpdateUserTyping) ImplementsUpdate() {}
 
 type UpdateChatUserTyping struct {
-	ChatId int32             `validate:"required"`
-	UserId int32             `validate:"required"`
-	Action SendMessageAction `validate:"required"`
+	ChatId int32
+	UserId int32
+	Action SendMessageAction
 }
 
 func (*UpdateChatUserTyping) CRC() uint32 {
@@ -5316,7 +5316,7 @@ func (*UpdateChatUserTyping) CRC() uint32 {
 func (*UpdateChatUserTyping) ImplementsUpdate() {}
 
 type UpdateChatParticipants struct {
-	Participants ChatParticipants `validate:"required"`
+	Participants ChatParticipants
 }
 
 func (*UpdateChatParticipants) CRC() uint32 {
@@ -5326,8 +5326,8 @@ func (*UpdateChatParticipants) CRC() uint32 {
 func (*UpdateChatParticipants) ImplementsUpdate() {}
 
 type UpdateUserStatus struct {
-	UserId int32      `validate:"required"`
-	Status UserStatus `validate:"required"`
+	UserId int32
+	Status UserStatus
 }
 
 func (*UpdateUserStatus) CRC() uint32 {
@@ -5337,10 +5337,10 @@ func (*UpdateUserStatus) CRC() uint32 {
 func (*UpdateUserStatus) ImplementsUpdate() {}
 
 type UpdateUserName struct {
-	UserId    int32  `validate:"required"`
-	FirstName string `validate:"required"`
-	LastName  string `validate:"required"`
-	Username  string `validate:"required"`
+	UserId    int32
+	FirstName string
+	LastName  string
+	Username  string
 }
 
 func (*UpdateUserName) CRC() uint32 {
@@ -5350,10 +5350,10 @@ func (*UpdateUserName) CRC() uint32 {
 func (*UpdateUserName) ImplementsUpdate() {}
 
 type UpdateUserPhoto struct {
-	UserId   int32            `validate:"required"`
-	Date     int32            `validate:"required"`
-	Photo    UserProfilePhoto `validate:"required"`
-	Previous bool             `validate:"required"`
+	UserId   int32
+	Date     int32
+	Photo    UserProfilePhoto
+	Previous bool
 }
 
 func (*UpdateUserPhoto) CRC() uint32 {
@@ -5363,8 +5363,8 @@ func (*UpdateUserPhoto) CRC() uint32 {
 func (*UpdateUserPhoto) ImplementsUpdate() {}
 
 type UpdateNewEncryptedMessage struct {
-	Message EncryptedMessage `validate:"required"`
-	Qts     int32            `validate:"required"`
+	Message EncryptedMessage
+	Qts     int32
 }
 
 func (*UpdateNewEncryptedMessage) CRC() uint32 {
@@ -5374,7 +5374,7 @@ func (*UpdateNewEncryptedMessage) CRC() uint32 {
 func (*UpdateNewEncryptedMessage) ImplementsUpdate() {}
 
 type UpdateEncryptedChatTyping struct {
-	ChatId int32 `validate:"required"`
+	ChatId int32
 }
 
 func (*UpdateEncryptedChatTyping) CRC() uint32 {
@@ -5384,8 +5384,8 @@ func (*UpdateEncryptedChatTyping) CRC() uint32 {
 func (*UpdateEncryptedChatTyping) ImplementsUpdate() {}
 
 type UpdateEncryption struct {
-	Chat EncryptedChat `validate:"required"`
-	Date int32         `validate:"required"`
+	Chat EncryptedChat
+	Date int32
 }
 
 func (*UpdateEncryption) CRC() uint32 {
@@ -5395,9 +5395,9 @@ func (*UpdateEncryption) CRC() uint32 {
 func (*UpdateEncryption) ImplementsUpdate() {}
 
 type UpdateEncryptedMessagesRead struct {
-	ChatId  int32 `validate:"required"`
-	MaxDate int32 `validate:"required"`
-	Date    int32 `validate:"required"`
+	ChatId  int32
+	MaxDate int32
+	Date    int32
 }
 
 func (*UpdateEncryptedMessagesRead) CRC() uint32 {
@@ -5407,11 +5407,11 @@ func (*UpdateEncryptedMessagesRead) CRC() uint32 {
 func (*UpdateEncryptedMessagesRead) ImplementsUpdate() {}
 
 type UpdateChatParticipantAdd struct {
-	ChatId    int32 `validate:"required"`
-	UserId    int32 `validate:"required"`
-	InviterId int32 `validate:"required"`
-	Date      int32 `validate:"required"`
-	Version   int32 `validate:"required"`
+	ChatId    int32
+	UserId    int32
+	InviterId int32
+	Date      int32
+	Version   int32
 }
 
 func (*UpdateChatParticipantAdd) CRC() uint32 {
@@ -5421,9 +5421,9 @@ func (*UpdateChatParticipantAdd) CRC() uint32 {
 func (*UpdateChatParticipantAdd) ImplementsUpdate() {}
 
 type UpdateChatParticipantDelete struct {
-	ChatId  int32 `validate:"required"`
-	UserId  int32 `validate:"required"`
-	Version int32 `validate:"required"`
+	ChatId  int32
+	UserId  int32
+	Version int32
 }
 
 func (*UpdateChatParticipantDelete) CRC() uint32 {
@@ -5433,7 +5433,7 @@ func (*UpdateChatParticipantDelete) CRC() uint32 {
 func (*UpdateChatParticipantDelete) ImplementsUpdate() {}
 
 type UpdateDcOptions struct {
-	DcOptions []*DcOption `validate:"required"`
+	DcOptions []*DcOption
 }
 
 func (*UpdateDcOptions) CRC() uint32 {
@@ -5443,8 +5443,8 @@ func (*UpdateDcOptions) CRC() uint32 {
 func (*UpdateDcOptions) ImplementsUpdate() {}
 
 type UpdateUserBlocked struct {
-	UserId  int32 `validate:"required"`
-	Blocked bool  `validate:"required"`
+	UserId  int32
+	Blocked bool
 }
 
 func (*UpdateUserBlocked) CRC() uint32 {
@@ -5454,8 +5454,8 @@ func (*UpdateUserBlocked) CRC() uint32 {
 func (*UpdateUserBlocked) ImplementsUpdate() {}
 
 type UpdateNotifySettings struct {
-	Peer           NotifyPeer          `validate:"required"`
-	NotifySettings *PeerNotifySettings `validate:"required"`
+	Peer           NotifyPeer
+	NotifySettings *PeerNotifySettings
 }
 
 func (*UpdateNotifySettings) CRC() uint32 {
@@ -5466,12 +5466,12 @@ func (*UpdateNotifySettings) ImplementsUpdate() {}
 
 type UpdateServiceNotification struct {
 	// flags position
-	Popup     bool            `tl:"flag:0,encoded_in_bitflags"`
-	InboxDate int32           `tl:"flag:1"`
-	Type      string          `validate:"required"`
-	Message   string          `validate:"required"`
-	Media     MessageMedia    `validate:"required"`
-	Entities  []MessageEntity `validate:"required"`
+	Popup     bool  `tl:"flag:0,encoded_in_bitflags"`
+	InboxDate int32 `tl:"flag:1"`
+	Type      string
+	Message   string
+	Media     MessageMedia
+	Entities  []MessageEntity
 }
 
 func (*UpdateServiceNotification) CRC() uint32 {
@@ -5481,8 +5481,8 @@ func (*UpdateServiceNotification) CRC() uint32 {
 func (*UpdateServiceNotification) ImplementsUpdate() {}
 
 type UpdatePrivacy struct {
-	Key   PrivacyKey    `validate:"required"`
-	Rules []PrivacyRule `validate:"required"`
+	Key   PrivacyKey
+	Rules []PrivacyRule
 }
 
 func (*UpdatePrivacy) CRC() uint32 {
@@ -5492,8 +5492,8 @@ func (*UpdatePrivacy) CRC() uint32 {
 func (*UpdatePrivacy) ImplementsUpdate() {}
 
 type UpdateUserPhone struct {
-	UserId int32  `validate:"required"`
-	Phone  string `validate:"required"`
+	UserId int32
+	Phone  string
 }
 
 func (*UpdateUserPhone) CRC() uint32 {
@@ -5505,11 +5505,11 @@ func (*UpdateUserPhone) ImplementsUpdate() {}
 type UpdateReadHistoryInbox struct {
 	// flags position
 	FolderId         int32 `tl:"flag:0"`
-	Peer             Peer  `validate:"required"`
-	MaxId            int32 `validate:"required"`
-	StillUnreadCount int32 `validate:"required"`
-	Pts              int32 `validate:"required"`
-	PtsCount         int32 `validate:"required"`
+	Peer             Peer
+	MaxId            int32
+	StillUnreadCount int32
+	Pts              int32
+	PtsCount         int32
 }
 
 func (*UpdateReadHistoryInbox) CRC() uint32 {
@@ -5519,10 +5519,10 @@ func (*UpdateReadHistoryInbox) CRC() uint32 {
 func (*UpdateReadHistoryInbox) ImplementsUpdate() {}
 
 type UpdateReadHistoryOutbox struct {
-	Peer     Peer  `validate:"required"`
-	MaxId    int32 `validate:"required"`
-	Pts      int32 `validate:"required"`
-	PtsCount int32 `validate:"required"`
+	Peer     Peer
+	MaxId    int32
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateReadHistoryOutbox) CRC() uint32 {
@@ -5532,9 +5532,9 @@ func (*UpdateReadHistoryOutbox) CRC() uint32 {
 func (*UpdateReadHistoryOutbox) ImplementsUpdate() {}
 
 type UpdateWebPage struct {
-	Webpage  WebPage `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Webpage  WebPage
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateWebPage) CRC() uint32 {
@@ -5544,9 +5544,9 @@ func (*UpdateWebPage) CRC() uint32 {
 func (*UpdateWebPage) ImplementsUpdate() {}
 
 type UpdateReadMessagesContents struct {
-	Messages []int32 `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Messages []int32
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateReadMessagesContents) CRC() uint32 {
@@ -5557,7 +5557,7 @@ func (*UpdateReadMessagesContents) ImplementsUpdate() {}
 
 type UpdateChannelTooLong struct {
 	// flags position
-	ChannelId int32 `validate:"required"`
+	ChannelId int32
 	Pts       int32 `tl:"flag:0"`
 }
 
@@ -5568,7 +5568,7 @@ func (*UpdateChannelTooLong) CRC() uint32 {
 func (*UpdateChannelTooLong) ImplementsUpdate() {}
 
 type UpdateChannel struct {
-	ChannelId int32 `validate:"required"`
+	ChannelId int32
 }
 
 func (*UpdateChannel) CRC() uint32 {
@@ -5578,9 +5578,9 @@ func (*UpdateChannel) CRC() uint32 {
 func (*UpdateChannel) ImplementsUpdate() {}
 
 type UpdateNewChannelMessage struct {
-	Message  Message `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Message  Message
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateNewChannelMessage) CRC() uint32 {
@@ -5592,10 +5592,10 @@ func (*UpdateNewChannelMessage) ImplementsUpdate() {}
 type UpdateReadChannelInbox struct {
 	// flags position
 	FolderId         int32 `tl:"flag:0"`
-	ChannelId        int32 `validate:"required"`
-	MaxId            int32 `validate:"required"`
-	StillUnreadCount int32 `validate:"required"`
-	Pts              int32 `validate:"required"`
+	ChannelId        int32
+	MaxId            int32
+	StillUnreadCount int32
+	Pts              int32
 }
 
 func (*UpdateReadChannelInbox) CRC() uint32 {
@@ -5605,10 +5605,10 @@ func (*UpdateReadChannelInbox) CRC() uint32 {
 func (*UpdateReadChannelInbox) ImplementsUpdate() {}
 
 type UpdateDeleteChannelMessages struct {
-	ChannelId int32   `validate:"required"`
-	Messages  []int32 `validate:"required"`
-	Pts       int32   `validate:"required"`
-	PtsCount  int32   `validate:"required"`
+	ChannelId int32
+	Messages  []int32
+	Pts       int32
+	PtsCount  int32
 }
 
 func (*UpdateDeleteChannelMessages) CRC() uint32 {
@@ -5618,9 +5618,9 @@ func (*UpdateDeleteChannelMessages) CRC() uint32 {
 func (*UpdateDeleteChannelMessages) ImplementsUpdate() {}
 
 type UpdateChannelMessageViews struct {
-	ChannelId int32 `validate:"required"`
-	Id        int32 `validate:"required"`
-	Views     int32 `validate:"required"`
+	ChannelId int32
+	Id        int32
+	Views     int32
 }
 
 func (*UpdateChannelMessageViews) CRC() uint32 {
@@ -5630,10 +5630,10 @@ func (*UpdateChannelMessageViews) CRC() uint32 {
 func (*UpdateChannelMessageViews) ImplementsUpdate() {}
 
 type UpdateChatParticipantAdmin struct {
-	ChatId  int32 `validate:"required"`
-	UserId  int32 `validate:"required"`
-	IsAdmin bool  `validate:"required"`
-	Version int32 `validate:"required"`
+	ChatId  int32
+	UserId  int32
+	IsAdmin bool
+	Version int32
 }
 
 func (*UpdateChatParticipantAdmin) CRC() uint32 {
@@ -5643,7 +5643,7 @@ func (*UpdateChatParticipantAdmin) CRC() uint32 {
 func (*UpdateChatParticipantAdmin) ImplementsUpdate() {}
 
 type UpdateNewStickerSet struct {
-	Stickerset *MessagesStickerSet `validate:"required"`
+	Stickerset *MessagesStickerSet
 }
 
 func (*UpdateNewStickerSet) CRC() uint32 {
@@ -5654,8 +5654,8 @@ func (*UpdateNewStickerSet) ImplementsUpdate() {}
 
 type UpdateStickerSetsOrder struct {
 	// flags position
-	Masks bool    `tl:"flag:0,encoded_in_bitflags"`
-	Order []int64 `validate:"required"`
+	Masks bool `tl:"flag:0,encoded_in_bitflags"`
+	Order []int64
 }
 
 func (*UpdateStickerSetsOrder) CRC() uint32 {
@@ -5682,11 +5682,11 @@ func (*UpdateSavedGifs) ImplementsUpdate() {}
 
 type UpdateBotInlineQuery struct {
 	// flags position
-	QueryId int64    `validate:"required"`
-	UserId  int32    `validate:"required"`
-	Query   string   `validate:"required"`
+	QueryId int64
+	UserId  int32
+	Query   string
 	Geo     GeoPoint `tl:"flag:0"`
-	Offset  string   `validate:"required"`
+	Offset  string
 }
 
 func (*UpdateBotInlineQuery) CRC() uint32 {
@@ -5697,10 +5697,10 @@ func (*UpdateBotInlineQuery) ImplementsUpdate() {}
 
 type UpdateBotInlineSend struct {
 	// flags position
-	UserId int32                    `validate:"required"`
-	Query  string                   `validate:"required"`
-	Geo    GeoPoint                 `tl:"flag:0"`
-	Id     string                   `validate:"required"`
+	UserId int32
+	Query  string
+	Geo    GeoPoint `tl:"flag:0"`
+	Id     string
 	MsgId  *InputBotInlineMessageID `tl:"flag:1"`
 }
 
@@ -5711,9 +5711,9 @@ func (*UpdateBotInlineSend) CRC() uint32 {
 func (*UpdateBotInlineSend) ImplementsUpdate() {}
 
 type UpdateEditChannelMessage struct {
-	Message  Message `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Message  Message
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateEditChannelMessage) CRC() uint32 {
@@ -5723,8 +5723,8 @@ func (*UpdateEditChannelMessage) CRC() uint32 {
 func (*UpdateEditChannelMessage) ImplementsUpdate() {}
 
 type UpdateChannelPinnedMessage struct {
-	ChannelId int32 `validate:"required"`
-	Id        int32 `validate:"required"`
+	ChannelId int32
+	Id        int32
 }
 
 func (*UpdateChannelPinnedMessage) CRC() uint32 {
@@ -5735,11 +5735,11 @@ func (*UpdateChannelPinnedMessage) ImplementsUpdate() {}
 
 type UpdateBotCallbackQuery struct {
 	// flags position
-	QueryId       int64  `validate:"required"`
-	UserId        int32  `validate:"required"`
-	Peer          Peer   `validate:"required"`
-	MsgId         int32  `validate:"required"`
-	ChatInstance  int64  `validate:"required"`
+	QueryId       int64
+	UserId        int32
+	Peer          Peer
+	MsgId         int32
+	ChatInstance  int64
 	Data          []byte `tl:"flag:0"`
 	GameShortName string `tl:"flag:1"`
 }
@@ -5751,9 +5751,9 @@ func (*UpdateBotCallbackQuery) CRC() uint32 {
 func (*UpdateBotCallbackQuery) ImplementsUpdate() {}
 
 type UpdateEditMessage struct {
-	Message  Message `validate:"required"`
-	Pts      int32   `validate:"required"`
-	PtsCount int32   `validate:"required"`
+	Message  Message
+	Pts      int32
+	PtsCount int32
 }
 
 func (*UpdateEditMessage) CRC() uint32 {
@@ -5764,12 +5764,12 @@ func (*UpdateEditMessage) ImplementsUpdate() {}
 
 type UpdateInlineBotCallbackQuery struct {
 	// flags position
-	QueryId       int64                    `validate:"required"`
-	UserId        int32                    `validate:"required"`
-	MsgId         *InputBotInlineMessageID `validate:"required"`
-	ChatInstance  int64                    `validate:"required"`
-	Data          []byte                   `tl:"flag:0"`
-	GameShortName string                   `tl:"flag:1"`
+	QueryId       int64
+	UserId        int32
+	MsgId         *InputBotInlineMessageID
+	ChatInstance  int64
+	Data          []byte `tl:"flag:0"`
+	GameShortName string `tl:"flag:1"`
 }
 
 func (*UpdateInlineBotCallbackQuery) CRC() uint32 {
@@ -5779,8 +5779,8 @@ func (*UpdateInlineBotCallbackQuery) CRC() uint32 {
 func (*UpdateInlineBotCallbackQuery) ImplementsUpdate() {}
 
 type UpdateReadChannelOutbox struct {
-	ChannelId int32 `validate:"required"`
-	MaxId     int32 `validate:"required"`
+	ChannelId int32
+	MaxId     int32
 }
 
 func (*UpdateReadChannelOutbox) CRC() uint32 {
@@ -5790,8 +5790,8 @@ func (*UpdateReadChannelOutbox) CRC() uint32 {
 func (*UpdateReadChannelOutbox) ImplementsUpdate() {}
 
 type UpdateDraftMessage struct {
-	Peer  Peer         `validate:"required"`
-	Draft DraftMessage `validate:"required"`
+	Peer  Peer
+	Draft DraftMessage
 }
 
 func (*UpdateDraftMessage) CRC() uint32 {
@@ -5833,10 +5833,10 @@ func (*UpdatePtsChanged) CRC() uint32 {
 func (*UpdatePtsChanged) ImplementsUpdate() {}
 
 type UpdateChannelWebPage struct {
-	ChannelId int32   `validate:"required"`
-	Webpage   WebPage `validate:"required"`
-	Pts       int32   `validate:"required"`
-	PtsCount  int32   `validate:"required"`
+	ChannelId int32
+	Webpage   WebPage
+	Pts       int32
+	PtsCount  int32
 }
 
 func (*UpdateChannelWebPage) CRC() uint32 {
@@ -5847,9 +5847,9 @@ func (*UpdateChannelWebPage) ImplementsUpdate() {}
 
 type UpdateDialogPinned struct {
 	// flags position
-	Pinned   bool       `tl:"flag:0,encoded_in_bitflags"`
-	FolderId int32      `tl:"flag:1"`
-	Peer     DialogPeer `validate:"required"`
+	Pinned   bool  `tl:"flag:0,encoded_in_bitflags"`
+	FolderId int32 `tl:"flag:1"`
+	Peer     DialogPeer
 }
 
 func (*UpdateDialogPinned) CRC() uint32 {
@@ -5871,7 +5871,7 @@ func (*UpdatePinnedDialogs) CRC() uint32 {
 func (*UpdatePinnedDialogs) ImplementsUpdate() {}
 
 type UpdateBotWebhookJSON struct {
-	Data *DataJSON `validate:"required"`
+	Data *DataJSON
 }
 
 func (*UpdateBotWebhookJSON) CRC() uint32 {
@@ -5881,9 +5881,9 @@ func (*UpdateBotWebhookJSON) CRC() uint32 {
 func (*UpdateBotWebhookJSON) ImplementsUpdate() {}
 
 type UpdateBotWebhookJSONQuery struct {
-	QueryId int64     `validate:"required"`
-	Data    *DataJSON `validate:"required"`
-	Timeout int32     `validate:"required"`
+	QueryId int64
+	Data    *DataJSON
+	Timeout int32
 }
 
 func (*UpdateBotWebhookJSONQuery) CRC() uint32 {
@@ -5893,10 +5893,10 @@ func (*UpdateBotWebhookJSONQuery) CRC() uint32 {
 func (*UpdateBotWebhookJSONQuery) ImplementsUpdate() {}
 
 type UpdateBotShippingQuery struct {
-	QueryId         int64        `validate:"required"`
-	UserId          int32        `validate:"required"`
-	Payload         []byte       `validate:"required"`
-	ShippingAddress *PostAddress `validate:"required"`
+	QueryId         int64
+	UserId          int32
+	Payload         []byte
+	ShippingAddress *PostAddress
 }
 
 func (*UpdateBotShippingQuery) CRC() uint32 {
@@ -5907,13 +5907,13 @@ func (*UpdateBotShippingQuery) ImplementsUpdate() {}
 
 type UpdateBotPrecheckoutQuery struct {
 	// flags position
-	QueryId          int64                 `validate:"required"`
-	UserId           int32                 `validate:"required"`
-	Payload          []byte                `validate:"required"`
+	QueryId          int64
+	UserId           int32
+	Payload          []byte
 	Info             *PaymentRequestedInfo `tl:"flag:0"`
 	ShippingOptionId string                `tl:"flag:1"`
-	Currency         string                `validate:"required"`
-	TotalAmount      int64                 `validate:"required"`
+	Currency         string
+	TotalAmount      int64
 }
 
 func (*UpdateBotPrecheckoutQuery) CRC() uint32 {
@@ -5923,7 +5923,7 @@ func (*UpdateBotPrecheckoutQuery) CRC() uint32 {
 func (*UpdateBotPrecheckoutQuery) ImplementsUpdate() {}
 
 type UpdatePhoneCall struct {
-	PhoneCall PhoneCall `validate:"required"`
+	PhoneCall PhoneCall
 }
 
 func (*UpdatePhoneCall) CRC() uint32 {
@@ -5933,7 +5933,7 @@ func (*UpdatePhoneCall) CRC() uint32 {
 func (*UpdatePhoneCall) ImplementsUpdate() {}
 
 type UpdateLangPackTooLong struct {
-	LangCode string `validate:"required"`
+	LangCode string
 }
 
 func (*UpdateLangPackTooLong) CRC() uint32 {
@@ -5943,7 +5943,7 @@ func (*UpdateLangPackTooLong) CRC() uint32 {
 func (*UpdateLangPackTooLong) ImplementsUpdate() {}
 
 type UpdateLangPack struct {
-	Difference *LangPackDifference `validate:"required"`
+	Difference *LangPackDifference
 }
 
 func (*UpdateLangPack) CRC() uint32 {
@@ -5961,8 +5961,8 @@ func (*UpdateFavedStickers) CRC() uint32 {
 func (*UpdateFavedStickers) ImplementsUpdate() {}
 
 type UpdateChannelReadMessagesContents struct {
-	ChannelId int32   `validate:"required"`
-	Messages  []int32 `validate:"required"`
+	ChannelId int32
+	Messages  []int32
 }
 
 func (*UpdateChannelReadMessagesContents) CRC() uint32 {
@@ -5980,8 +5980,8 @@ func (*UpdateContactsReset) CRC() uint32 {
 func (*UpdateContactsReset) ImplementsUpdate() {}
 
 type UpdateChannelAvailableMessages struct {
-	ChannelId      int32 `validate:"required"`
-	AvailableMinId int32 `validate:"required"`
+	ChannelId      int32
+	AvailableMinId int32
 }
 
 func (*UpdateChannelAvailableMessages) CRC() uint32 {
@@ -5992,8 +5992,8 @@ func (*UpdateChannelAvailableMessages) ImplementsUpdate() {}
 
 type UpdateDialogUnreadMark struct {
 	// flags position
-	Unread bool       `tl:"flag:0,encoded_in_bitflags"`
-	Peer   DialogPeer `validate:"required"`
+	Unread bool `tl:"flag:0,encoded_in_bitflags"`
+	Peer   DialogPeer
 }
 
 func (*UpdateDialogUnreadMark) CRC() uint32 {
@@ -6003,8 +6003,8 @@ func (*UpdateDialogUnreadMark) CRC() uint32 {
 func (*UpdateDialogUnreadMark) ImplementsUpdate() {}
 
 type UpdateUserPinnedMessage struct {
-	UserId int32 `validate:"required"`
-	Id     int32 `validate:"required"`
+	UserId int32
+	Id     int32
 }
 
 func (*UpdateUserPinnedMessage) CRC() uint32 {
@@ -6014,9 +6014,9 @@ func (*UpdateUserPinnedMessage) CRC() uint32 {
 func (*UpdateUserPinnedMessage) ImplementsUpdate() {}
 
 type UpdateChatPinnedMessage struct {
-	ChatId  int32 `validate:"required"`
-	Id      int32 `validate:"required"`
-	Version int32 `validate:"required"`
+	ChatId  int32
+	Id      int32
+	Version int32
 }
 
 func (*UpdateChatPinnedMessage) CRC() uint32 {
@@ -6027,9 +6027,9 @@ func (*UpdateChatPinnedMessage) ImplementsUpdate() {}
 
 type UpdateMessagePoll struct {
 	// flags position
-	PollId  int64        `validate:"required"`
-	Poll    *Poll        `tl:"flag:0"`
-	Results *PollResults `validate:"required"`
+	PollId  int64
+	Poll    *Poll `tl:"flag:0"`
+	Results *PollResults
 }
 
 func (*UpdateMessagePoll) CRC() uint32 {
@@ -6039,9 +6039,9 @@ func (*UpdateMessagePoll) CRC() uint32 {
 func (*UpdateMessagePoll) ImplementsUpdate() {}
 
 type UpdateChatDefaultBannedRights struct {
-	Peer                Peer              `validate:"required"`
-	DefaultBannedRights *ChatBannedRights `validate:"required"`
-	Version             int32             `validate:"required"`
+	Peer                Peer
+	DefaultBannedRights *ChatBannedRights
+	Version             int32
 }
 
 func (*UpdateChatDefaultBannedRights) CRC() uint32 {
@@ -6051,9 +6051,9 @@ func (*UpdateChatDefaultBannedRights) CRC() uint32 {
 func (*UpdateChatDefaultBannedRights) ImplementsUpdate() {}
 
 type UpdateFolderPeers struct {
-	FolderPeers []*FolderPeer `validate:"required"`
-	Pts         int32         `validate:"required"`
-	PtsCount    int32         `validate:"required"`
+	FolderPeers []*FolderPeer
+	Pts         int32
+	PtsCount    int32
 }
 
 func (*UpdateFolderPeers) CRC() uint32 {
@@ -6063,8 +6063,8 @@ func (*UpdateFolderPeers) CRC() uint32 {
 func (*UpdateFolderPeers) ImplementsUpdate() {}
 
 type UpdatePeerSettings struct {
-	Peer     Peer          `validate:"required"`
-	Settings *PeerSettings `validate:"required"`
+	Peer     Peer
+	Settings *PeerSettings
 }
 
 func (*UpdatePeerSettings) CRC() uint32 {
@@ -6074,7 +6074,7 @@ func (*UpdatePeerSettings) CRC() uint32 {
 func (*UpdatePeerSettings) ImplementsUpdate() {}
 
 type UpdatePeerLocated struct {
-	Peers []PeerLocated `validate:"required"`
+	Peers []PeerLocated
 }
 
 func (*UpdatePeerLocated) CRC() uint32 {
@@ -6084,7 +6084,7 @@ func (*UpdatePeerLocated) CRC() uint32 {
 func (*UpdatePeerLocated) ImplementsUpdate() {}
 
 type UpdateNewScheduledMessage struct {
-	Message Message `validate:"required"`
+	Message Message
 }
 
 func (*UpdateNewScheduledMessage) CRC() uint32 {
@@ -6094,8 +6094,8 @@ func (*UpdateNewScheduledMessage) CRC() uint32 {
 func (*UpdateNewScheduledMessage) ImplementsUpdate() {}
 
 type UpdateDeleteScheduledMessages struct {
-	Peer     Peer    `validate:"required"`
-	Messages []int32 `validate:"required"`
+	Peer     Peer
+	Messages []int32
 }
 
 func (*UpdateDeleteScheduledMessages) CRC() uint32 {
@@ -6105,7 +6105,7 @@ func (*UpdateDeleteScheduledMessages) CRC() uint32 {
 func (*UpdateDeleteScheduledMessages) ImplementsUpdate() {}
 
 type UpdateTheme struct {
-	Theme *Theme `validate:"required"`
+	Theme *Theme
 }
 
 func (*UpdateTheme) CRC() uint32 {
@@ -6115,8 +6115,8 @@ func (*UpdateTheme) CRC() uint32 {
 func (*UpdateTheme) ImplementsUpdate() {}
 
 type UpdateGeoLiveViewed struct {
-	Peer  Peer  `validate:"required"`
-	MsgId int32 `validate:"required"`
+	Peer  Peer
+	MsgId int32
 }
 
 func (*UpdateGeoLiveViewed) CRC() uint32 {
@@ -6134,9 +6134,9 @@ func (*UpdateLoginToken) CRC() uint32 {
 func (*UpdateLoginToken) ImplementsUpdate() {}
 
 type UpdateMessagePollVote struct {
-	PollId  int64    `validate:"required"`
-	UserId  int32    `validate:"required"`
-	Options [][]byte `validate:"required"`
+	PollId  int64
+	UserId  int32
+	Options [][]byte
 }
 
 func (*UpdateMessagePollVote) CRC() uint32 {
@@ -6147,7 +6147,7 @@ func (*UpdateMessagePollVote) ImplementsUpdate() {}
 
 type UpdateDialogFilter struct {
 	// flags position
-	Id     int32         `validate:"required"`
+	Id     int32
 	Filter *DialogFilter `tl:"flag:0"`
 }
 
@@ -6158,7 +6158,7 @@ func (*UpdateDialogFilter) CRC() uint32 {
 func (*UpdateDialogFilter) ImplementsUpdate() {}
 
 type UpdateDialogFilterOrder struct {
-	Order []int32 `validate:"required"`
+	Order []int32
 }
 
 func (*UpdateDialogFilterOrder) CRC() uint32 {
@@ -6176,8 +6176,8 @@ func (*UpdateDialogFilters) CRC() uint32 {
 func (*UpdateDialogFilters) ImplementsUpdate() {}
 
 type UpdatePhoneCallSignalingData struct {
-	PhoneCallId int64  `validate:"required"`
-	Data        []byte `validate:"required"`
+	PhoneCallId int64
+	Data        []byte
 }
 
 func (*UpdatePhoneCallSignalingData) CRC() uint32 {
@@ -6188,12 +6188,12 @@ func (*UpdatePhoneCallSignalingData) ImplementsUpdate() {}
 
 type UpdateChannelParticipant struct {
 	// flags position
-	ChannelId       int32              `validate:"required"`
-	Date            int32              `validate:"required"`
-	UserId          int32              `validate:"required"`
+	ChannelId       int32
+	Date            int32
+	UserId          int32
 	PrevParticipant ChannelParticipant `tl:"flag:0"`
 	NewParticipant  ChannelParticipant `tl:"flag:1"`
-	Qts             int32              `validate:"required"`
+	Qts             int32
 }
 
 func (*UpdateChannelParticipant) CRC() uint32 {
@@ -6217,16 +6217,16 @@ func (*UpdatesTooLong) ImplementsUpdates() {}
 
 type UpdateShortMessage struct {
 	// flags position
-	Out          bool              `tl:"flag:1,encoded_in_bitflags"`
-	Mentioned    bool              `tl:"flag:4,encoded_in_bitflags"`
-	MediaUnread  bool              `tl:"flag:5,encoded_in_bitflags"`
-	Silent       bool              `tl:"flag:13,encoded_in_bitflags"`
-	Id           int32             `validate:"required"`
-	UserId       int32             `validate:"required"`
-	Message      string            `validate:"required"`
-	Pts          int32             `validate:"required"`
-	PtsCount     int32             `validate:"required"`
-	Date         int32             `validate:"required"`
+	Out          bool `tl:"flag:1,encoded_in_bitflags"`
+	Mentioned    bool `tl:"flag:4,encoded_in_bitflags"`
+	MediaUnread  bool `tl:"flag:5,encoded_in_bitflags"`
+	Silent       bool `tl:"flag:13,encoded_in_bitflags"`
+	Id           int32
+	UserId       int32
+	Message      string
+	Pts          int32
+	PtsCount     int32
+	Date         int32
 	FwdFrom      *MessageFwdHeader `tl:"flag:2"`
 	ViaBotId     int32             `tl:"flag:11"`
 	ReplyToMsgId int32             `tl:"flag:3"`
@@ -6241,17 +6241,17 @@ func (*UpdateShortMessage) ImplementsUpdates() {}
 
 type UpdateShortChatMessage struct {
 	// flags position
-	Out          bool              `tl:"flag:1,encoded_in_bitflags"`
-	Mentioned    bool              `tl:"flag:4,encoded_in_bitflags"`
-	MediaUnread  bool              `tl:"flag:5,encoded_in_bitflags"`
-	Silent       bool              `tl:"flag:13,encoded_in_bitflags"`
-	Id           int32             `validate:"required"`
-	FromId       int32             `validate:"required"`
-	ChatId       int32             `validate:"required"`
-	Message      string            `validate:"required"`
-	Pts          int32             `validate:"required"`
-	PtsCount     int32             `validate:"required"`
-	Date         int32             `validate:"required"`
+	Out          bool `tl:"flag:1,encoded_in_bitflags"`
+	Mentioned    bool `tl:"flag:4,encoded_in_bitflags"`
+	MediaUnread  bool `tl:"flag:5,encoded_in_bitflags"`
+	Silent       bool `tl:"flag:13,encoded_in_bitflags"`
+	Id           int32
+	FromId       int32
+	ChatId       int32
+	Message      string
+	Pts          int32
+	PtsCount     int32
+	Date         int32
 	FwdFrom      *MessageFwdHeader `tl:"flag:2"`
 	ViaBotId     int32             `tl:"flag:11"`
 	ReplyToMsgId int32             `tl:"flag:3"`
@@ -6265,8 +6265,8 @@ func (*UpdateShortChatMessage) CRC() uint32 {
 func (*UpdateShortChatMessage) ImplementsUpdates() {}
 
 type UpdateShort struct {
-	Update Update `validate:"required"`
-	Date   int32  `validate:"required"`
+	Update Update
+	Date   int32
 }
 
 func (*UpdateShort) CRC() uint32 {
@@ -6276,12 +6276,12 @@ func (*UpdateShort) CRC() uint32 {
 func (*UpdateShort) ImplementsUpdates() {}
 
 type UpdatesCombined struct {
-	Updates  []Update `validate:"required"`
-	Users    []User   `validate:"required"`
-	Chats    []Chat   `validate:"required"`
-	Date     int32    `validate:"required"`
-	SeqStart int32    `validate:"required"`
-	Seq      int32    `validate:"required"`
+	Updates  []Update
+	Users    []User
+	Chats    []Chat
+	Date     int32
+	SeqStart int32
+	Seq      int32
 }
 
 func (*UpdatesCombined) CRC() uint32 {
@@ -6291,11 +6291,11 @@ func (*UpdatesCombined) CRC() uint32 {
 func (*UpdatesCombined) ImplementsUpdates() {}
 
 type UpdatesObj struct {
-	Updates []Update `validate:"required"`
-	Users   []User   `validate:"required"`
-	Chats   []Chat   `validate:"required"`
-	Date    int32    `validate:"required"`
-	Seq     int32    `validate:"required"`
+	Updates []Update
+	Users   []User
+	Chats   []Chat
+	Date    int32
+	Seq     int32
 }
 
 func (*UpdatesObj) CRC() uint32 {
@@ -6306,11 +6306,11 @@ func (*UpdatesObj) ImplementsUpdates() {}
 
 type UpdateShortSentMessage struct {
 	// flags position
-	Out      bool            `tl:"flag:1,encoded_in_bitflags"`
-	Id       int32           `validate:"required"`
-	Pts      int32           `validate:"required"`
-	PtsCount int32           `validate:"required"`
-	Date     int32           `validate:"required"`
+	Out      bool `tl:"flag:1,encoded_in_bitflags"`
+	Id       int32
+	Pts      int32
+	PtsCount int32
+	Date     int32
 	Media    MessageMedia    `tl:"flag:9"`
 	Entities []MessageEntity `tl:"flag:7"`
 }
@@ -6328,9 +6328,9 @@ type UrlAuthResult interface {
 
 type UrlAuthResultRequest struct {
 	// flags position
-	RequestWriteAccess bool   `tl:"flag:0,encoded_in_bitflags"`
-	Bot                User   `validate:"required"`
-	Domain             string `validate:"required"`
+	RequestWriteAccess bool `tl:"flag:0,encoded_in_bitflags"`
+	Bot                User
+	Domain             string
 }
 
 func (*UrlAuthResultRequest) CRC() uint32 {
@@ -6340,7 +6340,7 @@ func (*UrlAuthResultRequest) CRC() uint32 {
 func (*UrlAuthResultRequest) ImplementsUrlAuthResult() {}
 
 type UrlAuthResultAccepted struct {
-	Url string `validate:"required"`
+	Url string
 }
 
 func (*UrlAuthResultAccepted) CRC() uint32 {
@@ -6363,7 +6363,7 @@ type User interface {
 }
 
 type UserEmpty struct {
-	Id int32 `validate:"required"`
+	Id int32
 }
 
 func (*UserEmpty) CRC() uint32 {
@@ -6374,21 +6374,21 @@ func (*UserEmpty) ImplementsUser() {}
 
 type UserObj struct {
 	// flags position
-	Self                 bool                 `tl:"flag:10,encoded_in_bitflags"`
-	Contact              bool                 `tl:"flag:11,encoded_in_bitflags"`
-	MutualContact        bool                 `tl:"flag:12,encoded_in_bitflags"`
-	Deleted              bool                 `tl:"flag:13,encoded_in_bitflags"`
-	Bot                  bool                 `tl:"flag:14,encoded_in_bitflags"`
-	BotChatHistory       bool                 `tl:"flag:15,encoded_in_bitflags"`
-	BotNochats           bool                 `tl:"flag:16,encoded_in_bitflags"`
-	Verified             bool                 `tl:"flag:17,encoded_in_bitflags"`
-	Restricted           bool                 `tl:"flag:18,encoded_in_bitflags"`
-	Min                  bool                 `tl:"flag:20,encoded_in_bitflags"`
-	BotInlineGeo         bool                 `tl:"flag:21,encoded_in_bitflags"`
-	Support              bool                 `tl:"flag:23,encoded_in_bitflags"`
-	Scam                 bool                 `tl:"flag:24,encoded_in_bitflags"`
-	ApplyMinPhoto        bool                 `tl:"flag:25,encoded_in_bitflags"`
-	Id                   int32                `validate:"required"`
+	Self                 bool `tl:"flag:10,encoded_in_bitflags"`
+	Contact              bool `tl:"flag:11,encoded_in_bitflags"`
+	MutualContact        bool `tl:"flag:12,encoded_in_bitflags"`
+	Deleted              bool `tl:"flag:13,encoded_in_bitflags"`
+	Bot                  bool `tl:"flag:14,encoded_in_bitflags"`
+	BotChatHistory       bool `tl:"flag:15,encoded_in_bitflags"`
+	BotNochats           bool `tl:"flag:16,encoded_in_bitflags"`
+	Verified             bool `tl:"flag:17,encoded_in_bitflags"`
+	Restricted           bool `tl:"flag:18,encoded_in_bitflags"`
+	Min                  bool `tl:"flag:20,encoded_in_bitflags"`
+	BotInlineGeo         bool `tl:"flag:21,encoded_in_bitflags"`
+	Support              bool `tl:"flag:23,encoded_in_bitflags"`
+	Scam                 bool `tl:"flag:24,encoded_in_bitflags"`
+	ApplyMinPhoto        bool `tl:"flag:25,encoded_in_bitflags"`
+	Id                   int32
 	AccessHash           int64                `tl:"flag:0"`
 	FirstName            string               `tl:"flag:1"`
 	LastName             string               `tl:"flag:2"`
@@ -6423,11 +6423,11 @@ func (*UserProfilePhotoEmpty) ImplementsUserProfilePhoto() {}
 
 type UserProfilePhotoObj struct {
 	// flags position
-	HasVideo   bool          `tl:"flag:0,encoded_in_bitflags"`
-	PhotoId    int64         `validate:"required"`
-	PhotoSmall *FileLocation `validate:"required"`
-	PhotoBig   *FileLocation `validate:"required"`
-	DcId       int32         `validate:"required"`
+	HasVideo   bool `tl:"flag:0,encoded_in_bitflags"`
+	PhotoId    int64
+	PhotoSmall *FileLocation
+	PhotoBig   *FileLocation
+	DcId       int32
 }
 
 func (*UserProfilePhotoObj) CRC() uint32 {
@@ -6450,7 +6450,7 @@ func (*UserStatusEmpty) CRC() uint32 {
 func (*UserStatusEmpty) ImplementsUserStatus() {}
 
 type UserStatusOnline struct {
-	Expires int32 `validate:"required"`
+	Expires int32
 }
 
 func (*UserStatusOnline) CRC() uint32 {
@@ -6460,7 +6460,7 @@ func (*UserStatusOnline) CRC() uint32 {
 func (*UserStatusOnline) ImplementsUserStatus() {}
 
 type UserStatusOffline struct {
-	WasOnline int32 `validate:"required"`
+	WasOnline int32
 }
 
 func (*UserStatusOffline) CRC() uint32 {
@@ -6499,15 +6499,15 @@ type WallPaper interface {
 }
 
 type WallPaperObj struct {
-	Id int64 `validate:"required"`
+	Id int64
 	// flags position
-	Creator    bool               `tl:"flag:0,encoded_in_bitflags"`
-	Default    bool               `tl:"flag:1,encoded_in_bitflags"`
-	Pattern    bool               `tl:"flag:3,encoded_in_bitflags"`
-	Dark       bool               `tl:"flag:4,encoded_in_bitflags"`
-	AccessHash int64              `validate:"required"`
-	Slug       string             `validate:"required"`
-	Document   Document           `validate:"required"`
+	Creator    bool `tl:"flag:0,encoded_in_bitflags"`
+	Default    bool `tl:"flag:1,encoded_in_bitflags"`
+	Pattern    bool `tl:"flag:3,encoded_in_bitflags"`
+	Dark       bool `tl:"flag:4,encoded_in_bitflags"`
+	AccessHash int64
+	Slug       string
+	Document   Document
 	Settings   *WallPaperSettings `tl:"flag:2"`
 }
 
@@ -6536,11 +6536,11 @@ type WebDocument interface {
 }
 
 type WebDocumentObj struct {
-	Url        string              `validate:"required"`
-	AccessHash int64               `validate:"required"`
-	Size       int32               `validate:"required"`
-	MimeType   string              `validate:"required"`
-	Attributes []DocumentAttribute `validate:"required"`
+	Url        string
+	AccessHash int64
+	Size       int32
+	MimeType   string
+	Attributes []DocumentAttribute
 }
 
 func (*WebDocumentObj) CRC() uint32 {
@@ -6550,10 +6550,10 @@ func (*WebDocumentObj) CRC() uint32 {
 func (*WebDocumentObj) ImplementsWebDocument() {}
 
 type WebDocumentNoProxy struct {
-	Url        string              `validate:"required"`
-	Size       int32               `validate:"required"`
-	MimeType   string              `validate:"required"`
-	Attributes []DocumentAttribute `validate:"required"`
+	Url        string
+	Size       int32
+	MimeType   string
+	Attributes []DocumentAttribute
 }
 
 func (*WebDocumentNoProxy) CRC() uint32 {
@@ -6568,7 +6568,7 @@ type WebPage interface {
 }
 
 type WebPageEmpty struct {
-	Id int64 `validate:"required"`
+	Id int64
 }
 
 func (*WebPageEmpty) CRC() uint32 {
@@ -6578,8 +6578,8 @@ func (*WebPageEmpty) CRC() uint32 {
 func (*WebPageEmpty) ImplementsWebPage() {}
 
 type WebPagePending struct {
-	Id   int64 `validate:"required"`
-	Date int32 `validate:"required"`
+	Id   int64
+	Date int32
 }
 
 func (*WebPagePending) CRC() uint32 {
@@ -6590,10 +6590,10 @@ func (*WebPagePending) ImplementsWebPage() {}
 
 type WebPageObj struct {
 	// flags position
-	Id          int64               `validate:"required"`
-	Url         string              `validate:"required"`
-	DisplayUrl  string              `validate:"required"`
-	Hash        int32               `validate:"required"`
+	Id          int64
+	Url         string
+	DisplayUrl  string
+	Hash        int32
 	Type        string              `tl:"flag:0"`
 	SiteName    string              `tl:"flag:1"`
 	Title       string              `tl:"flag:2"`
@@ -6641,8 +6641,8 @@ func (*AccountThemesNotModified) CRC() uint32 {
 func (*AccountThemesNotModified) ImplementsAccountThemes() {}
 
 type AccountThemesObj struct {
-	Hash   int32    `validate:"required"`
-	Themes []*Theme `validate:"required"`
+	Hash   int32
+	Themes []*Theme
 }
 
 func (*AccountThemesObj) CRC() uint32 {
@@ -6665,8 +6665,8 @@ func (*AccountWallPapersNotModified) CRC() uint32 {
 func (*AccountWallPapersNotModified) ImplementsAccountWallPapers() {}
 
 type AccountWallPapersObj struct {
-	Hash       int32       `validate:"required"`
-	Wallpapers []WallPaper `validate:"required"`
+	Hash       int32
+	Wallpapers []WallPaper
 }
 
 func (*AccountWallPapersObj) CRC() uint32 {
@@ -6683,7 +6683,7 @@ type AuthAuthorization interface {
 type AuthAuthorizationObj struct {
 	// flags position
 	TmpSessions int32 `tl:"flag:0"`
-	User        User  `validate:"required"`
+	User        User
 }
 
 func (*AuthAuthorizationObj) CRC() uint32 {
@@ -6709,8 +6709,8 @@ type AuthLoginToken interface {
 }
 
 type AuthLoginTokenObj struct {
-	Expires int32  `validate:"required"`
-	Token   []byte `validate:"required"`
+	Expires int32
+	Token   []byte
 }
 
 func (*AuthLoginTokenObj) CRC() uint32 {
@@ -6720,8 +6720,8 @@ func (*AuthLoginTokenObj) CRC() uint32 {
 func (*AuthLoginTokenObj) ImplementsAuthLoginToken() {}
 
 type AuthLoginTokenMigrateTo struct {
-	DcId  int32  `validate:"required"`
-	Token []byte `validate:"required"`
+	DcId  int32
+	Token []byte
 }
 
 func (*AuthLoginTokenMigrateTo) CRC() uint32 {
@@ -6731,7 +6731,7 @@ func (*AuthLoginTokenMigrateTo) CRC() uint32 {
 func (*AuthLoginTokenMigrateTo) ImplementsAuthLoginToken() {}
 
 type AuthLoginTokenSuccess struct {
-	Authorization AuthAuthorization `validate:"required"`
+	Authorization AuthAuthorization
 }
 
 func (*AuthLoginTokenSuccess) CRC() uint32 {
@@ -6746,7 +6746,7 @@ type AuthSentCodeType interface {
 }
 
 type AuthSentCodeTypeApp struct {
-	Length int32 `validate:"required"`
+	Length int32
 }
 
 func (*AuthSentCodeTypeApp) CRC() uint32 {
@@ -6756,7 +6756,7 @@ func (*AuthSentCodeTypeApp) CRC() uint32 {
 func (*AuthSentCodeTypeApp) ImplementsAuthSentCodeType() {}
 
 type AuthSentCodeTypeSms struct {
-	Length int32 `validate:"required"`
+	Length int32
 }
 
 func (*AuthSentCodeTypeSms) CRC() uint32 {
@@ -6766,7 +6766,7 @@ func (*AuthSentCodeTypeSms) CRC() uint32 {
 func (*AuthSentCodeTypeSms) ImplementsAuthSentCodeType() {}
 
 type AuthSentCodeTypeCall struct {
-	Length int32 `validate:"required"`
+	Length int32
 }
 
 func (*AuthSentCodeTypeCall) CRC() uint32 {
@@ -6776,7 +6776,7 @@ func (*AuthSentCodeTypeCall) CRC() uint32 {
 func (*AuthSentCodeTypeCall) ImplementsAuthSentCodeType() {}
 
 type AuthSentCodeTypeFlashCall struct {
-	Pattern string `validate:"required"`
+	Pattern string
 }
 
 func (*AuthSentCodeTypeFlashCall) CRC() uint32 {
@@ -6791,9 +6791,9 @@ type ChannelsChannelParticipants interface {
 }
 
 type ChannelsChannelParticipantsObj struct {
-	Count        int32                `validate:"required"`
-	Participants []ChannelParticipant `validate:"required"`
-	Users        []User               `validate:"required"`
+	Count        int32
+	Participants []ChannelParticipant
+	Users        []User
 }
 
 func (*ChannelsChannelParticipantsObj) CRC() uint32 {
@@ -6816,8 +6816,8 @@ type ContactsBlocked interface {
 }
 
 type ContactsBlockedObj struct {
-	Blocked []*ContactBlocked `validate:"required"`
-	Users   []User            `validate:"required"`
+	Blocked []*ContactBlocked
+	Users   []User
 }
 
 func (*ContactsBlockedObj) CRC() uint32 {
@@ -6827,9 +6827,9 @@ func (*ContactsBlockedObj) CRC() uint32 {
 func (*ContactsBlockedObj) ImplementsContactsBlocked() {}
 
 type ContactsBlockedSlice struct {
-	Count   int32             `validate:"required"`
-	Blocked []*ContactBlocked `validate:"required"`
-	Users   []User            `validate:"required"`
+	Count   int32
+	Blocked []*ContactBlocked
+	Users   []User
 }
 
 func (*ContactsBlockedSlice) CRC() uint32 {
@@ -6852,9 +6852,9 @@ func (*ContactsContactsNotModified) CRC() uint32 {
 func (*ContactsContactsNotModified) ImplementsContactsContacts() {}
 
 type ContactsContactsObj struct {
-	Contacts   []*Contact `validate:"required"`
-	SavedCount int32      `validate:"required"`
-	Users      []User     `validate:"required"`
+	Contacts   []*Contact
+	SavedCount int32
+	Users      []User
 }
 
 func (*ContactsContactsObj) CRC() uint32 {
@@ -6877,9 +6877,9 @@ func (*ContactsTopPeersNotModified) CRC() uint32 {
 func (*ContactsTopPeersNotModified) ImplementsContactsTopPeers() {}
 
 type ContactsTopPeersObj struct {
-	Categories []*TopPeerCategoryPeers `validate:"required"`
-	Chats      []Chat                  `validate:"required"`
-	Users      []User                  `validate:"required"`
+	Categories []*TopPeerCategoryPeers
+	Chats      []Chat
+	Users      []User
 }
 
 func (*ContactsTopPeersObj) CRC() uint32 {
@@ -6903,13 +6903,13 @@ type HelpAppUpdate interface {
 
 type HelpAppUpdateObj struct {
 	// flags position
-	CanNotSkip bool            `tl:"flag:0,encoded_in_bitflags"`
-	Id         int32           `validate:"required"`
-	Version    string          `validate:"required"`
-	Text       string          `validate:"required"`
-	Entities   []MessageEntity `validate:"required"`
-	Document   Document        `tl:"flag:1"`
-	Url        string          `tl:"flag:2"`
+	CanNotSkip bool `tl:"flag:0,encoded_in_bitflags"`
+	Id         int32
+	Version    string
+	Text       string
+	Entities   []MessageEntity
+	Document   Document `tl:"flag:1"`
+	Url        string   `tl:"flag:2"`
 }
 
 func (*HelpAppUpdateObj) CRC() uint32 {
@@ -6941,8 +6941,8 @@ func (*HelpDeepLinkInfoEmpty) ImplementsHelpDeepLinkInfo() {}
 
 type HelpDeepLinkInfoObj struct {
 	// flags position
-	UpdateApp bool            `tl:"flag:0,encoded_in_bitflags"`
-	Message   string          `validate:"required"`
+	UpdateApp bool `tl:"flag:0,encoded_in_bitflags"`
+	Message   string
 	Entities  []MessageEntity `tl:"flag:1"`
 }
 
@@ -6966,8 +6966,8 @@ func (*HelpPassportConfigNotModified) CRC() uint32 {
 func (*HelpPassportConfigNotModified) ImplementsHelpPassportConfig() {}
 
 type HelpPassportConfigObj struct {
-	Hash           int32     `validate:"required"`
-	CountriesLangs *DataJSON `validate:"required"`
+	Hash           int32
+	CountriesLangs *DataJSON
 }
 
 func (*HelpPassportConfigObj) CRC() uint32 {
@@ -6982,7 +6982,7 @@ type HelpPromoData interface {
 }
 
 type HelpPromoDataEmpty struct {
-	Expires int32 `validate:"required"`
+	Expires int32
 }
 
 func (*HelpPromoDataEmpty) CRC() uint32 {
@@ -6993,11 +6993,11 @@ func (*HelpPromoDataEmpty) ImplementsHelpPromoData() {}
 
 type HelpPromoDataObj struct {
 	// flags position
-	Proxy      bool   `tl:"flag:0,encoded_in_bitflags"`
-	Expires    int32  `validate:"required"`
-	Peer       Peer   `validate:"required"`
-	Chats      []Chat `validate:"required"`
-	Users      []User `validate:"required"`
+	Proxy      bool `tl:"flag:0,encoded_in_bitflags"`
+	Expires    int32
+	Peer       Peer
+	Chats      []Chat
+	Users      []User
 	PsaType    string `tl:"flag:1"`
 	PsaMessage string `tl:"flag:2"`
 }
@@ -7014,7 +7014,7 @@ type HelpTermsOfServiceUpdate interface {
 }
 
 type HelpTermsOfServiceUpdateEmpty struct {
-	Expires int32 `validate:"required"`
+	Expires int32
 }
 
 func (*HelpTermsOfServiceUpdateEmpty) CRC() uint32 {
@@ -7024,8 +7024,8 @@ func (*HelpTermsOfServiceUpdateEmpty) CRC() uint32 {
 func (*HelpTermsOfServiceUpdateEmpty) ImplementsHelpTermsOfServiceUpdate() {}
 
 type HelpTermsOfServiceUpdateObj struct {
-	Expires        int32               `validate:"required"`
-	TermsOfService *HelpTermsOfService `validate:"required"`
+	Expires        int32
+	TermsOfService *HelpTermsOfService
 }
 
 func (*HelpTermsOfServiceUpdateObj) CRC() uint32 {
@@ -7048,10 +7048,10 @@ func (*HelpUserInfoEmpty) CRC() uint32 {
 func (*HelpUserInfoEmpty) ImplementsHelpUserInfo() {}
 
 type HelpUserInfoObj struct {
-	Message  string          `validate:"required"`
-	Entities []MessageEntity `validate:"required"`
-	Author   string          `validate:"required"`
-	Date     int32           `validate:"required"`
+	Message  string
+	Entities []MessageEntity
+	Author   string
+	Date     int32
 }
 
 func (*HelpUserInfoObj) CRC() uint32 {
@@ -7074,8 +7074,8 @@ func (*MessagesAllStickersNotModified) CRC() uint32 {
 func (*MessagesAllStickersNotModified) ImplementsMessagesAllStickers() {}
 
 type MessagesAllStickersObj struct {
-	Hash int32         `validate:"required"`
-	Sets []*StickerSet `validate:"required"`
+	Hash int32
+	Sets []*StickerSet
 }
 
 func (*MessagesAllStickersObj) CRC() uint32 {
@@ -7090,7 +7090,7 @@ type MessagesChats interface {
 }
 
 type MessagesChatsObj struct {
-	Chats []Chat `validate:"required"`
+	Chats []Chat
 }
 
 func (*MessagesChatsObj) CRC() uint32 {
@@ -7100,8 +7100,8 @@ func (*MessagesChatsObj) CRC() uint32 {
 func (*MessagesChatsObj) ImplementsMessagesChats() {}
 
 type MessagesChatsSlice struct {
-	Count int32  `validate:"required"`
-	Chats []Chat `validate:"required"`
+	Count int32
+	Chats []Chat
 }
 
 func (*MessagesChatsSlice) CRC() uint32 {
@@ -7116,7 +7116,7 @@ type MessagesDhConfig interface {
 }
 
 type MessagesDhConfigNotModified struct {
-	Random []byte `validate:"required"`
+	Random []byte
 }
 
 func (*MessagesDhConfigNotModified) CRC() uint32 {
@@ -7126,10 +7126,10 @@ func (*MessagesDhConfigNotModified) CRC() uint32 {
 func (*MessagesDhConfigNotModified) ImplementsMessagesDhConfig() {}
 
 type MessagesDhConfigObj struct {
-	G       int32  `validate:"required"`
-	P       []byte `validate:"required"`
-	Version int32  `validate:"required"`
-	Random  []byte `validate:"required"`
+	G       int32
+	P       []byte
+	Version int32
+	Random  []byte
 }
 
 func (*MessagesDhConfigObj) CRC() uint32 {
@@ -7144,10 +7144,10 @@ type MessagesDialogs interface {
 }
 
 type MessagesDialogsObj struct {
-	Dialogs  []Dialog  `validate:"required"`
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Dialogs  []Dialog
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*MessagesDialogsObj) CRC() uint32 {
@@ -7157,11 +7157,11 @@ func (*MessagesDialogsObj) CRC() uint32 {
 func (*MessagesDialogsObj) ImplementsMessagesDialogs() {}
 
 type MessagesDialogsSlice struct {
-	Count    int32     `validate:"required"`
-	Dialogs  []Dialog  `validate:"required"`
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Count    int32
+	Dialogs  []Dialog
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*MessagesDialogsSlice) CRC() uint32 {
@@ -7171,7 +7171,7 @@ func (*MessagesDialogsSlice) CRC() uint32 {
 func (*MessagesDialogsSlice) ImplementsMessagesDialogs() {}
 
 type MessagesDialogsNotModified struct {
-	Count int32 `validate:"required"`
+	Count int32
 }
 
 func (*MessagesDialogsNotModified) CRC() uint32 {
@@ -7194,9 +7194,9 @@ func (*MessagesFavedStickersNotModified) CRC() uint32 {
 func (*MessagesFavedStickersNotModified) ImplementsMessagesFavedStickers() {}
 
 type MessagesFavedStickersObj struct {
-	Hash     int32          `validate:"required"`
-	Packs    []*StickerPack `validate:"required"`
-	Stickers []Document     `validate:"required"`
+	Hash     int32
+	Packs    []*StickerPack
+	Stickers []Document
 }
 
 func (*MessagesFavedStickersObj) CRC() uint32 {
@@ -7211,7 +7211,7 @@ type MessagesFeaturedStickers interface {
 }
 
 type MessagesFeaturedStickersNotModified struct {
-	Count int32 `validate:"required"`
+	Count int32
 }
 
 func (*MessagesFeaturedStickersNotModified) CRC() uint32 {
@@ -7221,10 +7221,10 @@ func (*MessagesFeaturedStickersNotModified) CRC() uint32 {
 func (*MessagesFeaturedStickersNotModified) ImplementsMessagesFeaturedStickers() {}
 
 type MessagesFeaturedStickersObj struct {
-	Hash   int32               `validate:"required"`
-	Count  int32               `validate:"required"`
-	Sets   []StickerSetCovered `validate:"required"`
-	Unread []int64             `validate:"required"`
+	Hash   int32
+	Count  int32
+	Sets   []StickerSetCovered
+	Unread []int64
 }
 
 func (*MessagesFeaturedStickersObj) CRC() uint32 {
@@ -7247,8 +7247,8 @@ func (*MessagesFoundStickerSetsNotModified) CRC() uint32 {
 func (*MessagesFoundStickerSetsNotModified) ImplementsMessagesFoundStickerSets() {}
 
 type MessagesFoundStickerSetsObj struct {
-	Hash int32               `validate:"required"`
-	Sets []StickerSetCovered `validate:"required"`
+	Hash int32
+	Sets []StickerSetCovered
 }
 
 func (*MessagesFoundStickerSetsObj) CRC() uint32 {
@@ -7263,9 +7263,9 @@ type MessagesMessages interface {
 }
 
 type MessagesMessagesObj struct {
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*MessagesMessagesObj) CRC() uint32 {
@@ -7276,12 +7276,12 @@ func (*MessagesMessagesObj) ImplementsMessagesMessages() {}
 
 type MessagesMessagesSlice struct {
 	// flags position
-	Inexact  bool      `tl:"flag:1,encoded_in_bitflags"`
-	Count    int32     `validate:"required"`
-	NextRate int32     `tl:"flag:0"`
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Inexact  bool `tl:"flag:1,encoded_in_bitflags"`
+	Count    int32
+	NextRate int32 `tl:"flag:0"`
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*MessagesMessagesSlice) CRC() uint32 {
@@ -7292,12 +7292,12 @@ func (*MessagesMessagesSlice) ImplementsMessagesMessages() {}
 
 type MessagesChannelMessages struct {
 	// flags position
-	Inexact  bool      `tl:"flag:1,encoded_in_bitflags"`
-	Pts      int32     `validate:"required"`
-	Count    int32     `validate:"required"`
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Inexact  bool `tl:"flag:1,encoded_in_bitflags"`
+	Pts      int32
+	Count    int32
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*MessagesChannelMessages) CRC() uint32 {
@@ -7307,7 +7307,7 @@ func (*MessagesChannelMessages) CRC() uint32 {
 func (*MessagesChannelMessages) ImplementsMessagesMessages() {}
 
 type MessagesMessagesNotModified struct {
-	Count int32 `validate:"required"`
+	Count int32
 }
 
 func (*MessagesMessagesNotModified) CRC() uint32 {
@@ -7330,10 +7330,10 @@ func (*MessagesRecentStickersNotModified) CRC() uint32 {
 func (*MessagesRecentStickersNotModified) ImplementsMessagesRecentStickers() {}
 
 type MessagesRecentStickersObj struct {
-	Hash     int32          `validate:"required"`
-	Packs    []*StickerPack `validate:"required"`
-	Stickers []Document     `validate:"required"`
-	Dates    []int32        `validate:"required"`
+	Hash     int32
+	Packs    []*StickerPack
+	Stickers []Document
+	Dates    []int32
 }
 
 func (*MessagesRecentStickersObj) CRC() uint32 {
@@ -7356,8 +7356,8 @@ func (*MessagesSavedGifsNotModified) CRC() uint32 {
 func (*MessagesSavedGifsNotModified) ImplementsMessagesSavedGifs() {}
 
 type MessagesSavedGifsObj struct {
-	Hash int32      `validate:"required"`
-	Gifs []Document `validate:"required"`
+	Hash int32
+	Gifs []Document
 }
 
 func (*MessagesSavedGifsObj) CRC() uint32 {
@@ -7372,7 +7372,7 @@ type MessagesSentEncryptedMessage interface {
 }
 
 type MessagesSentEncryptedMessageObj struct {
-	Date int32 `validate:"required"`
+	Date int32
 }
 
 func (*MessagesSentEncryptedMessageObj) CRC() uint32 {
@@ -7382,8 +7382,8 @@ func (*MessagesSentEncryptedMessageObj) CRC() uint32 {
 func (*MessagesSentEncryptedMessageObj) ImplementsMessagesSentEncryptedMessage() {}
 
 type MessagesSentEncryptedFile struct {
-	Date int32         `validate:"required"`
-	File EncryptedFile `validate:"required"`
+	Date int32
+	File EncryptedFile
 }
 
 func (*MessagesSentEncryptedFile) CRC() uint32 {
@@ -7406,7 +7406,7 @@ func (*MessagesStickerSetInstallResultSuccess) CRC() uint32 {
 func (*MessagesStickerSetInstallResultSuccess) ImplementsMessagesStickerSetInstallResult() {}
 
 type MessagesStickerSetInstallResultArchive struct {
-	Sets []StickerSetCovered `validate:"required"`
+	Sets []StickerSetCovered
 }
 
 func (*MessagesStickerSetInstallResultArchive) CRC() uint32 {
@@ -7429,8 +7429,8 @@ func (*MessagesStickersNotModified) CRC() uint32 {
 func (*MessagesStickersNotModified) ImplementsMessagesStickers() {}
 
 type MessagesStickersObj struct {
-	Hash     int32      `validate:"required"`
-	Stickers []Document `validate:"required"`
+	Hash     int32
+	Stickers []Document
 }
 
 func (*MessagesStickersObj) CRC() uint32 {
@@ -7445,7 +7445,7 @@ type PaymentsPaymentResult interface {
 }
 
 type PaymentsPaymentResultObj struct {
-	Updates Updates `validate:"required"`
+	Updates Updates
 }
 
 func (*PaymentsPaymentResultObj) CRC() uint32 {
@@ -7455,7 +7455,7 @@ func (*PaymentsPaymentResultObj) CRC() uint32 {
 func (*PaymentsPaymentResultObj) ImplementsPaymentsPaymentResult() {}
 
 type PaymentsPaymentVerificationNeeded struct {
-	Url string `validate:"required"`
+	Url string
 }
 
 func (*PaymentsPaymentVerificationNeeded) CRC() uint32 {
@@ -7470,8 +7470,8 @@ type PhotosPhotos interface {
 }
 
 type PhotosPhotosObj struct {
-	Photos []Photo `validate:"required"`
-	Users  []User  `validate:"required"`
+	Photos []Photo
+	Users  []User
 }
 
 func (*PhotosPhotosObj) CRC() uint32 {
@@ -7481,9 +7481,9 @@ func (*PhotosPhotosObj) CRC() uint32 {
 func (*PhotosPhotosObj) ImplementsPhotosPhotos() {}
 
 type PhotosPhotosSlice struct {
-	Count  int32   `validate:"required"`
-	Photos []Photo `validate:"required"`
-	Users  []User  `validate:"required"`
+	Count  int32
+	Photos []Photo
+	Users  []User
 }
 
 func (*PhotosPhotosSlice) CRC() uint32 {
@@ -7499,8 +7499,8 @@ type UpdatesChannelDifference interface {
 
 type UpdatesChannelDifferenceEmpty struct {
 	// flags position
-	Final   bool  `tl:"flag:0,encoded_in_bitflags"`
-	Pts     int32 `validate:"required"`
+	Final   bool `tl:"flag:0,encoded_in_bitflags"`
+	Pts     int32
 	Timeout int32 `tl:"flag:1"`
 }
 
@@ -7512,12 +7512,12 @@ func (*UpdatesChannelDifferenceEmpty) ImplementsUpdatesChannelDifference() {}
 
 type UpdatesChannelDifferenceTooLong struct {
 	// flags position
-	Final    bool      `tl:"flag:0,encoded_in_bitflags"`
-	Timeout  int32     `tl:"flag:1"`
-	Dialog   Dialog    `validate:"required"`
-	Messages []Message `validate:"required"`
-	Chats    []Chat    `validate:"required"`
-	Users    []User    `validate:"required"`
+	Final    bool  `tl:"flag:0,encoded_in_bitflags"`
+	Timeout  int32 `tl:"flag:1"`
+	Dialog   Dialog
+	Messages []Message
+	Chats    []Chat
+	Users    []User
 }
 
 func (*UpdatesChannelDifferenceTooLong) CRC() uint32 {
@@ -7528,13 +7528,13 @@ func (*UpdatesChannelDifferenceTooLong) ImplementsUpdatesChannelDifference() {}
 
 type UpdatesChannelDifferenceObj struct {
 	// flags position
-	Final        bool      `tl:"flag:0,encoded_in_bitflags"`
-	Pts          int32     `validate:"required"`
-	Timeout      int32     `tl:"flag:1"`
-	NewMessages  []Message `validate:"required"`
-	OtherUpdates []Update  `validate:"required"`
-	Chats        []Chat    `validate:"required"`
-	Users        []User    `validate:"required"`
+	Final        bool `tl:"flag:0,encoded_in_bitflags"`
+	Pts          int32
+	Timeout      int32 `tl:"flag:1"`
+	NewMessages  []Message
+	OtherUpdates []Update
+	Chats        []Chat
+	Users        []User
 }
 
 func (*UpdatesChannelDifferenceObj) CRC() uint32 {
@@ -7549,8 +7549,8 @@ type UpdatesDifference interface {
 }
 
 type UpdatesDifferenceEmpty struct {
-	Date int32 `validate:"required"`
-	Seq  int32 `validate:"required"`
+	Date int32
+	Seq  int32
 }
 
 func (*UpdatesDifferenceEmpty) CRC() uint32 {
@@ -7560,12 +7560,12 @@ func (*UpdatesDifferenceEmpty) CRC() uint32 {
 func (*UpdatesDifferenceEmpty) ImplementsUpdatesDifference() {}
 
 type UpdatesDifferenceObj struct {
-	NewMessages          []Message          `validate:"required"`
-	NewEncryptedMessages []EncryptedMessage `validate:"required"`
-	OtherUpdates         []Update           `validate:"required"`
-	Chats                []Chat             `validate:"required"`
-	Users                []User             `validate:"required"`
-	State                *UpdatesState      `validate:"required"`
+	NewMessages          []Message
+	NewEncryptedMessages []EncryptedMessage
+	OtherUpdates         []Update
+	Chats                []Chat
+	Users                []User
+	State                *UpdatesState
 }
 
 func (*UpdatesDifferenceObj) CRC() uint32 {
@@ -7575,12 +7575,12 @@ func (*UpdatesDifferenceObj) CRC() uint32 {
 func (*UpdatesDifferenceObj) ImplementsUpdatesDifference() {}
 
 type UpdatesDifferenceSlice struct {
-	NewMessages          []Message          `validate:"required"`
-	NewEncryptedMessages []EncryptedMessage `validate:"required"`
-	OtherUpdates         []Update           `validate:"required"`
-	Chats                []Chat             `validate:"required"`
-	Users                []User             `validate:"required"`
-	IntermediateState    *UpdatesState      `validate:"required"`
+	NewMessages          []Message
+	NewEncryptedMessages []EncryptedMessage
+	OtherUpdates         []Update
+	Chats                []Chat
+	Users                []User
+	IntermediateState    *UpdatesState
 }
 
 func (*UpdatesDifferenceSlice) CRC() uint32 {
@@ -7590,7 +7590,7 @@ func (*UpdatesDifferenceSlice) CRC() uint32 {
 func (*UpdatesDifferenceSlice) ImplementsUpdatesDifference() {}
 
 type UpdatesDifferenceTooLong struct {
-	Pts int32 `validate:"required"`
+	Pts int32
 }
 
 func (*UpdatesDifferenceTooLong) CRC() uint32 {
@@ -7605,7 +7605,7 @@ type UploadCdnFile interface {
 }
 
 type UploadCdnFileReuploadNeeded struct {
-	RequestToken []byte `validate:"required"`
+	RequestToken []byte
 }
 
 func (*UploadCdnFileReuploadNeeded) CRC() uint32 {
@@ -7615,7 +7615,7 @@ func (*UploadCdnFileReuploadNeeded) CRC() uint32 {
 func (*UploadCdnFileReuploadNeeded) ImplementsUploadCdnFile() {}
 
 type UploadCdnFileObj struct {
-	Bytes []byte `validate:"required"`
+	Bytes []byte
 }
 
 func (*UploadCdnFileObj) CRC() uint32 {
@@ -7630,9 +7630,9 @@ type UploadFile interface {
 }
 
 type UploadFileObj struct {
-	Type  StorageFileType `validate:"required"`
-	Mtime int32           `validate:"required"`
-	Bytes []byte          `validate:"required"`
+	Type  StorageFileType
+	Mtime int32
+	Bytes []byte
 }
 
 func (*UploadFileObj) CRC() uint32 {
@@ -7642,11 +7642,11 @@ func (*UploadFileObj) CRC() uint32 {
 func (*UploadFileObj) ImplementsUploadFile() {}
 
 type UploadFileCdnRedirect struct {
-	DcId          int32       `validate:"required"`
-	FileToken     []byte      `validate:"required"`
-	EncryptionKey []byte      `validate:"required"`
-	EncryptionIv  []byte      `validate:"required"`
-	FileHashes    []*FileHash `validate:"required"`
+	DcId          int32
+	FileToken     []byte
+	EncryptionKey []byte
+	EncryptionIv  []byte
+	FileHashes    []*FileHash
 }
 
 func (*UploadFileCdnRedirect) CRC() uint32 {

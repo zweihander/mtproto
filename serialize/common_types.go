@@ -124,7 +124,7 @@ func (rpc *RpcResult) MarshalTL(w *tl.WriteCursor) error {
 }
 
 type GzipPacked struct {
-	Payload []byte
+	PackedData []byte
 }
 
 func (*GzipPacked) CRC() uint32 { return 0x3072cfa1 } // CrcGzipPacked
@@ -135,7 +135,7 @@ func (g *GzipPacked) UnmarshalTL(r *tl.ReadCursor) (err error) {
 		panic(err)
 	}
 
-	g.Payload, err = decompressData(data)
+	g.PackedData, err = decompressData(data)
 	if err != nil {
 		panic(err)
 	}
