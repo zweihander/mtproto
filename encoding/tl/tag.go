@@ -13,7 +13,7 @@ type tagInfo struct {
 	optional         bool
 }
 
-func parseFlagTag(s string) (info tagInfo, err error) {
+func parseTag(s string) (info tagInfo, err error) {
 	vals := strings.Split(s, ",")
 	if len(vals) == 0 {
 		err = fmt.Errorf("bad tag: %s", s)
@@ -43,7 +43,7 @@ func parseFlagTag(s string) (info tagInfo, err error) {
 		info.optional = true
 	}
 
-	if haveInSlice("encoded_in_bitflag", vals) {
+	if haveInSlice("encoded_in_bitflags", vals) {
 		if !haveFlag {
 			err = fmt.Errorf("have 'encoded_in_bitflag' option without flag index")
 			return

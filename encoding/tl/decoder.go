@@ -91,6 +91,16 @@ func Decode(data []byte, v interface{}) error {
 }
 
 func decode(c *ReadCursor, v interface{}) error {
+	// if reflect.ValueOf(v).IsNil() {
+	// 	o, err := decodeRegisteredObject(c)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	panic("keks")
+	// 	_ = o
+	// 	return nil
+	// }
+
 	if m, ok := v.(Unmarshaler); ok {
 		return m.UnmarshalTL(c)
 	}
@@ -102,6 +112,17 @@ func decode(c *ReadCursor, v interface{}) error {
 		}
 
 		return nil
+	}
+
+	if reflect.TypeOf(v).Kind() == reflect.Ptr {
+		d := reflect.Indirect(reflect.ValueOf(v))
+		if d.Type().Kind() != reflect.Interface {
+			panic("keks")
+		}
+
+		o, err := decodeRegisteredObject(c)
+		pp.Println("decoded_fromiface:", o, err)
+		panic("kek")
 	}
 
 	return fmt.Errorf("unsupported type: %T", v)
@@ -142,10 +163,8 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 	}
 
 	vtyp := value.Type()
-	fmt.Println("check flag")
 	var optionalBitSet uint32
 	if haveFlag(value.Interface()) {
-		fmt.Println("have flag, yes")
 		bitset, err := cur.PopUint()
 		if err != nil {
 			return fmt.Errorf("read bitset: %w", err)
@@ -155,12 +174,13 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 	}
 
 	for i := 0; i < value.NumField(); i++ {
-		ftyp := value.Field(i).Type()
+		field := value.Field(i)
 
 		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
-			info, err := parseFlagTag(tag)
+
+			info, err := parseTag(tag)
 			if err != nil {
-				return fmt.Errorf("parse flag: %w", err)
+				return fmt.Errorf("parse tag: %w", err)
 			}
 
 			if optionalBitSet&(1<<info.index) == 0 {
@@ -168,119 +188,127 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 			}
 
 			if info.encodedInBitflag {
-				value.Field(i).Set(reflect.ValueOf(true).Convert(ftyp))
+				field.Set(reflect.ValueOf(true).Convert(field.Type()))
 				continue
 			}
 		}
 
-		switch value.Field(i).Kind() {
-		case reflect.Float64:
-			val, err := cur.PopDouble()
-			if err != nil {
-				return err
-			}
+		if err := decodeField(cur, field, field.Type()); err != nil {
+			return fmt.Errorf("decode field '%s': %w", vtyp.Field(i).Name, err)
+		}
+	}
 
-			value.Field(i).Set(reflect.ValueOf(val).Convert(ftyp))
-		case reflect.Int64:
-			val, err := cur.PopLong()
-			if err != nil {
-				return err
-			}
+	return nil
+}
 
-			value.Field(i).Set(reflect.ValueOf(val).Convert(ftyp))
-		case reflect.Uint32: // это применимо так же к енумам
-			val, err := cur.PopUint()
-			if err != nil {
-				return err
-			}
+func decodeField(cur *ReadCursor, field reflect.Value, ftyp reflect.Type) error {
+	switch field.Kind() {
+	case reflect.Float64:
+		val, err := cur.PopDouble()
+		if err != nil {
+			return err
+		}
 
-			value.Field(i).Set(reflect.ValueOf(val).Convert(ftyp))
-		case reflect.Int32:
-			val, err := cur.PopUint()
-			if err != nil {
-				return err
-			}
+		field.Set(reflect.ValueOf(val).Convert(ftyp))
+	case reflect.Int64:
+		val, err := cur.PopLong()
+		if err != nil {
+			return err
+		}
 
-			value.Field(i).Set(reflect.ValueOf(int(val)).Convert(ftyp))
-		case reflect.Bool:
-			val, err := cur.PopBool()
-			if err != nil {
-				return fmt.Errorf("pop bool: %w", err)
-			}
+		field.Set(reflect.ValueOf(val).Convert(ftyp))
+	case reflect.Uint32: // это применимо так же к енумам
+		val, err := cur.PopUint()
+		if err != nil {
+			return err
+		}
 
-			value.Field(i).Set(reflect.ValueOf(val).Convert(ftyp))
-		case reflect.String:
+		field.Set(reflect.ValueOf(val).Convert(ftyp))
+	case reflect.Int32:
+		val, err := cur.PopUint()
+		if err != nil {
+			return err
+		}
+
+		field.Set(reflect.ValueOf(int(val)).Convert(ftyp))
+	case reflect.Bool:
+		val, err := cur.PopBool()
+		if err != nil {
+			return fmt.Errorf("pop bool: %w", err)
+		}
+
+		field.Set(reflect.ValueOf(val).Convert(ftyp))
+	case reflect.String:
+		msg, err := decodeMessage(cur)
+		if err != nil {
+			return err
+		}
+
+		field.Set(reflect.ValueOf(string(msg)).Convert(ftyp))
+	case reflect.Struct:
+		fieldValue := reflect.New(ftyp).Elem().Interface()
+		if err := decode(cur, fieldValue); err != nil {
+			return err
+		}
+
+		field.Set(reflect.ValueOf(fieldValue).Convert(ftyp))
+	case reflect.Slice:
+		if _, ok := field.Interface().([]byte); ok {
 			msg, err := decodeMessage(cur)
 			if err != nil {
 				return err
 			}
 
-			value.Field(i).Set(reflect.ValueOf(string(msg)).Convert(ftyp))
-		case reflect.Struct:
-			fieldValue := reflect.New(ftyp).Elem().Interface()
-			if err := decode(cur, fieldValue); err != nil {
+			field.Set(reflect.ValueOf(msg))
+		} else {
+			vec, err := decodeVector(cur, ftyp.Elem())
+			if err != nil {
 				return err
 			}
 
-			value.Field(i).Set(reflect.ValueOf(fieldValue).Convert(ftyp))
-		case reflect.Slice:
-			if _, ok := value.Field(i).Interface().([]byte); ok {
-				msg, err := decodeMessage(cur)
-				if err != nil {
-					return err
-				}
-
-				value.Field(i).Set(reflect.ValueOf(msg))
-			} else {
-				vec, err := decodeVector(cur, ftyp.Elem())
-				if err != nil {
-					return err
-				}
-
-				value.Field(i).Set(reflect.ValueOf(vec).Convert(ftyp))
-			}
-		case reflect.Ptr:
-			switch v := value.Field(i).Interface().(type) {
-			case Unmarshaler:
-				fieldValue := reflect.New(reflect.Indirect(reflect.Zero(ftyp.Elem())).Type())
-
-				if m, ok := fieldValue.Interface().(Unmarshaler); ok {
-					// fmt.Println("unmarshalling!")
-					if err := m.UnmarshalTL(cur); err != nil {
-						return err
-					}
-				} else {
-					panic("badbad")
-				}
-
-				value.Field(i).Set(fieldValue)
-			// case Object:
-			// 	panic("unsupported sry")
-			// 	value.Field(i).Set(reflect.New(value.Field(i).Type().Elem()))
-			// 	if err := decodeObject(cur, o, false); err != nil {
-			// 		return err
-			// 	}
-			default:
-				err := fmt.Errorf("неизвестная штука: %T", v)
-				panic(err)
-			}
-		case reflect.Interface:
-			// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
-			// 	panic("can't parse any type, if it don't implement Object")
-			// }
-
-			if err := decode(cur, value.Field(i).Interface()); err != nil {
-				return err
-			}
-
-			// if !reflect.TypeOf(field).Implements(value.Field(i).Type()) {
-			// 	panic("received value " + reflect.TypeOf(field).String() + "; expected " + value.Field(i).Type().String())
-			// }
-			// value.Field(i).Set(reflect.ValueOf(field))
-
-		default:
-			panic("неизвестная штука: " + value.Field(i).Type().String())
+			field.Set(reflect.ValueOf(vec).Convert(ftyp))
 		}
+	case reflect.Ptr:
+		switch v := field.Interface().(type) {
+		case Unmarshaler:
+			fieldValue := reflect.New(reflect.Indirect(reflect.Zero(ftyp.Elem())).Type())
+
+			if m, ok := fieldValue.Interface().(Unmarshaler); ok {
+				// fmt.Println("unmarshalling!")
+				if err := m.UnmarshalTL(cur); err != nil {
+					return err
+				}
+			} else {
+				panic("badbad")
+			}
+
+			field.Set(fieldValue)
+		// case Object:
+		// 	panic("unsupported sry")
+		// 	value.Field(i).Set(reflect.New(value.Field(i).Type().Elem()))
+		// 	if err := decodeObject(cur, o, false); err != nil {
+		// 		return err
+		// 	}
+		default:
+			err := fmt.Errorf("неизвестная штука: %T", v)
+			panic(err)
+		}
+	case reflect.Interface:
+		// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
+		// 	panic("can't parse any type, if it don't implement Object")
+		// }
+
+		if err := decode(cur, field.Interface()); err != nil {
+			return err
+		}
+
+		// if !reflect.TypeOf(field).Implements(value.Field(i).Type()) {
+		// 	panic("received value " + reflect.TypeOf(field).String() + "; expected " + value.Field(i).Type().String())
+		// }
+		// value.Field(i).Set(reflect.ValueOf(field))
+
+	default:
+		panic("неизвестная штука: " + field.Type().String())
 	}
 
 	return nil

@@ -108,7 +108,7 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 	vtyp := val.Type()
 	for i := 0; i < val.NumField(); i++ {
 		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
-			info, err := parseFlagTag(tag)
+			info, err := parseTag(tag)
 			if err != nil {
 				return fmt.Errorf("parsing tag: %w", err)
 			}
@@ -157,7 +157,7 @@ func createBitflag(v interface{}) (uint32, bool, error) {
 	for i := 0; i < val.NumField(); i++ {
 		tag, found := vtyp.Field(i).Tag.Lookup("tl")
 		if found {
-			info, err := parseFlagTag(tag)
+			info, err := parseTag(tag)
 			if err != nil {
 				return 0, false, fmt.Errorf("parsing tag: %w", err)
 			}

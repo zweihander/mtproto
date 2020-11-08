@@ -1,7 +1,6 @@
 package tl
 
 import (
-	"fmt"
 	"reflect"
 )
 
@@ -10,8 +9,7 @@ func haveFlag(v interface{}) bool {
 	for i := 0; i < typ.NumField(); i++ {
 		tag, found := typ.Field(i).Tag.Lookup("tl")
 		if found {
-			fmt.Println("FOUND TL TAG")
-			info, err := parseFlagTag(tag)
+			info, err := parseTag(tag)
 			if err != nil {
 				continue
 			}
@@ -21,8 +19,6 @@ func haveFlag(v interface{}) bool {
 			}
 
 			return true
-		} else {
-			fmt.Printf("Field '%s': false\n", typ.Field(i).Name)
 		}
 	}
 
