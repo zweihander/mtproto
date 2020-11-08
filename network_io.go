@@ -107,6 +107,106 @@ func (m *MTProto) sendPacket2(request tl.Object, response interface{}) (err erro
 	return <-echan
 }
 
+// only for encrypted conn
+func (m *MTProto) sendPacket3(request tl.Object, response interface{}) (err error) {
+	msgID := utils.GenerateMessageId()
+	echan := make(chan error)
+
+	requireToAck := false
+	if MessageRequireToAck(request) {
+		m.mutex.Lock()
+		m.waitAck(msgID)
+		m.mutex.Unlock()
+		requireToAck = true
+	}
+
+	msg, err := tl.Encode(request)
+	if err != nil {
+		return err
+	}
+
+	data, err := (&serialize.EncryptedMessage{
+		Msg:         msg,
+		MsgID:       msgID,
+		AuthKeyHash: m.authKeyHash,
+	}).Serialize(m, requireToAck)
+	if err != nil {
+		return errors.Wrap(err, "serializing message")
+	}
+
+	// запрос не требует ответа
+	if isNullableResponse(request) {
+		pp.Println("nullable:", request)
+		go func() {
+			echan <- nil
+		}()
+	} else {
+		m.mutex.Lock()
+		m.pending[msgID] = pendingRequest{
+			response: response,
+			echan:    echan,
+		}
+		m.mutex.Unlock()
+
+	}
+	// этот кусок не часть кодирования так что делаем при отправке
+	m.lastSeqNo += 2
+
+	size := make([]byte, 4)
+	binary.LittleEndian.PutUint32(size, uint32(len(data)))
+	_, err = m.conn.Write(size)
+	if err != nil {
+		return errors.Wrap(err, "sending data")
+	}
+
+	_, err = m.conn.Write(data)
+	if err != nil {
+		return errors.Wrap(err, "sending request")
+	}
+
+	return <-echan
+}
+
+func (m *MTProto) sendServicePacket(request tl.Object, response interface{}) (err error) {
+	echan := make(chan error)
+	msg, err := tl.Encode(request)
+	if err != nil {
+		return err
+	}
+
+	data, err := (&serialize.UnencryptedMessage{
+		Msg:   msg,
+		MsgID: msgID,
+	}).Serialize(m)
+	if err != nil {
+		return err
+	}
+
+	go func() {
+		serviceMessage := <-m.serviceChannel
+		err := tl.Decode(serviceMessage, response)
+		if err != nil {
+			echan <- fmt.Errorf("decode service message: %w", err)
+		}
+
+		echan <- nil
+	}()
+
+	size := make([]byte, 4)
+	binary.LittleEndian.PutUint32(size, uint32(len(data)))
+	_, err = m.conn.Write(size)
+	if err != nil {
+		return errors.Wrap(err, "sending data")
+	}
+
+	_, err = m.conn.Write(data)
+	if err != nil {
+		return errors.Wrap(err, "sending request")
+	}
+
+	return <-echan
+}
+
 func (m *MTProto) readFromConn(ctx context.Context) (data []byte, err error) {
 	err = m.conn.SetReadDeadline(time.Now().Add(readTimeout)) // возможно поможет???
 	dry.PanicIfErr(err)

@@ -9,18 +9,6 @@ import (
 )
 
 const (
-	// CrcRpcResult публичная переменная, т.к. это специфический конструктор
-	// CrcRpcResult  = 0xf35c6d01 // nolint
-	// CrcGzipPacked = 0x3072cfa1
-)
-
-var (
-// int64Type = reflect.TypeOf(int64(0))
-// int128Type = reflect.TypeOf(&Int128{})
-// int256Type = reflect.TypeOf(&Int256{})
-)
-
-const (
 	int128Len = 4 * 4 // int128 16 байт
 	int256Len = 4 * 8 // int256 32 байт
 )

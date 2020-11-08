@@ -20,9 +20,9 @@ import (
 // https://core.telegram.org/mtproto/auth_key
 func (m *MTProto) makeAuthKey() error {
 	m.serviceModeActivated = true
+	nonceFirst := serialize.RandomInt128()
 
 	pqParams := new(serialize.ResPQ)
-	nonceFirst := serialize.RandomInt128()
 	if err := m.MakeRequest2(&ReqPQParams{nonceFirst}, pqParams); err != nil {
 		return errors.Wrap(err, "requesting first pq")
 	}
