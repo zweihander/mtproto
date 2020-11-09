@@ -81,12 +81,6 @@ func reflectIsInt256(v reflect.Value) bool {
 	return ok
 }
 
-// TL_Null это пустой объект, который нужен для передачи в каналы TL с информацией, что ответа можно не ждать
-type Null struct {
-}
-
-func (*Null) CRC() uint32 { return 0x69696969 }
-
 // ErrorSessionConfigsChanged это пустой объект, который показывает, что конфигурация сессии изменилась, и нужно создавать новую
 type ErrorSessionConfigsChanged struct {
 }
@@ -95,20 +89,6 @@ func (*ErrorSessionConfigsChanged) CRC() uint32 {
 	panic("don't use me")
 }
 
-func (*ErrorSessionConfigsChanged) Error() string {
+func (ErrorSessionConfigsChanged) Error() string {
 	return "session configuration was changed"
 }
-
-// блять! вектор ведь это тоже структура! короче вот эта структура просто в себе хранит
-// слайс либо стандартных типов ([]int32, []float64, []bool и прочее), либо тл объекта
-// ([]TL). алгоритм который использует эту структуру должен гарантировать, что параметр
-// является слайсом, а элементы слайса являются либо стандартные типы, либо TL.
-type InnerVectorObject struct {
-	I interface{}
-}
-
-func (*InnerVectorObject) CRC() uint32 {
-	panic("it's a dummy constructor!")
-}
-
-// --------------------------------------------------------------------------------------

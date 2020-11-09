@@ -5,6 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 	"reflect"
+
+	"github.com/k0kubun/pp"
 )
 
 func Decode(data []byte, v interface{}) error {
@@ -13,6 +15,7 @@ func Decode(data []byte, v interface{}) error {
 	}
 
 	if err := decodeValue(NewReadCursor(bytes.NewReader(data)), reflect.ValueOf(v)); err != nil {
+		pp.Println("failed_decode:", data)
 		return fmt.Errorf("decode %T: %w", v, err)
 	}
 
@@ -71,6 +74,12 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 			}
 		}
 
+		if field.Kind() == reflect.Ptr { // && field.IsNil()
+			val := reflect.New(field.Type().Elem())
+			field.Set(val)
+		}
+
+		// fmt.Printf("decoding field '%s'\n", vtyp.Field(i).Name)
 		if err := decodeValue(cur, field); err != nil {
 			return fmt.Errorf("decode field '%s': %w", vtyp.Field(i).Name, err)
 		}
@@ -151,6 +160,7 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 			return decodeObject(cur, o, false)
 		}
 
+		return decodeValue(cur, value.Elem())
 		panic("неизвестная штука: " + value.Type().String())
 	case reflect.Interface:
 		obj, err := decodeRegisteredObject(cur)
@@ -185,7 +195,16 @@ func decodeRegisteredObject(cur *ReadCursor) (Object, error) {
 
 	o, ok := objectByCrc[crc]
 	if !ok {
-		return nil, fmt.Errorf("object with crc %#v not found", crc)
+		msg, err := cur.DumpWithoutRead()
+		if err != nil {
+			return nil, err
+		}
+
+		return nil, ErrRegisteredObjectNotFound{
+			Crc:  crc,
+			Data: msg,
+		}
+		// return nil, fmt.Errorf("object with crc %#v not found", crc)
 	}
 
 	if o == nil {

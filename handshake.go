@@ -23,7 +23,7 @@ func (m *MTProto) makeAuthKey() error {
 	nonceFirst := serialize.RandomInt128()
 
 	pqParams := new(serialize.ResPQ)
-	if err := m.MakeRequest2(&ReqPQParams{nonceFirst}, pqParams); err != nil {
+	if err := m.MakeRequest(&ReqPQParams{nonceFirst}, pqParams); err != nil {
 		return errors.Wrap(err, "requesting first pq")
 	}
 	if nonceFirst.Cmp(pqParams.Nonce.Int) != 0 {
@@ -77,7 +77,7 @@ func (m *MTProto) makeAuthKey() error {
 	keyFingerprint := int64(binary.LittleEndian.Uint64(fgpr))
 
 	var dhResponse serialize.ServerDHParams
-	if err := m.MakeRequest2(&ReqDHParamsParams{
+	if err := m.MakeRequest(&ReqDHParamsParams{
 		Nonce:                nonceFirst,
 		ServerNonce:          nonceServer,
 		P:                    p.Bytes(),
@@ -150,7 +150,7 @@ func (m *MTProto) makeAuthKey() error {
 	encryptedMessage = ige.EncryptMessageWithTempKeys(clientDHDataMsg, nonceSecond.Int, nonceServer.Int)
 
 	var dhGenStatus serialize.SetClientDHParamsAnswer
-	if err := m.MakeRequest2(&SetClientDHParamsParams{
+	if err := m.MakeRequest(&SetClientDHParamsParams{
 		Nonce:         nonceFirst,
 		ServerNonce:   nonceServer,
 		EncryptedData: encryptedMessage,

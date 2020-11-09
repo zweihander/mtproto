@@ -16,7 +16,7 @@ func (e *AccountAcceptAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AccountAcceptAuthorization(params *AccountAcceptAuthorizationParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -28,7 +28,7 @@ func (e *AccountCancelPasswordEmailParams) CRC() uint32 {
 
 func (c *Client) AccountCancelPasswordEmail() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountCancelPasswordEmailParams{}, &resp)
+	err := c.MakeRequest(&AccountCancelPasswordEmailParams{}, &resp)
 	return resp, err
 }
 
@@ -44,7 +44,7 @@ func (e *AccountChangePhoneParams) CRC() uint32 {
 
 func (c *Client) AccountChangePhone(params *AccountChangePhoneParams) (User, error) {
 	var resp User
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -58,7 +58,7 @@ func (e *AccountCheckUsernameParams) CRC() uint32 {
 
 func (c *Client) AccountCheckUsername(params *AccountCheckUsernameParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -72,7 +72,7 @@ func (e *AccountConfirmPasswordEmailParams) CRC() uint32 {
 
 func (c *Client) AccountConfirmPasswordEmail(params *AccountConfirmPasswordEmailParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -87,7 +87,7 @@ func (e *AccountConfirmPhoneParams) CRC() uint32 {
 
 func (c *Client) AccountConfirmPhone(params *AccountConfirmPhoneParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -105,7 +105,7 @@ func (e *AccountCreateThemeParams) CRC() uint32 {
 
 func (c *Client) AccountCreateTheme(params *AccountCreateThemeParams) (Theme, error) {
 	var resp Theme
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -119,7 +119,7 @@ func (e *AccountDeleteAccountParams) CRC() uint32 {
 
 func (c *Client) AccountDeleteAccount(params *AccountDeleteAccountParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -133,7 +133,7 @@ func (e *AccountDeleteSecureValueParams) CRC() uint32 {
 
 func (c *Client) AccountDeleteSecureValue(params *AccountDeleteSecureValueParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -148,7 +148,7 @@ func (e *AccountFinishTakeoutSessionParams) CRC() uint32 {
 
 func (c *Client) AccountFinishTakeoutSession(params *AccountFinishTakeoutSessionParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -160,7 +160,7 @@ func (e *AccountGetAccountTTLParams) CRC() uint32 {
 
 func (c *Client) AccountGetAccountTTL() (AccountDaysTTL, error) {
 	var resp AccountDaysTTL
-	err := c.MakeRequest2(&AccountGetAccountTTLParams{}, &resp)
+	err := c.MakeRequest(&AccountGetAccountTTLParams{}, &resp)
 	return resp, err
 }
 
@@ -172,7 +172,7 @@ func (e *AccountGetAllSecureValuesParams) CRC() uint32 {
 
 func (c *Client) AccountGetAllSecureValues() ([]SecureValue, error) {
 	var resp []SecureValue
-	err := c.MakeRequest2(&AccountGetAllSecureValuesParams{}, &resp)
+	err := c.MakeRequest(&AccountGetAllSecureValuesParams{}, &resp)
 	return resp, err
 }
 
@@ -188,7 +188,7 @@ func (e *AccountGetAuthorizationFormParams) CRC() uint32 {
 
 func (c *Client) AccountGetAuthorizationForm(params *AccountGetAuthorizationFormParams) (AccountAuthorizationForm, error) {
 	var resp AccountAuthorizationForm
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -200,7 +200,7 @@ func (e *AccountGetAuthorizationsParams) CRC() uint32 {
 
 func (c *Client) AccountGetAuthorizations() (AccountAuthorizations, error) {
 	var resp AccountAuthorizations
-	err := c.MakeRequest2(&AccountGetAuthorizationsParams{}, &resp)
+	err := c.MakeRequest(&AccountGetAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
@@ -212,7 +212,7 @@ func (e *AccountGetAutoDownloadSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountGetAutoDownloadSettings() (AccountAutoDownloadSettings, error) {
 	var resp AccountAutoDownloadSettings
-	err := c.MakeRequest2(&AccountGetAutoDownloadSettingsParams{}, &resp)
+	err := c.MakeRequest(&AccountGetAutoDownloadSettingsParams{}, &resp)
 	return resp, err
 }
 
@@ -224,7 +224,7 @@ func (e *AccountGetContactSignUpNotificationParams) CRC() uint32 {
 
 func (c *Client) AccountGetContactSignUpNotification() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountGetContactSignUpNotificationParams{}, &resp)
+	err := c.MakeRequest(&AccountGetContactSignUpNotificationParams{}, &resp)
 	return resp, err
 }
 
@@ -236,7 +236,7 @@ func (e *AccountGetContentSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountGetContentSettings() (AccountContentSettings, error) {
 	var resp AccountContentSettings
-	err := c.MakeRequest2(&AccountGetContentSettingsParams{}, &resp)
+	err := c.MakeRequest(&AccountGetContentSettingsParams{}, &resp)
 	return resp, err
 }
 
@@ -248,7 +248,7 @@ func (e *AccountGetGlobalPrivacySettingsParams) CRC() uint32 {
 
 func (c *Client) AccountGetGlobalPrivacySettings() (GlobalPrivacySettings, error) {
 	var resp GlobalPrivacySettings
-	err := c.MakeRequest2(&AccountGetGlobalPrivacySettingsParams{}, &resp)
+	err := c.MakeRequest(&AccountGetGlobalPrivacySettingsParams{}, &resp)
 	return resp, err
 }
 
@@ -262,7 +262,7 @@ func (e *AccountGetMultiWallPapersParams) CRC() uint32 {
 
 func (c *Client) AccountGetMultiWallPapers(params *AccountGetMultiWallPapersParams) ([]WallPaper, error) {
 	var resp []WallPaper
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -278,7 +278,7 @@ func (e *AccountGetNotifyExceptionsParams) CRC() uint32 {
 
 func (c *Client) AccountGetNotifyExceptions(params *AccountGetNotifyExceptionsParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -292,7 +292,7 @@ func (e *AccountGetNotifySettingsParams) CRC() uint32 {
 
 func (c *Client) AccountGetNotifySettings(params *AccountGetNotifySettingsParams) (PeerNotifySettings, error) {
 	var resp PeerNotifySettings
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -304,7 +304,7 @@ func (e *AccountGetPasswordParams) CRC() uint32 {
 
 func (c *Client) AccountGetPassword() (AccountPassword, error) {
 	var resp AccountPassword
-	err := c.MakeRequest2(&AccountGetPasswordParams{}, &resp)
+	err := c.MakeRequest(&AccountGetPasswordParams{}, &resp)
 	return resp, err
 }
 
@@ -318,7 +318,7 @@ func (e *AccountGetPasswordSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountGetPasswordSettings(params *AccountGetPasswordSettingsParams) (AccountPasswordSettings, error) {
 	var resp AccountPasswordSettings
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -332,7 +332,7 @@ func (e *AccountGetPrivacyParams) CRC() uint32 {
 
 func (c *Client) AccountGetPrivacy(params *AccountGetPrivacyParams) (AccountPrivacyRules, error) {
 	var resp AccountPrivacyRules
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -346,7 +346,7 @@ func (e *AccountGetSecureValueParams) CRC() uint32 {
 
 func (c *Client) AccountGetSecureValue(params *AccountGetSecureValueParams) ([]SecureValue, error) {
 	var resp []SecureValue
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -362,7 +362,7 @@ func (e *AccountGetThemeParams) CRC() uint32 {
 
 func (c *Client) AccountGetTheme(params *AccountGetThemeParams) (Theme, error) {
 	var resp Theme
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -377,7 +377,7 @@ func (e *AccountGetThemesParams) CRC() uint32 {
 
 func (c *Client) AccountGetThemes(params *AccountGetThemesParams) (AccountThemes, error) {
 	var resp AccountThemes
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -392,7 +392,7 @@ func (e *AccountGetTmpPasswordParams) CRC() uint32 {
 
 func (c *Client) AccountGetTmpPassword(params *AccountGetTmpPasswordParams) (AccountTmpPassword, error) {
 	var resp AccountTmpPassword
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -406,7 +406,7 @@ func (e *AccountGetWallPaperParams) CRC() uint32 {
 
 func (c *Client) AccountGetWallPaper(params *AccountGetWallPaperParams) (WallPaper, error) {
 	var resp WallPaper
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -420,7 +420,7 @@ func (e *AccountGetWallPapersParams) CRC() uint32 {
 
 func (c *Client) AccountGetWallPapers(params *AccountGetWallPapersParams) (AccountWallPapers, error) {
 	var resp AccountWallPapers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -432,7 +432,7 @@ func (e *AccountGetWebAuthorizationsParams) CRC() uint32 {
 
 func (c *Client) AccountGetWebAuthorizations() (AccountWebAuthorizations, error) {
 	var resp AccountWebAuthorizations
-	err := c.MakeRequest2(&AccountGetWebAuthorizationsParams{}, &resp)
+	err := c.MakeRequest(&AccountGetWebAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
@@ -453,7 +453,7 @@ func (e *AccountInitTakeoutSessionParams) CRC() uint32 {
 
 func (c *Client) AccountInitTakeoutSession(params *AccountInitTakeoutSessionParams) (AccountTakeout, error) {
 	var resp AccountTakeout
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -470,7 +470,7 @@ func (e *AccountInstallThemeParams) CRC() uint32 {
 
 func (c *Client) AccountInstallTheme(params *AccountInstallThemeParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -485,7 +485,7 @@ func (e *AccountInstallWallPaperParams) CRC() uint32 {
 
 func (c *Client) AccountInstallWallPaper(params *AccountInstallWallPaperParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -505,7 +505,7 @@ func (e *AccountRegisterDeviceParams) CRC() uint32 {
 
 func (c *Client) AccountRegisterDevice(params *AccountRegisterDeviceParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -520,7 +520,7 @@ func (e *AccountReportPeerParams) CRC() uint32 {
 
 func (c *Client) AccountReportPeer(params *AccountReportPeerParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -532,7 +532,7 @@ func (e *AccountResendPasswordEmailParams) CRC() uint32 {
 
 func (c *Client) AccountResendPasswordEmail() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountResendPasswordEmailParams{}, &resp)
+	err := c.MakeRequest(&AccountResendPasswordEmailParams{}, &resp)
 	return resp, err
 }
 
@@ -546,7 +546,7 @@ func (e *AccountResetAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AccountResetAuthorization(params *AccountResetAuthorizationParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -558,7 +558,7 @@ func (e *AccountResetNotifySettingsParams) CRC() uint32 {
 
 func (c *Client) AccountResetNotifySettings() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountResetNotifySettingsParams{}, &resp)
+	err := c.MakeRequest(&AccountResetNotifySettingsParams{}, &resp)
 	return resp, err
 }
 
@@ -570,7 +570,7 @@ func (e *AccountResetWallPapersParams) CRC() uint32 {
 
 func (c *Client) AccountResetWallPapers() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountResetWallPapersParams{}, &resp)
+	err := c.MakeRequest(&AccountResetWallPapersParams{}, &resp)
 	return resp, err
 }
 
@@ -584,7 +584,7 @@ func (e *AccountResetWebAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AccountResetWebAuthorization(params *AccountResetWebAuthorizationParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -596,7 +596,7 @@ func (e *AccountResetWebAuthorizationsParams) CRC() uint32 {
 
 func (c *Client) AccountResetWebAuthorizations() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AccountResetWebAuthorizationsParams{}, &resp)
+	err := c.MakeRequest(&AccountResetWebAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
@@ -613,7 +613,7 @@ func (e *AccountSaveAutoDownloadSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountSaveAutoDownloadSettings(params *AccountSaveAutoDownloadSettingsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -628,7 +628,7 @@ func (e *AccountSaveSecureValueParams) CRC() uint32 {
 
 func (c *Client) AccountSaveSecureValue(params *AccountSaveSecureValueParams) (SecureValue, error) {
 	var resp SecureValue
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -643,7 +643,7 @@ func (e *AccountSaveThemeParams) CRC() uint32 {
 
 func (c *Client) AccountSaveTheme(params *AccountSaveThemeParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -659,7 +659,7 @@ func (e *AccountSaveWallPaperParams) CRC() uint32 {
 
 func (c *Client) AccountSaveWallPaper(params *AccountSaveWallPaperParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -674,7 +674,7 @@ func (e *AccountSendChangePhoneCodeParams) CRC() uint32 {
 
 func (c *Client) AccountSendChangePhoneCode(params *AccountSendChangePhoneCodeParams) (AuthSentCode, error) {
 	var resp AuthSentCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -689,7 +689,7 @@ func (e *AccountSendConfirmPhoneCodeParams) CRC() uint32 {
 
 func (c *Client) AccountSendConfirmPhoneCode(params *AccountSendConfirmPhoneCodeParams) (AuthSentCode, error) {
 	var resp AuthSentCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -703,7 +703,7 @@ func (e *AccountSendVerifyEmailCodeParams) CRC() uint32 {
 
 func (c *Client) AccountSendVerifyEmailCode(params *AccountSendVerifyEmailCodeParams) (AccountSentEmailCode, error) {
 	var resp AccountSentEmailCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -718,7 +718,7 @@ func (e *AccountSendVerifyPhoneCodeParams) CRC() uint32 {
 
 func (c *Client) AccountSendVerifyPhoneCode(params *AccountSendVerifyPhoneCodeParams) (AuthSentCode, error) {
 	var resp AuthSentCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -732,7 +732,7 @@ func (e *AccountSetAccountTTLParams) CRC() uint32 {
 
 func (c *Client) AccountSetAccountTTL(params *AccountSetAccountTTLParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -746,7 +746,7 @@ func (e *AccountSetContactSignUpNotificationParams) CRC() uint32 {
 
 func (c *Client) AccountSetContactSignUpNotification(params *AccountSetContactSignUpNotificationParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -761,7 +761,7 @@ func (e *AccountSetContentSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountSetContentSettings(params *AccountSetContentSettingsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -775,7 +775,7 @@ func (e *AccountSetGlobalPrivacySettingsParams) CRC() uint32 {
 
 func (c *Client) AccountSetGlobalPrivacySettings(params *AccountSetGlobalPrivacySettingsParams) (GlobalPrivacySettings, error) {
 	var resp GlobalPrivacySettings
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -790,7 +790,7 @@ func (e *AccountSetPrivacyParams) CRC() uint32 {
 
 func (c *Client) AccountSetPrivacy(params *AccountSetPrivacyParams) (AccountPrivacyRules, error) {
 	var resp AccountPrivacyRules
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -806,7 +806,7 @@ func (e *AccountUnregisterDeviceParams) CRC() uint32 {
 
 func (c *Client) AccountUnregisterDevice(params *AccountUnregisterDeviceParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -820,7 +820,7 @@ func (e *AccountUpdateDeviceLockedParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateDeviceLocked(params *AccountUpdateDeviceLockedParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -835,7 +835,7 @@ func (e *AccountUpdateNotifySettingsParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateNotifySettings(params *AccountUpdateNotifySettingsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -850,7 +850,7 @@ func (e *AccountUpdatePasswordSettingsParams) CRC() uint32 {
 
 func (c *Client) AccountUpdatePasswordSettings(params *AccountUpdatePasswordSettingsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -867,7 +867,7 @@ func (e *AccountUpdateProfileParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateProfile(params *AccountUpdateProfileParams) (User, error) {
 	var resp User
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -881,7 +881,7 @@ func (e *AccountUpdateStatusParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateStatus(params *AccountUpdateStatusParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -901,7 +901,7 @@ func (e *AccountUpdateThemeParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateTheme(params *AccountUpdateThemeParams) (Theme, error) {
 	var resp Theme
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -915,7 +915,7 @@ func (e *AccountUpdateUsernameParams) CRC() uint32 {
 
 func (c *Client) AccountUpdateUsername(params *AccountUpdateUsernameParams) (User, error) {
 	var resp User
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -933,7 +933,7 @@ func (e *AccountUploadThemeParams) CRC() uint32 {
 
 func (c *Client) AccountUploadTheme(params *AccountUploadThemeParams) (Document, error) {
 	var resp Document
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -949,7 +949,7 @@ func (e *AccountUploadWallPaperParams) CRC() uint32 {
 
 func (c *Client) AccountUploadWallPaper(params *AccountUploadWallPaperParams) (WallPaper, error) {
 	var resp WallPaper
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -964,7 +964,7 @@ func (e *AccountVerifyEmailParams) CRC() uint32 {
 
 func (c *Client) AccountVerifyEmail(params *AccountVerifyEmailParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -980,7 +980,7 @@ func (e *AccountVerifyPhoneParams) CRC() uint32 {
 
 func (c *Client) AccountVerifyPhone(params *AccountVerifyPhoneParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -994,7 +994,7 @@ func (e *AuthAcceptLoginTokenParams) CRC() uint32 {
 
 func (c *Client) AuthAcceptLoginToken(params *AuthAcceptLoginTokenParams) (Authorization, error) {
 	var resp Authorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1011,7 +1011,7 @@ func (e *AuthBindTempAuthKeyParams) CRC() uint32 {
 
 func (c *Client) AuthBindTempAuthKey(params *AuthBindTempAuthKeyParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1026,7 +1026,7 @@ func (e *AuthCancelCodeParams) CRC() uint32 {
 
 func (c *Client) AuthCancelCode(params *AuthCancelCodeParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1040,7 +1040,7 @@ func (e *AuthCheckPasswordParams) CRC() uint32 {
 
 func (c *Client) AuthCheckPassword(params *AuthCheckPasswordParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1054,7 +1054,7 @@ func (e *AuthDropTempAuthKeysParams) CRC() uint32 {
 
 func (c *Client) AuthDropTempAuthKeys(params *AuthDropTempAuthKeysParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1068,7 +1068,7 @@ func (e *AuthExportAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AuthExportAuthorization(params *AuthExportAuthorizationParams) (AuthExportedAuthorization, error) {
 	var resp AuthExportedAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1084,7 +1084,7 @@ func (e *AuthExportLoginTokenParams) CRC() uint32 {
 
 func (c *Client) AuthExportLoginToken(params *AuthExportLoginTokenParams) (AuthLoginToken, error) {
 	var resp AuthLoginToken
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1099,7 +1099,7 @@ func (e *AuthImportAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AuthImportAuthorization(params *AuthImportAuthorizationParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1116,7 +1116,7 @@ func (e *AuthImportBotAuthorizationParams) CRC() uint32 {
 
 func (c *Client) AuthImportBotAuthorization(params *AuthImportBotAuthorizationParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1130,7 +1130,7 @@ func (e *AuthImportLoginTokenParams) CRC() uint32 {
 
 func (c *Client) AuthImportLoginToken(params *AuthImportLoginTokenParams) (AuthLoginToken, error) {
 	var resp AuthLoginToken
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1142,7 +1142,7 @@ func (e *AuthLogOutParams) CRC() uint32 {
 
 func (c *Client) AuthLogOut() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AuthLogOutParams{}, &resp)
+	err := c.MakeRequest(&AuthLogOutParams{}, &resp)
 	return resp, err
 }
 
@@ -1156,7 +1156,7 @@ func (e *AuthRecoverPasswordParams) CRC() uint32 {
 
 func (c *Client) AuthRecoverPassword(params *AuthRecoverPasswordParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1168,7 +1168,7 @@ func (e *AuthRequestPasswordRecoveryParams) CRC() uint32 {
 
 func (c *Client) AuthRequestPasswordRecovery() (AuthPasswordRecovery, error) {
 	var resp AuthPasswordRecovery
-	err := c.MakeRequest2(&AuthRequestPasswordRecoveryParams{}, &resp)
+	err := c.MakeRequest(&AuthRequestPasswordRecoveryParams{}, &resp)
 	return resp, err
 }
 
@@ -1183,7 +1183,7 @@ func (e *AuthResendCodeParams) CRC() uint32 {
 
 func (c *Client) AuthResendCode(params *AuthResendCodeParams) (AuthSentCode, error) {
 	var resp AuthSentCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1195,7 +1195,7 @@ func (e *AuthResetAuthorizationsParams) CRC() uint32 {
 
 func (c *Client) AuthResetAuthorizations() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&AuthResetAuthorizationsParams{}, &resp)
+	err := c.MakeRequest(&AuthResetAuthorizationsParams{}, &resp)
 	return resp, err
 }
 
@@ -1212,7 +1212,7 @@ func (e *AuthSendCodeParams) CRC() uint32 {
 
 func (c *Client) AuthSendCode(params *AuthSendCodeParams) (AuthSentCode, error) {
 	var resp AuthSentCode
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1228,7 +1228,7 @@ func (e *AuthSignInParams) CRC() uint32 {
 
 func (c *Client) AuthSignIn(params *AuthSignInParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1245,7 +1245,7 @@ func (e *AuthSignUpParams) CRC() uint32 {
 
 func (c *Client) AuthSignUp(params *AuthSignUpParams) (AuthAuthorization, error) {
 	var resp AuthAuthorization
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1260,7 +1260,7 @@ func (e *BotsAnswerWebhookJSONQueryParams) CRC() uint32 {
 
 func (c *Client) BotsAnswerWebhookJSONQuery(params *BotsAnswerWebhookJSONQueryParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1275,7 +1275,7 @@ func (e *BotsSendCustomRequestParams) CRC() uint32 {
 
 func (c *Client) BotsSendCustomRequest(params *BotsSendCustomRequestParams) (DataJSON, error) {
 	var resp DataJSON
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1289,7 +1289,7 @@ func (e *BotsSetBotCommandsParams) CRC() uint32 {
 
 func (c *Client) BotsSetBotCommands(params *BotsSetBotCommandsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1304,7 +1304,7 @@ func (e *ChannelsCheckUsernameParams) CRC() uint32 {
 
 func (c *Client) ChannelsCheckUsername(params *ChannelsCheckUsernameParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1324,7 +1324,7 @@ func (e *ChannelsCreateChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsCreateChannel(params *ChannelsCreateChannelParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1338,7 +1338,7 @@ func (e *ChannelsDeleteChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsDeleteChannel(params *ChannelsDeleteChannelParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1353,7 +1353,7 @@ func (e *ChannelsDeleteHistoryParams) CRC() uint32 {
 
 func (c *Client) ChannelsDeleteHistory(params *ChannelsDeleteHistoryParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1368,7 +1368,7 @@ func (e *ChannelsDeleteMessagesParams) CRC() uint32 {
 
 func (c *Client) ChannelsDeleteMessages(params *ChannelsDeleteMessagesParams) (MessagesAffectedMessages, error) {
 	var resp MessagesAffectedMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1383,7 +1383,7 @@ func (e *ChannelsDeleteUserHistoryParams) CRC() uint32 {
 
 func (c *Client) ChannelsDeleteUserHistory(params *ChannelsDeleteUserHistoryParams) (MessagesAffectedHistory, error) {
 	var resp MessagesAffectedHistory
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1400,7 +1400,7 @@ func (e *ChannelsEditAdminParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditAdmin(params *ChannelsEditAdminParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1416,7 +1416,7 @@ func (e *ChannelsEditBannedParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditBanned(params *ChannelsEditBannedParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1432,7 +1432,7 @@ func (e *ChannelsEditCreatorParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditCreator(params *ChannelsEditCreatorParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1448,7 +1448,7 @@ func (e *ChannelsEditLocationParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditLocation(params *ChannelsEditLocationParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1463,7 +1463,7 @@ func (e *ChannelsEditPhotoParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditPhoto(params *ChannelsEditPhotoParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1478,7 +1478,7 @@ func (e *ChannelsEditTitleParams) CRC() uint32 {
 
 func (c *Client) ChannelsEditTitle(params *ChannelsEditTitleParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1494,7 +1494,7 @@ func (e *ChannelsExportMessageLinkParams) CRC() uint32 {
 
 func (c *Client) ChannelsExportMessageLink(params *ChannelsExportMessageLinkParams) (ExportedMessageLink, error) {
 	var resp ExportedMessageLink
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1515,7 +1515,7 @@ func (e *ChannelsGetAdminLogParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetAdminLog(params *ChannelsGetAdminLogParams) (ChannelsAdminLogResults, error) {
 	var resp ChannelsAdminLogResults
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1531,7 +1531,7 @@ func (e *ChannelsGetAdminedPublicChannelsParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetAdminedPublicChannels(params *ChannelsGetAdminedPublicChannelsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1545,7 +1545,7 @@ func (e *ChannelsGetChannelsParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetChannels(params *ChannelsGetChannelsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1559,7 +1559,7 @@ func (e *ChannelsGetFullChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetFullChannel(params *ChannelsGetFullChannelParams) (MessagesChatFull, error) {
 	var resp MessagesChatFull
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1571,7 +1571,7 @@ func (e *ChannelsGetGroupsForDiscussionParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetGroupsForDiscussion() (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(&ChannelsGetGroupsForDiscussionParams{}, &resp)
+	err := c.MakeRequest(&ChannelsGetGroupsForDiscussionParams{}, &resp)
 	return resp, err
 }
 
@@ -1583,7 +1583,7 @@ func (e *ChannelsGetInactiveChannelsParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetInactiveChannels() (MessagesInactiveChats, error) {
 	var resp MessagesInactiveChats
-	err := c.MakeRequest2(&ChannelsGetInactiveChannelsParams{}, &resp)
+	err := c.MakeRequest(&ChannelsGetInactiveChannelsParams{}, &resp)
 	return resp, err
 }
 
@@ -1597,7 +1597,7 @@ func (e *ChannelsGetLeftChannelsParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetLeftChannels(params *ChannelsGetLeftChannelsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1612,7 +1612,7 @@ func (e *ChannelsGetMessagesParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetMessages(params *ChannelsGetMessagesParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1627,7 +1627,7 @@ func (e *ChannelsGetParticipantParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetParticipant(params *ChannelsGetParticipantParams) (ChannelsChannelParticipant, error) {
 	var resp ChannelsChannelParticipant
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1645,7 +1645,7 @@ func (e *ChannelsGetParticipantsParams) CRC() uint32 {
 
 func (c *Client) ChannelsGetParticipants(params *ChannelsGetParticipantsParams) (ChannelsChannelParticipants, error) {
 	var resp ChannelsChannelParticipants
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1660,7 +1660,7 @@ func (e *ChannelsInviteToChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsInviteToChannel(params *ChannelsInviteToChannelParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1674,7 +1674,7 @@ func (e *ChannelsJoinChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsJoinChannel(params *ChannelsJoinChannelParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1688,7 +1688,7 @@ func (e *ChannelsLeaveChannelParams) CRC() uint32 {
 
 func (c *Client) ChannelsLeaveChannel(params *ChannelsLeaveChannelParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1703,7 +1703,7 @@ func (e *ChannelsReadHistoryParams) CRC() uint32 {
 
 func (c *Client) ChannelsReadHistory(params *ChannelsReadHistoryParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1718,7 +1718,7 @@ func (e *ChannelsReadMessageContentsParams) CRC() uint32 {
 
 func (c *Client) ChannelsReadMessageContents(params *ChannelsReadMessageContentsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1734,7 +1734,7 @@ func (e *ChannelsReportSpamParams) CRC() uint32 {
 
 func (c *Client) ChannelsReportSpam(params *ChannelsReportSpamParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1749,7 +1749,7 @@ func (e *ChannelsSetDiscussionGroupParams) CRC() uint32 {
 
 func (c *Client) ChannelsSetDiscussionGroup(params *ChannelsSetDiscussionGroupParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1764,7 +1764,7 @@ func (e *ChannelsSetStickersParams) CRC() uint32 {
 
 func (c *Client) ChannelsSetStickers(params *ChannelsSetStickersParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1779,7 +1779,7 @@ func (e *ChannelsTogglePreHistoryHiddenParams) CRC() uint32 {
 
 func (c *Client) ChannelsTogglePreHistoryHidden(params *ChannelsTogglePreHistoryHiddenParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1794,7 +1794,7 @@ func (e *ChannelsToggleSignaturesParams) CRC() uint32 {
 
 func (c *Client) ChannelsToggleSignatures(params *ChannelsToggleSignaturesParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1809,7 +1809,7 @@ func (e *ChannelsToggleSlowModeParams) CRC() uint32 {
 
 func (c *Client) ChannelsToggleSlowMode(params *ChannelsToggleSlowModeParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1824,7 +1824,7 @@ func (e *ChannelsUpdateUsernameParams) CRC() uint32 {
 
 func (c *Client) ChannelsUpdateUsername(params *ChannelsUpdateUsernameParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1838,7 +1838,7 @@ func (e *ContactsAcceptContactParams) CRC() uint32 {
 
 func (c *Client) ContactsAcceptContact(params *ContactsAcceptContactParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1857,7 +1857,7 @@ func (e *ContactsAddContactParams) CRC() uint32 {
 
 func (c *Client) ContactsAddContact(params *ContactsAddContactParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1871,7 +1871,7 @@ func (e *ContactsBlockParams) CRC() uint32 {
 
 func (c *Client) ContactsBlock(params *ContactsBlockParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1885,7 +1885,7 @@ func (e *ContactsDeleteByPhonesParams) CRC() uint32 {
 
 func (c *Client) ContactsDeleteByPhones(params *ContactsDeleteByPhonesParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1899,7 +1899,7 @@ func (e *ContactsDeleteContactsParams) CRC() uint32 {
 
 func (c *Client) ContactsDeleteContacts(params *ContactsDeleteContactsParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1914,7 +1914,7 @@ func (e *ContactsGetBlockedParams) CRC() uint32 {
 
 func (c *Client) ContactsGetBlocked(params *ContactsGetBlockedParams) (ContactsBlocked, error) {
 	var resp ContactsBlocked
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1928,7 +1928,7 @@ func (e *ContactsGetContactIDsParams) CRC() uint32 {
 
 func (c *Client) ContactsGetContactIDs(params *ContactsGetContactIDsParams) ([]int, error) {
 	var resp []int
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1942,7 +1942,7 @@ func (e *ContactsGetContactsParams) CRC() uint32 {
 
 func (c *Client) ContactsGetContacts(params *ContactsGetContactsParams) (ContactsContacts, error) {
 	var resp ContactsContacts
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1959,7 +1959,7 @@ func (e *ContactsGetLocatedParams) CRC() uint32 {
 
 func (c *Client) ContactsGetLocated(params *ContactsGetLocatedParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -1971,7 +1971,7 @@ func (e *ContactsGetSavedParams) CRC() uint32 {
 
 func (c *Client) ContactsGetSaved() ([]SavedContact, error) {
 	var resp []SavedContact
-	err := c.MakeRequest2(&ContactsGetSavedParams{}, &resp)
+	err := c.MakeRequest(&ContactsGetSavedParams{}, &resp)
 	return resp, err
 }
 
@@ -1983,7 +1983,7 @@ func (e *ContactsGetStatusesParams) CRC() uint32 {
 
 func (c *Client) ContactsGetStatuses() ([]ContactStatus, error) {
 	var resp []ContactStatus
-	err := c.MakeRequest2(&ContactsGetStatusesParams{}, &resp)
+	err := c.MakeRequest(&ContactsGetStatusesParams{}, &resp)
 	return resp, err
 }
 
@@ -2008,7 +2008,7 @@ func (e *ContactsGetTopPeersParams) CRC() uint32 {
 
 func (c *Client) ContactsGetTopPeers(params *ContactsGetTopPeersParams) (ContactsTopPeers, error) {
 	var resp ContactsTopPeers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2022,7 +2022,7 @@ func (e *ContactsImportContactsParams) CRC() uint32 {
 
 func (c *Client) ContactsImportContacts(params *ContactsImportContactsParams) (ContactsImportedContacts, error) {
 	var resp ContactsImportedContacts
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2034,7 +2034,7 @@ func (e *ContactsResetSavedParams) CRC() uint32 {
 
 func (c *Client) ContactsResetSaved() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&ContactsResetSavedParams{}, &resp)
+	err := c.MakeRequest(&ContactsResetSavedParams{}, &resp)
 	return resp, err
 }
 
@@ -2049,7 +2049,7 @@ func (e *ContactsResetTopPeerRatingParams) CRC() uint32 {
 
 func (c *Client) ContactsResetTopPeerRating(params *ContactsResetTopPeerRatingParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2063,7 +2063,7 @@ func (e *ContactsResolveUsernameParams) CRC() uint32 {
 
 func (c *Client) ContactsResolveUsername(params *ContactsResolveUsernameParams) (ContactsResolvedPeer, error) {
 	var resp ContactsResolvedPeer
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2078,7 +2078,7 @@ func (e *ContactsSearchParams) CRC() uint32 {
 
 func (c *Client) ContactsSearch(params *ContactsSearchParams) (ContactsFound, error) {
 	var resp ContactsFound
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2092,7 +2092,7 @@ func (e *ContactsToggleTopPeersParams) CRC() uint32 {
 
 func (c *Client) ContactsToggleTopPeers(params *ContactsToggleTopPeersParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2106,7 +2106,7 @@ func (e *ContactsUnblockParams) CRC() uint32 {
 
 func (c *Client) ContactsUnblock(params *ContactsUnblockParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2120,7 +2120,7 @@ func (e *FoldersDeleteFolderParams) CRC() uint32 {
 
 func (c *Client) FoldersDeleteFolder(params *FoldersDeleteFolderParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2134,7 +2134,7 @@ func (e *FoldersEditPeerFoldersParams) CRC() uint32 {
 
 func (c *Client) FoldersEditPeerFolders(params *FoldersEditPeerFoldersParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2148,7 +2148,7 @@ func (e *HelpAcceptTermsOfServiceParams) CRC() uint32 {
 
 func (c *Client) HelpAcceptTermsOfService(params *HelpAcceptTermsOfServiceParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2162,7 +2162,7 @@ func (e *HelpDismissSuggestionParams) CRC() uint32 {
 
 func (c *Client) HelpDismissSuggestion(params *HelpDismissSuggestionParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2178,7 +2178,7 @@ func (e *HelpEditUserInfoParams) CRC() uint32 {
 
 func (c *Client) HelpEditUserInfo(params *HelpEditUserInfoParams) (HelpUserInfo, error) {
 	var resp HelpUserInfo
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2192,7 +2192,7 @@ func (e *HelpGetAppChangelogParams) CRC() uint32 {
 
 func (c *Client) HelpGetAppChangelog(params *HelpGetAppChangelogParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2204,7 +2204,7 @@ func (e *HelpGetAppConfigParams) CRC() uint32 {
 
 func (c *Client) HelpGetAppConfig() (JSONValue, error) {
 	var resp JSONValue
-	err := c.MakeRequest2(&HelpGetAppConfigParams{}, &resp)
+	err := c.MakeRequest(&HelpGetAppConfigParams{}, &resp)
 	return resp, err
 }
 
@@ -2218,7 +2218,7 @@ func (e *HelpGetAppUpdateParams) CRC() uint32 {
 
 func (c *Client) HelpGetAppUpdate(params *HelpGetAppUpdateParams) (HelpAppUpdate, error) {
 	var resp HelpAppUpdate
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2230,7 +2230,7 @@ func (e *HelpGetCdnConfigParams) CRC() uint32 {
 
 func (c *Client) HelpGetCdnConfig() (CdnConfig, error) {
 	var resp CdnConfig
-	err := c.MakeRequest2(&HelpGetCdnConfigParams{}, &resp)
+	err := c.MakeRequest(&HelpGetCdnConfigParams{}, &resp)
 	return resp, err
 }
 
@@ -2242,7 +2242,7 @@ func (e *HelpGetConfigParams) CRC() uint32 {
 
 func (c *Client) HelpGetConfig() (Config, error) {
 	var resp Config
-	err := c.MakeRequest2(&HelpGetConfigParams{}, &resp)
+	err := c.MakeRequest(&HelpGetConfigParams{}, &resp)
 	return resp, err
 }
 
@@ -2256,7 +2256,7 @@ func (e *HelpGetDeepLinkInfoParams) CRC() uint32 {
 
 func (c *Client) HelpGetDeepLinkInfo(params *HelpGetDeepLinkInfoParams) (HelpDeepLinkInfo, error) {
 	var resp HelpDeepLinkInfo
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2268,7 +2268,7 @@ func (e *HelpGetInviteTextParams) CRC() uint32 {
 
 func (c *Client) HelpGetInviteText() (HelpInviteText, error) {
 	var resp HelpInviteText
-	err := c.MakeRequest2(&HelpGetInviteTextParams{}, &resp)
+	err := c.MakeRequest(&HelpGetInviteTextParams{}, &resp)
 	return resp, err
 }
 
@@ -2280,7 +2280,7 @@ func (e *HelpGetNearestDcParams) CRC() uint32 {
 
 func (c *Client) HelpGetNearestDc() (NearestDc, error) {
 	var resp NearestDc
-	err := c.MakeRequest2(&HelpGetNearestDcParams{}, &resp)
+	err := c.MakeRequest(&HelpGetNearestDcParams{}, &resp)
 	return resp, err
 }
 
@@ -2294,7 +2294,7 @@ func (e *HelpGetPassportConfigParams) CRC() uint32 {
 
 func (c *Client) HelpGetPassportConfig(params *HelpGetPassportConfigParams) (HelpPassportConfig, error) {
 	var resp HelpPassportConfig
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2306,7 +2306,7 @@ func (e *HelpGetPromoDataParams) CRC() uint32 {
 
 func (c *Client) HelpGetPromoData() (HelpPromoData, error) {
 	var resp HelpPromoData
-	err := c.MakeRequest2(&HelpGetPromoDataParams{}, &resp)
+	err := c.MakeRequest(&HelpGetPromoDataParams{}, &resp)
 	return resp, err
 }
 
@@ -2320,7 +2320,7 @@ func (e *HelpGetRecentMeUrlsParams) CRC() uint32 {
 
 func (c *Client) HelpGetRecentMeUrls(params *HelpGetRecentMeUrlsParams) (HelpRecentMeUrls, error) {
 	var resp HelpRecentMeUrls
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2332,7 +2332,7 @@ func (e *HelpGetSupportParams) CRC() uint32 {
 
 func (c *Client) HelpGetSupport() (HelpSupport, error) {
 	var resp HelpSupport
-	err := c.MakeRequest2(&HelpGetSupportParams{}, &resp)
+	err := c.MakeRequest(&HelpGetSupportParams{}, &resp)
 	return resp, err
 }
 
@@ -2344,7 +2344,7 @@ func (e *HelpGetSupportNameParams) CRC() uint32 {
 
 func (c *Client) HelpGetSupportName() (HelpSupportName, error) {
 	var resp HelpSupportName
-	err := c.MakeRequest2(&HelpGetSupportNameParams{}, &resp)
+	err := c.MakeRequest(&HelpGetSupportNameParams{}, &resp)
 	return resp, err
 }
 
@@ -2356,7 +2356,7 @@ func (e *HelpGetTermsOfServiceUpdateParams) CRC() uint32 {
 
 func (c *Client) HelpGetTermsOfServiceUpdate() (HelpTermsOfServiceUpdate, error) {
 	var resp HelpTermsOfServiceUpdate
-	err := c.MakeRequest2(&HelpGetTermsOfServiceUpdateParams{}, &resp)
+	err := c.MakeRequest(&HelpGetTermsOfServiceUpdateParams{}, &resp)
 	return resp, err
 }
 
@@ -2370,7 +2370,7 @@ func (e *HelpGetUserInfoParams) CRC() uint32 {
 
 func (c *Client) HelpGetUserInfo(params *HelpGetUserInfoParams) (HelpUserInfo, error) {
 	var resp HelpUserInfo
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2384,7 +2384,7 @@ func (e *HelpHidePromoDataParams) CRC() uint32 {
 
 func (c *Client) HelpHidePromoData(params *HelpHidePromoDataParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2398,7 +2398,7 @@ func (e *HelpSaveAppLogParams) CRC() uint32 {
 
 func (c *Client) HelpSaveAppLog(params *HelpSaveAppLogParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2413,7 +2413,7 @@ func (e *HelpSetBotUpdatesStatusParams) CRC() uint32 {
 
 func (c *Client) HelpSetBotUpdatesStatus(params *HelpSetBotUpdatesStatusParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2429,7 +2429,7 @@ func (e *LangpackGetDifferenceParams) CRC() uint32 {
 
 func (c *Client) LangpackGetDifference(params *LangpackGetDifferenceParams) (LangPackDifference, error) {
 	var resp LangPackDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2444,7 +2444,7 @@ func (e *LangpackGetLangPackParams) CRC() uint32 {
 
 func (c *Client) LangpackGetLangPack(params *LangpackGetLangPackParams) (LangPackDifference, error) {
 	var resp LangPackDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2459,7 +2459,7 @@ func (e *LangpackGetLanguageParams) CRC() uint32 {
 
 func (c *Client) LangpackGetLanguage(params *LangpackGetLanguageParams) (LangPackLanguage, error) {
 	var resp LangPackLanguage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2473,7 +2473,7 @@ func (e *LangpackGetLanguagesParams) CRC() uint32 {
 
 func (c *Client) LangpackGetLanguages(params *LangpackGetLanguagesParams) ([]LangPackLanguage, error) {
 	var resp []LangPackLanguage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2489,7 +2489,7 @@ func (e *LangpackGetStringsParams) CRC() uint32 {
 
 func (c *Client) LangpackGetStrings(params *LangpackGetStringsParams) ([]LangPackString, error) {
 	var resp []LangPackString
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2505,7 +2505,7 @@ func (e *MessagesAcceptEncryptionParams) CRC() uint32 {
 
 func (c *Client) MessagesAcceptEncryption(params *MessagesAcceptEncryptionParams) (EncryptedChat, error) {
 	var resp EncryptedChat
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2523,7 +2523,7 @@ func (e *MessagesAcceptUrlAuthParams) CRC() uint32 {
 
 func (c *Client) MessagesAcceptUrlAuth(params *MessagesAcceptUrlAuthParams) (UrlAuthResult, error) {
 	var resp UrlAuthResult
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2539,7 +2539,7 @@ func (e *MessagesAddChatUserParams) CRC() uint32 {
 
 func (c *Client) MessagesAddChatUser(params *MessagesAddChatUserParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2553,7 +2553,7 @@ func (e *MessagesCheckChatInviteParams) CRC() uint32 {
 
 func (c *Client) MessagesCheckChatInvite(params *MessagesCheckChatInviteParams) (ChatInvite, error) {
 	var resp ChatInvite
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2565,7 +2565,7 @@ func (e *MessagesClearAllDraftsParams) CRC() uint32 {
 
 func (c *Client) MessagesClearAllDrafts() (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(&MessagesClearAllDraftsParams{}, &resp)
+	err := c.MakeRequest(&MessagesClearAllDraftsParams{}, &resp)
 	return resp, err
 }
 
@@ -2580,7 +2580,7 @@ func (e *MessagesClearRecentStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesClearRecentStickers(params *MessagesClearRecentStickersParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2595,7 +2595,7 @@ func (e *MessagesCreateChatParams) CRC() uint32 {
 
 func (c *Client) MessagesCreateChat(params *MessagesCreateChatParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2610,7 +2610,7 @@ func (e *MessagesDeleteChatUserParams) CRC() uint32 {
 
 func (c *Client) MessagesDeleteChatUser(params *MessagesDeleteChatUserParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2628,7 +2628,7 @@ func (e *MessagesDeleteHistoryParams) CRC() uint32 {
 
 func (c *Client) MessagesDeleteHistory(params *MessagesDeleteHistoryParams) (MessagesAffectedHistory, error) {
 	var resp MessagesAffectedHistory
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2644,7 +2644,7 @@ func (e *MessagesDeleteMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesDeleteMessages(params *MessagesDeleteMessagesParams) (MessagesAffectedMessages, error) {
 	var resp MessagesAffectedMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2659,7 +2659,7 @@ func (e *MessagesDeleteScheduledMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesDeleteScheduledMessages(params *MessagesDeleteScheduledMessagesParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2673,7 +2673,7 @@ func (e *MessagesDiscardEncryptionParams) CRC() uint32 {
 
 func (c *Client) MessagesDiscardEncryption(params *MessagesDiscardEncryptionParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2688,7 +2688,7 @@ func (e *MessagesEditChatAboutParams) CRC() uint32 {
 
 func (c *Client) MessagesEditChatAbout(params *MessagesEditChatAboutParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2704,7 +2704,7 @@ func (e *MessagesEditChatAdminParams) CRC() uint32 {
 
 func (c *Client) MessagesEditChatAdmin(params *MessagesEditChatAdminParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2719,7 +2719,7 @@ func (e *MessagesEditChatDefaultBannedRightsParams) CRC() uint32 {
 
 func (c *Client) MessagesEditChatDefaultBannedRights(params *MessagesEditChatDefaultBannedRightsParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2734,7 +2734,7 @@ func (e *MessagesEditChatPhotoParams) CRC() uint32 {
 
 func (c *Client) MessagesEditChatPhoto(params *MessagesEditChatPhotoParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2749,7 +2749,7 @@ func (e *MessagesEditChatTitleParams) CRC() uint32 {
 
 func (c *Client) MessagesEditChatTitle(params *MessagesEditChatTitleParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2769,7 +2769,7 @@ func (e *MessagesEditInlineBotMessageParams) CRC() uint32 {
 
 func (c *Client) MessagesEditInlineBotMessage(params *MessagesEditInlineBotMessageParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2791,7 +2791,7 @@ func (e *MessagesEditMessageParams) CRC() uint32 {
 
 func (c *Client) MessagesEditMessage(params *MessagesEditMessageParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2805,7 +2805,7 @@ func (e *MessagesExportChatInviteParams) CRC() uint32 {
 
 func (c *Client) MessagesExportChatInvite(params *MessagesExportChatInviteParams) (ExportedChatInvite, error) {
 	var resp ExportedChatInvite
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2820,7 +2820,7 @@ func (e *MessagesFaveStickerParams) CRC() uint32 {
 
 func (c *Client) MessagesFaveSticker(params *MessagesFaveStickerParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2843,7 +2843,7 @@ func (e *MessagesForwardMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesForwardMessages(params *MessagesForwardMessagesParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2857,7 +2857,7 @@ func (e *MessagesGetAllChatsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetAllChats(params *MessagesGetAllChatsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2869,7 +2869,7 @@ func (e *MessagesGetAllDraftsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetAllDrafts() (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(&MessagesGetAllDraftsParams{}, &resp)
+	err := c.MakeRequest(&MessagesGetAllDraftsParams{}, &resp)
 	return resp, err
 }
 
@@ -2883,7 +2883,7 @@ func (e *MessagesGetAllStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetAllStickers(params *MessagesGetAllStickersParams) (MessagesAllStickers, error) {
 	var resp MessagesAllStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2900,7 +2900,7 @@ func (e *MessagesGetArchivedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetArchivedStickers(params *MessagesGetArchivedStickersParams) (MessagesArchivedStickers, error) {
 	var resp MessagesArchivedStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2914,7 +2914,7 @@ func (e *MessagesGetAttachedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetAttachedStickers(params *MessagesGetAttachedStickersParams) ([]StickerSetCovered, error) {
 	var resp []StickerSetCovered
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2932,7 +2932,7 @@ func (e *MessagesGetBotCallbackAnswerParams) CRC() uint32 {
 
 func (c *Client) MessagesGetBotCallbackAnswer(params *MessagesGetBotCallbackAnswerParams) (MessagesBotCallbackAnswer, error) {
 	var resp MessagesBotCallbackAnswer
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2946,7 +2946,7 @@ func (e *MessagesGetChatsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetChats(params *MessagesGetChatsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2962,7 +2962,7 @@ func (e *MessagesGetCommonChatsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetCommonChats(params *MessagesGetCommonChatsParams) (MessagesChats, error) {
 	var resp MessagesChats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2977,7 +2977,7 @@ func (e *MessagesGetDhConfigParams) CRC() uint32 {
 
 func (c *Client) MessagesGetDhConfig(params *MessagesGetDhConfigParams) (MessagesDhConfig, error) {
 	var resp MessagesDhConfig
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -2989,7 +2989,7 @@ func (e *MessagesGetDialogFiltersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetDialogFilters() ([]DialogFilter, error) {
 	var resp []DialogFilter
-	err := c.MakeRequest2(&MessagesGetDialogFiltersParams{}, &resp)
+	err := c.MakeRequest(&MessagesGetDialogFiltersParams{}, &resp)
 	return resp, err
 }
 
@@ -3001,7 +3001,7 @@ func (e *MessagesGetDialogUnreadMarksParams) CRC() uint32 {
 
 func (c *Client) MessagesGetDialogUnreadMarks() ([]DialogPeer, error) {
 	var resp []DialogPeer
-	err := c.MakeRequest2(&MessagesGetDialogUnreadMarksParams{}, &resp)
+	err := c.MakeRequest(&MessagesGetDialogUnreadMarksParams{}, &resp)
 	return resp, err
 }
 
@@ -3022,7 +3022,7 @@ func (e *MessagesGetDialogsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetDialogs(params *MessagesGetDialogsParams) (MessagesDialogs, error) {
 	var resp MessagesDialogs
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3038,7 +3038,7 @@ func (e *MessagesGetDocumentByHashParams) CRC() uint32 {
 
 func (c *Client) MessagesGetDocumentByHash(params *MessagesGetDocumentByHashParams) (Document, error) {
 	var resp Document
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3052,7 +3052,7 @@ func (e *MessagesGetEmojiKeywordsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetEmojiKeywords(params *MessagesGetEmojiKeywordsParams) (EmojiKeywordsDifference, error) {
 	var resp EmojiKeywordsDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3067,7 +3067,7 @@ func (e *MessagesGetEmojiKeywordsDifferenceParams) CRC() uint32 {
 
 func (c *Client) MessagesGetEmojiKeywordsDifference(params *MessagesGetEmojiKeywordsDifferenceParams) (EmojiKeywordsDifference, error) {
 	var resp EmojiKeywordsDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3081,7 +3081,7 @@ func (e *MessagesGetEmojiKeywordsLanguagesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetEmojiKeywordsLanguages(params *MessagesGetEmojiKeywordsLanguagesParams) ([]EmojiLanguage, error) {
 	var resp []EmojiLanguage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3095,7 +3095,7 @@ func (e *MessagesGetEmojiURLParams) CRC() uint32 {
 
 func (c *Client) MessagesGetEmojiURL(params *MessagesGetEmojiURLParams) (EmojiURL, error) {
 	var resp EmojiURL
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3109,7 +3109,7 @@ func (e *MessagesGetFavedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetFavedStickers(params *MessagesGetFavedStickersParams) (MessagesFavedStickers, error) {
 	var resp MessagesFavedStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3123,7 +3123,7 @@ func (e *MessagesGetFeaturedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetFeaturedStickers(params *MessagesGetFeaturedStickersParams) (MessagesFeaturedStickers, error) {
 	var resp MessagesFeaturedStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3137,7 +3137,7 @@ func (e *MessagesGetFullChatParams) CRC() uint32 {
 
 func (c *Client) MessagesGetFullChat(params *MessagesGetFullChatParams) (MessagesChatFull, error) {
 	var resp MessagesChatFull
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3153,7 +3153,7 @@ func (e *MessagesGetGameHighScoresParams) CRC() uint32 {
 
 func (c *Client) MessagesGetGameHighScores(params *MessagesGetGameHighScoresParams) (MessagesHighScores, error) {
 	var resp MessagesHighScores
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3174,7 +3174,7 @@ func (e *MessagesGetHistoryParams) CRC() uint32 {
 
 func (c *Client) MessagesGetHistory(params *MessagesGetHistoryParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3193,7 +3193,7 @@ func (e *MessagesGetInlineBotResultsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetInlineBotResults(params *MessagesGetInlineBotResultsParams) (MessagesBotResults, error) {
 	var resp MessagesBotResults
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3208,7 +3208,7 @@ func (e *MessagesGetInlineGameHighScoresParams) CRC() uint32 {
 
 func (c *Client) MessagesGetInlineGameHighScores(params *MessagesGetInlineGameHighScoresParams) (MessagesHighScores, error) {
 	var resp MessagesHighScores
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3222,7 +3222,7 @@ func (e *MessagesGetMaskStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetMaskStickers(params *MessagesGetMaskStickersParams) (MessagesAllStickers, error) {
 	var resp MessagesAllStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3237,7 +3237,7 @@ func (e *MessagesGetMessageEditDataParams) CRC() uint32 {
 
 func (c *Client) MessagesGetMessageEditData(params *MessagesGetMessageEditDataParams) (MessagesMessageEditData, error) {
 	var resp MessagesMessageEditData
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3251,7 +3251,7 @@ func (e *MessagesGetMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetMessages(params *MessagesGetMessagesParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3267,7 +3267,7 @@ func (e *MessagesGetMessagesViewsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetMessagesViews(params *MessagesGetMessagesViewsParams) ([]int, error) {
 	var resp []int
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3283,7 +3283,7 @@ func (e *MessagesGetOldFeaturedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetOldFeaturedStickers(params *MessagesGetOldFeaturedStickersParams) (MessagesFeaturedStickers, error) {
 	var resp MessagesFeaturedStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3297,7 +3297,7 @@ func (e *MessagesGetOnlinesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetOnlines(params *MessagesGetOnlinesParams) (ChatOnlines, error) {
 	var resp ChatOnlines
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3311,7 +3311,7 @@ func (e *MessagesGetPeerDialogsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetPeerDialogs(params *MessagesGetPeerDialogsParams) (MessagesPeerDialogs, error) {
 	var resp MessagesPeerDialogs
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3325,7 +3325,7 @@ func (e *MessagesGetPeerSettingsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetPeerSettings(params *MessagesGetPeerSettingsParams) (PeerSettings, error) {
 	var resp PeerSettings
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3339,7 +3339,7 @@ func (e *MessagesGetPinnedDialogsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetPinnedDialogs(params *MessagesGetPinnedDialogsParams) (MessagesPeerDialogs, error) {
 	var resp MessagesPeerDialogs
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3354,7 +3354,7 @@ func (e *MessagesGetPollResultsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetPollResults(params *MessagesGetPollResultsParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3373,7 +3373,7 @@ func (e *MessagesGetPollVotesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetPollVotes(params *MessagesGetPollVotesParams) (MessagesVotesList, error) {
 	var resp MessagesVotesList
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3389,7 +3389,7 @@ func (e *MessagesGetRecentLocationsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetRecentLocations(params *MessagesGetRecentLocationsParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3405,7 +3405,7 @@ func (e *MessagesGetRecentStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetRecentStickers(params *MessagesGetRecentStickersParams) (MessagesRecentStickers, error) {
 	var resp MessagesRecentStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3419,7 +3419,7 @@ func (e *MessagesGetSavedGifsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetSavedGifs(params *MessagesGetSavedGifsParams) (MessagesSavedGifs, error) {
 	var resp MessagesSavedGifs
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3434,7 +3434,7 @@ func (e *MessagesGetScheduledHistoryParams) CRC() uint32 {
 
 func (c *Client) MessagesGetScheduledHistory(params *MessagesGetScheduledHistoryParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3449,7 +3449,7 @@ func (e *MessagesGetScheduledMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetScheduledMessages(params *MessagesGetScheduledMessagesParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3464,7 +3464,7 @@ func (e *MessagesGetSearchCountersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetSearchCounters(params *MessagesGetSearchCountersParams) ([]MessagesSearchCounter, error) {
 	var resp []MessagesSearchCounter
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3476,7 +3476,7 @@ func (e *MessagesGetSplitRangesParams) CRC() uint32 {
 
 func (c *Client) MessagesGetSplitRanges() ([]MessageRange, error) {
 	var resp []MessageRange
-	err := c.MakeRequest2(&MessagesGetSplitRangesParams{}, &resp)
+	err := c.MakeRequest(&MessagesGetSplitRangesParams{}, &resp)
 	return resp, err
 }
 
@@ -3493,7 +3493,7 @@ func (e *MessagesGetStatsURLParams) CRC() uint32 {
 
 func (c *Client) MessagesGetStatsURL(params *MessagesGetStatsURLParams) (StatsURL, error) {
 	var resp StatsURL
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3507,7 +3507,7 @@ func (e *MessagesGetStickerSetParams) CRC() uint32 {
 
 func (c *Client) MessagesGetStickerSet(params *MessagesGetStickerSetParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3522,7 +3522,7 @@ func (e *MessagesGetStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetStickers(params *MessagesGetStickersParams) (MessagesStickers, error) {
 	var resp MessagesStickers
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3534,7 +3534,7 @@ func (e *MessagesGetSuggestedDialogFiltersParams) CRC() uint32 {
 
 func (c *Client) MessagesGetSuggestedDialogFilters() ([]DialogFilterSuggested, error) {
 	var resp []DialogFilterSuggested
-	err := c.MakeRequest2(&MessagesGetSuggestedDialogFiltersParams{}, &resp)
+	err := c.MakeRequest(&MessagesGetSuggestedDialogFiltersParams{}, &resp)
 	return resp, err
 }
 
@@ -3553,7 +3553,7 @@ func (e *MessagesGetUnreadMentionsParams) CRC() uint32 {
 
 func (c *Client) MessagesGetUnreadMentions(params *MessagesGetUnreadMentionsParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3568,7 +3568,7 @@ func (e *MessagesGetWebPageParams) CRC() uint32 {
 
 func (c *Client) MessagesGetWebPage(params *MessagesGetWebPageParams) (WebPage, error) {
 	var resp WebPage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3584,7 +3584,7 @@ func (e *MessagesGetWebPagePreviewParams) CRC() uint32 {
 
 func (c *Client) MessagesGetWebPagePreview(params *MessagesGetWebPagePreviewParams) (MessageMedia, error) {
 	var resp MessageMedia
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3598,7 +3598,7 @@ func (e *MessagesHidePeerSettingsBarParams) CRC() uint32 {
 
 func (c *Client) MessagesHidePeerSettingsBar(params *MessagesHidePeerSettingsBarParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3612,7 +3612,7 @@ func (e *MessagesImportChatInviteParams) CRC() uint32 {
 
 func (c *Client) MessagesImportChatInvite(params *MessagesImportChatInviteParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3627,7 +3627,7 @@ func (e *MessagesInstallStickerSetParams) CRC() uint32 {
 
 func (c *Client) MessagesInstallStickerSet(params *MessagesInstallStickerSetParams) (MessagesStickerSetInstallResult, error) {
 	var resp MessagesStickerSetInstallResult
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3643,7 +3643,7 @@ func (e *MessagesMarkDialogUnreadParams) CRC() uint32 {
 
 func (c *Client) MessagesMarkDialogUnread(params *MessagesMarkDialogUnreadParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3657,7 +3657,7 @@ func (e *MessagesMigrateChatParams) CRC() uint32 {
 
 func (c *Client) MessagesMigrateChat(params *MessagesMigrateChatParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3672,7 +3672,7 @@ func (e *MessagesReadEncryptedHistoryParams) CRC() uint32 {
 
 func (c *Client) MessagesReadEncryptedHistory(params *MessagesReadEncryptedHistoryParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3686,7 +3686,7 @@ func (e *MessagesReadFeaturedStickersParams) CRC() uint32 {
 
 func (c *Client) MessagesReadFeaturedStickers(params *MessagesReadFeaturedStickersParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3701,7 +3701,7 @@ func (e *MessagesReadHistoryParams) CRC() uint32 {
 
 func (c *Client) MessagesReadHistory(params *MessagesReadHistoryParams) (MessagesAffectedMessages, error) {
 	var resp MessagesAffectedMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3715,7 +3715,7 @@ func (e *MessagesReadMentionsParams) CRC() uint32 {
 
 func (c *Client) MessagesReadMentions(params *MessagesReadMentionsParams) (MessagesAffectedHistory, error) {
 	var resp MessagesAffectedHistory
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3729,7 +3729,7 @@ func (e *MessagesReadMessageContentsParams) CRC() uint32 {
 
 func (c *Client) MessagesReadMessageContents(params *MessagesReadMessageContentsParams) (MessagesAffectedMessages, error) {
 	var resp MessagesAffectedMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3743,7 +3743,7 @@ func (e *MessagesReceivedMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesReceivedMessages(params *MessagesReceivedMessagesParams) ([]ReceivedNotifyMessage, error) {
 	var resp []ReceivedNotifyMessage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3757,7 +3757,7 @@ func (e *MessagesReceivedQueueParams) CRC() uint32 {
 
 func (c *Client) MessagesReceivedQueue(params *MessagesReceivedQueueParams) ([]int64, error) {
 	var resp []int64
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3774,7 +3774,7 @@ func (e *MessagesReorderPinnedDialogsParams) CRC() uint32 {
 
 func (c *Client) MessagesReorderPinnedDialogs(params *MessagesReorderPinnedDialogsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3790,7 +3790,7 @@ func (e *MessagesReorderStickerSetsParams) CRC() uint32 {
 
 func (c *Client) MessagesReorderStickerSets(params *MessagesReorderStickerSetsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3806,7 +3806,7 @@ func (e *MessagesReportParams) CRC() uint32 {
 
 func (c *Client) MessagesReport(params *MessagesReportParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3820,7 +3820,7 @@ func (e *MessagesReportEncryptedSpamParams) CRC() uint32 {
 
 func (c *Client) MessagesReportEncryptedSpam(params *MessagesReportEncryptedSpamParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3834,7 +3834,7 @@ func (e *MessagesReportSpamParams) CRC() uint32 {
 
 func (c *Client) MessagesReportSpam(params *MessagesReportSpamParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3850,7 +3850,7 @@ func (e *MessagesRequestEncryptionParams) CRC() uint32 {
 
 func (c *Client) MessagesRequestEncryption(params *MessagesRequestEncryptionParams) (EncryptedChat, error) {
 	var resp EncryptedChat
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3866,7 +3866,7 @@ func (e *MessagesRequestUrlAuthParams) CRC() uint32 {
 
 func (c *Client) MessagesRequestUrlAuth(params *MessagesRequestUrlAuthParams) (UrlAuthResult, error) {
 	var resp UrlAuthResult
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3885,7 +3885,7 @@ func (e *MessagesSaveDraftParams) CRC() uint32 {
 
 func (c *Client) MessagesSaveDraft(params *MessagesSaveDraftParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3900,7 +3900,7 @@ func (e *MessagesSaveGifParams) CRC() uint32 {
 
 func (c *Client) MessagesSaveGif(params *MessagesSaveGifParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3917,7 +3917,7 @@ func (e *MessagesSaveRecentStickerParams) CRC() uint32 {
 
 func (c *Client) MessagesSaveRecentSticker(params *MessagesSaveRecentStickerParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3943,7 +3943,7 @@ func (e *MessagesSearchParams) CRC() uint32 {
 
 func (c *Client) MessagesSearch(params *MessagesSearchParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3963,7 +3963,7 @@ func (e *MessagesSearchGlobalParams) CRC() uint32 {
 
 func (c *Client) MessagesSearchGlobal(params *MessagesSearchGlobalParams) (MessagesMessages, error) {
 	var resp MessagesMessages
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3980,7 +3980,7 @@ func (e *MessagesSearchStickerSetsParams) CRC() uint32 {
 
 func (c *Client) MessagesSearchStickerSets(params *MessagesSearchStickerSetsParams) (MessagesFoundStickerSets, error) {
 	var resp MessagesFoundStickerSets
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -3996,7 +3996,7 @@ func (e *MessagesSendEncryptedParams) CRC() uint32 {
 
 func (c *Client) MessagesSendEncrypted(params *MessagesSendEncryptedParams) (MessagesSentEncryptedMessage, error) {
 	var resp MessagesSentEncryptedMessage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4013,7 +4013,7 @@ func (e *MessagesSendEncryptedFileParams) CRC() uint32 {
 
 func (c *Client) MessagesSendEncryptedFile(params *MessagesSendEncryptedFileParams) (MessagesSentEncryptedMessage, error) {
 	var resp MessagesSentEncryptedMessage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4029,7 +4029,7 @@ func (e *MessagesSendEncryptedServiceParams) CRC() uint32 {
 
 func (c *Client) MessagesSendEncryptedService(params *MessagesSendEncryptedServiceParams) (MessagesSentEncryptedMessage, error) {
 	var resp MessagesSentEncryptedMessage
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4053,7 +4053,7 @@ func (e *MessagesSendInlineBotResultParams) CRC() uint32 {
 
 func (c *Client) MessagesSendInlineBotResult(params *MessagesSendInlineBotResultParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4078,7 +4078,7 @@ func (e *MessagesSendMediaParams) CRC() uint32 {
 
 func (c *Client) MessagesSendMedia(params *MessagesSendMediaParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4103,7 +4103,7 @@ func (e *MessagesSendMessageParams) CRC() uint32 {
 
 func (c *Client) MessagesSendMessage(params *MessagesSendMessageParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4124,7 +4124,7 @@ func (e *MessagesSendMultiMediaParams) CRC() uint32 {
 
 func (c *Client) MessagesSendMultiMedia(params *MessagesSendMultiMediaParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4139,7 +4139,7 @@ func (e *MessagesSendScheduledMessagesParams) CRC() uint32 {
 
 func (c *Client) MessagesSendScheduledMessages(params *MessagesSendScheduledMessagesParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4155,7 +4155,7 @@ func (e *MessagesSendScreenshotNotificationParams) CRC() uint32 {
 
 func (c *Client) MessagesSendScreenshotNotification(params *MessagesSendScreenshotNotificationParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4171,7 +4171,7 @@ func (e *MessagesSendVoteParams) CRC() uint32 {
 
 func (c *Client) MessagesSendVote(params *MessagesSendVoteParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4190,7 +4190,7 @@ func (e *MessagesSetBotCallbackAnswerParams) CRC() uint32 {
 
 func (c *Client) MessagesSetBotCallbackAnswer(params *MessagesSetBotCallbackAnswerParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4207,7 +4207,7 @@ func (e *MessagesSetBotPrecheckoutResultsParams) CRC() uint32 {
 
 func (c *Client) MessagesSetBotPrecheckoutResults(params *MessagesSetBotPrecheckoutResultsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4224,7 +4224,7 @@ func (e *MessagesSetBotShippingResultsParams) CRC() uint32 {
 
 func (c *Client) MessagesSetBotShippingResults(params *MessagesSetBotShippingResultsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4239,7 +4239,7 @@ func (e *MessagesSetEncryptedTypingParams) CRC() uint32 {
 
 func (c *Client) MessagesSetEncryptedTyping(params *MessagesSetEncryptedTypingParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4259,7 +4259,7 @@ func (e *MessagesSetGameScoreParams) CRC() uint32 {
 
 func (c *Client) MessagesSetGameScore(params *MessagesSetGameScoreParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4280,7 +4280,7 @@ func (e *MessagesSetInlineBotResultsParams) CRC() uint32 {
 
 func (c *Client) MessagesSetInlineBotResults(params *MessagesSetInlineBotResultsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4299,7 +4299,7 @@ func (e *MessagesSetInlineGameScoreParams) CRC() uint32 {
 
 func (c *Client) MessagesSetInlineGameScore(params *MessagesSetInlineGameScoreParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4314,7 +4314,7 @@ func (e *MessagesSetTypingParams) CRC() uint32 {
 
 func (c *Client) MessagesSetTyping(params *MessagesSetTypingParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4331,7 +4331,7 @@ func (e *MessagesStartBotParams) CRC() uint32 {
 
 func (c *Client) MessagesStartBot(params *MessagesStartBotParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4347,7 +4347,7 @@ func (e *MessagesToggleDialogPinParams) CRC() uint32 {
 
 func (c *Client) MessagesToggleDialogPin(params *MessagesToggleDialogPinParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4365,7 +4365,7 @@ func (e *MessagesToggleStickerSetsParams) CRC() uint32 {
 
 func (c *Client) MessagesToggleStickerSets(params *MessagesToggleStickerSetsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4379,7 +4379,7 @@ func (e *MessagesUninstallStickerSetParams) CRC() uint32 {
 
 func (c *Client) MessagesUninstallStickerSet(params *MessagesUninstallStickerSetParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4395,7 +4395,7 @@ func (e *MessagesUpdateDialogFilterParams) CRC() uint32 {
 
 func (c *Client) MessagesUpdateDialogFilter(params *MessagesUpdateDialogFilterParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4409,7 +4409,7 @@ func (e *MessagesUpdateDialogFiltersOrderParams) CRC() uint32 {
 
 func (c *Client) MessagesUpdateDialogFiltersOrder(params *MessagesUpdateDialogFiltersOrderParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4426,7 +4426,7 @@ func (e *MessagesUpdatePinnedMessageParams) CRC() uint32 {
 
 func (c *Client) MessagesUpdatePinnedMessage(params *MessagesUpdatePinnedMessageParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4441,7 +4441,7 @@ func (e *MessagesUploadEncryptedFileParams) CRC() uint32 {
 
 func (c *Client) MessagesUploadEncryptedFile(params *MessagesUploadEncryptedFileParams) (EncryptedFile, error) {
 	var resp EncryptedFile
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4456,7 +4456,7 @@ func (e *MessagesUploadMediaParams) CRC() uint32 {
 
 func (c *Client) MessagesUploadMedia(params *MessagesUploadMediaParams) (MessageMedia, error) {
 	var resp MessageMedia
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4472,7 +4472,7 @@ func (e *PaymentsClearSavedInfoParams) CRC() uint32 {
 
 func (c *Client) PaymentsClearSavedInfo(params *PaymentsClearSavedInfoParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4486,7 +4486,7 @@ func (e *PaymentsGetBankCardDataParams) CRC() uint32 {
 
 func (c *Client) PaymentsGetBankCardData(params *PaymentsGetBankCardDataParams) (PaymentsBankCardData, error) {
 	var resp PaymentsBankCardData
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4500,7 +4500,7 @@ func (e *PaymentsGetPaymentFormParams) CRC() uint32 {
 
 func (c *Client) PaymentsGetPaymentForm(params *PaymentsGetPaymentFormParams) (PaymentsPaymentForm, error) {
 	var resp PaymentsPaymentForm
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4514,7 +4514,7 @@ func (e *PaymentsGetPaymentReceiptParams) CRC() uint32 {
 
 func (c *Client) PaymentsGetPaymentReceipt(params *PaymentsGetPaymentReceiptParams) (PaymentsPaymentReceipt, error) {
 	var resp PaymentsPaymentReceipt
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4526,7 +4526,7 @@ func (e *PaymentsGetSavedInfoParams) CRC() uint32 {
 
 func (c *Client) PaymentsGetSavedInfo() (PaymentsSavedInfo, error) {
 	var resp PaymentsSavedInfo
-	err := c.MakeRequest2(&PaymentsGetSavedInfoParams{}, &resp)
+	err := c.MakeRequest(&PaymentsGetSavedInfoParams{}, &resp)
 	return resp, err
 }
 
@@ -4544,7 +4544,7 @@ func (e *PaymentsSendPaymentFormParams) CRC() uint32 {
 
 func (c *Client) PaymentsSendPaymentForm(params *PaymentsSendPaymentFormParams) (PaymentsPaymentResult, error) {
 	var resp PaymentsPaymentResult
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4561,7 +4561,7 @@ func (e *PaymentsValidateRequestedInfoParams) CRC() uint32 {
 
 func (c *Client) PaymentsValidateRequestedInfo(params *PaymentsValidateRequestedInfoParams) (PaymentsValidatedRequestedInfo, error) {
 	var resp PaymentsValidatedRequestedInfo
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4577,7 +4577,7 @@ func (e *PhoneAcceptCallParams) CRC() uint32 {
 
 func (c *Client) PhoneAcceptCall(params *PhoneAcceptCallParams) (PhonePhoneCall, error) {
 	var resp PhonePhoneCall
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4594,7 +4594,7 @@ func (e *PhoneConfirmCallParams) CRC() uint32 {
 
 func (c *Client) PhoneConfirmCall(params *PhoneConfirmCallParams) (PhonePhoneCall, error) {
 	var resp PhonePhoneCall
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4613,7 +4613,7 @@ func (e *PhoneDiscardCallParams) CRC() uint32 {
 
 func (c *Client) PhoneDiscardCall(params *PhoneDiscardCallParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4625,7 +4625,7 @@ func (e *PhoneGetCallConfigParams) CRC() uint32 {
 
 func (c *Client) PhoneGetCallConfig() (DataJSON, error) {
 	var resp DataJSON
-	err := c.MakeRequest2(&PhoneGetCallConfigParams{}, &resp)
+	err := c.MakeRequest(&PhoneGetCallConfigParams{}, &resp)
 	return resp, err
 }
 
@@ -4639,7 +4639,7 @@ func (e *PhoneReceivedCallParams) CRC() uint32 {
 
 func (c *Client) PhoneReceivedCall(params *PhoneReceivedCallParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4658,7 +4658,7 @@ func (e *PhoneRequestCallParams) CRC() uint32 {
 
 func (c *Client) PhoneRequestCall(params *PhoneRequestCallParams) (PhonePhoneCall, error) {
 	var resp PhonePhoneCall
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4673,7 +4673,7 @@ func (e *PhoneSaveCallDebugParams) CRC() uint32 {
 
 func (c *Client) PhoneSaveCallDebug(params *PhoneSaveCallDebugParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4688,7 +4688,7 @@ func (e *PhoneSendSignalingDataParams) CRC() uint32 {
 
 func (c *Client) PhoneSendSignalingData(params *PhoneSendSignalingDataParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4706,7 +4706,7 @@ func (e *PhoneSetCallRatingParams) CRC() uint32 {
 
 func (c *Client) PhoneSetCallRating(params *PhoneSetCallRatingParams) (Updates, error) {
 	var resp Updates
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4720,7 +4720,7 @@ func (e *PhotosDeletePhotosParams) CRC() uint32 {
 
 func (c *Client) PhotosDeletePhotos(params *PhotosDeletePhotosParams) ([]int64, error) {
 	var resp []int64
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4737,7 +4737,7 @@ func (e *PhotosGetUserPhotosParams) CRC() uint32 {
 
 func (c *Client) PhotosGetUserPhotos(params *PhotosGetUserPhotosParams) (PhotosPhotos, error) {
 	var resp PhotosPhotos
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4751,7 +4751,7 @@ func (e *PhotosUpdateProfilePhotoParams) CRC() uint32 {
 
 func (c *Client) PhotosUpdateProfilePhoto(params *PhotosUpdateProfilePhotoParams) (PhotosPhoto, error) {
 	var resp PhotosPhoto
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4768,7 +4768,7 @@ func (e *PhotosUploadProfilePhotoParams) CRC() uint32 {
 
 func (c *Client) PhotosUploadProfilePhoto(params *PhotosUploadProfilePhotoParams) (PhotosPhoto, error) {
 	var resp PhotosPhoto
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4784,7 +4784,7 @@ func (e *StatsGetBroadcastStatsParams) CRC() uint32 {
 
 func (c *Client) StatsGetBroadcastStats(params *StatsGetBroadcastStatsParams) (StatsBroadcastStats, error) {
 	var resp StatsBroadcastStats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4800,7 +4800,7 @@ func (e *StatsGetMegagroupStatsParams) CRC() uint32 {
 
 func (c *Client) StatsGetMegagroupStats(params *StatsGetMegagroupStatsParams) (StatsMegagroupStats, error) {
 	var resp StatsMegagroupStats
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4816,7 +4816,7 @@ func (e *StatsLoadAsyncGraphParams) CRC() uint32 {
 
 func (c *Client) StatsLoadAsyncGraph(params *StatsLoadAsyncGraphParams) (StatsGraph, error) {
 	var resp StatsGraph
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4831,7 +4831,7 @@ func (e *StickersAddStickerToSetParams) CRC() uint32 {
 
 func (c *Client) StickersAddStickerToSet(params *StickersAddStickerToSetParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4846,7 +4846,7 @@ func (e *StickersChangeStickerPositionParams) CRC() uint32 {
 
 func (c *Client) StickersChangeStickerPosition(params *StickersChangeStickerPositionParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4867,7 +4867,7 @@ func (e *StickersCreateStickerSetParams) CRC() uint32 {
 
 func (c *Client) StickersCreateStickerSet(params *StickersCreateStickerSetParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4881,7 +4881,7 @@ func (e *StickersRemoveStickerFromSetParams) CRC() uint32 {
 
 func (c *Client) StickersRemoveStickerFromSet(params *StickersRemoveStickerFromSetParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4896,7 +4896,7 @@ func (e *StickersSetStickerSetThumbParams) CRC() uint32 {
 
 func (c *Client) StickersSetStickerSetThumb(params *StickersSetStickerSetThumbParams) (MessagesStickerSet, error) {
 	var resp MessagesStickerSet
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4915,7 +4915,7 @@ func (e *UpdatesGetChannelDifferenceParams) CRC() uint32 {
 
 func (c *Client) UpdatesGetChannelDifference(params *UpdatesGetChannelDifferenceParams) (UpdatesChannelDifference, error) {
 	var resp UpdatesChannelDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4933,7 +4933,7 @@ func (e *UpdatesGetDifferenceParams) CRC() uint32 {
 
 func (c *Client) UpdatesGetDifference(params *UpdatesGetDifferenceParams) (UpdatesDifference, error) {
 	var resp UpdatesDifference
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4945,7 +4945,7 @@ func (e *UpdatesGetStateParams) CRC() uint32 {
 
 func (c *Client) UpdatesGetState() (UpdatesState, error) {
 	var resp UpdatesState
-	err := c.MakeRequest2(&UpdatesGetStateParams{}, &resp)
+	err := c.MakeRequest(&UpdatesGetStateParams{}, &resp)
 	return resp, err
 }
 
@@ -4961,7 +4961,7 @@ func (e *UploadGetCdnFileParams) CRC() uint32 {
 
 func (c *Client) UploadGetCdnFile(params *UploadGetCdnFileParams) (UploadCdnFile, error) {
 	var resp UploadCdnFile
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4976,7 +4976,7 @@ func (e *UploadGetCdnFileHashesParams) CRC() uint32 {
 
 func (c *Client) UploadGetCdnFileHashes(params *UploadGetCdnFileHashesParams) ([]FileHash, error) {
 	var resp []FileHash
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -4995,7 +4995,7 @@ func (e *UploadGetFileParams) CRC() uint32 {
 
 func (c *Client) UploadGetFile(params *UploadGetFileParams) (UploadFile, error) {
 	var resp UploadFile
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5010,7 +5010,7 @@ func (e *UploadGetFileHashesParams) CRC() uint32 {
 
 func (c *Client) UploadGetFileHashes(params *UploadGetFileHashesParams) ([]FileHash, error) {
 	var resp []FileHash
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5026,7 +5026,7 @@ func (e *UploadGetWebFileParams) CRC() uint32 {
 
 func (c *Client) UploadGetWebFile(params *UploadGetWebFileParams) (UploadWebFile, error) {
 	var resp UploadWebFile
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5041,7 +5041,7 @@ func (e *UploadReuploadCdnFileParams) CRC() uint32 {
 
 func (c *Client) UploadReuploadCdnFile(params *UploadReuploadCdnFileParams) ([]FileHash, error) {
 	var resp []FileHash
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5058,7 +5058,7 @@ func (e *UploadSaveBigFilePartParams) CRC() uint32 {
 
 func (c *Client) UploadSaveBigFilePart(params *UploadSaveBigFilePartParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5074,7 +5074,7 @@ func (e *UploadSaveFilePartParams) CRC() uint32 {
 
 func (c *Client) UploadSaveFilePart(params *UploadSaveFilePartParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5088,7 +5088,7 @@ func (e *UsersGetFullUserParams) CRC() uint32 {
 
 func (c *Client) UsersGetFullUser(params *UsersGetFullUserParams) (UserFull, error) {
 	var resp UserFull
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5102,7 +5102,7 @@ func (e *UsersGetUsersParams) CRC() uint32 {
 
 func (c *Client) UsersGetUsers(params *UsersGetUsersParams) ([]User, error) {
 	var resp []User
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }
 
@@ -5117,6 +5117,6 @@ func (e *UsersSetSecureValueErrorsParams) CRC() uint32 {
 
 func (c *Client) UsersSetSecureValueErrors(params *UsersSetSecureValueErrorsParams) (bool, error) {
 	var resp bool
-	err := c.MakeRequest2(params, &resp)
+	err := c.MakeRequest(params, &resp)
 	return resp, err
 }

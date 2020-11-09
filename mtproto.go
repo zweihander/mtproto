@@ -69,6 +69,13 @@ type MTProto struct {
 	serverRequestHandlers []customHandlerFunc
 }
 
+type pendingRequest struct {
+	// в response хранится тип который ожидаем получить
+	// если он nil, то эта структурка не попадет в мапу pendingRequests
+	response interface{}
+	echan    chan error
+}
+
 type customHandlerFunc = func(i interface{}) bool
 
 type Config struct {
@@ -142,11 +149,11 @@ func (m *MTProto) CreateConnection() error {
 	return nil
 }
 
-func (m *MTProto) makeRequest2(req tl.Object, resp interface{}) error {
-	err := m.sendPacket2(req, resp)
+func (m *MTProto) makeRequest(req tl.Object, resp interface{}) error {
+	err := m.sendPacket(req, resp)
 	// если пришел ответ типа badServerSalt, то отправляем данные заново
-	if errors.Is(err, &serialize.ErrorSessionConfigsChanged{}) {
-		return m.makeRequest2(req, resp)
+	if errors.As(err, &serialize.ErrorSessionConfigsChanged{}) {
+		return m.makeRequest(req, resp)
 	}
 
 	return err
@@ -237,36 +244,33 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		if !found {
 			m.mutex.Unlock()
 			fmt.Printf("pending request for messageID %d not found\n", message.ReqMsgID)
-			return nil
+			break
 		}
 		delete(m.pending, message.ReqMsgID)
 		m.mutex.Unlock()
 
-		// анмаршалим содержимое rpc
-		// NOTE:
 		rpcMessageObject, err := tl.DecodeRegistered(message.Payload)
 		if err != nil {
-			req.echan <- fmt.Errorf("decode rpc: %w", err)
-			return nil
+			// если не смогли заанмаршалить в зареганный тип
+			// пробуем анмаршалить в тип прокинутый юзером
+			//
+			// Такое случается потому что DecodeRegistered (в отличие от Decode) не умеет
+			// анмаршалить CrcVector, но можно его научить
+			req.echan <- tl.Decode(message.Payload, req.response)
+			break
 		}
 
 		// джедайские трюки
-		// NOTE:
-		// мб сделать свитч чисто по CRC чтобы убрать двойной анмаршал?
 		switch rpcMessage := rpcMessageObject.(type) {
 		case *serialize.GzipPacked:
-			if req.response != nil {
-				req.echan <- tl.Decode(rpcMessage.PackedData, req.response)
-			} else {
-				unzippedObj, err := tl.DecodeRegistered(rpcMessage.PackedData)
-				req.response = unzippedObj
-				req.echan <- err
-			}
+			req.echan <- tl.Decode(rpcMessage.PackedData, req.response)
 		case *serialize.RpcError:
 			req.echan <- rpcMessage
-		default:
-			// Костыль:
-			// заново анмаршалим содержимое rpc в тот тип который запросил юзер
+		default: // если в rpc хз что, то анмаршалим его пейлоад в тот тип который запросил юзер
+
+			// NOTE:
+			// мб сделать свитч чисто по CRC чтобы убрать повторный анмаршал?
+			// или установить значение rpcMessageObject в req.response через reflect?
 			req.echan <- tl.Decode(message.Payload, req.response)
 		}
 
@@ -334,7 +338,7 @@ func (m *MTProto) processResponse(msgID int64, seqNo int32, data []byte) error {
 		// NOTE:
 		// похоже MsgsAck можно кидать Ack на несколько сообщений сразу
 		// Мб отправлять их батчами для меньшего жора сети?
-		err = m.MakeRequest2(&serialize.MsgsAck{MsgIds: []int64{int64(msgID)}}, nil)
+		err = m.MakeRequest(&serialize.MsgsAck{MsgIds: []int64{int64(msgID)}}, nil)
 		if err != nil {
 			return errors.Wrap(err, "sending ack")
 		}

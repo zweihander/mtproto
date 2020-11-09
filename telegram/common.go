@@ -126,7 +126,7 @@ type InvokeWithLayerParams struct {
 func (_ *InvokeWithLayerParams) CRC() uint32 { return 0xda9b0d0d }
 
 func (m *Client) InvokeWithLayer(layer int, query tl.Object, resp interface{}) error {
-	return m.MakeRequest2(&InvokeWithLayerParams{
+	return m.MakeRequest(&InvokeWithLayerParams{
 		Layer: int32(layer),
 		Query: query,
 	}, resp)
@@ -140,7 +140,7 @@ type InvokeWithTakeoutParams struct {
 func (*InvokeWithTakeoutParams) CRC() uint32 { return 0xaca9fd2e }
 
 func (m *Client) InvokeWithTakeout(takeoutID int, query tl.Object, resp interface{}) error {
-	return m.MakeRequest2(&InvokeWithTakeoutParams{
+	return m.MakeRequest(&InvokeWithTakeoutParams{
 		TakeoutID: int64(takeoutID),
 		Query:     query,
 	}, resp)

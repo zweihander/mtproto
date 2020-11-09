@@ -57,8 +57,8 @@ func (m *MTProto) SetAuthKey(key []byte) {
 	m.authKeyHash = utils.AuthKeyHash(m.authKey)
 }
 
-func (m *MTProto) MakeRequest2(req tl.Object, resp interface{}) error {
-	return m.makeRequest2(req, resp)
+func (m *MTProto) MakeRequest(req tl.Object, resp interface{}) error {
+	return m.makeRequest(req, resp)
 }
 
 func (m *MTProto) AddCustomServerRequestHandler(handler customHandlerFunc) {

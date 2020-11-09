@@ -46,7 +46,7 @@ func (_ *PingParams) CRC() uint32 {
 
 func (m *MTProto) Ping(pingID int64) (*serialize.Pong, error) {
 	pong := new(serialize.Pong)
-	if err := m.MakeRequest2(&PingParams{
+	if err := m.MakeRequest(&PingParams{
 		PingID: pingID,
 	}, pong); err != nil {
 		return nil, err
