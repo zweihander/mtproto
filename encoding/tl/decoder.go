@@ -5,24 +5,18 @@ import (
 	"encoding/binary"
 	"fmt"
 	"reflect"
-
-	"github.com/k0kubun/pp"
 )
 
 func Decode(data []byte, v interface{}) error {
-	return decodeValue(NewReadCursor(bytes.NewReader(data)), reflect.ValueOf(v))
-}
-
-func DecodeRegistered(data []byte) (Object, error) {
-	ob, err := decodeRegisteredObject(
-		NewReadCursor(bytes.NewReader(data)),
-	)
-	if err != nil {
-		pp.Println("failed_decode:", data)
-		return nil, fmt.Errorf("decode registered object: %w", err)
+	if v == nil {
+		return fmt.Errorf("can't unmarshal to nil value")
 	}
 
-	return ob, nil
+	if err := decodeValue(NewReadCursor(bytes.NewReader(data)), reflect.ValueOf(v)); err != nil {
+		return fmt.Errorf("decode %T: %w", v, err)
+	}
+
+	return nil
 }
 
 func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
@@ -62,7 +56,6 @@ func decodeObject(cur *ReadCursor, o Object, ignoreCRC bool) error {
 		field := value.Field(i)
 
 		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
-
 			info, err := parseTag(tag)
 			if err != nil {
 				return fmt.Errorf("parse tag: %w", err)
@@ -90,14 +83,6 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 	if m, ok := value.Interface().(Unmarshaler); ok {
 		return m.UnmarshalTL(cur)
 	}
-
-	// if o, ok := value.Interface().(Object); ok {
-	// 	if err := decodeObject(cur, o, false); err != nil {
-	// 		return fmt.Errorf("decode object '%s': %w", value.Type().Name(), err)
-	// 	}
-
-	// 	return nil
-	// }
 
 	switch value.Kind() {
 	case reflect.Float64:
@@ -131,7 +116,7 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 	case reflect.Bool:
 		val, err := cur.PopBool()
 		if err != nil {
-			return fmt.Errorf("pop bool: %w", err)
+			return err
 		}
 
 		value.Set(reflect.ValueOf(val).Convert(value.Type()))
@@ -143,12 +128,7 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 
 		value.Set(reflect.ValueOf(string(msg)).Convert(value.Type()))
 	case reflect.Struct:
-		obj, err := decodeRegisteredObject(cur)
-		if err != nil {
-			return fmt.Errorf("decode interface: %w", err)
-		}
-
-		value.Set(reflect.ValueOf(obj).Elem())
+		panic("struct does not supported")
 	case reflect.Slice:
 		if _, ok := value.Interface().([]byte); ok {
 			msg, err := decodeMessage(cur)
@@ -166,52 +146,13 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 		}
 
 		value.Set(reflect.ValueOf(vec))
-
-		// // from decode vector
-		// if as.Elem().Kind() == reflect.Uint8 { // []byte
-		// 	msg, err := decodeMessage(c)
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-
-		// 	v = msg
-		// } else {
-		// 	decodedVec, err := decodeVector(c, as.Elem())
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-
-		// 	v = decodedVec
-		// }
 	case reflect.Ptr:
-		indirect := reflect.Indirect(value)
-		return decodeValue(cur, indirect)
-		// val := reflect.New(value.Type()).Elem()
-		// if err := decodeValue(cur, val); err != nil {
-		// 	return err
-		// }
-		// value.Set(val)
+		if o, ok := value.Interface().(Object); ok {
+			return decodeObject(cur, o, false)
+		}
 
-		// direct := reflect.Indirect(field)
-		// return decodeValue(cur, direct, direct.Type())
-		// // NOTE:
-		// // узнать, если поинтер идет на структуру - вытащить его CRC
-		// // и анмаршалить по нему
-		// o, err := decodeRegisteredObject(cur)
-		// if err != nil {
-		// 	return err
-		// }
-
-		// field.Set(reflect.ValueOf(o))
+		panic("неизвестная штука: " + value.Type().String())
 	case reflect.Interface:
-		// if !value.Field(i).Type().Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
-		// 	panic("can't parse any type, if it don't implement Object")
-		// }
-		// fmt.Printf("decoding: %T\n", ftyp.Name())
-		// sd, err := cur.DumpWithoutRead()
-		// pp.Println("data:", sd, err)
-
-		// from decode vector
 		obj, err := decodeRegisteredObject(cur)
 		if err != nil {
 			return fmt.Errorf("decode interface: %w", err)
@@ -223,6 +164,17 @@ func decodeValue(cur *ReadCursor, value reflect.Value) error {
 	}
 
 	return nil
+}
+
+func DecodeRegistered(data []byte) (Object, error) {
+	ob, err := decodeRegisteredObject(
+		NewReadCursor(bytes.NewReader(data)),
+	)
+	if err != nil {
+		return nil, fmt.Errorf("decode registered object: %w", err)
+	}
+
+	return ob, nil
 }
 
 func decodeRegisteredObject(cur *ReadCursor) (Object, error) {
@@ -320,115 +272,19 @@ func decodeVector(c *ReadCursor, as reflect.Type) (interface{}, error) {
 	}
 
 	x := reflect.MakeSlice(reflect.SliceOf(as), int(size), int(size))
-
 	for i := 0; i < int(size); i++ {
-		val := reflect.New(as).Elem()
+		var val reflect.Value
+		if as.Kind() == reflect.Ptr {
+			val = reflect.New(as.Elem())
+		} else {
+			val = reflect.New(as).Elem()
+		}
+
 		if err := decodeValue(c, val); err != nil {
 			return nil, err
 		}
 
 		x.Index(i).Set(val)
-		continue
-		var v interface{}
-
-		// value.Set(reflect.ValueOf(val))
-		switch as.Kind() {
-		case reflect.Bool:
-			val, err := c.PopBool()
-			if err != nil {
-				return nil, err
-			}
-
-			v = val
-		case reflect.String:
-			msg, err := decodeMessage(c)
-			if err != nil {
-				return nil, err
-			}
-
-			v = string(msg)
-		// case reflect.Int8, reflect.Int16, reflect.Int32:
-		// 	val, err := c.PopUint()
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-
-		// 	v = int(val)
-		case reflect.Uint32: // reflect.Uint8, reflect.Uint16,
-			val, err := c.PopUint()
-			if err != nil {
-				return nil, err
-			}
-
-			v = val
-		case reflect.Struct:
-			var err error
-			v, err = decodeRegisteredObject(c)
-			if err != nil {
-				return nil, err
-			}
-		case reflect.Int64:
-			val, err := c.PopLong()
-			if err != nil {
-				return nil, err
-			}
-
-			v = val
-		case reflect.Slice:
-			if as.Elem().Kind() == reflect.Uint8 { // []byte
-				msg, err := decodeMessage(c)
-				if err != nil {
-					return nil, err
-				}
-
-				v = msg
-			} else {
-				decodedVec, err := decodeVector(c, as.Elem())
-				if err != nil {
-					return nil, err
-				}
-
-				v = decodedVec
-			}
-		case reflect.Ptr:
-			// n := reflect.New(as.Elem()).Interface().(Object)
-			// if err := decodeObject(c, n, false); err != nil {
-			// 	return nil, err
-			// }
-
-			// n := reflect.New(as.Elem()).Interface()
-			// if err := decode(c, n); err != nil {
-			// 	return nil, err
-			// }
-
-			// v = n
-
-			n := reflect.New(as.Elem())
-			if err := decodeValue(c, n); err != nil {
-				return nil, err
-			}
-
-			v = n.Interface()
-		case reflect.Interface:
-			if !as.Implements(reflect.TypeOf((*Object)(nil)).Elem()) {
-				panic("can't parse any type, if it don't implement TL")
-			}
-
-			item, err := decodeRegisteredObject(c)
-			if err != nil {
-				return nil, err
-			}
-
-			if !reflect.TypeOf(item).Implements(as) {
-				panic("received value " + reflect.TypeOf(item).String() + "; expected " + as.Elem().String())
-			}
-
-			v = item
-		default:
-			panic("как обрабатывать? " + as.String())
-		}
-
-		x.Index(i).Set(reflect.ValueOf(v))
 	}
 
 	return x.Interface(), nil

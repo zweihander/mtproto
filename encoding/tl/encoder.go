@@ -61,15 +61,6 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 		cur.PutCRC(o.CRC())
 	}
 
-	flag, ok, err := createBitflag(v)
-	if err != nil {
-		return err
-	}
-
-	if ok {
-		cur.PutUint(flag)
-	}
-
 	val := reflect.ValueOf(v)
 	if val.Kind() != reflect.Ptr {
 		return fmt.Errorf("not a pointer")
@@ -80,8 +71,18 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 		return fmt.Errorf("not receiving on struct: %s -> %s", val.Type(), val.Kind())
 	}
 
+	// Note:
+	// это временный буфер, можно использовать пул
+	buf := bytes.NewBuffer(nil)
+	newCursor := NewWriteCursor(buf)
+	var (
+		flag     uint32
+		haveFlag bool
+	)
+
 	vtyp := val.Type()
 	for i := 0; i < val.NumField(); i++ {
+		fieldVal := val.Field(i)
 		if tag, found := vtyp.Field(i).Tag.Lookup("tl"); found {
 			info, err := parseTag(tag)
 			if err != nil {
@@ -92,12 +93,22 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 				return fmt.Errorf("field '%s': only bool values can be encoded in bitflag", vtyp.Field(i).Name)
 			}
 
-			if info.ignore || info.encodedInBitflag {
+			if info.ignore {
 				continue
 			}
 
-			if !val.Field(i).IsZero() {
-				if err := encodeValue(cur, val.Field(i)); err != nil {
+			haveFlag = true
+			if !fieldVal.IsZero() {
+				flag |= 1 << info.index
+				if info.encodedInBitflag {
+					if fieldVal.Kind() != reflect.Bool {
+						return fmt.Errorf("field '%s': only bool values can be encoded in bitflag", vtyp.Field(i).Name)
+					}
+
+					continue
+				}
+
+				if err := encodeValue(newCursor, fieldVal); err != nil {
 					return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
 				}
 			}
@@ -105,55 +116,24 @@ func encodeStruct(cur *WriteCursor, v interface{}) error {
 			continue
 		}
 
+		// FIXME:
 		// проверка на zero-value, падает на InitConnectionParams.LangPack т.к. он никогда не указывается
-		// if val.Field(i).IsZero() {
+		// if fieldVal.IsZero() {
 		// 	return fmt.Errorf("field '%s' have zero value", vtyp.Field(i).Name)
 		// }
 
-		if err := encodeValue(cur, val.Field(i)); err != nil {
+		if err := encodeValue(newCursor, fieldVal); err != nil {
 			return fmt.Errorf("field '%s': %w", vtyp.Field(i).Name, err)
 		}
 	}
 
-	return nil
-}
-
-func createBitflag(v interface{}) (uint32, bool, error) {
-	var flag uint32
-	haveFlag := false
-
-	val := reflect.ValueOf(v)
-	if val.Kind() != reflect.Ptr {
-		panic("not a pointer")
-	}
-
-	val = reflect.Indirect(val)
-	if val.Kind() != reflect.Struct {
-		return 0, false, fmt.Errorf("not receiving on struct: %s -> %s", val.Type(), val.Kind())
-	}
-
-	vtyp := val.Type()
-	for i := 0; i < val.NumField(); i++ {
-		tag, found := vtyp.Field(i).Tag.Lookup("tl")
-		if found {
-			info, err := parseTag(tag)
-			if err != nil {
-				return 0, false, fmt.Errorf("parsing tag: %w", err)
-			}
-
-			if info.ignore {
-				continue
-			}
-
-			haveFlag = true
-			if !val.Field(i).IsZero() {
-				flag |= 1 << info.index
-			}
-
+	if haveFlag {
+		if err := cur.PutUint(flag); err != nil {
+			return err
 		}
 	}
 
-	return flag, haveFlag, nil
+	return cur.PutRawBytes(buf.Bytes())
 }
 
 func encodeVector(c *WriteCursor, slice []interface{}) (err error) {
@@ -164,38 +144,6 @@ func encodeVector(c *WriteCursor, slice []interface{}) (err error) {
 		if err := encodeValue(c, reflect.ValueOf(item)); err != nil {
 			return err
 		}
-		continue
-
-		// switch val := item.(type) {
-		// case int8:
-		// 	err = c.PutUint(uint32(val))
-		// case int16:
-		// 	err = c.PutUint(uint32(val))
-		// case int32:
-		// 	err = c.PutUint(uint32(val))
-		// case int64:
-		// 	err = c.PutLong(val)
-		// case uint8:
-		// 	err = c.PutUint(uint32(val))
-		// case uint16:
-		// 	err = c.PutUint(uint32(val))
-		// case uint32:
-		// 	err = c.PutUint(val)
-		// case uint64:
-		// 	err = c.PutLong(int64(val))
-		// case bool:
-		// 	err = c.PutBool(val)
-		// case string:
-		// 	err = c.PutString(val)
-		// case []byte:
-		// 	err = c.PutMessage(val)
-		// default:
-		// 	err = fmt.Errorf("unserializable type: %T", val)
-		// }
-
-		// if err != nil {
-		// 	return err
-		// }
 	}
 
 	return
