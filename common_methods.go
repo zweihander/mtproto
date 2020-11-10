@@ -1,18 +1,18 @@
 package mtproto
 
 import (
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 )
 
 type ReqPQParams struct {
-	Nonce *serialize.Int128
+	Nonce *service.Int128
 }
 
 func (_ *ReqPQParams) CRC() uint32 { return 0x60469778 }
 
 type ReqDHParamsParams struct {
-	Nonce                *serialize.Int128
-	ServerNonce          *serialize.Int128
+	Nonce                *service.Int128
+	ServerNonce          *service.Int128
 	P                    []byte
 	Q                    []byte
 	PublicKeyFingerprint int64
@@ -24,8 +24,8 @@ func (_ *ReqDHParamsParams) CRC() uint32 {
 }
 
 type SetClientDHParamsParams struct {
-	Nonce         *serialize.Int128
-	ServerNonce   *serialize.Int128
+	Nonce         *service.Int128
+	ServerNonce   *service.Int128
 	EncryptedData []byte
 }
 
@@ -44,8 +44,8 @@ func (_ *PingParams) CRC() uint32 {
 	return 0x7abe77ec
 }
 
-func (m *MTProto) Ping(pingID int64) (*serialize.Pong, error) {
-	pong := new(serialize.Pong)
+func (m *MTProto) Ping(pingID int64) (*service.Pong, error) {
+	pong := new(service.Pong)
 	if err := m.MakeRequest(&PingParams{
 		PingID: pingID,
 	}, pong); err != nil {

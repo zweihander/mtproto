@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 	"github.com/xelaj/mtproto/utils"
 )
 
@@ -19,83 +19,46 @@ func (m *MTProto) sendPacket(request tl.Object, response interface{}) (err error
 	msgID := utils.GenerateMessageId()
 	echan := make(chan error)
 
-	var data []byte
-
-	if m.encrypted {
-		requireToAck := false
-		if MessageRequireToAck(request) {
-			m.mutex.Lock()
-			m.waitAck(msgID)
-			m.mutex.Unlock()
-			requireToAck = true
-		}
-
-		msg, err := tl.Encode(request)
-		if err != nil {
-			return err
-		}
-
-		data, err = (&serialize.EncryptedMessage{
-			Msg:         msg,
-			MsgID:       msgID,
-			AuthKeyHash: m.authKeyHash,
-		}).Serialize(m, requireToAck)
-		if err != nil {
-			return errors.Wrap(err, "serializing message")
-		}
-
-		// FIXME:
-		// что если:
-		// 1. Запрос не требует ответа, но response не nil?
-		// 2. Запрос требует ответа, но response nil - нам следует обрабатывать RpcError для него?
-
-		// запрос не требует ответа
-		if isNullableResponse(request) {
-			pp.Println("nullable:", request)
-			go func() {
-				echan <- nil
-			}()
-		} else {
-			m.mutex.Lock()
-			m.pending[msgID] = pendingRequest{
-				response: response,
-				echan:    echan,
-			}
-			m.mutex.Unlock()
-		}
-
-		// этот кусок не часть кодирования так что делаем при отправке
-		atomic.AddInt32(&m.lastSeqNo, 2)
-	} else {
-		msg, err := tl.Encode(request)
-		if err != nil {
-			return err
-		}
-
-		data, err = (&serialize.UnencryptedMessage{ //nolint: errcheck нешифрованое не отправляет ошибки
-			Msg:   msg,
-			MsgID: msgID,
-		}).Serialize()
-		if err != nil {
-			return err
-		}
+	requireToAck := false
+	if messageRequireToAck(request) {
+		m.acks.Put(msgID)
+		requireToAck = true
 	}
 
-	if m.serviceModeActivated {
-		if m.encrypted {
-			panic("omg")
-		}
+	msg, err := tl.Encode(request)
+	if err != nil {
+		return err
+	}
 
+	data, err := (&service.EncryptedMessage{
+		Msg:         msg,
+		MsgID:       msgID,
+		AuthKeyHash: m.creds.AuthKeyHash,
+	}).Serialize(m.sessionID, m.creds.ServerSalt, m.lastSeqNo, m.creds.AuthKey, requireToAck)
+	if err != nil {
+		return errors.Wrap(err, "serializing message")
+	}
+
+	// FIXME:
+	// что если:
+	// 1. Запрос не требует ответа, но response не nil?
+	// 2. Запрос требует ответа, но response nil - нам следует обрабатывать RpcError для него?
+
+	// запрос не требует ответа
+	if isNullableResponse(request) {
+		pp.Println("nullable:", request)
 		go func() {
-			serviceMessage := <-m.serviceChannel
-			err := tl.Decode(serviceMessage, response)
-			if err != nil {
-				echan <- fmt.Errorf("decode service message: %w", err)
-			}
-
 			echan <- nil
 		}()
+	} else {
+		m.pending.Put(msgID, pendingRequest{
+			response: response,
+			echan:    echan,
+		})
 	}
+
+	// этот кусок не часть кодирования так что делаем при отправке
+	atomic.AddInt32(&m.lastSeqNo, 2)
 
 	size := make([]byte, 4)
 	binary.LittleEndian.PutUint32(size, uint32(len(data)))

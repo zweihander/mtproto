@@ -1,14 +1,12 @@
 // типы, которые описывает mtproto, некоторые декодируются очень специфическим способом, поэтому размещены здесь
 
-package serialize
+package service
 
 import (
 	"fmt"
 
 	"github.com/xelaj/mtproto/encoding/tl"
 )
-
-// TYPES
 
 type ResPQ struct {
 	Nonce        *Int128
@@ -321,6 +319,12 @@ type BadMsgNotification struct {
 func (*BadMsgNotification) ImplementsBadMsgNotification() {}
 
 func (*BadMsgNotification) CRC() uint32 { return 0xa7eff811 }
+
+func (e BadMsgNotification) Error() string {
+	return fmt.Sprintf("BadMsgNotification: BadMsgID: %d BadMsgSeqNo: %d Code: %d",
+		e.BadMsgID, e.BadMsgSeqNo, e.Code,
+	)
+}
 
 type BadServerSalt struct {
 	BadMsgID    int64

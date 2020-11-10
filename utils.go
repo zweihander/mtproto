@@ -2,12 +2,12 @@ package mtproto
 
 import (
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 )
 
-func MessageRequireToAck(msg tl.Object) bool {
+func messageRequireToAck(msg tl.Object) bool {
 	switch msg.(type) {
-	case /**serialize.Ping,*/ *serialize.MsgsAck:
+	case /**service.Ping,*/ *service.MsgsAck:
 		return false
 	default:
 		return true

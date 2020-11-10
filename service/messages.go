@@ -1,6 +1,4 @@
-package serialize
-
-// messages.go отвечает за имплементацию сериализации сообщений. зашифрованных и незашифрованных.
+package service
 
 import (
 	"bytes"
@@ -9,18 +7,10 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xelaj/go-dry"
-
 	ige "github.com/xelaj/mtproto/aes_ige"
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/utils"
 )
-
-// CommonMessage это сообщение (зашифрованое либо открытое) которыми общаются между собой клиент и сервер
-type CommonMessage interface {
-	GetMsg() []byte
-	GetMsgID() int64
-	GetSeqNo() int32
-}
 
 type EncryptedMessage struct {
 	Msg         []byte
@@ -33,32 +23,24 @@ type EncryptedMessage struct {
 	MsgKey    []byte
 }
 
-func (msg *EncryptedMessage) GetMsg() []byte {
-	return msg.Msg
-}
-
-func (msg *EncryptedMessage) GetMsgID() int64 {
-	return msg.MsgID
-}
-
-func (msg *EncryptedMessage) GetSeqNo() int32 {
-	return msg.SeqNo
-}
-
-func (msg *EncryptedMessage) Serialize(client MessageInformator, requireToAck bool) ([]byte, error) {
-	obj, err := serializePacket(client, msg.Msg, msg.MsgID, requireToAck)
+func (msg *EncryptedMessage) Serialize(
+	sessionID, serverSalt int64,
+	lastSeqNo int32,
+	authKey []byte, requireToAck bool,
+) ([]byte, error) {
+	obj, err := serializePacket(sessionID, serverSalt, msg.MsgID, lastSeqNo, msg.Msg, requireToAck)
 	if err != nil {
 		return nil, err
 	}
 
-	encryptedData, err := ige.Encrypt(obj, client.GetAuthKey())
+	encryptedData, err := ige.Encrypt(obj, authKey)
 	if err != nil {
 		return nil, errors.Wrap(err, "encrypting")
 	}
 
 	buf := bytes.NewBuffer(nil)
 	cw := tl.NewWriteCursor(buf)
-	err = cw.PutRawBytes(utils.AuthKeyHash(client.GetAuthKey()))
+	err = cw.PutRawBytes(utils.AuthKeyHash(authKey))
 	if err != nil {
 		return nil, err
 	}
@@ -160,18 +142,6 @@ type UnencryptedMessage struct {
 	MsgID int64
 }
 
-func (msg *UnencryptedMessage) GetMsg() []byte {
-	return msg.Msg
-}
-
-func (msg *UnencryptedMessage) GetMsgID() int64 {
-	return msg.MsgID
-}
-
-func (msg *UnencryptedMessage) GetSeqNo() int32 {
-	return 0
-}
-
 func (msg *UnencryptedMessage) Serialize() ([]byte, error) {
 	buf := bytes.NewBuffer(nil)
 	cw := tl.NewWriteCursor(buf)
@@ -233,29 +203,20 @@ func DeserializeUnencryptedMessage(data []byte) (*UnencryptedMessage, error) {
 	return msg, nil
 }
 
-//------------------------------------------------------------------------------------------
-
-// MessageInformator нужен что бы отдавать информацию о текущей сессии для сериализации сообщения
-// по факту это *MTProto структура
-type MessageInformator interface {
-	GetSessionID() int64
-	GetLastSeqNo() int32
-	GetServerSalt() int64
-	GetAuthKey() []byte
-	MakeRequest(req tl.Object, resp interface{}) error
-}
-
-func serializePacket(client MessageInformator, msg []byte, messageID int64, requireToAck bool) ([]byte, error) {
+func serializePacket(
+	sessionID, serverSalt, messageID int64,
+	lastSeqNo int32, data []byte, requireToAck bool,
+) ([]byte, error) {
 	buf := bytes.NewBuffer(nil)
 	cw := tl.NewWriteCursor(buf)
 
 	saltBytes := make([]byte, tl.LongLen)
-	binary.LittleEndian.PutUint64(saltBytes, uint64(client.GetServerSalt()))
+	binary.LittleEndian.PutUint64(saltBytes, uint64(serverSalt))
 	if err := cw.PutRawBytes(saltBytes); err != nil {
 		return nil, err
 	}
 
-	if err := cw.PutLong(client.GetSessionID()); err != nil {
+	if err := cw.PutLong(sessionID); err != nil {
 		return nil, err
 	}
 
@@ -265,20 +226,20 @@ func serializePacket(client MessageInformator, msg []byte, messageID int64, requ
 
 	if requireToAck { // не спрашивай, как это работает
 		// почему тут добавляется бит не ебу
-		if err := cw.PutUint(uint32(client.GetLastSeqNo() | 1)); err != nil {
+		if err := cw.PutUint(uint32(lastSeqNo | 1)); err != nil {
 			return nil, err
 		}
 	} else {
-		if err := cw.PutUint(uint32(client.GetLastSeqNo())); err != nil {
+		if err := cw.PutUint(uint32(lastSeqNo)); err != nil {
 			return nil, err
 		}
 	}
 
-	if err := cw.PutUint(uint32(len(msg))); err != nil {
+	if err := cw.PutUint(uint32(len(data))); err != nil {
 		return nil, err
 	}
 
-	if err := cw.PutRawBytes(msg); err != nil {
+	if err := cw.PutRawBytes(data); err != nil {
 		return nil, err
 	}
 

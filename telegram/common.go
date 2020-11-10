@@ -1,17 +1,15 @@
 package telegram
 
 import (
+	"crypto/rsa"
 	"fmt"
 	"runtime"
 
 	"github.com/k0kubun/pp"
 	"github.com/pkg/errors"
-	"github.com/xelaj/errs"
-	dry "github.com/xelaj/go-dry"
 
 	"github.com/xelaj/mtproto"
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/keys"
 )
 
 const ApiVersion = 117
@@ -22,71 +20,47 @@ type Client struct {
 }
 
 type ClientConfig struct {
-	SessionFile    string
-	ServerHost     string
-	PublicKeysFile string
-	DeviceModel    string
-	SystemVersion  string
-	AppVersion     string
-	AppID          int
-	AppHash        string
+	SessionStore  mtproto.SessionStore
+	ServerHost    string
+	DeviceModel   string
+	SystemVersion string
+	AppVersion    string
+	AppID         int
+	AppHash       string
 }
 
-func NewClient(c ClientConfig) (*Client, error) { //nolint: gocritic arg is not ptr cause we call
-	//                                                               it only once, don't care
-	//                                                               about copying big args.
-	if !dry.FileExists(c.PublicKeysFile) {
-		return nil, errs.NotFound("file", c.PublicKeysFile)
+func NewClient(host string, pubKey *rsa.PublicKey, cfg ClientConfig) (*Client, error) {
+	if cfg.DeviceModel == "" {
+		cfg.DeviceModel = "Unknown"
 	}
 
-	// if !dry.PathIsWirtable(c.SessionFile) {
-	// 	return nil, errs.Permission(c.SessionFile).Scope("write")
-	// }
-
-	if c.DeviceModel == "" {
-		c.DeviceModel = "Unknown"
+	if cfg.SystemVersion == "" {
+		cfg.SystemVersion = runtime.GOOS + "/" + runtime.GOARCH
 	}
 
-	if c.SystemVersion == "" {
-		c.SystemVersion = runtime.GOOS + "/" + runtime.GOARCH
+	if cfg.AppVersion == "" {
+		cfg.AppVersion = "v0.0.0"
 	}
 
-	if c.AppVersion == "" {
-		c.AppVersion = "v0.0.0"
-	}
-
-	publicKeys, err := keys.ReadFromFile(c.PublicKeysFile)
-	if err != nil {
-		return nil, errors.Wrap(err, "reading public keys")
-	}
-
-	m, err := mtproto.NewMTProto(mtproto.Config{
-		AuthKeyFile: c.SessionFile,
-		ServerHost:  c.ServerHost,
-		PublicKey:   publicKeys[0],
-	})
+	m, err := mtproto.NewMTProto(host, pubKey, cfg.SessionStore)
 	if err != nil {
 		return nil, errors.Wrap(err, "setup common MTProto client")
 	}
 	fmt.Println("mtproto created")
-	err = m.CreateConnection()
-	if err != nil {
-		return nil, errors.Wrap(err, "creating connection")
-	}
-	fmt.Println("connection created")
+
 	client := &Client{
 		MTProto: m,
-		config:  &c,
+		config:  &cfg,
 	}
 
 	client.AddCustomServerRequestHandler(client.handleSpecialRequests())
 	fmt.Println("HelpGetCfgParams invoking...")
 	config := new(Config)
 	err = client.InvokeWithLayer(ApiVersion, &InitConnectionParams{
-		ApiID:          int32(c.AppID),
-		DeviceModel:    c.DeviceModel,
-		SystemVersion:  c.SystemVersion,
-		AppVersion:     c.AppVersion,
+		ApiID:          int32(cfg.AppID),
+		DeviceModel:    cfg.DeviceModel,
+		SystemVersion:  cfg.SystemVersion,
+		AppVersion:     cfg.AppVersion,
 		SystemLangCode: "en", // can't be edited, cause docs says that a single possible parameter
 		LangCode:       "en",
 		Query:          &HelpGetConfigParams{},

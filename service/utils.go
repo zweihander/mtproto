@@ -1,4 +1,4 @@
-package serialize
+package service
 
 import (
 	"fmt"

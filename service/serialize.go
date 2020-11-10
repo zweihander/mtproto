@@ -1,8 +1,7 @@
-package serialize
+package service
 
 import (
 	"math/big"
-	"reflect"
 
 	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/encoding/tl"
@@ -65,20 +64,10 @@ func RandomInt128() *Int128 {
 	return i
 }
 
-func reflectIsInt128(v reflect.Value) bool {
-	_, ok := v.Interface().(*Int128)
-	return ok
-}
-
 func RandomInt256() *Int256 {
 	i := &Int256{big.NewInt(0)}
 	i.SetBytes(dry.RandomBytes(int256Len))
 	return i
-}
-
-func reflectIsInt256(v reflect.Value) bool {
-	_, ok := v.Interface().(*Int256)
-	return ok
 }
 
 // ErrorSessionConfigsChanged это пустой объект, который показывает, что конфигурация сессии изменилась, и нужно создавать новую

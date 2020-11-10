@@ -2,39 +2,38 @@ package mtproto
 
 import (
 	"bytes"
+	"crypto/rsa"
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
 	"math/big"
+	"net"
 
 	"github.com/pkg/errors"
 	"github.com/xelaj/go-dry"
-
 	ige "github.com/xelaj/mtproto/aes_ige"
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/keys"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
+	"github.com/xelaj/mtproto/utils"
 )
 
-// https://tlgrm.ru/docs/mtproto/auth_key
-// https://core.telegram.org/mtproto/auth_key
-func (m *MTProto) makeAuthKey() error {
-	m.serviceModeActivated = true
-	nonceFirst := serialize.RandomInt128()
-
-	pqParams := new(serialize.ResPQ)
-	if err := m.MakeRequest(&ReqPQParams{nonceFirst}, pqParams); err != nil {
-		return errors.Wrap(err, "requesting first pq")
+func handshake(conn net.Conn, publicKey *rsa.PublicKey) (*SessionCredentials, error) {
+	nonceFirst := service.RandomInt128()
+	pqParams := new(service.ResPQ)
+	if err := sendUnencrypted(conn, &ReqPQParams{nonceFirst}, pqParams); err != nil {
+		return nil, err
 	}
+
 	if nonceFirst.Cmp(pqParams.Nonce.Int) != 0 {
-		return errors.New("handshake: Wrong nonce")
+		return nil, errors.New("handshake: Wrong nonce")
 	}
 
 	found := false
 	for _, b := range pqParams.Fingerprints {
-		fgpr, err := keys.RSAFingerprint(m.publicKey)
+		fgpr, err := keys.RSAFingerprint(publicKey)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		if uint64(b) == binary.LittleEndian.Uint64(fgpr) {
@@ -42,17 +41,18 @@ func (m *MTProto) makeAuthKey() error {
 			break
 		}
 	}
+
 	if !found {
-		return errors.New("handshake: Can't find fingerprint")
+		return nil, errors.New("handshake: Can't find fingerprint")
 	}
 
 	// (encoding) p_q_inner_data
 	pq := big.NewInt(0).SetBytes(pqParams.Pq)
 	p, q := splitPQ(pq)
-	nonceSecond := serialize.RandomInt256()
+	nonceSecond := service.RandomInt256()
 	nonceServer := pqParams.ServerNonce
 
-	message, err := tl.Encode(&serialize.PQInnerData{
+	message, err := tl.Encode(&service.PQInnerData{
 		Pq:          pqParams.Pq,
 		P:           p.Bytes(),
 		Q:           q.Bytes(),
@@ -61,58 +61,54 @@ func (m *MTProto) makeAuthKey() error {
 		NewNonce:    nonceSecond,
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	hashAndMsg := make([]byte, 255)
 	copy(hashAndMsg, append(dry.Sha1(string(message)), message...))
 
-	encryptedMessage := doRSAencrypt(hashAndMsg, m.publicKey)
-
-	fgpr, err := keys.RSAFingerprint(m.publicKey)
+	fgpr, err := keys.RSAFingerprint(publicKey)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	keyFingerprint := int64(binary.LittleEndian.Uint64(fgpr))
-
-	var dhResponse serialize.ServerDHParams
-	if err := m.MakeRequest(&ReqDHParamsParams{
+	var dhResponse service.ServerDHParams
+	if err := sendUnencrypted(conn, &ReqDHParamsParams{
 		Nonce:                nonceFirst,
 		ServerNonce:          nonceServer,
 		P:                    p.Bytes(),
 		Q:                    q.Bytes(),
-		PublicKeyFingerprint: keyFingerprint,
-		EncryptedData:        encryptedMessage,
+		PublicKeyFingerprint: int64(binary.LittleEndian.Uint64(fgpr)),
+		EncryptedData:        doRSAencrypt(hashAndMsg, publicKey),
 	}, &dhResponse); err != nil {
-		return errors.Wrap(err, "sending ReqDHParams")
+		return nil, err
 	}
 
-	dhParams, ok := dhResponse.(*serialize.ServerDHParamsOk)
+	dhParams, ok := dhResponse.(*service.ServerDHParamsOk)
 	if !ok {
-		return fmt.Errorf("need *serialize.ServerDHParamsOk, got: %T", dhResponse)
+		return nil, fmt.Errorf("need *service.ServerDHParamsOk, got: %T", dhResponse)
 	}
 
 	if nonceFirst.Cmp(dhParams.Nonce.Int) != 0 {
-		return errors.New("handshake: Wrong nonce")
+		return nil, errors.New("handshake: Wrong nonce")
 	}
 
 	if nonceServer.Cmp(dhParams.ServerNonce.Int) != 0 {
-		return errors.New("handshake: Wrong server_nonce")
+		return nil, errors.New("handshake: Wrong server_nonce")
 	}
 
 	// проверку по хешу, удаление рандомных байт происходит в этой функции
 	decodedMessage := ige.DecryptMessageWithTempKeys(dhParams.EncryptedAnswer, nonceSecond.Int, nonceServer.Int)
-	dhi := new(serialize.ServerDHInnerData)
+	dhi := new(service.ServerDHInnerData)
 	if err := tl.Decode(decodedMessage, dhi); err != nil {
-		return err
+		return nil, err
 	}
 
 	if nonceFirst.Cmp(dhi.Nonce.Int) != 0 {
-		return errors.New("Handshake: Wrong nonce")
+		return nil, errors.New("Handshake: Wrong nonce")
 	}
 	if nonceServer.Cmp(dhi.ServerNonce.Int) != 0 {
-		return errors.New("Handshake: Wrong server_nonce")
+		return nil, errors.New("Handshake: Wrong server_nonce")
 	}
 
 	// вот это видимо как раз и есть часть диффи хеллмана, поэтому просто оставим как есть надеюсь сработает
@@ -123,61 +119,114 @@ func (m *MTProto) makeAuthKey() error {
 		authKey = authKey[1:]
 	}
 
-	m.SetAuthKey(authKey)
+	authKeyHash := utils.AuthKeyHash(authKey)
 
 	// что это я пока не знаю, видимо какой то очень специфичный способ сгенерить ключи
 	t4 := make([]byte, 32+1+8)
 	copy(t4[0:], nonceSecond.Bytes())
 	t4[32] = 1
-	copy(t4[33:], dry.Sha1Byte(m.GetAuthKey())[0:8])
+	copy(t4[33:], dry.Sha1Byte(authKey)[0:8])
 	nonceHash1 := dry.Sha1Byte(t4)[4:20]
 	salt := make([]byte, tl.LongLen)
 	copy(salt, nonceSecond.Bytes()[:8])
 	xor(salt, nonceServer.Bytes()[:8])
-	m.serverSalt = int64(binary.LittleEndian.Uint64(salt))
+
+	serverSalt := int64(binary.LittleEndian.Uint64(salt))
 
 	// (encoding) client_DH_inner_data
-	clientDHDataMsg, err := tl.Encode(&serialize.ClientDHInnerData{
+	clientDHDataMsg, err := tl.Encode(&service.ClientDHInnerData{
 		Nonce:       nonceFirst,
 		ServerNonce: nonceServer,
 		Retry:       0,
 		GB:          g_b.Bytes(),
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	encryptedMessage = ige.EncryptMessageWithTempKeys(clientDHDataMsg, nonceSecond.Int, nonceServer.Int)
-
-	var dhGenStatus serialize.SetClientDHParamsAnswer
-	if err := m.MakeRequest(&SetClientDHParamsParams{
+	var dhGenStatus service.SetClientDHParamsAnswer
+	if err := sendUnencrypted(conn, &SetClientDHParamsParams{
 		Nonce:         nonceFirst,
 		ServerNonce:   nonceServer,
-		EncryptedData: encryptedMessage,
+		EncryptedData: ige.EncryptMessageWithTempKeys(clientDHDataMsg, nonceSecond.Int, nonceServer.Int),
 	}, &dhGenStatus); err != nil {
-		return errors.Wrap(err, "sending clientDHParams")
+		return nil, errors.Wrap(err, "sending clientDHParams")
 	}
 
-	dhg, ok := dhGenStatus.(*serialize.DHGenOk)
+	dhg, ok := dhGenStatus.(*service.DHGenOk)
 	if !ok {
-		return errors.New("Handshake: Need DHGenOk")
+		return nil, errors.New("Handshake: Need DHGenOk")
 	}
 	if nonceFirst.Cmp(dhg.Nonce.Int) != 0 {
-		return fmt.Errorf("Handshake: Wrong nonce: %v, %v", nonceFirst, dhg.Nonce)
+		return nil, fmt.Errorf("Handshake: Wrong nonce: %v, %v", nonceFirst, dhg.Nonce)
 	}
 	if nonceServer.Cmp(dhg.ServerNonce.Int) != 0 {
-		return fmt.Errorf("Handshake: Wrong server_nonce: %v, %v", nonceServer, dhg.ServerNonce)
+		return nil, fmt.Errorf("Handshake: Wrong server_nonce: %v, %v", nonceServer, dhg.ServerNonce)
 	}
 	if !bytes.Equal(nonceHash1, dhg.NewNonceHash1.Bytes()) {
-		return fmt.Errorf(
+		return nil, fmt.Errorf(
 			"handshake: Wrong new_nonce_hash1: %v, %v",
 			hex.EncodeToString(nonceHash1),
 			hex.EncodeToString(dhg.NewNonceHash1.Bytes()),
 		)
 	}
-	m.serviceModeActivated = false
 
-	// (all ok)
-	err = m.SaveSession()
-	return errors.Wrap(err, "saving session")
+	return &SessionCredentials{
+		AuthKey:     authKey,
+		AuthKeyHash: authKeyHash,
+		ServerSalt:  serverSalt,
+	}, nil
+}
+
+func sendUnencrypted(conn net.Conn, request tl.Object, resp interface{}) error {
+	msg, err := tl.Encode(request)
+	if err != nil {
+		return err
+	}
+
+	data, err := (&service.UnencryptedMessage{
+		Msg:   msg,
+		MsgID: utils.GenerateMessageId(), // он тут нужен?
+	}).Serialize()
+	if err != nil {
+		return err
+	}
+
+	size := make([]byte, 4)
+	binary.LittleEndian.PutUint32(size, uint32(len(data)))
+	_, err = conn.Write(size)
+	if err != nil {
+		return errors.Wrap(err, "sending data")
+	}
+
+	_, err = conn.Write(data)
+	if err != nil {
+		return errors.Wrap(err, "sending request")
+	}
+
+	return readUnencrypted(conn, resp)
+}
+
+func readUnencrypted(conn net.Conn, response interface{}) error {
+	sizeInBytes := make([]byte, 4)
+	n, err := conn.Read(sizeInBytes)
+	if err != nil {
+		return fmt.Errorf("reading message length: %w", err)
+	}
+
+	if n != 4 {
+		return fmt.Errorf("size is not length of int32, expected 4 bytes, got %d", n)
+	}
+
+	data := make([]byte, int(binary.LittleEndian.Uint32(sizeInBytes)))
+	if _, err := conn.Read(data); err != nil {
+		return err
+	}
+
+	unmsg, err := service.DeserializeUnencryptedMessage(data)
+	if err != nil {
+		return err
+	}
+
+	return tl.Decode(unmsg.Msg, response)
 }

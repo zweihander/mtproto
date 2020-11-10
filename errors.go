@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xelaj/go-dry"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 )
 
 type ErrResponseCode struct {
@@ -20,7 +20,7 @@ type ErrResponseCode struct {
 	AdditionalInfo interface{} // some errors has additional data like timeout seconds, dc id etc.
 }
 
-func RpcErrorToNative(r *serialize.RpcError) error {
+func RpcErrorToNative(r *service.RpcError) error {
 	nativeErrorName, additionalData := TryExpandError(r.ErrorMessage)
 
 	desc, ok := errorMessages[nativeErrorName]
@@ -439,11 +439,11 @@ var errorMessages = map[string]string{
 }
 
 type BadMsgError struct {
-	*serialize.BadMsgNotification
+	*service.BadMsgNotification
 	Description string
 }
 
-func BadMsgErrorFromNative(in *serialize.BadMsgNotification) *BadMsgError {
+func BadMsgErrorFromNative(in *service.BadMsgNotification) *BadMsgError {
 	return &BadMsgError{
 		BadMsgNotification: in,
 		Description:        badMsgErrorCodes[uint8(in.Code)],

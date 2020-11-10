@@ -6,7 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 	"github.com/xelaj/mtproto/telegram"
 )
 
@@ -48,11 +48,11 @@ func TestEncode(t *testing.T) {
 		},
 		{
 			name: "respq",
-			obj: &serialize.ResPQ{
-				Nonce: &serialize.Int128{
+			obj: &service.ResPQ{
+				Nonce: &service.Int128{
 					big.NewInt(123),
 				},
-				ServerNonce: &serialize.Int128{
+				ServerNonce: &service.Int128{
 					big.NewInt(321),
 				},
 				Pq:           []byte{1, 2, 3},

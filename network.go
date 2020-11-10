@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/serialize"
+	"github.com/xelaj/mtproto/service"
 )
 
 const (
@@ -20,7 +20,7 @@ const (
 
 func isNullableResponse(t tl.Object) bool {
 	switch t.(type) {
-	case /**serialize.Ping,*/ *serialize.Pong, *serialize.MsgsAck:
+	case /**service.Ping,*/ *service.Pong, *service.MsgsAck:
 		return true
 	default:
 		return false
@@ -49,32 +49,18 @@ func IsPacketEncrypted(data []byte) (bool, error) {
 	return binary.LittleEndian.Uint64(authKeyHash) != 0, nil
 }
 
-func (m *MTProto) decodeRecievedData(data []byte) (serialize.CommonMessage, error) {
+func (m *MTProto) decodeRecievedData(data []byte) (*service.EncryptedMessage, error) {
 	// проверим, что это не код ошибки
 	err := CatchResponseErrorCode(data)
 	if err != nil {
 		return nil, errors.Wrap(err, "Server response error")
 	}
 
-	var msg serialize.CommonMessage
+	msg, err := service.DeserializeEncryptedMessage(data, m.creds.AuthKey)
 
-	encrypted, err := IsPacketEncrypted(data)
-	if err != nil {
-		return nil, err
-	}
-
-	if encrypted {
-		msg, err = serialize.DeserializeEncryptedMessage(data, m.GetAuthKey())
-	} else {
-		msg, err = serialize.DeserializeUnencryptedMessage(data)
-	}
-	if err != nil {
-		return nil, errors.Wrap(err, "parsing message")
-	}
-
-	msgID := msg.GetMsgID()
+	msgID := msg.MsgID
 	atomic.StoreInt64(&m.msgId, msgID)
-	atomic.StoreInt32(&m.seqNo, msg.GetSeqNo())
+	atomic.StoreInt32(&m.seqNo, msg.SeqNo)
 	mod := msgID & 3
 	if mod != 1 && mod != 3 {
 		return nil, fmt.Errorf("Wrong bits of message_id: %d", mod)
