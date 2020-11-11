@@ -6,7 +6,6 @@ import (
 	"runtime"
 
 	"github.com/k0kubun/pp"
-	"github.com/pkg/errors"
 
 	"github.com/xelaj/mtproto"
 	"github.com/xelaj/mtproto/encoding/tl"
@@ -44,9 +43,8 @@ func NewClient(host string, pubKey *rsa.PublicKey, cfg ClientConfig) (*Client, e
 
 	m, err := mtproto.NewMTProto(host, pubKey, cfg.SessionStore)
 	if err != nil {
-		return nil, errors.Wrap(err, "setup common MTProto client")
+		return nil, fmt.Errorf("create mtproto: %w", err)
 	}
-	fmt.Println("mtproto created")
 
 	client := &Client{
 		MTProto: m,
@@ -54,7 +52,6 @@ func NewClient(host string, pubKey *rsa.PublicKey, cfg ClientConfig) (*Client, e
 	}
 
 	client.AddCustomServerRequestHandler(client.handleSpecialRequests())
-	fmt.Println("HelpGetCfgParams invoking...")
 	config := new(Config)
 	err = client.InvokeWithLayer(ApiVersion, &InitConnectionParams{
 		ApiID:          int32(cfg.AppID),
@@ -65,9 +62,8 @@ func NewClient(host string, pubKey *rsa.PublicKey, cfg ClientConfig) (*Client, e
 		LangCode:       "en",
 		Query:          &HelpGetConfigParams{},
 	}, config)
-	fmt.Println("HelpGetCfgParams done...")
 	if err != nil {
-		return nil, errors.Wrap(err, "getting server configs")
+		return nil, fmt.Errorf("get server configs: %w", err)
 	}
 
 	pp.Println(config)
