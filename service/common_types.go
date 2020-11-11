@@ -150,9 +150,7 @@ type RpcError struct {
 
 func (*RpcError) CRC() uint32 { return 0x2144ca19 }
 
-func (e *RpcError) Error() string {
-	return fmt.Sprintf("code: %d, message: %s", e.ErrorCode, e.ErrorMessage)
-}
+
 
 type RpcAnswerUnknown struct{}
 
@@ -210,10 +208,6 @@ type NewSessionCreated struct {
 
 func (*NewSessionCreated) CRC() uint32 { return 0x9ec20908 }
 
-//! исключение из правил: это оказывается почти-вектор, т.к.
-//  записан как `msg_container#73f1f8dc messages:vector<%Message> = MessageContainer;`
-//  судя по всему, <%Type> означает, что может это неявный вектор???
-//! возможно разработчики в этот момент поехаи кукухой, я не знаю правда
 type MessageContainer []*EncryptedMessage
 
 func (*MessageContainer) CRC() uint32 { return 0x73f1f8dc }
@@ -300,7 +294,6 @@ type MsgCopy struct {
 func (*MsgCopy) CRC() uint32 { return 0xe06046b2 }
 
 func (t *MsgCopy) UnmarshalTL(r *tl.ReadCursor) error {
-	// pp.Println(r)
 	panic("очень специфичный конструктор Message, надо сначала посмотреть, как это что это")
 }
 
@@ -313,7 +306,7 @@ func (*MsgsAck) CRC() uint32 { return 0x62d6b459 }
 type BadMsgNotification struct {
 	BadMsgID    int64
 	BadMsgSeqNo int32
-	Code        int32
+	Code        BadSystemMessageCode
 }
 
 func (*BadMsgNotification) ImplementsBadMsgNotification() {}
@@ -321,10 +314,46 @@ func (*BadMsgNotification) ImplementsBadMsgNotification() {}
 func (*BadMsgNotification) CRC() uint32 { return 0xa7eff811 }
 
 func (e BadMsgNotification) Error() string {
-	return fmt.Sprintf("BadMsgNotification: BadMsgID: %d BadMsgSeqNo: %d Code: %d",
-		e.BadMsgID, e.BadMsgSeqNo, e.Code,
-	)
+	desc, ok := badMsgErrorCodes[e.Code]
+	if !ok {
+		return fmt.Sprintf("BadMsgNotification: BadMsgId: %d BadMsgSeqNo: %d Code: %d",
+			e.BadMsgID, e.BadMsgSeqNo, e.Code)
+	}
+
+	return fmt.Sprintf("%v (Code %v)", desc, e.Code)
 }
+
+// https://core.telegram.org/mtproto/service_messages_about_messages#notice-of-ignored-error-message
+var badMsgErrorCodes = map[BadSystemMessageCode]string{
+	16: "msg_id too low (most likely, client time is wrong; it would be worthwhile to synchronize it using msg_id notifications and re-send the original message with the “correct” msg_id or wrap it in a container with a new msg_id if the original message had waited too long on the client to be transmitted)",
+	17: "msg_id too high (similar to the previous case, the client time has to be synchronized, and the message re-sent with the correct msg_id",
+	18: "incorrect two lower order msg_id bits (the server expects client message msg_id to be divisible by 4)",
+	19: "container msg_id is the same as msg_id of a previously received message (this must never happen)",
+	20: "message too old, and it cannot be verified whether the server has received a message with this msg_id or not",
+	32: "msg_seqno too low (the server has already received a message with a lower msg_id but with either a higher or an equal and odd seqno)",
+	33: "msg_seqno too high (similarly, there is a message with a higher msg_id but with either a lower or an equal and odd seqno)",
+	34: "an even msg_seqno expected (irrelevant message), but odd received",
+	35: "odd msg_seqno expected (relevant message), but even received",
+	48: "incorrect server salt (in this case, the bad_server_salt response is received with the correct salt, and the message is to be re-sent with it)",
+	64: "invalid container",
+}
+
+type BadSystemMessageCode int32
+
+const (
+	ErrBadMsgUnknown             BadSystemMessageCode = 0
+	ErrBadMsgIdTooLow            BadSystemMessageCode = 16
+	ErrBadMsgIdTooHigh           BadSystemMessageCode = 17
+	ErrBadMsgIncorrectMsgIdBits  BadSystemMessageCode = 18
+	ErrBadMsgWrongContainerMsgId BadSystemMessageCode = 19
+	ErrBadMsgMessageTooOld       BadSystemMessageCode = 20
+	ErrBadMsgSeqNoTooLow         BadSystemMessageCode = 32
+	ErrBadMsgSeqNoTooHigh        BadSystemMessageCode = 33
+	ErrBadMsgSeqNoExpectedEven   BadSystemMessageCode = 34
+	ErrBadMsgSeqNoExpectedOdd    BadSystemMessageCode = 35
+	ErrBadMsgServerSaltIncorrect BadSystemMessageCode = 48
+	ErrBadMsgInvalidContainer    BadSystemMessageCode = 64
+)
 
 type BadServerSalt struct {
 	BadMsgID    int64
