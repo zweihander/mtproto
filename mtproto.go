@@ -12,7 +12,6 @@ import (
 
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/service"
-	"github.com/xelaj/mtproto/utils"
 )
 
 type MTProto struct {
@@ -71,7 +70,7 @@ func NewMTProto(host string, publicKey *rsa.PublicKey, sess SessionStore) (*MTPr
 
 	m := &MTProto{
 		conn:         conn,
-		sessionID:    utils.GenerateSessionID(),
+		sessionID:    generateSessionID(),
 		creds:        creds,
 		pending:      newRequestStore(),
 		acks:         newAckStore(),

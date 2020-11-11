@@ -11,11 +11,11 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/xelaj/go-dry"
-	ige "github.com/xelaj/mtproto/aes_ige"
+	mtcrypto "github.com/xelaj/mtproto/crypto"
+	ige "github.com/xelaj/mtproto/crypto/aes_ige"
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/keys"
 	"github.com/xelaj/mtproto/service"
-	"github.com/xelaj/mtproto/utils"
 )
 
 func handshake(conn net.Conn, publicKey *rsa.PublicKey) (*SessionCredentials, error) {
@@ -119,7 +119,7 @@ func handshake(conn net.Conn, publicKey *rsa.PublicKey) (*SessionCredentials, er
 		authKey = authKey[1:]
 	}
 
-	authKeyHash := utils.AuthKeyHash(authKey)
+	authKeyHash := mtcrypto.AuthKeyHash(authKey)
 
 	// что это я пока не знаю, видимо какой то очень специфичный способ сгенерить ключи
 	t4 := make([]byte, 32+1+8)
@@ -186,7 +186,7 @@ func sendUnencrypted(conn net.Conn, request tl.Object, resp interface{}) error {
 
 	data, err := (&service.UnencryptedMessage{
 		Msg:   msg,
-		MsgID: utils.GenerateMessageId(), // он тут нужен?
+		MsgID: generateMessageID(), // он тут нужен?
 	}).Serialize()
 	if err != nil {
 		return err

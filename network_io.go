@@ -12,11 +12,10 @@ import (
 	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/service"
-	"github.com/xelaj/mtproto/utils"
 )
 
 func (m *MTProto) sendPacket(request tl.Object, response interface{}) (err error) {
-	msgID := utils.GenerateMessageId()
+	msgID := generateMessageID()
 	echan := make(chan error)
 
 	requireToAck := false
