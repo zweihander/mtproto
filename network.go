@@ -7,8 +7,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/pkg/errors"
-
 	"github.com/xelaj/mtproto/encoding/tl"
 	"github.com/xelaj/mtproto/service"
 )
@@ -31,7 +29,7 @@ const (
 	readTimeout = 300 * time.Second
 )
 
-func CatchResponseErrorCode(data []byte) error {
+func catchResponseErrorCode(data []byte) error {
 	if len(data) == 4 {
 		code := int(binary.LittleEndian.Uint32(data))
 		return &ErrResponseCode{Code: code}
@@ -39,7 +37,7 @@ func CatchResponseErrorCode(data []byte) error {
 	return nil
 }
 
-func IsPacketEncrypted(data []byte) (bool, error) {
+func isPacketEncrypted(data []byte) (bool, error) {
 	cr := tl.NewReadCursor(bytes.NewBuffer(data))
 	authKeyHash, err := cr.PopRawBytes(tl.DoubleLen)
 	if err != nil {
@@ -50,13 +48,14 @@ func IsPacketEncrypted(data []byte) (bool, error) {
 }
 
 func (m *MTProto) decodeRecievedData(data []byte) (*service.EncryptedMessage, error) {
-	// проверим, что это не код ошибки
-	err := CatchResponseErrorCode(data)
-	if err != nil {
-		return nil, errors.Wrap(err, "Server response error")
+	if err := catchResponseErrorCode(data); err != nil {
+		return nil, fmt.Errorf("catch response error code: %w", err)
 	}
 
 	msg, err := service.DeserializeEncryptedMessage(data, m.creds.AuthKey)
+	if err != nil {
+		return nil, err
+	}
 
 	msgID := msg.MsgID
 	atomic.StoreInt64(&m.msgId, msgID)

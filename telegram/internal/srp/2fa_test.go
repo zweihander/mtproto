@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/xelaj/go-dry"
 )
 
 func Test2FA(t *testing.T) {
@@ -73,7 +72,10 @@ func Test2FA(t *testing.T) {
 
 func Hexed(in string) []byte {
 	res, err := hex.DecodeString(in)
-	dry.PanicIfErr(err)
+	if err != nil {
+		panic(err)
+	}
+
 	return res
 }
 

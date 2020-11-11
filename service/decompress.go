@@ -3,8 +3,6 @@ package service
 import (
 	"bytes"
 	"compress/gzip"
-
-	"github.com/xelaj/go-dry"
 )
 
 func decompressData(data []byte) ([]byte, error) {
@@ -13,7 +11,10 @@ func decompressData(data []byte) ([]byte, error) {
 	var buf bytes.Buffer
 	_, _ = buf.Write(data)
 	gz, err := gzip.NewReader(&buf)
-	dry.PanicIfErr(err)
+	if err != nil {
+		return nil, err
+	}
+
 	b := make([]byte, 4096)
 	for {
 		n, _ := gz.Read(b)

@@ -76,7 +76,9 @@ func (m *MTProto) sendPacket(request tl.Object, response interface{}) (err error
 
 func (m *MTProto) readFromConn(ctx context.Context) (data []byte, err error) {
 	err = m.conn.SetReadDeadline(time.Now().Add(readTimeout)) // возможно поможет???
-	dry.PanicIfErr(err)
+	if err != nil {
+		return nil, err
+	}
 
 	reader := dry.NewCancelableReader(ctx, m.conn)
 	// https://core.telegram.org/mtproto/mtproto-transports#abridged
@@ -103,9 +105,9 @@ func (m *MTProto) readFromConn(ctx context.Context) (data []byte, err error) {
 	sizeInBytes := make([]byte, 4)
 	n, err := reader.Read(sizeInBytes)
 	if err != nil {
-		pp.Println(sizeInBytes, err)
-		return nil, errors.Wrap(err, "reading length")
+		return nil, fmt.Errorf("reading conn message size: %w", err)
 	}
+
 	if n != 4 {
 		return nil, fmt.Errorf("size is not length of int32, expected 4 bytes, got %d", n)
 	}
@@ -114,8 +116,13 @@ func (m *MTProto) readFromConn(ctx context.Context) (data []byte, err error) {
 	// читаем сами данные
 	data = make([]byte, int(size))
 	n, err = reader.Read(data)
-	dry.PanicIfErr(err)
-	dry.PanicIf(n != int(size), fmt.Sprintf("expected read %d bytes, got %d", size, n))
+	if err != nil {
+		return nil, err
+	}
+
+	if n != int(size) {
+		return nil, fmt.Errorf("expected read %d bytes, got %d", size, n)
+	}
 
 	return data, nil
 }

@@ -2,12 +2,11 @@ package mtproto
 
 import (
 	"crypto/rsa"
+	"fmt"
 	"math"
 	"math/big"
 	"math/rand"
 	"time"
-
-	"github.com/xelaj/go-dry"
 )
 
 var (
@@ -21,8 +20,11 @@ var (
 // doRSAencrypt шифрует ровно 1 блок сообщения длиной 255 байт публичным ключом.
 // специфический алгоритм для мтпрото, т.к. документация не указывает, шифрование
 // по OAEP или как-то еще
-func doRSAencrypt(block []byte, key *rsa.PublicKey) []byte {
-	dry.PanicIf(len(block) != math.MaxUint8, "block size isn't equal 255 bytes")
+func doRSAencrypt(block []byte, key *rsa.PublicKey) ([]byte, error) {
+	if len(block) != math.MaxUint8 {
+		return nil, fmt.Errorf("block size isn't equal 255 bytes")
+	}
+
 	z := big.NewInt(0).SetBytes(block)
 	exponent := big.NewInt(int64(key.E))
 
@@ -31,7 +33,7 @@ func doRSAencrypt(block []byte, key *rsa.PublicKey) []byte {
 	res := make([]byte, 256)
 	copy(res, c.Bytes())
 
-	return res
+	return res, nil
 }
 
 // splitPQ раскладывает число на два простых, при том таким образом, что p1 < p2

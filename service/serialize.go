@@ -3,13 +3,12 @@ package service
 import (
 	"math/big"
 
-	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/encoding/tl"
 )
 
 const (
-	int128Len = 4 * 4 // int128 16 байт
-	int256Len = 4 * 8 // int256 32 байт
+	Int128Len = 4 * 4 // int128 16 байт
+	Int256Len = 4 * 8 // int256 32 байт
 )
 
 type Int128 struct {
@@ -26,7 +25,7 @@ func (i *Int128) MarshalTL(w *tl.WriteCursor) error {
 }
 
 func (i *Int128) UnmarshalTL(r *tl.ReadCursor) error {
-	buf, err := r.PopRawBytes(int128Len)
+	buf, err := r.PopRawBytes(Int128Len)
 	if err != nil {
 		return err
 	}
@@ -49,25 +48,13 @@ func (i *Int256) MarshalTL(w *tl.WriteCursor) error {
 }
 
 func (i *Int256) UnmarshalTL(r *tl.ReadCursor) error {
-	buf, err := r.PopRawBytes(int256Len)
+	buf, err := r.PopRawBytes(Int256Len)
 	if err != nil {
 		return err
 	}
 
 	i.Int = big.NewInt(0).SetBytes(buf)
 	return nil
-}
-
-func RandomInt128() *Int128 {
-	i := &Int128{big.NewInt(0)}
-	i.SetBytes(dry.RandomBytes(int128Len))
-	return i
-}
-
-func RandomInt256() *Int256 {
-	i := &Int256{big.NewInt(0)}
-	i.SetBytes(dry.RandomBytes(int256Len))
-	return i
 }
 
 // ErrorSessionConfigsChanged это пустой объект, который показывает, что конфигурация сессии изменилась, и нужно создавать новую

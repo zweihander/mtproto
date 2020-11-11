@@ -8,10 +8,10 @@ package srp
 import (
 	"crypto/sha256"
 	"crypto/sha512"
+	"fmt"
 	"math/big"
 
-	"github.com/pkg/errors"
-	"github.com/xelaj/go-dry"
+	mtcrypto "github.com/xelaj/mtproto/crypto"
 	"golang.org/x/crypto/pbkdf2"
 )
 
@@ -22,24 +22,21 @@ const (
 // GetInputCheckPassword считает нужные для 2FA хеши, описан в доке телеграма:
 // https://core.telegram.org/api/srp#checking-the-password-with-srp
 func GetInputCheckPassword(password string, srpB []byte, mp *ModPow) (*SrpAnswer, error) {
-	return getInputCheckPassword(password, srpB, mp, dry.RandomBytes(randombyteLen))
+	b, err := mtcrypto.RandomBytes(randombyteLen)
+	if err != nil {
+		return nil, err
+	}
+
+	return getInputCheckPassword(password, srpB, mp, b)
 }
 
-func getInputCheckPassword(
-	password string,
-	srpB []byte,
-	mp *ModPow,
-	random []byte,
-) (
-	*SrpAnswer, error,
-) {
+func getInputCheckPassword(password string, srpB []byte, mp *ModPow, random []byte) (*SrpAnswer, error) {
 	if password == "" {
 		return nil, nil
 	}
 
-	err := validateCurrentAlgo(srpB, mp)
-	if err != nil {
-		return nil, errors.Wrap(err, "validating CurrentAlgo")
+	if err := validateCurrentAlgo(srpB, mp); err != nil {
+		return nil, fmt.Errorf("validating CurrentAlgo: %w", err)
 	}
 
 	p := bytesToBig(mp.P)
@@ -84,7 +81,7 @@ func getInputCheckPassword(
 
 	// M1 := H(H(p) xor H(g) | H2(salt1) | H2(salt2) | g_a | g_b | k_a)
 	M1 := calcSHA256(
-		dry.BytesXor(calcSHA256(mp.P), calcSHA256(gBytes)),
+		bytesXor(calcSHA256(mp.P), calcSHA256(gBytes)),
 		calcSHA256(mp.Salt1),
 		calcSHA256(mp.Salt2),
 		ga,
@@ -115,7 +112,7 @@ type SrpAnswer struct {
 // Validating mod pow from server side. just works, don't touch.
 func validateCurrentAlgo(srpB []byte, mp *ModPow) error {
 	if dhHandshakeCheckConfigIsError(mp.G, mp.P) {
-		return errors.New("receive invalid config g")
+		return fmt.Errorf("receive invalid config g")
 	}
 
 	p := bytesToBig(mp.P)
@@ -123,7 +120,7 @@ func validateCurrentAlgo(srpB []byte, mp *ModPow) error {
 
 	//?                        awwww so cute ref (^_^), try to guess ↓↓↓
 	if big.NewInt(0).Cmp(gb) != -1 || gb.Cmp(p) != -1 || len(srpB) < 248 || len(srpB) > 256 {
-		return errors.New("receive invalid value of B")
+		return fmt.Errorf("receive invalid value of B")
 	}
 
 	return nil

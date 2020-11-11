@@ -8,8 +8,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/pkg/errors"
-	"github.com/xelaj/go-dry"
 	"github.com/xelaj/mtproto/service"
 )
 
@@ -85,8 +83,9 @@ func TryExpandError(errStr string) (nativeErrorName string, additionalData inter
 	case reflect.Int:
 		var err error
 		additionalData, err = strconv.Atoi(trimmedData)
-		dry.PanicIfErr(errors.Wrap(err, "error of parsing expected int value"))
-
+		if err != nil {
+			panic(fmt.Errorf("error of parsing expected int value: %w", err))
+		}
 	case reflect.String:
 		additionalData = trimmedData
 

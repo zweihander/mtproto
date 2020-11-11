@@ -6,10 +6,9 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
-	"github.com/xelaj/go-dry"
 	ige "github.com/xelaj/mtproto/aes_ige"
+	mtcrypto "github.com/xelaj/mtproto/crypto"
 	"github.com/xelaj/mtproto/encoding/tl"
-	"github.com/xelaj/mtproto/utils"
 )
 
 type EncryptedMessage struct {
@@ -40,7 +39,7 @@ func (msg *EncryptedMessage) Serialize(
 
 	buf := bytes.NewBuffer(nil)
 	cw := tl.NewWriteCursor(buf)
-	err = cw.PutRawBytes(utils.AuthKeyHash(authKey))
+	err = cw.PutRawBytes(mtcrypto.AuthKeyHash(authKey))
 	if err != nil {
 		return nil, err
 	}
@@ -67,7 +66,7 @@ func DeserializeEncryptedMessage(data, authKey []byte) (*EncryptedMessage, error
 		return nil, err
 	}
 
-	if !bytes.Equal(keyHash, utils.AuthKeyHash(authKey)) {
+	if !bytes.Equal(keyHash, mtcrypto.AuthKeyHash(authKey)) {
 		return nil, errors.New("wrong encryption key")
 	}
 
@@ -125,7 +124,7 @@ func DeserializeEncryptedMessage(data, authKey []byte) (*EncryptedMessage, error
 
 	// этот кусок проверяет валидность данных по ключу
 	trimed := decrypted[0 : 32+messageLen] // суммарное сообщение, после расшифровки
-	if !bytes.Equal(dry.Sha1Byte(trimed)[4:20], msg.MsgKey) {
+	if !bytes.Equal(mtcrypto.Sha1Bytes(trimed)[4:20], msg.MsgKey) {
 		return nil, errors.New("wrong message key, can't trust to sender")
 	}
 
